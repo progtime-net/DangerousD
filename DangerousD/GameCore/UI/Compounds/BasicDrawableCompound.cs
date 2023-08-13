@@ -17,6 +17,9 @@ namespace MonogameLibrary.UI.Compounds
     public enum BasicDrawableCompound_Type { Vertical, Horizontal };
     public class BasicDrawableCompound : MonoDrawableTextedUI
     {
+        public BasicDrawableCompound(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        {
+        }
         Dictionary<string, MonoDrawableTextedUI> drawables = new Dictionary<string, MonoDrawableTextedUI>();
         public Vector2 lastPos;
         Vector2 offset = new Vector2(10, 10);

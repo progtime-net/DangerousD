@@ -21,7 +21,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GameCore\GameObjects\" />
+    <Folder Include="GameCore\GameObjects\LivingEntities\" />
     <Folder Include="GameCore\UI\" />
   </ItemGroup>
 </Project>

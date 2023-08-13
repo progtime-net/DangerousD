@@ -14,6 +14,9 @@ namespace MonogameLibrary.UI.Elements
 {
     public class TextBox : MonoDrawableTextedUI, IInteractable
     {
+        public TextBox(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        {
+        }
         public delegate void OnTextChange(string text);
         public event OnTextChange? TextChanged;
         public event OnTextChange? StopChanging;
@@ -34,7 +37,7 @@ namespace MonogameLibrary.UI.Elements
         {
             if (isSelected == IsSelected.Selected)
             {
-                if (MonoClassManagerUI.GetKeyboardState.IsKeyDown(Keys.Enter))
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
                     OnEnter?.Invoke(text);
                     if (shouldEndOnEnter)
@@ -110,7 +113,7 @@ namespace MonogameLibrary.UI.Elements
 
         public static void GetInput(ref string text)
         {
-            var state = MonoClassManagerUI.GetKeyboardState;
+            var state = Keyboard.GetState();
             var keys = state.GetPressedKeys();
             isShiftPressed = state.IsKeyDown(Keys.LeftShift) || state.IsKeyDown(Keys.RightShift);
             isCTRLPressed = state.IsKeyDown(Keys.LeftControl) || state.IsKeyDown(Keys.RightControl);

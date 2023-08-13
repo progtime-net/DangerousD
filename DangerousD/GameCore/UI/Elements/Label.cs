@@ -14,6 +14,9 @@ namespace MonogameLibrary.UI.Elements
     public class Label : MonoDrawableTextedUI
     {
 
+        public Label(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        {
+        }
         protected HoverState hoverState = HoverState.None;
 
         public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)

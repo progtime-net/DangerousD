@@ -12,6 +12,9 @@ namespace MonogameLibrary.UI.Elements
 {
     public class CheckBox : MonoDrawableTextedUI, IInteractable
     {
+        public CheckBox(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        {
+        }
         public delegate void OnCheck(bool checkState);
         public event OnCheck? Checked;
         private bool isChecked;

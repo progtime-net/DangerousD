@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DangerousD.GameCore;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,13 +21,13 @@ namespace MonogameLibrary.UI.Base
         static GraphicsDevice _graphicsDevice;
         static ContentManager _content;
         static SpriteFont _baseFont;
-        public void InitManager(GraphicsDevice graphicsDevice, ContentManager content, string font)
+        public void InitManager(string font)
         {
-            _graphicsDevice = graphicsDevice;
-            _content = content;
+            _graphicsDevice = TextureManager.graphicsDevice;
+            _content = TextureManager.contentManager;
             try
             {
-                _baseFont = _content.Load<SpriteFont>(font);
+                //_baseFont = _content.Load<SpriteFont>(font);
             }
             catch
             {

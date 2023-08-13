@@ -9,14 +9,13 @@ using DangerousD.GameCore.HUD;
 
 namespace DangerousD.GameCore
 {
-    enum GameState { Menu, Options, Lobby, Game }
+    public enum GameState { Menu, Options, Lobby, Game }
     public class AppManager : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         GameState gameState;
-        GameManager GameManager;
         IHUD MenuGUI;
         IHUD OptionsGUI;
         IHUD LobbyGUI;
@@ -39,7 +38,9 @@ namespace DangerousD.GameCore
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            TextureManager.contentManager = Content;
+            TextureManager.graphicsDevice = GraphicsDevice;
+            MenuGUI = new HUD.MenuHUD();
         }
 
         protected override void Update(GameTime gameTime)
@@ -94,7 +95,10 @@ namespace DangerousD.GameCore
             base.Draw(gameTime);
         }
 
-        
+        public void ChangeGameState(GameState gameState)
+        {
+            this.gameState = gameState;
+        }
 
     }
 }

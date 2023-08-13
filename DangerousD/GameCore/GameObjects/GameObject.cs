@@ -6,5 +6,9 @@ namespace DangerousD.GameCore
 {
     class GameObject
     {
+        public GameObject()
+        {
+            GameManager.Register(this);
+        }
     }
 }

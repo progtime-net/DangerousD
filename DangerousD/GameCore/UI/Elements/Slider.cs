@@ -12,6 +12,9 @@ namespace MonogameLibrary.UI.Elements
 {
     public class Slider : MonoDrawableTextedUI, IInteractable
     {
+        public Slider(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        {
+        }
         public delegate void OnSliderChanges(float value);
         public event OnSliderChanges? SliderChanged;
 
