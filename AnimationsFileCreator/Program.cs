@@ -37,7 +37,17 @@ namespace AnimationsFileCreator
             rectangle.Height = int.Parse(Console.ReadLine());
             Console.WriteLine("Введите название для этого файла - id анимации");
             string id = Console.ReadLine();
+            Console.WriteLine("Введите 1 если анимация зациклена, и 0 если нет");
             AnimationContainer container = new AnimationContainer();
+            int a = int.Parse(Console.ReadLine());
+            if (a==1)
+            {
+                container.IsCycle = true;
+            }
+            else
+            {
+                container.IsCycle = false;
+            }
             container.FramesCount = framesCount;
             container.FrameTime = new System.Collections.Generic.List<Tuple<int, int>>();
             container.FrameTime.Add(new Tuple<int, int>(0, interval));
@@ -49,8 +59,6 @@ namespace AnimationsFileCreator
             StreamWriter writer = new StreamWriter(id);
             writer.WriteLine(json);
             writer.Close();
-
-
         }
     }
 }

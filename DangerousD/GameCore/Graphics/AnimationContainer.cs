@@ -21,6 +21,8 @@ namespace DangerousD.GameCore.Graphics
         public int TextureFrameInterval { get; set; }
         [JsonProperty("framesCount")]
         public int FramesCount { get; set; }
-
+        [JsonProperty("isCycle")]
+        public bool IsCycle { get; set; }
+         
     }
 }

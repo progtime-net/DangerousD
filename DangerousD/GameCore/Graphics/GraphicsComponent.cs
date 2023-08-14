@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DangerousD.GameCore.Graphics
@@ -13,28 +14,33 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
+        private AnimationContainer neitralAnimation;
         //private SpriteBatch _spriteBatch;
-        private string lastAnimationId;
+        
         private int currentFrame;
         private int interval;
         private int lastInterval;
         private Rectangle sourceRectangle;
-        public GraphicsComponent(List<string> animationsId)
+        public GraphicsComponent(List<string> animationsId, string neitralAnimationId)
         {
             //this._spriteBatch = _spriteBatch;
             currentFrame = 0;
             lastInterval = 1;
-            lastAnimationId = null;
-            LoadAnimations(animationsId);
+            
+            LoadAnimations(animationsId,neitralAnimationId);
             
 
         }
-        private void LoadAnimations(List<string> animationsId)
+        private void LoadAnimations(List<string> animationsId, string neitralAnimationId)
         {
             animations = new List<AnimationContainer>();
             foreach (var id in animationsId)
             {
                 animations.Add( GameManager.builder.animations.Find(x => x.Id == id));
+                if (id==neitralAnimationId)
+                {
+                    neitralAnimation = animations.Last();
+                }
             }
         }
         public void LoadContent(ContentManager content)
@@ -52,22 +58,39 @@ namespace DangerousD.GameCore.Graphics
                 }
             }
         }
-        public void DrawAnimation(Rectangle destinationRectangle, string animationId,  SpriteBatch _spriteBatch)
+        public void StartAnimation(string startedanimationId)
+        {
+            currentFrame = 0;
+            currentAnimation = animations.Find(x => x.Id == startedanimationId);
+            
+            buildSourceRectangle();
+            SetInterval();
+        }
+        public void StopAnimation()
+        {
+            currentFrame = 0;
+            interval = 0;
+            currentAnimation = neitralAnimation;
+            buildSourceRectangle();
+            SetInterval();
+
+        }
+        public void DrawAnimation(Rectangle destinationRectangle,  SpriteBatch _spriteBatch)
         {
 
-            if (animationId != lastAnimationId)
-            {
-                currentFrame = 0;
-                currentAnimation = animations.Find(x => x.Id == animationId);
-                buildSourceRectangle();
-                SetInterval();
-            }
+            
+                
+            
 
             if (interval == 0)
             {
                 currentFrame++;
                 if (currentAnimation.FramesCount - 1 <= currentFrame)
                 {
+                    if (!currentAnimation.IsCycle)
+                    {
+                        currentAnimation = neitralAnimation;
+                    }
                     currentFrame = 0;
                 }
                 buildSourceRectangle();
