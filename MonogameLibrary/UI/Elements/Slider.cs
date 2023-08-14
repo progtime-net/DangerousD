@@ -10,9 +10,9 @@ using System.Text;
 
 namespace MonogameLibrary.UI.Elements
 {
-    public class Slider : MonoDrawableTextedUI, IInteractable
+    public class Slider : DrawableTextedUiElement, IInteractable
     {
-        public Slider(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        public Slider(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {
         }
         public delegate void OnSliderChanges(float value);

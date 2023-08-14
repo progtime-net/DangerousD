@@ -6,35 +6,41 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using Microsoft.Xna.Framework.Content;
 
 namespace MonogameLibrary.UI.Base
 {
-    public class MonoDrawableUI
+    public class DrawableUIElement
     {
         protected Texture2D texture;
         protected int layerIndex;
+        protected UIManager Manager;
+        protected string textureName;
         public Rectangle rectangle = new Rectangle(0, 0, 10, 10);
         public Color mainColor = Color.White;
-        public MonoDrawableUI(MonoClassManagerUI MyUIManager = null, int layerIndex = 0)
+
+        public DrawableUIElement(UIManager manager, int layerIndex = 0, string textureName = "")
         {
-            MyUIManager.Register(this, layerIndex);
+            Manager = manager;
+            this.textureName = textureName;
+            manager.Register(this, layerIndex);
         }
-        public void LoadTexture(string textureName)
+        public virtual void LoadTexture(ContentManager content)
         {
             if (textureName == "")
             {
-                texture = new Texture2D(MonoClassManagerUI.MainGraphicsDevice, 1, 1);
+                texture = new Texture2D(Manager.GraphicsDevice, 1, 1);
                 texture.SetData<Color>(new Color[] { Color.White });
             }
             else
             {
                 try
                 {
-                    texture = MonoClassManagerUI.MainContent.Load<Texture2D>(textureName);
+                    texture = content.Load<Texture2D>(textureName);
                 }
                 catch
                 {
-                    texture = new Texture2D(MonoClassManagerUI.MainGraphicsDevice, 1, 1);
+                    texture = new Texture2D(Manager.GraphicsDevice, 1, 1);
                     texture.SetData<Color>(new Color[] { Color.White });
                 }
             }

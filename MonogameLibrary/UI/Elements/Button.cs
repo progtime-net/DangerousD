@@ -11,12 +11,17 @@ using static MonogameLibrary.UI.Elements.Button;
 
 namespace MonogameLibrary.UI.Elements
 {
-    public class Button : MonoDrawableTextedUI, IInteractable
+    public class Button : DrawableTextedUiElement, IInteractable
     {
         public delegate void OnButtonPressed();
         public event OnButtonPressed? RightButtonPressed;
         public event OnButtonPressed? LeftButtonPressed;
         protected HoverState hoverState = HoverState.None;
+
+        public Button(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
+        {
+        }
+        
         public bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
             if (rectangle.Intersects(new Rectangle(mouseState.Position, Point.Zero)))

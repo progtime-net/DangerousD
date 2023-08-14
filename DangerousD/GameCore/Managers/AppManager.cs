@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Xna.Framework.Input; 
-using DangerousD.GameCore.HUD;
+using DangerousD.GameCore.GUI;
+using Microsoft.Xna.Framework.Input;
 
 namespace DangerousD.GameCore
 {
@@ -16,31 +16,29 @@ namespace DangerousD.GameCore
         private SpriteBatch _spriteBatch;
 
         GameState gameState;
-        IHUD MenuGUI;
-        IHUD OptionsGUI;
-        IHUD LobbyGUI;
+        IGui MenuGUI;
+        IGui OptionsGUI;
+        IGui LobbyGUI;
         public AppManager()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-
             gameState = GameState.Menu;
+            MenuGUI = new MenuGUI();
         }
 
         protected override void Initialize()
         {
+            MenuGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            TextureManager.contentManager = Content;
-            TextureManager.graphicsDevice = GraphicsDevice;
-            MenuGUI = new HUD.MenuHUD();
+            MenuGUI.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)

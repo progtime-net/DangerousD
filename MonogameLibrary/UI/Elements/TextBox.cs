@@ -12,10 +12,14 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MonogameLibrary.UI.Elements
 {
-    public class TextBox : MonoDrawableTextedUI, IInteractable
+    public class TextBox : DrawableTextedUiElement, IInteractable
     {
-        public TextBox(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        public TextBox(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {
+            OnEnter += (txt) => {
+                isSelected = IsSelected.NotSelected;
+                StopChanging?.Invoke(text);
+            };
         }
         public delegate void OnTextChange(string text);
         public event OnTextChange? TextChanged;
@@ -26,13 +30,6 @@ namespace MonogameLibrary.UI.Elements
         protected IsSelected isSelected = IsSelected.NotSelected;
         public bool shouldEndOnEnter;
 
-        public TextBox() : base()
-        {
-            OnEnter += (txt) => {
-                isSelected = IsSelected.NotSelected;
-                StopChanging?.Invoke(text);
-            };
-        }
         public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
             if (isSelected == IsSelected.Selected)

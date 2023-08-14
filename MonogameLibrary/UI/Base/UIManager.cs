@@ -1,5 +1,4 @@
-﻿using DangerousD.GameCore;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,36 +11,41 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MonogameLibrary.UI.Base
 {
-    public class MonoClassManagerUI
+    public class UIManager
     {
-        static Dictionary<int, List<MonoDrawableUI>> layerCollection;
-        public static GraphicsDevice MainGraphicsDevice { get { return _graphicsDevice; } }
-        public static ContentManager MainContent { get { return _content; } }
-        public static SpriteFont MainBaseFont { get { return _baseFont; } }
-        static GraphicsDevice _graphicsDevice;
-        static ContentManager _content;
-        static SpriteFont _baseFont;
-        public void InitManager(string font)
+        Dictionary<int, List<DrawableUIElement>> layerCollection = new();
+        public GraphicsDevice GraphicsDevice { get; private set; }
+        public SpriteFont BaseFont { get; private set; }
+        public void Initialize(string font, GraphicsDevice graphicsDevice)
         {
-            _graphicsDevice = TextureManager.graphicsDevice;
-            _content = TextureManager.contentManager;
+            GraphicsDevice = graphicsDevice;
             try
             {
-                //_baseFont = _content.Load<SpriteFont>(font);
+                //BaseFont = _content.Load<SpriteFont>(font);
             }
             catch
             {
             }
-            layerCollection = new Dictionary<int, List<MonoDrawableUI>>();
             for (int i = -10; i < 11; i++)
             {
-                layerCollection.Add(i, new List<MonoDrawableUI>());
+                layerCollection.Add(i, new List<DrawableUIElement>());
             }
         }
         public KeyboardState GetKeyboardState { get { return keyboardState; } }
         static MouseState mouseState, prevmouseState;
         static KeyboardState keyboardState;
-        public void Update(GameTime gameTime)
+
+        public void LoadContent(ContentManager content)
+        {
+            foreach (var collection in layerCollection)
+            {
+                foreach (var item in collection.Value)
+                {
+                    item.LoadTexture(content);
+                }
+            }
+        }
+        public void Update()
         {
             try
             {
@@ -80,12 +84,12 @@ namespace MonogameLibrary.UI.Base
             }
             spriteBatch.End();
         }
-        public void Register(MonoDrawableUI monoDrawableUI, int layerIndex)
+        public void Register(DrawableUIElement drawableUiElement, int layerIndex)
         {
             if (!layerCollection.ContainsKey(layerIndex))
-                layerCollection.Add(layerIndex, new List<MonoDrawableUI>());
+                layerCollection.Add(layerIndex, new List<DrawableUIElement>());
 
-            layerCollection[layerIndex].Add(monoDrawableUI);
+            layerCollection[layerIndex].Add(drawableUiElement);
         }
     }
 }
