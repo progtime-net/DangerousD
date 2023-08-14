@@ -26,7 +26,7 @@ namespace DangerousD.GameCore.Graphics
             lastInterval = 1;
             lastAnimationId = null;
             LoadAnimations(animationsId);
-            LoadTextures();
+            
 
         }
         private void LoadAnimations(List<string> animationsId)
@@ -37,7 +37,7 @@ namespace DangerousD.GameCore.Graphics
                 animations.Add( GameManager.builder.animations.Find(x => x.Id == id));
             }
         }
-        private void LoadTextures()
+        public void LoadContent(ContentManager content)
         {
             textures = new List<Texture2D>();
             texturesNames = new List<string>();
@@ -47,7 +47,7 @@ namespace DangerousD.GameCore.Graphics
                 if (!texturesNames.Contains(animation.TextureName))
                 {
                     texturesNames.Add(animation.TextureName);
-                    textures.Add(TextureManager.GetTexture(animation.TextureName));
+                    textures.Add(content.Load<Texture2D>(animation.TextureName));
 
                 }
             }
