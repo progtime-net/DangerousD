@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DangerousD.GameCore.Graphics
 {
-    class GraphicsComponent
+    public class GraphicsComponent
     {
         private List<AnimationContainer> animations;
         private List<Texture2D> textures;

@@ -6,7 +6,7 @@ using MonogameLibrary.UI.Base;
 
 namespace DangerousD.GameCore.GUI;
 
-public abstract class AbstractGui : IGameObject
+public abstract class AbstractGui : IDrawableObject
 {
     protected UIManager Manager = new();
     protected List<DrawableUIElement> Elements = new();

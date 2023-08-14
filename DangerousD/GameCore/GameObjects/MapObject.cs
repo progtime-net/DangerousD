@@ -1,15 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DangerousD.GameCore.GameObjects
+namespace DangerousD.GameCore.GameObjects;
+
+internal abstract class MapObject : GameObject
 {
-    class MapObject : GameObject
+    public MapObject(Vector2 position) : base(position)
     {
-        public MapObject(Texture2D texture, Vector2 position) : base(texture, position)
-        {
-        }
     }
 }

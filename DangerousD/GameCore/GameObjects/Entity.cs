@@ -11,19 +11,18 @@ namespace DangerousD.GameCore.GameObjects
         private Vector2 targetPosition;
         public float speed;
 
-        public Entity(Texture2D texture, Vector2 position) : base(texture, position) {}
-        public Entity(Texture2D texture, Vector2 position, GraphicsComponent animator) : base(texture, position, animator) {}
+        public Entity(Vector2 position) : base(position) {}
 
         
         public void SetPosition(Vector2 position) { targetPosition = position; }
 
         public override void Update(GameTime gameTime)
         {
-            if (Vector2.Distance(Position, targetPosition) > 0.5f)
+            if (Vector2.Distance(Pos, targetPosition) > 0.5f)
             {
-                Vector2 dir = targetPosition - Position;
+                Vector2 dir = targetPosition - Pos;
                 dir.Normalize();
-                Position += dir * speed;
+                Pos += dir * speed;
             }
         }
     }
