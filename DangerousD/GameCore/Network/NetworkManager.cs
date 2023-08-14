@@ -9,9 +9,9 @@ namespace DangerousD.GameCore.Network
 {
     public class NetworkManagerTest
     {
-        public delegate void ReceivingHandler(string msg);
+        public delegate void ReceivingHandler(string jsonMessage);
 
-        public event ReceivingHandler GetMsg;
+        public event ReceivingHandler GetReceivingMessages;
 
         Socket socket;
         IPEndPoint endPoint;
@@ -68,9 +68,9 @@ namespace DangerousD.GameCore.Network
             Thread ReceivingThread = new Thread(ReceiveMsgFromHost);
             ReceivingThread.Start();
         }
-        public void SendMsg(string msg)
+        public void SendMsg(string jsonMessage)
         {
-            byte[] Data = Encoding.Unicode.GetBytes(msg);
+            byte[] Data = Encoding.Unicode.GetBytes(jsonMessage);
             int count = Data.Length;
             if (state == "Host")
             {
@@ -86,7 +86,7 @@ namespace DangerousD.GameCore.Network
                 socket.Send(Data);
             }
         }
-        public void ReceiveMsgFromHost()
+        private void ReceiveMsgFromHost()
         {
             while (true)
             {
@@ -98,7 +98,7 @@ namespace DangerousD.GameCore.Network
             }
         }
 
-        public void AsyncReceiveCallback(IAsyncResult ar)
+        private void AsyncReceiveCallback(IAsyncResult ar)
         {
             StateObject so = ar.AsyncState as StateObject;
             Socket clientSocket = so.workSocket;
@@ -111,7 +111,7 @@ namespace DangerousD.GameCore.Network
             }
             else
             {
-                GetMsg(so.sb.ToString());
+                GetReceivingMessages(so.sb.ToString());
             }
         }
     }
