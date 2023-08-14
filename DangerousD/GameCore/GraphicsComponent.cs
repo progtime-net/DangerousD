@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DangerousD.GameCore
 {
-    class GraphicsComponent
+    public class GraphicsComponent
     {
     }
 }
