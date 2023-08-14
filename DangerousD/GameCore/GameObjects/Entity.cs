@@ -24,6 +24,7 @@ namespace DangerousD.GameCore.GameObjects
                 dir.Normalize();
                 Pos += dir * speed;
             }
+            base.Update(gameTime);
         }
     }
 }

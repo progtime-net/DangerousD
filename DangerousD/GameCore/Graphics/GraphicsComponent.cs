@@ -22,6 +22,11 @@ namespace DangerousD.GameCore.Graphics
         private int interval;
         private int lastInterval;
         private Rectangle sourceRectangle;
+        public static ContentManager contentManager;
+        public static void LoadGraphicsComponent(ContentManager _contentManager)
+        {
+            contentManager = _contentManager;
+        }
         public GraphicsComponent(List<string> animationsId, string neitralAnimationId)
         {
             //this._spriteBatch = _spriteBatch;
@@ -34,6 +39,8 @@ namespace DangerousD.GameCore.Graphics
         }
         public GraphicsComponent(Texture2D texture)
         {
+            animations = new List<AnimationContainer>();
+            textures = new List<Texture2D>();
             textures.Add(texture);
             AnimationContainer animationContainer = new AnimationContainer();
             animationContainer.StartSpriteRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
@@ -43,6 +50,9 @@ namespace DangerousD.GameCore.Graphics
             animationContainer.FramesCount = 1;
             animationContainer.FrameTime = new List<Tuple<int, int>>() { new Tuple<int, int>(0, 10) };
             animationContainer.Id = texture.Name;
+            currentAnimation= animationContainer;
+            neitralAnimation = animationContainer;
+            animations.Add(animationContainer);
         }
         private void LoadAnimations(List<string> animationsId, string neitralAnimationId)
         {
@@ -56,7 +66,7 @@ namespace DangerousD.GameCore.Graphics
                 }
             }
         }
-        public void LoadContent(ContentManager content)
+        public void LoadContent()
         {
             textures = new List<Texture2D>();
             texturesNames = new List<string>();
@@ -66,7 +76,7 @@ namespace DangerousD.GameCore.Graphics
                 if (!texturesNames.Contains(animation.TextureName))
                 {
                     texturesNames.Add(animation.TextureName);
-                    textures.Add(content.Load<Texture2D>(animation.TextureName));
+                    textures.Add(contentManager.Load<Texture2D>(animation.TextureName));
 
                 }
             }

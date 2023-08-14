@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Text;
 using DangerousD.GameCore.GUI;
 using Microsoft.Xna.Framework.Input;
+using DangerousD.GameCore.Graphics;
 
 namespace DangerousD.GameCore
 {
     public enum GameState { Menu, Options, Lobby, Game }
     public class AppManager : Game
     {
+        public static AppManager AppManagerInstance { get; private set; }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         GameState gameState;
@@ -20,6 +22,7 @@ namespace DangerousD.GameCore
         IDrawableObject LobbyGUI;
         public AppManager()
         {
+            AppManagerInstance = this;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -31,12 +34,14 @@ namespace DangerousD.GameCore
 
         protected override void Initialize()
         {
+            GameManager.Init();
             MenuGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            GraphicsComponent.LoadGraphicsComponent(Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent(Content);
         }
@@ -83,7 +88,9 @@ namespace DangerousD.GameCore
                     LobbyGUI.Draw(_spriteBatch);
                     break;
                 case GameState.Game:
+                    _spriteBatch.Begin();
                     GameManager.Draw(_spriteBatch);
+                    _spriteBatch.End();
                     break;
                 default:
                     break;

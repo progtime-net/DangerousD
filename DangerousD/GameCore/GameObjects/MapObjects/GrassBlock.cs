@@ -13,20 +13,22 @@ namespace DangerousD.GameCore.GameObjects.MapObjects
     {
         public GrassBlock(Vector2 position) : base(position)
         {
+            Width = 32;
+            Height = 32;
         }
 
         public override void Initialize(GraphicsDevice graphicsDevice)
         {
-            
         }
         public override void LoadContent(ContentManager content)
         {
-           // graphicsComponent = new Graphics.GraphicsComponent();
+            graphicsComponent = new Graphics.GraphicsComponent(content.Load<Texture2D>("wall"));
             base.LoadContent(content); 
         }
-
-        public override void Update(GameTime gameTime)
-        { 
+        
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
         }
     }
 }

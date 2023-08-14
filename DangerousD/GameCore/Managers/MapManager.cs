@@ -1,4 +1,6 @@
 ﻿using DangerousD.GameCore.GameObjects;
+using DangerousD.GameCore.GameObjects.MapObjects;
+using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,19 +19,21 @@ namespace DangerousD.GameCore.Managers
     {
         public void InitLevel()
         {
-            //new MapObject(new Vector2(0,128));
+            var Трава = new GrassBlock(new Vector2(0,128));
+            Трава.LoadContent(GraphicsComponent.contentManager);
         }
     }
     public class MapManager
     {
+        ILevel Level;
         public void Init()
         {
-
+            Level = new Level1();
         }
         //Level
         public void LoadLevel(string level)
         {
-
+            Level.InitLevel();
         }
     }
 }

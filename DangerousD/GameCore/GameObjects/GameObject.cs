@@ -20,8 +20,8 @@ namespace DangerousD.GameCore
         public GameObject(Vector2 pos)
         {
             Pos = pos;
-            Width = 500;
-            Height = 100;
+            Width = 128;
+            Height = 128;
             //Animator = new GraphicsComponent(new() { "playerIdle" });
             GameManager.Register(this);
         }
@@ -34,10 +34,10 @@ namespace DangerousD.GameCore
 
         public virtual void LoadContent(ContentManager content)
         {
-            graphicsComponent.LoadContent(content);
+            graphicsComponent.LoadContent();
         }
 
-        public abstract void Update(GameTime gameTime);
+        public virtual void Update(GameTime gameTime) { graphicsComponent.Update(); }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
