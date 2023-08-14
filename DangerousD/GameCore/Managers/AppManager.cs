@@ -16,9 +16,9 @@ namespace DangerousD.GameCore
         private SpriteBatch _spriteBatch;
 
         GameState gameState;
-        IGui MenuGUI;
-        IGui OptionsGUI;
-        IGui LobbyGUI;
+        IGameObject MenuGUI;
+        IGameObject OptionsGUI;
+        IGameObject LobbyGUI;
         public AppManager()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -50,13 +50,13 @@ namespace DangerousD.GameCore
             switch (gameState)
             {
                 case GameState.Menu:
-                    MenuGUI.Update();
+                    MenuGUI.Update(gameTime);
                     break;
                 case GameState.Options:
-                    OptionsGUI.Update();
+                    OptionsGUI.Update(gameTime);
                     break;
                 case GameState.Lobby:
-                    LobbyGUI.Update();
+                    LobbyGUI.Update(gameTime);
                     break;
                 case GameState.Game:
                     GameManager.Update(gameTime);

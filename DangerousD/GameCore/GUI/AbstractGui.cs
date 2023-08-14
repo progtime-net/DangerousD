@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonogameLibrary.UI.Base;
 
 namespace DangerousD.GameCore.GUI;
 
-public abstract class AbstractGui : IGui
+public abstract class AbstractGui : IGameObject
 {
     protected UIManager Manager = new();
     protected List<DrawableUIElement> Elements = new();
@@ -27,7 +28,7 @@ public abstract class AbstractGui : IGui
         Manager.LoadContent(content);
     }
 
-    public virtual void Update()
+    public virtual void Update(GameTime gameTime)
     {
         Manager.Update();
     }
