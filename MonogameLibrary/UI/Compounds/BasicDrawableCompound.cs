@@ -11,25 +11,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Content;
 
 namespace MonogameLibrary.UI.Compounds
 {
     public enum BasicDrawableCompound_Type { Vertical, Horizontal };
-    public class BasicDrawableCompound : MonoDrawableTextedUI
+    public class BasicDrawableCompound : DrawableTextedUiElement
     {
-        public BasicDrawableCompound(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
-        {
-        }
-        Dictionary<string, MonoDrawableTextedUI> drawables = new Dictionary<string, MonoDrawableTextedUI>();
-        public Vector2 lastPos;
-        Vector2 offset = new Vector2(10, 10);
-        public BasicDrawableCompound()
+        public BasicDrawableCompound(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {
             rectangle = new Rectangle(0, 0, 20, 20);
             lastPos = new Vector2(0, offset.Y);
         }
+        Dictionary<string, DrawableTextedUiElement> drawables = new Dictionary<string, DrawableTextedUiElement>();
+        public Vector2 lastPos;
+        Vector2 offset = new Vector2(10, 10);
         int mainWidth = 40;
-        public void Add(string name, MonoDrawableTextedUI element)
+        public void Add(string name, DrawableTextedUiElement element)
         {
             //var a = Assembly.GetExecutingAssembly().GetTypes();
             //var b = a.Where(t => t.Get().Contains(type));
@@ -64,7 +62,7 @@ namespace MonogameLibrary.UI.Compounds
             }
             drawables.Add(name, element);
         }
-        public Vector2 GetPositionOfElement(MonoDrawableTextedUI element)
+        public Vector2 GetPositionOfElement(DrawableTextedUiElement element)
         {
             Vector2 pos = lastPos + new Vector2(offset.X, 0);
             lastPos = pos + new Vector2(element.rectangle.Width, 0);
@@ -77,14 +75,14 @@ namespace MonogameLibrary.UI.Compounds
             return rectangle.Location.ToVector2() + pos;
         }
 
-        public override void LoadTexture(string textureName = "", string font = "")
+        public override void LoadTexture(ContentManager content)
         {
-            base.LoadTexture(textureName);
-            if (font != "")
+            base.LoadTexture(content);
+            if (fontName != "")
             {
                 try
                 {
-                    spriteFont = MonoClassManagerUI.MainContent.Load<SpriteFont>(font);
+                    spriteFont = content.Load<SpriteFont>(fontName);
                 }
                 catch
                 {
@@ -92,16 +90,16 @@ namespace MonogameLibrary.UI.Compounds
             }
             foreach (var d in drawables)
             {
-                d.Value.LoadTexture(font: font);
+                d.Value.LoadTexture(content);
             }
 
         }
-        public override void Draw(SpriteBatch _spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            _spriteBatch.Draw(texture, rectangle, mainColor);
+            spriteBatch.Draw(texture, rectangle, mainColor);
             foreach (var d in drawables)
             {
-                d.Value.Draw(_spriteBatch);
+                d.Value.Draw(spriteBatch);
             } 
         }
     }

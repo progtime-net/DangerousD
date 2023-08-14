@@ -10,9 +10,9 @@ using System.Text;
 
 namespace MonogameLibrary.UI.Elements
 {
-    public class CheckBox : MonoDrawableTextedUI, IInteractable
+    public class CheckBox : DrawableTextedUiElement, IInteractable
     {
-        public CheckBox(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        public CheckBox(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {
         }
         public delegate void OnCheck(bool checkState);

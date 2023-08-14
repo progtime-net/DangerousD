@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Xna.Framework.Input; 
-using DangerousD.GameCore.HUD;
+using DangerousD.GameCore.GUI;
+using Microsoft.Xna.Framework.Input;
 
 namespace DangerousD.GameCore
 {
@@ -14,33 +14,31 @@ namespace DangerousD.GameCore
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
         GameState gameState;
-        IHUD MenuGUI;
-        IHUD OptionsGUI;
-        IHUD LobbyGUI;
+        IGameObject MenuGUI;
+        IGameObject OptionsGUI;
+        IGameObject LobbyGUI;
         public AppManager()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
             gameState = GameState.Menu;
+            MenuGUI = new MenuGUI();
         }
 
         protected override void Initialize()
         {
+            MenuGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            TextureManager.contentManager = Content;
-            TextureManager.graphicsDevice = GraphicsDevice;
-            MenuGUI = new HUD.MenuHUD();
+            MenuGUI.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -52,13 +50,13 @@ namespace DangerousD.GameCore
             switch (gameState)
             {
                 case GameState.Menu:
-                    MenuGUI.Update();
+                    MenuGUI.Update(gameTime);
                     break;
                 case GameState.Options:
-                    OptionsGUI.Update();
+                    OptionsGUI.Update(gameTime);
                     break;
                 case GameState.Lobby:
-                    LobbyGUI.Update();
+                    LobbyGUI.Update(gameTime);
                     break;
                 case GameState.Game:
                     GameManager.Update(gameTime);

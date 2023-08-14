@@ -1,4 +1,5 @@
 ﻿using DangerousD.GameCore.GameObjects;
+using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,6 +12,7 @@ namespace DangerousD.GameCore
     {
         static List<LivingEntity> livingEntities;
         static List<MapObject> MapObjects;
+        public static AnimationBuilder builder;
         internal static void Register(GameObject gameObject)
         {
             if (gameObject is LivingEntity)

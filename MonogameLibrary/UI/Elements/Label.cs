@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace MonogameLibrary.UI.Elements
 {
-    public class Label : MonoDrawableTextedUI
+    public class Label : DrawableTextedUiElement
     {
 
-        public Label(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager, layerIndex)
+        public Label(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {
         }
         protected HoverState hoverState = HoverState.None;

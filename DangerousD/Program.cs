@@ -10,6 +10,7 @@ namespace DangerousD
         {
             using (var game = new AppManager())
                 game.Run();
+
         }
     }
 }

@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DangerousD", "DangerousD\DangerousD.csproj", "{1FC12F81-0E55-4142-83BD-23496EF29DC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DangerousD", "DangerousD\DangerousD.csproj", "{1FC12F81-0E55-4142-83BD-23496EF29DC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimationsFileCreator", "AnimationsFileCreator\AnimationsFileCreator.csproj", "{CE9485FC-F4C6-4E0D-8B8E-1843AA20CEDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonogameLibrary", "MonogameLibrary\MonogameLibrary.csproj", "{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{1FC12F81-0E55-4142-83BD-23496EF29DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FC12F81-0E55-4142-83BD-23496EF29DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FC12F81-0E55-4142-83BD-23496EF29DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE9485FC-F4C6-4E0D-8B8E-1843AA20CEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE9485FC-F4C6-4E0D-8B8E-1843AA20CEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE9485FC-F4C6-4E0D-8B8E-1843AA20CEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE9485FC-F4C6-4E0D-8B8E-1843AA20CEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

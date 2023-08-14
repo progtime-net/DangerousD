@@ -6,35 +6,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Content;
 
 namespace MonogameLibrary.UI.Base
 {
-    public class MonoDrawableTextedUI : MonoDrawableUI
+    public class DrawableTextedUiElement : DrawableUIElement
     {
         protected SpriteFont spriteFont;
+        protected string fontName;
         public string text = "";
         public float scale = 0.5f;
         public Color fontColor = Color.Black;
         public TextAligment textAligment = TextAligment.Center;
-        public MonoDrawableTextedUI(MonoClassManagerUI MyUIManager = null, int layerIndex = 0) : base(MyUIManager,layerIndex)
+
+        public DrawableTextedUiElement(UIManager manager, int layerIndex = 0, string textureName = "", string fontName = "")
+            : base(manager, layerIndex, textureName)
         {
+            this.fontName = fontName;
         }
-        public virtual void LoadTexture(string textureName = "", string font = "")
+
+        public override void LoadTexture(ContentManager content)
         {
-            base.LoadTexture(textureName);
-            if (font != "")
+            base.LoadTexture(content);
+            if (fontName != "")
             {
                 try
                 {
-                    spriteFont = MonoClassManagerUI.MainContent.Load<SpriteFont>(font);
+                    spriteFont = content.Load<SpriteFont>(fontName);
                 }
                 catch
                 {
                 }
             }
-
         }
-        public virtual void DrawText(SpriteBatch _spriteBatch)
+
+        public virtual void DrawText(SpriteBatch spriteBatch)
         {
             if (text == "")
                 return;
@@ -48,26 +54,29 @@ namespace MonogameLibrary.UI.Base
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
                     pos.X += (int)((rectangle.Width - measured.X) / 2);
-                    _spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale,
+                        SpriteEffects.None, 0);
                 }
                 else if (textAligment == TextAligment.Center)
                 {
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
                     pos.X += (int)(2 * scale);
-                    _spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale,
+                        SpriteEffects.None, 0);
                 }
                 else
                 {
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
                     pos.X += (int)(rectangle.Width - measured.X - 2 * scale);
-                    _spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale,
+                        SpriteEffects.None, 0);
                 }
             }
             else
-            { 
-                var measured = MonoClassManagerUI.MainBaseFont.MeasureString(text) * scale;
+            {
+                var measured = Manager.BaseFont.MeasureString(text) * scale;
                 measured.X -= measured.X % 10;
                 //measured.Y *= -1;
                 if (textAligment == TextAligment.Center)
@@ -75,7 +84,8 @@ namespace MonogameLibrary.UI.Base
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
                     pos.X += (int)((rectangle.Width - measured.X) / 2);
-                    _spriteBatch.DrawString(MonoClassManagerUI.MainBaseFont, text, pos, fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(Manager.BaseFont, text, pos, fontColor, 0, Vector2.Zero, scale,
+                        SpriteEffects.None, 0);
                 }
                 else if (textAligment == TextAligment.Left)
                 {
@@ -89,21 +99,21 @@ namespace MonogameLibrary.UI.Base
                     //_spriteBatch.DrawString(MonoClassManagerUI.MainBaseFont, text, rct.Location.ToVector2(), fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
 
 
-
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
                     pos.X += (int)(2 * scale);
-                    _spriteBatch.DrawString(MonoClassManagerUI.MainBaseFont, text, pos, fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(Manager.BaseFont, text, pos, fontColor, 0, Vector2.Zero, scale,
+                        SpriteEffects.None, 0);
                 }
                 else
                 {
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
                     pos.X += (int)(rectangle.Width - measured.X - 2 * scale);
-                    _spriteBatch.DrawString(MonoClassManagerUI.MainBaseFont, text, pos, fontColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(Manager.BaseFont, text, pos, fontColor, 0, Vector2.Zero, scale,
+                        SpriteEffects.None, 0);
                 }
             }
-
         }
     }
 }
