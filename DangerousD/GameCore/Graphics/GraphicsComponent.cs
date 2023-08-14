@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DangerousD.GameCore.Graphics
 {
-    public class GraphicsComponent
+    class GraphicsComponent
     {
         private List<AnimationContainer> animations;
         private List<Texture2D> textures;
@@ -75,13 +75,8 @@ namespace DangerousD.GameCore.Graphics
             SetInterval();
 
         }
-        public void DrawAnimation(Rectangle destinationRectangle,  SpriteBatch _spriteBatch)
+        public void Update()
         {
-
-            
-                
-            
-
             if (interval == 0)
             {
                 currentFrame++;
@@ -98,7 +93,9 @@ namespace DangerousD.GameCore.Graphics
             }
 
             interval--;
-
+        }
+        public void DrawAnimation(Rectangle destinationRectangle,  SpriteBatch _spriteBatch)
+        {
             _spriteBatch.Draw(textures[texturesNames.FindIndex(x => x == currentAnimation.TextureName)], destinationRectangle, sourceRectangle, Color.White);
         }
         private void buildSourceRectangle()
