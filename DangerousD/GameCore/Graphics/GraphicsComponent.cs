@@ -31,6 +31,18 @@ namespace DangerousD.GameCore.Graphics
             
 
         }
+        public GraphicsComponent(Texture2D texture)
+        {
+            textures.Add(texture);
+            AnimationContainer animationContainer = new AnimationContainer();
+            animationContainer.StartSpriteRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+            animationContainer.TextureFrameInterval = 0;
+            animationContainer.TextureName=texture.Name;
+            animationContainer.IsCycle = true;
+            animationContainer.FramesCount = 1;
+            animationContainer.FrameTime = new List<Tuple<int, int>>() { new Tuple<int, int>(0, 10) };
+            animationContainer.Id = texture.Name;
+        }
         private void LoadAnimations(List<string> animationsId, string neitralAnimationId)
         {
             animations = new List<AnimationContainer>();
