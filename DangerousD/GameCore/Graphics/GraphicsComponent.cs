@@ -13,15 +13,15 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
-        private SpriteBatch _spriteBatch;
+        //private SpriteBatch _spriteBatch;
         private string lastAnimationId;
         private int currentFrame;
         private int interval;
         private int lastInterval;
         private Rectangle sourceRectangle;
-        public GraphicsComponent(List<string> animationsId, SpriteBatch _spriteBatch)
+        public GraphicsComponent(List<string> animationsId)
         {
-            this._spriteBatch = _spriteBatch;
+            //this._spriteBatch = _spriteBatch;
             currentFrame = 0;
             lastInterval = 1;
             lastAnimationId = null;
@@ -52,7 +52,7 @@ namespace DangerousD.GameCore.Graphics
                 }
             }
         }
-        public void DrawAnimation(Rectangle destinationRectangle, string animationId)
+        public void DrawAnimation(Rectangle destinationRectangle, string animationId,  SpriteBatch _spriteBatch)
         {
 
             if (animationId != lastAnimationId)
