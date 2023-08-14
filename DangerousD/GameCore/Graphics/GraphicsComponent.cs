@@ -14,6 +14,7 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
+        public string GetCurrentAnimation { get { return currentAnimation.Id; } }
         private AnimationContainer neitralAnimation;
         //private SpriteBatch _spriteBatch;
         

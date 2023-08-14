@@ -2,7 +2,7 @@
 
 namespace DangerousD.GameCore.GameObjects;
 
-internal abstract class LivingEntity : Entity
+public abstract class LivingEntity : Entity
 {
     public LivingEntity(Vector2 position) : base(position)
     {

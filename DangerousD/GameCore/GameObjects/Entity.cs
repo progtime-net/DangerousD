@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DangerousD.GameCore.GameObjects
 {
-    abstract class Entity : GameObject
+    public abstract class Entity : GameObject
     {   
         private Vector2 targetPosition;
         public float speed;
