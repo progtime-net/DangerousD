@@ -22,7 +22,7 @@ namespace DangerousD.GameCore
             Pos = pos;
             Width = 500;
             Height = 100;
-            Animator = new GraphicsComponent(new() { "playerIdle" });
+            //Animator = new GraphicsComponent(new() { "playerIdle" });
             GameManager.Register(this);
         }
 
@@ -38,7 +38,7 @@ namespace DangerousD.GameCore
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            Animator.DrawAnimation(Rectangle, "playerIdle", spriteBatch);
+            //Animator.DrawAnimation(Rectangle, "playerIdle", spriteBatch);
         }
     }
 }
