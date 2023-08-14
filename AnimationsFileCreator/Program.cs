@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 
 namespace AnimationsFileCreator
 {
@@ -19,7 +20,7 @@ namespace AnimationsFileCreator
             {
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.ShowDialog();
-                textureName = dialog.FileName;
+                textureName = dialog.FileName.Split('\\').Last();
             }
             Console.WriteLine("Введите количество кадров анимации: ");
             int framesCount = int.Parse(Console.ReadLine());

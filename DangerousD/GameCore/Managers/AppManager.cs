@@ -14,7 +14,6 @@ namespace DangerousD.GameCore
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
         GameState gameState;
         IGameObject MenuGUI;
         IGameObject OptionsGUI;
