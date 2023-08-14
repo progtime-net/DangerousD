@@ -14,7 +14,6 @@ namespace DangerousD.GameCore
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        InputManager _inputManager =  new InputManager();
 
         GameState gameState;
         IHUD MenuGUI;
@@ -48,7 +47,6 @@ namespace DangerousD.GameCore
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            _inputManager.Update();
 
             switch (gameState)
             {
