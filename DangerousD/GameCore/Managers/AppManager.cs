@@ -24,6 +24,7 @@ namespace DangerousD.GameCore
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
