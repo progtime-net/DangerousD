@@ -10,7 +10,7 @@ using DangerousD.GameCore.Graphics;
 
 namespace DangerousD.GameCore
 {
-    public enum GameState { Menu, Options, Lobby, Game }
+    public enum GameState { Menu, Options, Lobby, Game, Login }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set;  }
@@ -19,8 +19,10 @@ namespace DangerousD.GameCore
         public Point resolution;
         GameState gameState;
         IDrawableObject MenuGUI;
+        IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
+
         public GameManager GameManager { get; private set; }
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public AppManager()
@@ -62,6 +64,9 @@ namespace DangerousD.GameCore
                 case GameState.Options:
                     OptionsGUI.Update(gameTime);
                     break;
+                case GameState.Login:
+                    LoginGUI.Update(gameTime);
+                    break;
                 case GameState.Lobby:
                     LobbyGUI.Update(gameTime);
                     break;
@@ -86,6 +91,9 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Options:
                     OptionsGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Login:
+                    LoginGUI.Draw(_spriteBatch);
                     break;
                 case GameState.Lobby:
                     LobbyGUI.Draw(_spriteBatch);
