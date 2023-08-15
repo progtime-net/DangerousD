@@ -12,19 +12,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
+        private bool isGoRight = true;
         public Zombie(Vector2 position) : base(position)
         {
-            Width = 24;
-            Height = 40;
-            GraphicsComponent.StartAnimation("ZombieMoveRight");
+            Width = 72;
+            Height = 120;
+            GraphicsComponent.StartAnimation("ZombieRightAttack");
+            monster_speed = 100;
         }
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight"}, "ZombieMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack"}, "ZombieMoveRight");
 
         public override void Update(GameTime gameTime)
         {
-            Move();
+            //Move(gameTime);
             if (monster_health <= 0)
             {
+                isAlive = false;
                 Death();
             }
             base.Update(gameTime);
@@ -32,7 +35,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
+            if (isGoRight)
+            {
 
+            }
         }
 
         public override void Death()
@@ -40,8 +46,25 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Move()
+        public override void Move(GameTime gameTime)
         {
+            if (isGoRight)
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                {
+                    GraphicsComponent.StartAnimation("ZombieMoveRight");
+                    velocity = new Vector2(monster_speed, 0);
+                }
+            }
+
+            else if (!isGoRight)
+            {
+                if(GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                    velocity = new Vector2(-monster_speed, 0);
+                }
+            }
         }
     }
 }

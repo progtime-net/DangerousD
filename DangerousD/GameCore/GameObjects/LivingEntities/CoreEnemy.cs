@@ -34,6 +34,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public abstract void Attack();
 
-        public abstract void Move();
+        public abstract void Move(GameTime gameTime);
     }
 }
