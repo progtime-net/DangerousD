@@ -13,7 +13,7 @@ namespace MonogameLibrary.UI.Base
     public class DrawableTextedUiElement : DrawableUIElement
     {
         protected SpriteFont spriteFont;
-        protected string fontName;
+        public string fontName;
         public string text = "";
         public float scale = 0.5f;
         public Color fontColor = Color.Black;
