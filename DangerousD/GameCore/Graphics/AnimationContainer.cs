@@ -23,6 +23,10 @@ namespace DangerousD.GameCore.Graphics
         public int FramesCount { get; set; }
         [JsonProperty("isCycle")]
         public bool IsCycle { get; set; }
+        [JsonProperty("offset")]
+        public Vector2 Offset { get; set; }
+
+
          
     }
 }
