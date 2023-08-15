@@ -13,7 +13,7 @@ namespace MonogameLibrary.UI.Base
     public class DrawableTextedUiElement : DrawableUIElement
     {
         protected SpriteFont spriteFont;
-        protected string fontName;
+        public string fontName;
         public string text = "";
         public float scale = 0.5f;
         public Color fontColor = Color.Black;
@@ -57,11 +57,11 @@ namespace MonogameLibrary.UI.Base
                     spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale,
                         SpriteEffects.None, 0);
                 }
-                else if (textAligment == TextAligment.Center)
+                else if (textAligment == TextAligment.Left)
                 {
                     Vector2 pos = rectangle.Location.ToVector2();
                     pos.Y += (int)((rectangle.Height - measured.Y) / 2);
-                    pos.X += (int)(2 * scale);
+                    pos.X += (int)(2 * scale + rectangle.Width / 20);
                     spriteBatch.DrawString(spriteFont, text, pos, fontColor, 0, Vector2.Zero, scale,
                         SpriteEffects.None, 0);
                 }
