@@ -13,12 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin File.spritefont
+#begin ButtonFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:File.spritefont
+/build:ButtonFont.spritefont
 
 #begin Font_25.spritefont
 /importer:FontDescriptionImporter
@@ -27,12 +27,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Font_25.spritefont
 
-#begin Font2.spritefont
+#begin Font_30.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Font2.spritefont
+/build:Font_30.spritefont
 
 #begin PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 /importer:TextureImporter
