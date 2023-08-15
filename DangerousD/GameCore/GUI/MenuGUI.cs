@@ -8,14 +8,31 @@ internal class MenuGUI : AbstractGui
 {
     protected override void CreateUI()
     {
-        Elements.Add(new CheckBox(Manager) { rectangle = new Rectangle(10, 10, 50, 50) });
-        var but = new Button(Manager) { rectangle = new Rectangle(100, 10, 80, 50) };
-        Elements.Add(but);
-        but.LeftButtonPressed += () =>
+        int wigth = AppManager.Instance.Window.ClientBounds.Width;
+        int height = AppManager.Instance.Window.ClientBounds.Height;
+        var butSingle = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 130, 300, 50), text = "Singleplayer", fontName = "File" };
+        Elements.Add(butSingle);
+        butSingle.LeftButtonPressed += () =>
         {
             AppManager.Instance.ChangeGameState(GameState.Game);
         };
-        Elements.Add(new Button(Manager) { rectangle = new Rectangle(0, 10, 50, 50) });
-        Elements.Add(new Label(Manager) { rectangle = new Rectangle(100, 10, 50, 50), text = "DA" });
+        var butMulti = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 190, 300, 50), text = "Multiplayer", fontName = "File" };
+        Elements.Add(butMulti);
+        butMulti.LeftButtonPressed += () =>
+        {
+            // открытие мультиплеера 
+        };
+        var butOption = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 250, 300, 50), text = "Option", fontName = "File" };
+        Elements.Add(butOption);
+        butOption.LeftButtonPressed += () =>
+        {
+            // открытие настроек
+        };
+        var butExit = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 310, 300, 50), text = "Exit", fontName = "File" };
+        Elements.Add(butExit);
+        butExit.LeftButtonPressed += () =>
+        {
+            AppManager.Instance.Exit();
+        };
     }
-}
+}   
