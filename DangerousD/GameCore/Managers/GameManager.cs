@@ -11,9 +11,9 @@ namespace DangerousD.GameCore
 {
     public class GameManager
     {
-        List<LivingEntity> livingEntities;
-        List<Entity> entities;
-        List<MapObject> mapObjects;
+        public List<LivingEntity> livingEntities;
+        public List<Entity> entities;
+        public List<MapObject> mapObjects;
         public MapManager mapManager;
 
         public GameManager()
