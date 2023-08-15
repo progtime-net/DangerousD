@@ -10,7 +10,7 @@ using DangerousD.GameCore.Graphics;
 
 namespace DangerousD.GameCore
 {
-    public enum GameState { Menu, Options, Lobby, Game, Login }
+    public enum GameState { Menu, Options, Lobby, Game, Login, }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set;  }
@@ -38,6 +38,7 @@ namespace DangerousD.GameCore
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
+            OptionsGUI = new OptionsGUI();
         }
 
         protected override void Initialize()
@@ -45,6 +46,7 @@ namespace DangerousD.GameCore
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize(GraphicsDevice);
             LoginGUI.Initialize(GraphicsDevice);
+            OptionsGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
@@ -53,6 +55,7 @@ namespace DangerousD.GameCore
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
+            OptionsGUI.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)

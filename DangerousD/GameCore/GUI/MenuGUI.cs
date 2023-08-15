@@ -16,6 +16,7 @@ internal class MenuGUI : AbstractGui
         {
             AppManager.Instance.ChangeGameState(GameState.Game);
         };
+
         var butMulti = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 190, 300, 50), text = "Multiplayer", fontName = "File" };
         Elements.Add(butMulti);
         butMulti.LeftButtonPressed += () =>
@@ -27,6 +28,7 @@ internal class MenuGUI : AbstractGui
         butOption.LeftButtonPressed += () =>
         {
             // открытие настроек
+            AppManager.Instance.ChangeGameState(GameState.Options);
         };
         var butExit = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 310, 300, 50), text = "Exit", fontName = "File" };
         Elements.Add(butExit);
