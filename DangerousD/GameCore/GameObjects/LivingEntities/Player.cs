@@ -20,5 +20,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
 
         }
+
+        public void Death(string monsterName)
+        {
+
+        }
     }
 }

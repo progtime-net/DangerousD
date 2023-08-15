@@ -17,10 +17,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 72;
             Height = 120;
-            GraphicsComponent.StartAnimation("ZombieRightAttack");
             monster_speed = 100;
+            name = "Zombie";
         }
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack"}, "ZombieMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveRight");
 
         public override void Update(GameTime gameTime)
         {
@@ -33,11 +33,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Attack()
+        public override void Attack(Player player)
         {
             if (isGoRight)
             {
-
+                GraphicsComponent.StopAnimation();
+                GraphicsComponent.StartAnimation("ZombieRightAttack");
+                player.Death(name);
+            }
+            else if (!isGoRight)
+            {
+                GraphicsComponent.StopAnimation();
+                GraphicsComponent.StartAnimation("ZombieLeftAttack");
+                player.Death(name);
             }
         }
 

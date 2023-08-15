@@ -110,7 +110,7 @@ namespace DangerousD.GameCore.Graphics
             if (interval == 0)
             {
                 currentFrame++;
-                if (currentAnimation.FramesCount - 1 <= currentFrame)
+                if (currentAnimation.FramesCount <= currentFrame)
                 {
                     if (!currentAnimation.IsCycle)
                     {
