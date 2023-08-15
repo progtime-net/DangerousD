@@ -41,7 +41,7 @@ namespace DangerousD.GameCore
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent() 
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();

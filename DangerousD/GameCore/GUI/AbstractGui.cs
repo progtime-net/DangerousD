@@ -11,21 +11,23 @@ public abstract class AbstractGui : IDrawableObject
     protected UIManager Manager = new();
     protected List<DrawableUIElement> Elements = new();
 
+
     public AbstractGui()
     {
     }
 
     protected abstract void CreateUI();
-
+    private GraphicsDevice graphicsDevice;
     public virtual void Initialize(GraphicsDevice graphicsDevice)
     {
-        Manager.Initialize("", graphicsDevice);
+        this.graphicsDevice = graphicsDevice;
+        Manager.Initialize(graphicsDevice);
         CreateUI();
     }
 
     public virtual void LoadContent()
     {
-        Manager.LoadContent(AppManager.Instance.Content);
+        Manager.LoadContent(AppManager.Instance.Content, "Font");
     }
 
     public virtual void Update(GameTime gameTime)

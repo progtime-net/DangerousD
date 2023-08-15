@@ -24,4 +24,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:wall.jpg
+#begin Font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font.spritefont
 
