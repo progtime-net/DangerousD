@@ -34,7 +34,7 @@ namespace DangerousD.GameCore.GUI
                     text = "NickName",
                     scale = 0.16f,
                     fontColor = Color.Gray,
-                    fontName = "font2",
+                    fontName = "Font2",
                     textAligment = TextAligment.Left
                 };
                 loginTextBox.TextChanged += input => {

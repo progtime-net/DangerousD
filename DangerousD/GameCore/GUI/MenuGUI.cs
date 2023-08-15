@@ -10,6 +10,8 @@ internal class MenuGUI : AbstractGui
     {
         int wigth = AppManager.Instance.Window.ClientBounds.Width;
         int height = AppManager.Instance.Window.ClientBounds.Height;
+
+        Elements.Add(new Label(Manager) { rectangle = new Rectangle(10, 10, 50, 50), text = "Dangerous" });
         var butSingle = new ButtonText(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 130, 300, 50), text = "Singleplayer", fontName = "ButtonFont" };
         Elements.Add(butSingle);
         butSingle.LeftButtonPressed += () =>
