@@ -24,10 +24,12 @@ namespace DangerousD.GameCore
             }
         }
 
-        public void StartSound(string soundName) // запустить звук у которого нет позиции
+        public void StartSound(string soundName, bool isMusic) // запустить звук у которого нет позиции
         {
             var sound = new Sound(Sounds[soundName]);
             sound.SoundEffect.IsLooped = false;
+            if (isMusic)
+                sound.SoundEffect.IsLooped = true;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
         }
