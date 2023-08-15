@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace DangerousD.GameCore.Managers
 {
-    internal class PhysicsManager
+    public class PhysicsManager
     {
 
         public void UpdateCollisions(List<Entity> entities, List<LivingEntity> livingEntities,
@@ -103,7 +103,7 @@ namespace DangerousD.GameCore.Managers
         }
 
 
-        public GameObject RayCast(LivingEntity entity1, LivingEntity entity2, )
+        public GameObject RayCast(LivingEntity entity1, LivingEntity entity2)
         {
 
             Rectangle rectangle;

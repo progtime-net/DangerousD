@@ -17,7 +17,7 @@ namespace DangerousD.GameCore
         public List<Entity> entities;
         public List<MapObject> mapObjects;
         public MapManager mapManager;
-
+        public PhysicsManager physicsManager;
 
         public GameManager()
         {
@@ -56,6 +56,7 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
             foreach (var item in livingEntities)
                 item.Update(gameTime);
+            
         }
     }
 }
