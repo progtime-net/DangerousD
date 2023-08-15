@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+
+using MonogameLibrary.UI.Elements;
+using MonogameLibrary.UI.Enums;
+
+namespace DangerousD.GameCore.GUI
+{
+    class LoginGUI : AbstractGui
+    {
+        protected override void CreateUI()
+        {
+            int screenWidth = AppManager.Instance.resolution.X;
+            int screenHeight = AppManager.Instance.resolution.Y;
+
+            Elements.Add(new Label(Manager) {
+                rectangle = new Rectangle(screenWidth / 2 - 250, screenHeight / 6 - 50, 500, 100),
+                text = "Login",
+                scale = 0.8f,
+                fontColor = Color.White,
+                mainColor = Color.Transparent,
+                fontName = "font2"
+            });
+
+            // TextBox-ы
+            {
+                TextBox loginTextBox = new TextBox(Manager)
+                {
+                    rectangle = new Rectangle(screenWidth / 2 - 125, screenHeight / 6 * 2 - 20, 250, 40),
+                    text = "NickName",
+                    scale = 0.16f,
+                    fontColor = Color.Gray,
+                    fontName = "font2",
+                    textAligment = TextAligment.Left
+                };
+                loginTextBox.TextChanged += input => {
+                    if (loginTextBox.fontColor == Color.Gray)
+                    {
+                        loginTextBox.text = ""; loginTextBox.fontColor = Color.Black;
+                    }
+                };
+
+                TextBox passwordTextBox = new TextBox(Manager)
+                {
+                    rectangle = new Rectangle(screenWidth / 2 - 125, screenHeight / 6 * 3 - 40, 250, 40),
+                    text = "Password",
+                    scale = 0.16f,
+                    fontColor = Color.Gray,
+                    fontName = "font2",
+                    textAligment = TextAligment.Left
+                };
+                passwordTextBox.TextChanged += input => {
+                    if (passwordTextBox.fontColor == Color.Gray)
+                    {
+                        passwordTextBox.text = ""; passwordTextBox.fontColor = Color.Black;
+                    }
+                };
+            }
+
+            // Кнопки
+            {
+                Button logButton = new Button(Manager) {
+                    rectangle = new Rectangle(screenWidth / 4 + 50, screenHeight / 6 * 4, 100, 50),
+                    text = "LogIn",
+                    scale = 0.2f,
+                    fontColor = Color.Black,
+                    fontName = "font2"
+                };
+                logButton.LeftButtonPressed += () => {
+                    AppManager.Instance.ChangeGameState(GameState.Lobby); 
+                };
+
+                Button regButton = new Button(Manager)
+                {
+                    rectangle = new Rectangle(screenWidth / 4 * 2 + 50, screenHeight / 6 * 4, 100, 50),
+                    text = "Reg",
+                    scale = 0.2f,
+                    fontColor = Color.Black,
+                    fontName = "font2"
+                };
+                regButton.LeftButtonPressed += GoToRegWebServer;
+
+                Button backButton = new Button(Manager)
+                {
+                    rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, 50, 50),
+                    text = "<-",
+                    scale = 0.3f,
+                    fontColor = Color.Black,
+                    fontName = "font2"
+                };
+                backButton.LeftButtonPressed += () => {
+                    AppManager.Instance.ChangeGameState(GameState.Menu);
+                };
+            }
+        }
+
+        private void GoToRegWebServer()
+        {
+            // TODO
+        }
+    }
+}

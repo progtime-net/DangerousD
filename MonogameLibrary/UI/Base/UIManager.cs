@@ -16,16 +16,10 @@ namespace MonogameLibrary.UI.Base
         Dictionary<int, List<DrawableUIElement>> layerCollection = new();
         public GraphicsDevice GraphicsDevice { get; private set; }
         public SpriteFont BaseFont { get; private set; }
-        public void Initialize(string font, GraphicsDevice graphicsDevice)
+        public void Initialize(GraphicsDevice graphicsDevice)
         {
             GraphicsDevice = graphicsDevice;
-            try
-            {
-                //BaseFont = _content.Load<SpriteFont>(font);
-            }
-            catch
-            {
-            }
+            
             for (int i = -10; i < 11; i++)
             {
                 layerCollection.Add(i, new List<DrawableUIElement>());
@@ -35,8 +29,16 @@ namespace MonogameLibrary.UI.Base
         static MouseState mouseState, prevmouseState;
         static KeyboardState keyboardState;
 
-        public void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager content, string font)
         {
+            
+            try
+            {
+                BaseFont = content.Load<SpriteFont>(font);
+            }
+            catch
+            {
+            }
             foreach (var collection in layerCollection)
             {
                 foreach (var item in collection.Value)

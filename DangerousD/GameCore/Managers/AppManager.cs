@@ -10,16 +10,19 @@ using DangerousD.GameCore.Graphics;
 
 namespace DangerousD.GameCore
 {
-    public enum GameState { Menu, Options, Lobby, Game }
+    public enum GameState { Menu, Options, Lobby, Game, Login }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set;  }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        public Point resolution;
         GameState gameState;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
+        IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
+
         public GameManager GameManager { get; private set; }
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public AppManager()
@@ -30,22 +33,26 @@ namespace DangerousD.GameCore
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
+            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             GameManager = new GameManager();
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
+            LoginGUI = new LoginGUI();
         }
 
         protected override void Initialize()
         {
-            MenuGUI.Initialize(GraphicsDevice);
             AnimationBuilder.LoadAnimations();
+            MenuGUI.Initialize(GraphicsDevice);
+            LoginGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent() 
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
+            LoginGUI.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -60,6 +67,9 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Options:
                     OptionsGUI.Update(gameTime);
+                    break;
+                case GameState.Login:
+                    LoginGUI.Update(gameTime);
                     break;
                 case GameState.Lobby:
                     LobbyGUI.Update(gameTime);
@@ -86,6 +96,9 @@ namespace DangerousD.GameCore
                 case GameState.Options:
                     OptionsGUI.Draw(_spriteBatch);
                     break;
+                case GameState.Login:
+                    LoginGUI.Draw(_spriteBatch);
+                    break;
                 case GameState.Lobby:
                     LobbyGUI.Draw(_spriteBatch);
                     break;
@@ -109,6 +122,8 @@ namespace DangerousD.GameCore
                 case GameState.Menu:
                     break;
                 case GameState.Options:
+                    break;
+                case GameState.Login:
                     break;
                 case GameState.Lobby:
                     break;
