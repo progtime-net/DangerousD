@@ -12,6 +12,12 @@ namespace DangerousD.GameCore.GUI
 {
     class LoginGUI : AbstractGui
     {
+        private string username;
+        private string password;
+
+        public string Username { get => username; }
+        public string Password { get => password; }
+
         protected override void CreateUI()
         {
             int screenWidth = AppManager.Instance.resolution.X;
@@ -43,6 +49,13 @@ namespace DangerousD.GameCore.GUI
                         loginTextBox.text = ""; loginTextBox.fontColor = Color.Black;
                     }
                 };
+                loginTextBox.StopChanging += input => {
+                    if (input.Length == 0)
+                    {
+                        loginTextBox.text = "NickName";
+                        loginTextBox.fontColor = Color.Gray;
+                    }
+                };
 
                 TextBox passwordTextBox = new TextBox(Manager)
                 {
@@ -59,6 +72,13 @@ namespace DangerousD.GameCore.GUI
                         passwordTextBox.text = ""; passwordTextBox.fontColor = Color.Black;
                     }
                 };
+                passwordTextBox.StopChanging += input => {
+                    if (input.Length == 0)
+                    {
+                        passwordTextBox.text = "Password";
+                        passwordTextBox.fontColor = Color.Gray;
+                    }
+                };
             }
 
             // Кнопки
@@ -71,7 +91,10 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 logButton.LeftButtonPressed += () => {
-                    AppManager.Instance.ChangeGameState(GameState.Lobby); 
+                    if (CheckUser())
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Lobby);
+                    }
                 };
 
                 Button regButton = new Button(Manager)
@@ -101,6 +124,10 @@ namespace DangerousD.GameCore.GUI
         private void GoToRegWebServer()
         {
             // TODO
+        }
+        private bool CheckUser()
+        {
+            return true;
         }
     }
 }
