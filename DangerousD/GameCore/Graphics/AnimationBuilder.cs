@@ -8,10 +8,10 @@ namespace DangerousD.GameCore.Graphics
 {
     public class AnimationBuilder
     {
-        public List<AnimationContainer> animations;
+        public List<AnimationContainer> Animations { get; private set; }
         void LoadAnimations(string nameOfMainFile)
         {
-            animations = new List<AnimationContainer>();
+            Animations = new List<AnimationContainer>();
             List<string> animationFilesNames = new List<string>();
             StreamReader reader = new StreamReader(nameOfMainFile);
             while (reader.Peek() != -1)
@@ -24,7 +24,7 @@ namespace DangerousD.GameCore.Graphics
                 reader = new StreamReader(fileName);
                 string json = reader.ReadToEnd();
                 AnimationContainer animation = JsonConvert.DeserializeObject<AnimationContainer>(json);
-                animations.Add(animation);
+                Animations.Add(animation);
             }
         }
     }

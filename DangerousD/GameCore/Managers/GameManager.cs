@@ -9,14 +9,23 @@ using System.Text;
 
 namespace DangerousD.GameCore
 {
-    static class GameManager
+    public class GameManager
     {
-        static List<LivingEntity> livingEntities;
-        static List<Entity> entities;
-        static List<MapObject> mapObjects;
-        public static AnimationBuilder builder;
-        public static MapManager mapManager;
-        internal static void Register(GameObject gameObject)
+        List<LivingEntity> livingEntities;
+        List<Entity> entities;
+        List<MapObject> mapObjects;
+        public MapManager mapManager;
+
+        public GameManager()
+        {
+            livingEntities = new List<LivingEntity>();
+            mapObjects = new List<MapObject>();
+            entities = new List<Entity>();
+            mapManager = new MapManager();
+            mapManager.Init();
+        }
+
+        internal void Register(GameObject gameObject)
         {
             if (gameObject is LivingEntity)
                 livingEntities.Add(gameObject as LivingEntity);
@@ -25,16 +34,8 @@ namespace DangerousD.GameCore
             if (gameObject is MapObject)
                 mapObjects.Add(gameObject as MapObject);
         }
-        public static void Init()
-        {
-            livingEntities = new List<LivingEntity>();
-            mapObjects = new List<MapObject>();
-            entities = new List<Entity>();
-            mapManager =new MapManager();
-            mapManager.Init();
-        }
 
-        public static void Draw(SpriteBatch _spriteBatch)
+        public void Draw(SpriteBatch _spriteBatch)
         {
             foreach (var item in mapObjects)
                 item.Draw(_spriteBatch);
@@ -43,7 +44,8 @@ namespace DangerousD.GameCore
             foreach (var item in livingEntities)
                 item.Draw(_spriteBatch);
         }
-        public static void Update(GameTime gameTime)
+
+        public void Update(GameTime gameTime)
         {
             foreach (var item in mapObjects)
                 item.Update(gameTime);
@@ -51,8 +53,6 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
             foreach (var item in livingEntities)
                 item.Update(gameTime);
-
-
         }
     }
 }

@@ -7,7 +7,7 @@ namespace DangerousD.GameCore.GUI
     interface IDrawableObject
     {
         void Initialize(GraphicsDevice graphicsDevice);
-        void LoadContent(ContentManager content);
+        void LoadContent();
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }

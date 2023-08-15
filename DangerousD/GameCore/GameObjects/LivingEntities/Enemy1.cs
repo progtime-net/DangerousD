@@ -12,20 +12,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
     public class Enemy1 : LivingEntity
     {
+
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "IDLE", "WALK" }, "IDLE");
+
         public Enemy1(Vector2 position) : base(position)
         {
         }
 
-        public override void Initialize(GraphicsDevice graphicsDevice)
-        {
-            graphicsComponent = new GraphicsComponent(new List<string>() { "IDLE", "WALK" }, "IDLE");
-        }
-         
-
         public override void Update(GameTime gameTime)
         {
-            if (graphicsComponent.GetCurrentAnimation!="WALK")
-                graphicsComponent.StartAnimation("WALK");
+            if (GraphicsComponent.GetCurrentAnimation!="WALK")
+                GraphicsComponent.StartAnimation("WALK");
 
             base.Update(gameTime);
         }

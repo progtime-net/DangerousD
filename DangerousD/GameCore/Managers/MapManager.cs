@@ -20,7 +20,6 @@ namespace DangerousD.GameCore.Managers
         public void InitLevel()
         {
             var Трава = new GrassBlock(new Vector2(0,128));
-            Трава.LoadContent(GraphicsComponent.contentManager);
         }
     }
     public class MapManager

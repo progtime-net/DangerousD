@@ -15,33 +15,39 @@ namespace DangerousD.GameCore
         public int Width { get; protected set; }
         public int Height { get; protected set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
-        protected GraphicsComponent graphicsComponent;
+        protected abstract GraphicsComponent GraphicsComponent { get; }
 
         public GameObject(Vector2 pos)
         {
             Pos = pos;
-            Width = 128;
-            Height = 128;
+            Width = 500;
+            Height = 101;
             //Animator = new GraphicsComponent(new() { "playerIdle" });
-            GameManager.Register(this);
+            LoadContent();
+            AppManager.Instance.GameManager.Register(this);
         }
 
         public virtual void OnCollision()
         {
         }
 
-        public abstract void Initialize(GraphicsDevice graphicsDevice);
-
-        public virtual void LoadContent(ContentManager content)
+        public virtual void Initialize(GraphicsDevice graphicsDevice)
         {
-            graphicsComponent.LoadContent();
         }
 
-        public virtual void Update(GameTime gameTime) { graphicsComponent.Update(); }
+        public void LoadContent()
+        {
+            GraphicsComponent.LoadContent();
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            GraphicsComponent.Update();
+        }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            graphicsComponent.DrawAnimation(Rectangle, spriteBatch);
+            GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
         }
     }
 }

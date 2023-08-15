@@ -13,9 +13,7 @@ internal class MenuGUI : AbstractGui
         Elements.Add(but);
         but.LeftButtonPressed += () =>
         {
-            AppManager.AppManagerInstance.ChangeGameState(GameState.Game);
-
-            GameManager.mapManager.LoadLevel("");
+            AppManager.Instance.ChangeGameState(GameState.Game);
         };
     }
 }

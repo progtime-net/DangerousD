@@ -13,37 +13,38 @@ namespace DangerousD.GameCore
     public enum GameState { Menu, Options, Lobby, Game }
     public class AppManager : Game
     {
-        public static AppManager AppManagerInstance { get; private set; }
+        public static AppManager Instance { get; private set;  }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         GameState gameState;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LobbyGUI;
+        public GameManager GameManager { get; private set; }
+        public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public AppManager()
         {
-            AppManagerInstance = this;
+            Instance = this;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
+            GameManager = new GameManager();
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
         }
 
         protected override void Initialize()
         {
-            GameManager.Init();
             MenuGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            GraphicsComponent.LoadGraphicsComponent(Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            MenuGUI.LoadContent(Content);
+            MenuGUI.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -102,6 +103,20 @@ namespace DangerousD.GameCore
         public void ChangeGameState(GameState gameState)
         {
             this.gameState = gameState;
+            switch (this.gameState)
+            {
+                case GameState.Menu:
+                    break;
+                case GameState.Options:
+                    break;
+                case GameState.Lobby:
+                    break;
+                case GameState.Game:
+                    GameManager.mapManager.LoadLevel("");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
     }

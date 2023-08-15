@@ -23,9 +23,9 @@ public abstract class AbstractGui : IDrawableObject
         CreateUI();
     }
 
-    public virtual void LoadContent(ContentManager content)
+    public virtual void LoadContent()
     {
-        Manager.LoadContent(content);
+        Manager.LoadContent(AppManager.Instance.Content);
     }
 
     public virtual void Update(GameTime gameTime)
