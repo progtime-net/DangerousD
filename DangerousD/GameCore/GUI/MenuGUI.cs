@@ -20,7 +20,7 @@ internal class MenuGUI : AbstractGui
         Elements.Add(butMulti);
         butMulti.LeftButtonPressed += () =>
         {
-            // открытие мультиплеера 
+            AppManager.Instance.ChangeGameState(GameState.Login); 
         };
         var butOption = new Button(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 250, 300, 50), text = "Option", fontName = "File" };
         Elements.Add(butOption);
