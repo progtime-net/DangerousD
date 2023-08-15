@@ -16,9 +16,10 @@ namespace DangerousD.GameCore
         public static AppManager Instance { get; private set;  }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        public Point resolution;
         GameState gameState;
         IDrawableObject MenuGUI;
-        IDrawableObject OptionsGUI;
+        IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
         public GameManager GameManager { get; private set; }
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
@@ -30,6 +31,7 @@ namespace DangerousD.GameCore
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
+            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             GameManager = new GameManager();
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
