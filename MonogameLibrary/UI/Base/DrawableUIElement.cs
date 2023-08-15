@@ -30,7 +30,7 @@ namespace MonogameLibrary.UI.Base
             if (textureName == "")
             {
                 texture = new Texture2D(Manager.GraphicsDevice, 1, 1);
-                texture.SetData<Color>(new Color[] { Color.White });
+                texture.SetData<Color>(new Color[] { mainColor });
             }
             else
             {
@@ -41,7 +41,7 @@ namespace MonogameLibrary.UI.Base
                 catch
                 {
                     texture = new Texture2D(Manager.GraphicsDevice, 1, 1);
-                    texture.SetData<Color>(new Color[] { Color.White });
+                    texture.SetData<Color>(new Color[] { mainColor });
                 }
             }
         }

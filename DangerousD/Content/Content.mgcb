@@ -27,12 +27,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Font_25.spritefont
 
-#begin Font_30.spritefont
+#begin Font2.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Font_30.spritefont
+/build:Font2.spritefont
 
 #begin wall.jpg
 /importer:TextureImporter
