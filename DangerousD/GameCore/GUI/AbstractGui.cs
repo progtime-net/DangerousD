@@ -10,7 +10,7 @@ public abstract class AbstractGui : IDrawableObject
 {
     protected UIManager Manager = new();
     protected List<DrawableUIElement> Elements = new();
-
+    protected string font;
     public AbstractGui()
     {
     }
@@ -19,7 +19,7 @@ public abstract class AbstractGui : IDrawableObject
 
     public virtual void Initialize(GraphicsDevice graphicsDevice)
     {
-        Manager.Initialize("", graphicsDevice);
+        Manager.Initialize(font, graphicsDevice);
         CreateUI();
     }
 

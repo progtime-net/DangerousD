@@ -1,4 +1,5 @@
 ﻿using DangerousD.GameCore.GameObjects;
+using DangerousD.GameCore.GameObjects.LivingEntities;
 using DangerousD.GameCore.Graphics;
 using DangerousD.GameCore.Managers;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,8 @@ namespace DangerousD.GameCore
         List<LivingEntity> livingEntities;
         List<Entity> entities;
         List<MapObject> mapObjects;
-        public MapManager mapManager;
-
+        public MapManager mapManager; 
+        public Player Player { get; set; }
         public GameManager()
         {
             livingEntities = new List<LivingEntity>();

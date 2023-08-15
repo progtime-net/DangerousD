@@ -6,6 +6,7 @@ using DangerousD.GameCore.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using DangerousD.GameCore.GameObjects.LivingEntities;
 
 namespace DangerousD.GameCore
 {
@@ -16,7 +17,6 @@ namespace DangerousD.GameCore
         public int Height { get; protected set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
         protected abstract GraphicsComponent GraphicsComponent { get; }
-
         public GameObject(Vector2 pos)
         {
             Pos = pos;

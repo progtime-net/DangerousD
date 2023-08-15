@@ -35,6 +35,9 @@ namespace DangerousD.GameCore.Graphics
             lastInterval = 1;
 
             LoadAnimations(animationsId, neitralAnimationId);
+            currentAnimation = neitralAnimation;
+            SetInterval();
+            buildSourceRectangle();
         }
 
         public GraphicsComponent(string textureName)

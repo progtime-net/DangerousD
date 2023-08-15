@@ -21,6 +21,7 @@ namespace AnimationsFileCreator
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.ShowDialog();
                 textureName = dialog.FileName.Split('\\').Last();
+                textureName = textureName.Split('.')[0];
             }
             Console.WriteLine("Введите количество кадров анимации: ");
             int framesCount = int.Parse(Console.ReadLine());

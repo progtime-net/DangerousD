@@ -9,16 +9,12 @@ namespace DangerousD.GameCore.Graphics
     public class AnimationBuilder
     {
         public List<AnimationContainer> Animations { get; private set; }
-        void LoadAnimations(string nameOfMainFile)
+        public void LoadAnimations()
         {
             Animations = new List<AnimationContainer>();
-            List<string> animationFilesNames = new List<string>();
-            StreamReader reader = new StreamReader(nameOfMainFile);
-            while (reader.Peek() != -1)
-            {
-                animationFilesNames.Add(reader.ReadLine());
-            }
-            reader.Close();
+            string[] animationFilesNames = Directory.GetFiles("../../../Content/animations");
+
+            StreamReader reader;
             foreach (var fileName in animationFilesNames)
             {
                 reader = new StreamReader(fileName);
