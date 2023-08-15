@@ -129,6 +129,7 @@ namespace DangerousD.GameCore.Graphics
 
         public void DrawAnimation(Rectangle destinationRectangle, SpriteBatch _spriteBatch)
         {
+            
             _spriteBatch.Draw(textures[texturesNames.FindIndex(x => x == currentAnimation.TextureName)],
                 destinationRectangle, sourceRectangle, Color.White);
         }

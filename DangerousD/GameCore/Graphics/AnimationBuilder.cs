@@ -21,7 +21,9 @@ namespace DangerousD.GameCore.Graphics
                 string json = reader.ReadToEnd();
                 AnimationContainer animation = JsonConvert.DeserializeObject<AnimationContainer>(json);
                 Animations.Add(animation);
+                reader.Close();
             }
+            
         }
     }
 }

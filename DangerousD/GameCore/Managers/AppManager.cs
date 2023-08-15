@@ -103,7 +103,7 @@ namespace DangerousD.GameCore
                     LobbyGUI.Draw(_spriteBatch);
                     break;
                 case GameState.Game:
-                    _spriteBatch.Begin();
+                    _spriteBatch.Begin(SpriteSortMode.Deferred,null,SamplerState.PointClamp);
                     GameManager.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;

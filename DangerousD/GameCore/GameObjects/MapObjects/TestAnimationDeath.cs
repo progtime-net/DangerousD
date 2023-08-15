@@ -15,8 +15,8 @@ namespace DangerousD.GameCore.GameObjects.MapObjects
 
         public TestAnimationDeath(Vector2 position) : base(position)
         {
-            Width = 64;
-            Height = 64;
+            Width =512;
+            Height = 512;
 
             GraphicsComponent.StartAnimation("deathbear");
 
