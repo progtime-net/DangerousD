@@ -18,9 +18,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Width = 72;
             Height = 120;
             monster_speed = 100;
+            GraphicsComponent.StartAnimation("ZombieLeftAttack");
             name = "Zombie";
         }
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
         public override void Update(GameTime gameTime)
         {

@@ -12,7 +12,8 @@ namespace DangerousD.GameCore
 {
     public abstract class GameObject : IDrawableObject
     {
-        public Vector2 Pos { get; protected set; }
+        private Vector2 _pos;
+        public Vector2 Pos => _pos;
         public int Width { get; protected set; }
         public int Height { get; protected set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
@@ -21,7 +22,7 @@ namespace DangerousD.GameCore
         protected abstract GraphicsComponent GraphicsComponent { get; }
         public GameObject(Vector2 pos)
         {
-            Pos = pos;
+            _pos = pos;
             Width = 500;
             Height = 101;
             //Animator = new GraphicsComponent(new() { "playerIdle" });
