@@ -8,7 +8,7 @@ namespace DangerousD.GameCore.Levels
     {
         public void InitLevel()
         {
-            new Player();
+            //new Player();
             var Трава = new GrassBlock(new Vector2(0, 128));
             var Death = new TestAnimationDeath(new Vector2(128, 128));
             
