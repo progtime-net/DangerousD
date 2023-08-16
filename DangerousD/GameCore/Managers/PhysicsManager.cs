@@ -144,11 +144,30 @@ namespace DangerousD.GameCore.Managers
             {
                 rectangle.X = (int)(entity2.Pos.X + (i / length) * distance.X);
                 rectangle.Y = (int)(entity2.Pos.Y + (i / length) * distance.Y);
+            }
+          
+            for (int i = 0; i < AppManager.Instance.GameManager.entities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.entities[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.entities[i];
+                }
+            }
+            for (int i = 0; i < AppManager.Instance.GameManager.mapObjects.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.mapObjects[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.mapObjects[i];
+                }
+            }
 
-                //if (rectangle.Intersects(GameManager.Rectangle))
-                //{
-                //    return game
-                //}
+           
+        for (int i = 0; i < AppManager.Instance.GameManager.livingEntities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.livingEntities[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.livingEntities[i];
+                }
             }
             return gameObject;
         }
@@ -156,23 +175,35 @@ namespace DangerousD.GameCore.Managers
         {
             Rectangle rectangle;
             Vector2 direction = entity1.Pos - targetCast;
-            rectangle = new Rectangle((int)entity1.Pos.X, (int)entity1.Pos.Y, 1, 1);
-            GameObject gameObject = null;
+            rectangle = new Rectangle((int)targetCast.X, (int)targetCast.Y, 1, 1);
             double k = direction.Length();
 
             for (int i = 0; i < k; i++)
             {
-                rectangle.X = (int)(entity1.Pos.X + (i / k) * direction.X);
-                rectangle.Y = (int)(entity1.Pos.Y + (i / k) * direction.X);
-                if (gameObject != null)
+                rectangle.X = (int)(targetCast.X + (i / k) * direction.X);
+                rectangle.Y = (int)(targetCast.Y + (i / k) * direction.X);
+            }         
+            for (int i = 0; i < AppManager.Instance.GameManager.entities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.entities[i].Rectangle.Intersects(rectangle))
                 {
-                    break;
-                    return gameObject;
+                    return AppManager.Instance.GameManager.entities[i];
                 }
-
             }
-
-
+            for (int i = 0; i < AppManager.Instance.GameManager.mapObjects.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.mapObjects[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.mapObjects[i];
+                }
+            }
+            for (int i = 0; i < AppManager.Instance.GameManager.livingEntities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.livingEntities[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.livingEntities[i];
+                }
+            }
             return null;
         }
     }
