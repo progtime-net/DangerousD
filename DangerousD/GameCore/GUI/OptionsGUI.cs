@@ -21,7 +21,7 @@ namespace DangerousD.GameCore.GUI
             lblOptions.fontName = "font2";
             lblOptions.text = "Options";
             lblOptions.rectangle = new Rectangle(300, 20, 210, 50);
-            
+            lblOptions.mainColor = Color.Transparent;
         }
     } 
 }

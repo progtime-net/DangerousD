@@ -22,7 +22,7 @@ namespace MonogameLibrary.UI.Elements
         {
         }
         
-        public bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
+        public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
             if (rectangle.Intersects(new Rectangle(mouseState.Position, Point.Zero)))
             {
@@ -61,11 +61,19 @@ namespace MonogameLibrary.UI.Elements
         public override void Draw(SpriteBatch _spriteBatch)
         {
             if (hoverState == HoverState.None)
+            {
                 _spriteBatch.Draw(texture, rectangle, Color.White);
+            }
             else if (hoverState == HoverState.Hovering)
-                _spriteBatch.Draw(texture, rectangle, new Color(211,211,211));
+            {
+                _spriteBatch.Draw(texture, rectangle, new Color(211, 211, 211));
+            }
+
             else
+            {
                 _spriteBatch.Draw(texture, rectangle, new Color(112, 128, 144));
+            }
+
             DrawText(_spriteBatch);
         }
     }

@@ -35,10 +35,15 @@ namespace DangerousD.GameCore
 
             resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             GameManager = new GameManager();
+
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
+
             OptionsGUI = new OptionsGUI();
+
+            LobbyGUI = new LobbyGUI();
+
         }
 
         protected override void Initialize()
@@ -46,7 +51,10 @@ namespace DangerousD.GameCore
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize(GraphicsDevice);
             LoginGUI.Initialize(GraphicsDevice);
+
             OptionsGUI.Initialize(GraphicsDevice);
+
+            LobbyGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
@@ -55,7 +63,11 @@ namespace DangerousD.GameCore
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
+
             OptionsGUI.LoadContent();
+
+            LobbyGUI.LoadContent();
+
         }
 
         protected override void Update(GameTime gameTime)
