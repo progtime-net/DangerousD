@@ -16,9 +16,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 62;
             Height = 40;
+            monster_speed = 3;
+            name = "Skull";
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FlameSkullMoveRight" }, "FlameSkullMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FlameSkullMoveRight" , "FlameSkullMoveLeft"}, "FlameSkullMoveRight");
 
         public override void Attack()
         {

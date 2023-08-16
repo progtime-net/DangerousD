@@ -1,5 +1,7 @@
 ﻿using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
-    public class Ghost : CoreEnemy
+    public class FrankBalls : CoreEnemy
     {
-        public Ghost(Vector2 position) : base(position)
+        public FrankBalls(Vector2 position) : base(position)
         {
+            name = "FrankBalls";
+            Width = 40;
+            Height = 40;
             monster_speed = 1;
-            name = "Ghost";
-            Width = 48;
-            Height = 62;
+            acceleration = Vector2.Zero;
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "GhostMoveRight", "GhostMoveLeft", "GhostSpawn", "GhostAttack" }, "GhostMoveRight");
-
+        protected override GraphicsComponent GraphicsComponent { get; } = new (new List<string> { "BallMoveRight" }, "BallMoveRight");
 
         public override void Attack()
         {

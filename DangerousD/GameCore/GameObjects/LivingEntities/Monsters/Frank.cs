@@ -35,37 +35,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-           /* if (player.Pos.X - _pos.X <= 20 || player.Pos.X - _pos.X <= -20)
+            var player = AppManager.Instance.GameManager.players[0];
+            if (player.Pos.X - _pos.X <= 20 || player.Pos.X - _pos.X <= -20)
             {
                 player.Death(name);
-            } */
+            } 
            
-            if (_pos.X <= 1)
-            {
-                isGoRight = true;
+            if (isGoRight)
+            {  
                 if (GraphicsComponent.GetCurrentAnimation != "FrankMoveRight")
                 {
                     GraphicsComponent.StartAnimation("FrankMoveRight");
-                    velocity = new Vector2(monster_speed, 0);
                 }
-            }
-            else if (_pos.X >= 500)
-            {
-                isGoRight = false;
-                if (GraphicsComponent.GetCurrentAnimation != "FrankMoveLeft")
-                {
-                    GraphicsComponent.StartAnimation("FrankMoveLeft");
-                    velocity = new Vector2(-monster_speed, 0);
-                }
-            }
-
-            if (isGoRight)
-            {
-                _pos.X += monster_speed;
+                velocity.X = monster_speed;
             }
             else
             {
-                _pos.X -= monster_speed;
+                if (GraphicsComponent.GetCurrentAnimation != "FrankMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("FrankMoveLeft");
+                }
+                velocity.X = -monster_speed;
             }
         }
     }
