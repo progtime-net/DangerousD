@@ -13,7 +13,8 @@ namespace DangerousD.GameCore
         public Dictionary<string, SoundEffectInstance> Sounds = new Dictionary<string, SoundEffectInstance>(); // словарь со звуками где строка - название файла
         public List<Sound> PlayingSounds = new List<Sound>(); // список со всеми звуками, которые проигрываются
         public string SoundDirectory = "Sounds"; // папка со звуками там где exe
-        public float MaxSoundDistance = 1500; // максимальная дальность звука
+        public float MaxSoundDistance = 1500f; // максимальная дальность звука
+        public float MasterVolume = 1f; // общая громкость
 
         public void LoadSounds(ContentManager content) // метод для загрузки звуков из папки
         {
@@ -27,9 +28,9 @@ namespace DangerousD.GameCore
         public void StartSound(string soundName, bool isMusic) // запустить звук у которого нет позиции
         {
             var sound = new Sound(Sounds[soundName]);
-            sound.SoundEffect.IsLooped = false;
             if (isMusic)
                 sound.SoundEffect.IsLooped = true;
+            sound.SoundEffect.Volume = MasterVolume;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
         }
@@ -38,7 +39,7 @@ namespace DangerousD.GameCore
         {
             var sound = new Sound(Sounds[soundName], soundPos);
             sound.SoundEffect.IsLooped = false;
-            sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
+            sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance * MasterVolume;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
         }//GameManager.SendSound
@@ -54,7 +55,7 @@ namespace DangerousD.GameCore
             foreach (var sound in PlayingSounds)
             {
                 if (!sound.isAmbient)
-                    sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
+                    sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance * MasterVolume;
                 if (sound.SoundEffect.State == SoundState.Stopped)
                     PlayingSounds.Remove(sound);
             }
