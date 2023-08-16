@@ -10,15 +10,20 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
     public class Player : LivingEntity
     {
-        public Player(Vector2 position): base(position)
+        public Player(Vector2 position) : base(position)
         {
-
         }
+
         protected override GraphicsComponent GraphicsComponent => throw new NotImplementedException();
 
         public void Kill()
         {
 
+        }
+
+        public void Death(string monsterName)
+        {
+            //анимация по имени монстра
         }
     }
 }

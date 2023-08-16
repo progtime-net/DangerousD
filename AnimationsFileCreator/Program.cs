@@ -40,6 +40,7 @@ namespace AnimationsFileCreator
             string id = Console.ReadLine();
             Console.WriteLine("Введите 1 если анимация зациклена, и 0 если нет");
             AnimationContainer container = new AnimationContainer();
+            
             int a = int.Parse(Console.ReadLine());
             if (a==1)
             {
@@ -49,6 +50,10 @@ namespace AnimationsFileCreator
             {
                 container.IsCycle = false;
             }
+            Console.WriteLine("Введите отклонение анимации от стандартной (сначала X, потом enter, потом Y): ");
+            int otklx = int.Parse(Console.ReadLine());
+            int otkly = int.Parse(Console.ReadLine());
+            container.Offset =new Vector2(otklx,otkly);
             container.FramesCount = framesCount;
             container.FrameTime = new System.Collections.Generic.List<Tuple<int, int>>();
             container.FrameTime.Add(new Tuple<int, int>(0, interval));

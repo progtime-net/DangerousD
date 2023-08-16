@@ -110,7 +110,7 @@ namespace DangerousD.GameCore.Graphics
             if (interval == 0)
             {
                 currentFrame++;
-                if (currentAnimation.FramesCount - 1 <= currentFrame)
+                if (currentAnimation.FramesCount <= currentFrame)
                 {
                     if (!currentAnimation.IsCycle)
                     {
@@ -129,8 +129,24 @@ namespace DangerousD.GameCore.Graphics
 
         public void DrawAnimation(Rectangle destinationRectangle, SpriteBatch _spriteBatch)
         {
+            Texture2D texture = textures[texturesNames.FindIndex(x => x == currentAnimation.TextureName)];
+            float scale;
+            if (currentAnimation.Offset.X!=0)
+            {
+                destinationRectangle.X -= (int)currentAnimation.Offset.X;
+                scale=destinationRectangle.Height/sourceRectangle.Height;
+                destinationRectangle.Width = (int)(sourceRectangle.Width * scale);
+                
+            }
+            else if (currentAnimation.Offset.Y != 0)
+            {
+                destinationRectangle.Y -= (int)currentAnimation.Offset.Y;
+                scale = destinationRectangle.Width / sourceRectangle.Width;
+                destinationRectangle.Height = (int)(sourceRectangle.Height * scale);
+            }
+           
             
-            _spriteBatch.Draw(textures[texturesNames.FindIndex(x => x == currentAnimation.TextureName)],
+            _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }
 
