@@ -30,7 +30,7 @@ namespace DangerousD.GameCore
             AppManager.Instance.GameManager.Register(this);
         }
 
-        public virtual void OnCollision()
+        public virtual void OnCollision(GameObject gameObject)
         {
         }
 

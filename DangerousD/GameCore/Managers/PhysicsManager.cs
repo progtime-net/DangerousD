@@ -108,8 +108,8 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (livingEntities[j].Rectangle.Intersects(entities[i].Rectangle))
                     {
-                        livingEntities[j].OnCollision();
-                        entities[i].OnCollision();
+                        livingEntities[j].OnCollision(entities[i]);
+                        entities[i].OnCollision(livingEntities[j]);
                     }
                 }
             }
@@ -123,8 +123,8 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (livingEntities[i].Rectangle.Intersects(livingEntities[j].Rectangle))
                     {
-                        livingEntities[i].OnCollision();
-                        livingEntities[j].OnCollision();
+                        livingEntities[i].OnCollision(livingEntities[j]);
+                        livingEntities[j].OnCollision(livingEntities[i]);
                     }
                 }
             }
