@@ -22,7 +22,7 @@ namespace DangerousD.GameCore.GameObjects
             {
                 Vector2 dir = targetPosition - Pos;
                 dir.Normalize();
-                Pos += dir * speed;
+                _pos += dir * speed;
             }
             base.Update(gameTime);
         }

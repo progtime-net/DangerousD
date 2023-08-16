@@ -18,7 +18,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "HunchmanMoveLeft", "HunchmanMoveRight", "HunchmanAttackLeft", "HunchmanAttackRight" }, "HunchmanMoveRight");
 
-        public override void Attack()
+        public override void Attack(Player player)
         {
 
         }
@@ -28,7 +28,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Move(GameTime gameTime)
+        public override void Move(GameTime gameTime, Player player)
         {
 
         }

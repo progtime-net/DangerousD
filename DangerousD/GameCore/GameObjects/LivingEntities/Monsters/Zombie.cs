@@ -55,7 +55,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Move(GameTime gameTime)
+        public override void Move(GameTime gameTime, Player player)
         {
             if (isGoRight)
             {

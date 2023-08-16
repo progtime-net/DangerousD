@@ -28,12 +28,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             {
                 Death();
             }
+
+            Move(gameTime, AppManager.Instance.GameManager.Player);
+
             base.Update(gameTime);
         }
         public abstract void Death();
 
         public abstract void Attack(Player player);
 
-        public abstract void Move(GameTime gameTime);
+        public abstract void Move(GameTime gameTime, Player player);
     }
 }
