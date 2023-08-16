@@ -23,11 +23,13 @@ namespace DangerousD.GameCore
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
+        public Point inGameResolution;
 
         public GameManager GameManager { get; private set; } = new GameManager();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
         public InputManager InputManager { get; private set; } = new InputManager();
+        public SoundManager SoundManager { get; private set; } = new SoundManager();
         public AppManager()
         {
             Instance = this;
@@ -60,6 +62,8 @@ namespace DangerousD.GameCore
             LobbyGUI.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
+            SoundManager.LoadSounds();
+            SoundManager.StartAmbientSound("DoomTestSong");
         }
 
         protected override void Update(GameTime gameTime)
@@ -68,6 +72,7 @@ namespace DangerousD.GameCore
                 Exit();
 
             InputManager.Update();
+            SoundManager.Update();
             switch (gameState)
             {
                 case GameState.Menu:

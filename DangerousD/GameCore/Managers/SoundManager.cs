@@ -5,6 +5,9 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using System.Linq;
+using DangerousD.GameCore.Graphics;
+using Newtonsoft.Json;
 
 namespace DangerousD.GameCore
 {
@@ -12,23 +15,23 @@ namespace DangerousD.GameCore
     {
         public Dictionary<string, SoundEffectInstance> Sounds = new Dictionary<string, SoundEffectInstance>(); // словарь со звуками где строка - название файла
         public List<Sound> PlayingSounds = new List<Sound>(); // список со всеми звуками, которые проигрываются
-        public string SoundDirectory = "Sounds"; // папка со звуками там где exe
         public float MaxSoundDistance = 1500; // максимальная дальность звука
 
-        public void LoadSounds(ContentManager content) // метод для загрузки звуков из папки
+        public void LoadSounds() // метод для загрузки звуков из папки
         {
-            var soundFiles = Directory.GetFiles(SoundDirectory);
+            string[] soundFiles = Directory.GetFiles("../../../Content").Where(x=>x.EndsWith("mp3")).Select(x=>x.Split("\\").Last().Replace(".mp3", "")).ToArray();// папка со звуками там где exe 
             foreach (var soundFile in soundFiles)
             {
-                Sounds.Add(soundFile, content.Load<SoundEffectInstance>(soundFile));
+                Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>(soundFile).CreateInstance());
             }
+
         }
 
-        public void StartSound(string soundName) // запустить звук у которого нет позиции
+        public void StartAmbientSound(string soundName) // запустить звук у которого нет позиции
         {
             var sound = new Sound(Sounds[soundName]);
             sound.SoundEffect.IsLooped = false;
-            sound.SoundEffect.Play();
+           // sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
         }
 
@@ -47,14 +50,21 @@ namespace DangerousD.GameCore
             PlayingSounds.Clear();
         }
 
-        public void Update(Vector2 playerPos) // апдейт, тут происходит изменение громкости
+
+        public void Update() // апдейт, тут происходит изменение громкости
         {
-            foreach (var sound in PlayingSounds)
+
+            
+            var player = AppManager.Instance.GameManager.GetPlayer1;
+            if (player != null)
             {
-                if (!sound.isAmbient)
-                    sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
-                if (sound.SoundEffect.State == SoundState.Stopped)
-                    PlayingSounds.Remove(sound);
+                foreach (var sound in PlayingSounds)
+                {
+                    if (!sound.isAmbient)
+                        sound.SoundEffect.Volume = (float)sound.GetDistance(player.Pos) / MaxSoundDistance;
+                    if (sound.SoundEffect.State == SoundState.Stopped)
+                        PlayingSounds.Remove(sound);
+                }
             }
         }
     }
