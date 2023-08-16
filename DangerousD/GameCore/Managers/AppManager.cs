@@ -8,6 +8,7 @@ using DangerousD.GameCore.GUI;
 using Microsoft.Xna.Framework.Input;
 using DangerousD.GameCore.Graphics;
 using DangerousD.GameCore.Network;
+using MonogameLibrary.UI.Base;
 
 namespace DangerousD.GameCore
 {
@@ -17,7 +18,8 @@ namespace DangerousD.GameCore
         public static AppManager Instance { get; private set;  }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public Point resolution;
+        public Point resolution = new Point(1920, 1080);
+        public Point inGameResolution = new Point(800, 480);
         GameState gameState;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
@@ -27,6 +29,7 @@ namespace DangerousD.GameCore
         public GameManager GameManager { get; private set; } = new GameManager();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
+        private RenderTarget2D renderTarget;
         public AppManager()
         {
             Instance = this;
@@ -34,12 +37,16 @@ namespace DangerousD.GameCore
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
-
-            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight); 
+             
+            _graphics.PreferredBackBufferWidth = resolution.X;
+            _graphics.PreferredBackBufferHeight = resolution.Y;
+            _graphics.IsFullScreen = true;
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
             LobbyGUI = new LobbyGUI();
+            UIManager.resolution = resolution;
+            UIManager.resolutionInGame = inGameResolution;
         }
 
         protected override void Initialize()
@@ -59,6 +66,7 @@ namespace DangerousD.GameCore
             LobbyGUI.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
+            renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
         }
 
         protected override void Update(GameTime gameTime)
@@ -94,6 +102,7 @@ namespace DangerousD.GameCore
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            GraphicsDevice.SetRenderTarget(renderTarget);
             switch (gameState)
             {
                 case GameState.Menu:
@@ -116,6 +125,10 @@ namespace DangerousD.GameCore
                 default:
                     break;
             }
+            GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(renderTarget, new Rectangle(0,0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

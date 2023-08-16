@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using DangerousD.GameCore.Managers;
+using MonogameLibrary.UI.Base;
+using System.Diagnostics;
+
 namespace DangerousD.GameCore.GUI
 {
     class LobbyGUI : AbstractGui
@@ -17,8 +21,12 @@ namespace DangerousD.GameCore.GUI
         }
         protected override void CreateUI()
         {
-            int screenWidth = AppManager.Instance.resolution.X;
-            int screenHeight = AppManager.Instance.resolution.Y;
+            int screenWidth = AppManager.Instance.inGameResolution.X;
+            int screenHeight = AppManager.Instance.inGameResolution.Y;
+
+            var lobbyBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "menuFon3" };
+            Elements.Add(lobbyBackground);
+            lobbyBackground.LoadTexture(AppManager.Instance.Content);
 
             // CheckBoxs
             Elements.Add(new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
@@ -26,7 +34,7 @@ namespace DangerousD.GameCore.GUI
 
             // Buttons
             {
-                Button backButton = new Button(Manager)
+                Button backButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 30, screenHeight / 30, 60, 50),
                     text = "<-",
@@ -38,7 +46,7 @@ namespace DangerousD.GameCore.GUI
                     AppManager.Instance.ChangeGameState(GameState.Menu);
                 };
 
-                Button hostButton = new Button(Manager)
+                Button hostButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 30, screenHeight / 15 * 13, 120, 50),
                     text = "Host",
@@ -50,7 +58,7 @@ namespace DangerousD.GameCore.GUI
                     
                 };
 
-                Button refreshButton = new Button(Manager)
+                Button refreshButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 30 * 6, screenHeight / 15 * 13, 120, 50),
                     text = "Refresh",
@@ -62,7 +70,7 @@ namespace DangerousD.GameCore.GUI
                     
                 };
 
-                Button joinSelectedButton = new Button(Manager)
+                Button joinSelectedButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 30 * 25, screenHeight / 15 * 13, 120, 50),
                     text = "Join",
@@ -73,7 +81,7 @@ namespace DangerousD.GameCore.GUI
                 joinSelectedButton.LeftButtonPressed += () => {
 
                 };
-                Button joinByIpButton = new Button(Manager)
+                Button joinByIpButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 30 * 25, screenHeight / 30, 120, 50),
                     text = "JoinByIp",
