@@ -22,17 +22,18 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             //здесь я не понял
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime, Player player)
         {
             if (monster_health <= 0)
             {
                 Death();
+                isAlive = false;
             }
             base.Update(gameTime);
         }
         public abstract void Death();
 
-        public abstract void Attack(Player player);
+        public abstract void Attack();
 
         public abstract void Move(GameTime gameTime);
     }

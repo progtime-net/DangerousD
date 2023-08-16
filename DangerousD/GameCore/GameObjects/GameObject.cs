@@ -12,7 +12,7 @@ namespace DangerousD.GameCore
 {
     public abstract class GameObject : IDrawableObject
     {
-        private Vector2 _pos;
+        protected Vector2 _pos;
         public Vector2 Pos => _pos;
         public int Width { get; protected set; }
         public int Height { get; protected set; }
