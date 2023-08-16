@@ -24,18 +24,18 @@ namespace DangerousD.GameCore
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
 
-        public GameManager GameManager { get; private set; } = new GameManager();
+        public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
         public AppManager()
         {
+            Content.RootDirectory = "Content";
             Instance = this;
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight); 
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
-            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight); 
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
@@ -44,6 +44,7 @@ namespace DangerousD.GameCore
 
         protected override void Initialize()
         {
+            GameManager.Initialize();
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize();
             LoginGUI.Initialize();
@@ -134,7 +135,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("");
+                    GameManager.mapManager.LoadLevel("Level1");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

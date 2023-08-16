@@ -9,6 +9,4 @@ public class Tile : MapObject
     {
         IsColliderOn = false;
     }
-
-    protected override GraphicsComponent GraphicsComponent { get; }
 }

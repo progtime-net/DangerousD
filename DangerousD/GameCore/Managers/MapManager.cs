@@ -8,11 +8,15 @@ namespace DangerousD.GameCore.Managers
 {
     public class MapManager
     {
+        private int _columns;
+        
         //Level
         public void LoadLevel(string level)
         {
+            LoadTilesData();
+            
             XmlDocument xml = new();
-            xml.Load($"{level}.tmx");
+            xml.Load($"../../../Content/{level}.tmx");
             Vector2 tileSize = new(int.Parse(xml.DocumentElement.Attributes["tilewidth"].Value),
                 int.Parse(xml.DocumentElement.Attributes["tileheight"].Value));
             
@@ -28,19 +32,21 @@ namespace DangerousD.GameCore.Managers
         {
             string tileType = layer.Attributes["class"].Value;
             
-            foreach (XmlNode chunk in layer.ChildNodes)
+            foreach (XmlNode chunk in layer.SelectNodes("//chunk"))
             {
-                Vector2 chunkSize = new(int.Parse(chunk.Attributes["width"].Value),
-                    int.Parse(chunk.Attributes["height"].Value));
-                Vector2 chunkPos = new(int.Parse(chunk.Attributes["x"].Value), int.Parse(chunk.Attributes["y"].Value));
+                int chunkW = int.Parse(chunk.Attributes["width"].Value);
+                int chunkX = int.Parse(chunk.Attributes["x"].Value);
+                int chunkY = int.Parse(chunk.Attributes["y"].Value);
                 
                 
-                List<int> tiles = chunk.Value.Split(',').Select(int.Parse).ToList();
+                List<int> tiles = chunk.InnerText.Split(',').Select(int.Parse).ToList();
                 for (int i = 0; i < tiles.Count; i++)
                 {
-                    Vector2 pos = new((chunkPos.Y + i % chunkSize.X) * tileSize.Y,
-                        (chunkPos.Y + i / chunkSize.X) * tileSize.Y);
-                    Rectangle sourceRect = new(pos.ToPoint(), tileSize.ToPoint());
+                    if (tiles[i] == 0) continue;
+                    
+                    Vector2 pos = new((chunkX + i % chunkW) * tileSize.X,
+                        (chunkY + i / chunkW) * tileSize.Y);
+                    Rectangle sourceRect = new(new Point(tiles[i] % _columns, tiles[i] / _columns), tileSize.ToPoint());
 
                     switch (tileType)
                     {
@@ -55,6 +61,15 @@ namespace DangerousD.GameCore.Managers
                             break;
                     }}
             }
+        }
+
+        private void LoadTilesData()
+        {
+            XmlDocument xml = new();
+            xml.Load($"../../../Content/map.tsx");
+            XmlNode root = xml.DocumentElement;
+            
+            _columns = int.Parse(root.Attributes["columns"].Value);
         }
     }
 }

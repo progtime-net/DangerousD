@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 
 namespace DangerousD.GameCore
 {
@@ -28,6 +29,15 @@ namespace DangerousD.GameCore
             players = new List<Player>();
             mapManager = new MapManager();
             physicsManager = new PhysicsManager();
+        }
+
+        public void Initialize()
+        {
+            //mapManager.LoadLevel("Level1");
+        }
+
+        public void LoadContent()
+        {
         }
 
         internal void Register(GameObject gameObject)

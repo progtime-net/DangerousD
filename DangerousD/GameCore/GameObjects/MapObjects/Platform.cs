@@ -9,6 +9,4 @@ public class Platform : MapObject
     {
         IsColliderOn = true;
     }
-
-    protected override GraphicsComponent GraphicsComponent { get; }
 }

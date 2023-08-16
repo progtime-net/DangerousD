@@ -26,7 +26,6 @@
 /processorParam:TextureFormat=Color
 /build:animation1.png
 
-
 #begin ButtonFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -55,6 +54,17 @@
 /processorParam:TextureFormat=Compressed
 /build:Font2.spritefont
 
+#begin menuFon.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:menuFon.jpg
 
 #begin MonstersAnimations.png
 /importer:TextureImporter
@@ -68,18 +78,6 @@
 /processorParam:TextureFormat=Color
 /build:MonstersAnimations.png
 
-#begin menuFon.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:menuFon.jpg
-
 #begin PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -92,10 +90,17 @@
 /processorParam:TextureFormat=Color
 /build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 
-#begin sus.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:sus.tmx
+#begin tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiles.png
 
 #begin wall.jpg
 /importer:TextureImporter

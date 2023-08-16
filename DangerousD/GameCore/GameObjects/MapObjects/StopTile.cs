@@ -9,6 +9,4 @@ public class StopTile : MapObject
     {
         IsColliderOn = true;
     }
-
-    protected override GraphicsComponent GraphicsComponent { get; }
 }
