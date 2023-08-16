@@ -101,6 +101,7 @@ namespace DangerousD.GameCore
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            GraphicsDevice.SetRenderTarget(renderTarget);  
             switch (gameState)
             {
                 case GameState.Menu:
@@ -123,6 +124,7 @@ namespace DangerousD.GameCore
                 default:
                     break;
             }
+
 
             base.Draw(gameTime);
         }
