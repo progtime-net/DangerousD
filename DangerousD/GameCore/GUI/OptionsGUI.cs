@@ -14,14 +14,19 @@ namespace DangerousD.GameCore.GUI
             {
                 MinValue = 0,
                 MaxValue = 1,
-                rectangle = new Rectangle(650, 150, 100 ,40)
+                rectangle = new Rectangle(650, 150, 100, 40)
             };
 
             Label lblOptions = new Label(Manager, 0);
-            lblOptions.fontName = "font2";
+            lblOptions.fontName = "Font2";
             lblOptions.text = "Options";
             lblOptions.rectangle = new Rectangle(300, 20, 210, 50);
             lblOptions.mainColor = Color.Transparent;
+
+            Label lblValue = new Label(Manager);
+            lblValue.fontName = "Font2";
+            lblValue.text = "Value";
+            lblValue.rectangle = new Rectangle(400, 150, 250, 40);
         }
     } 
 }
