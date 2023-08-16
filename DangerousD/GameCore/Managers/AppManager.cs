@@ -7,6 +7,7 @@ using System.Text;
 using DangerousD.GameCore.GUI;
 using Microsoft.Xna.Framework.Input;
 using DangerousD.GameCore.Graphics;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore
 {
@@ -23,8 +24,9 @@ namespace DangerousD.GameCore
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
 
-        public GameManager GameManager { get; private set; }
+        public GameManager GameManager { get; private set; } = new GameManager();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
+        public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
         public AppManager()
         {
             Instance = this;
@@ -33,8 +35,7 @@ namespace DangerousD.GameCore
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
-            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            GameManager = new GameManager();
+            resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight); 
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();

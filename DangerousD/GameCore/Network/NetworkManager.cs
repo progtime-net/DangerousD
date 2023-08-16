@@ -4,12 +4,13 @@ using System.Text;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using Newtonsoft.Json;
 
 namespace DangerousD.GameCore.Network
 {
     public class NetworkManager
     {
-        public delegate void ReceivingHandler(string jsonMessage);
+        public delegate void ReceivingHandler(NetworkTask networkTask);
 
         public event ReceivingHandler GetReceivingMessages;
 
@@ -68,9 +69,9 @@ namespace DangerousD.GameCore.Network
             Thread ReceivingThread = new Thread(ReceiveMsgFromHost);
             ReceivingThread.Start();
         }
-        public void SendMsg(string jsonMessage)
-        {
-            byte[] Data = Encoding.Unicode.GetBytes(jsonMessage);
+        public void SendMsg(NetworkTask networkTask)
+        { 
+            byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
             if (state == "Host")
             {
@@ -111,7 +112,7 @@ namespace DangerousD.GameCore.Network
             }
             else
             {
-                GetReceivingMessages(so.sb.ToString());
+                GetReceivingMessages(JsonConvert.DeserializeObject<NetworkTask>(so.sb.ToString()));
             }
         }
     }
