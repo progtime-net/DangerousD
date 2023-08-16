@@ -31,7 +31,7 @@ namespace DangerousD.GameCore
         {
             var sound = new Sound(Sounds[soundName]);
             sound.SoundEffect.IsLooped = false;
-           // sound.SoundEffect.Play();
+            sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
         }
 
@@ -42,7 +42,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
-        }//GameManager.SendSound
+        } 
         public void StopAllSounds() // остановка всех звуков
         {
             foreach (var sound in PlayingSounds)
@@ -58,12 +58,12 @@ namespace DangerousD.GameCore
             var player = AppManager.Instance.GameManager.GetPlayer1;
             if (player != null)
             {
-                foreach (var sound in PlayingSounds)
-                {
-                    if (!sound.isAmbient)
-                        sound.SoundEffect.Volume = (float)sound.GetDistance(player.Pos) / MaxSoundDistance;
-                    if (sound.SoundEffect.State == SoundState.Stopped)
-                        PlayingSounds.Remove(sound);
+                for (int i = 0; i < PlayingSounds.Count; i++)
+                { 
+                    if (!PlayingSounds[i].isAmbient)
+                        PlayingSounds[i].SoundEffect.Volume = (float)PlayingSounds[i].GetDistance(player.Pos) / MaxSoundDistance;
+                    if (PlayingSounds[i].SoundEffect.State == SoundState.Stopped)
+                        PlayingSounds.Remove(PlayingSounds[i]);
                 }
             }
         }
