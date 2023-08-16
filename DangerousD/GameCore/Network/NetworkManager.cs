@@ -7,7 +7,7 @@ using System;
 
 namespace DangerousD.GameCore.Network
 {
-    public class NetworkManagerTest
+    public class NetworkManager
     {
         public delegate void ReceivingHandler(string jsonMessage);
 
