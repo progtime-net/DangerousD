@@ -5,6 +5,7 @@ using System;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace AnimationsFileCreator
 {
@@ -62,7 +63,7 @@ namespace AnimationsFileCreator
             container.TextureFrameInterval = 1;
             container.Id = id;
             string json = JsonConvert.SerializeObject(container);
-            StreamWriter writer = new StreamWriter(id);
+            StreamWriter writer = new StreamWriter("../../../../DangerousD/Content/animations/"+id);
             writer.WriteLine(json);
             writer.Close();
         }
