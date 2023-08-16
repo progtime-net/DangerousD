@@ -27,6 +27,7 @@ namespace DangerousD.GameCore
         public GameManager GameManager { get; private set; } = new GameManager();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
+        public InputManager InputManager { get; private set; } = new InputManager();
         public AppManager()
         {
             Instance = this;
@@ -66,6 +67,7 @@ namespace DangerousD.GameCore
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputManager.Update();
             switch (gameState)
             {
                 case GameState.Menu:
