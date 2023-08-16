@@ -61,7 +61,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Move(GameTime gameTime)
+        public override void Move(GameTime gameTime, Player player)
         {
             double delta = gameTime.ElapsedGameTime.TotalSeconds;
             if (isGoRight)
