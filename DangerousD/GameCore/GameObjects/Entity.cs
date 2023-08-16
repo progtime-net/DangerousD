@@ -7,12 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DangerousD.GameCore.GameObjects
 {
     public abstract class Entity : GameObject
-    {   
-        
-
+    {
         public Entity(Vector2 position) : base(position) {}
-
         
-
     }
 }

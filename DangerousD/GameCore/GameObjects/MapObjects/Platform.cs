@@ -5,7 +5,7 @@ namespace DangerousD.GameCore.GameObjects.MapObjects;
 
 public class Platform : MapObject
 {
-    public Platform(Vector2 position, string texture) : base(position)
+    public Platform(Vector2 position, Rectangle sourceRectangle) : base(position, sourceRectangle)
     {
         IsColliderOn = true;
     }

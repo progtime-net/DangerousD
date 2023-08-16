@@ -28,7 +28,6 @@ namespace DangerousD.GameCore
             players = new List<Player>();
             mapManager = new MapManager();
             physicsManager = new PhysicsManager();
-            mapManager.Init();
         }
 
         internal void Register(GameObject gameObject)
