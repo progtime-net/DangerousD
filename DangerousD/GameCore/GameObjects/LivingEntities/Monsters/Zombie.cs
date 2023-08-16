@@ -48,14 +48,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (isGoRight)
             {
-                GraphicsComponent.StopAnimation();
-                GraphicsComponent.StartAnimation("ZombieRightAttack");
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieRightAttack")
+                    GraphicsComponent.StartAnimation("ZombieRightAttack"); 
                 AppManager.Instance.GameManager.players[0].Death(name);
             }
             else if (!isGoRight)
             {
-                GraphicsComponent.StopAnimation();
-                GraphicsComponent.StartAnimation("ZombieLeftAttack");
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieLeftAttack")
+                    GraphicsComponent.StartAnimation("ZombieLeftAttack"); 
                 AppManager.Instance.GameManager.players[0].Death(name);
             }
         }
@@ -72,14 +72,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
-                velocity = new Vector2(monster_speed, 0);
+                velocity.X = monster_speed;
             }
 
             else if (!isGoRight)
             {
                 if(GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                velocity = new Vector2(-monster_speed, 0);
+                velocity.X = -monster_speed;
             }
         }
 

@@ -53,7 +53,8 @@ namespace DangerousD.GameCore
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
-            //GameObject.te
+            GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
+            GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
         }
 
         protected override void Update(GameTime gameTime)
