@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MonogameLibrary.UI.Base;
 using MonogameLibrary.UI.Elements;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace DangerousD.GameCore.GUI;
 
@@ -10,6 +11,8 @@ internal class MenuGUI : AbstractGui
 {
     protected override void CreateUI()
     {
+        
+
         int wigth = AppManager.Instance.Window.ClientBounds.Width;
         int height = AppManager.Instance.Window.ClientBounds.Height;
         var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "menuFon" };
