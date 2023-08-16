@@ -53,6 +53,7 @@ namespace DangerousD.GameCore
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
+            //GameObject.te
         }
 
         protected override void Update(GameTime gameTime)

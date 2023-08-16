@@ -19,7 +19,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 72;
             Height = 120;
-            monster_speed = 20;
+            monster_speed = 10;
             GraphicsComponent.StartAnimation("ZombieLeftAttack");
             name = "Zombie";
             leftBorder = (int)position.X;
@@ -29,12 +29,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
+            if (AppManager.Instance.GameManager.GetPlayer1.Pos.X>Pos.X) 
+                isGoRight = true; 
+            else
+                isGoRight = false;
             Move(gameTime);
-            var player = AppManager.Instance.GameManager.Player;
-            if(Pos.X + 20 <= player.Pos.X || Pos.X - 20 >= player.Pos.X)
+
+            if(Pos.X + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.X || Pos.X - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.X)
             {
                 Attack();
-                player.Death(name);
+                AppManager.Instance.GameManager.GetPlayer1.Death(name);
             }
 
             base.Update(gameTime);
@@ -46,13 +50,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 GraphicsComponent.StopAnimation();
                 GraphicsComponent.StartAnimation("ZombieRightAttack");
-                AppManager.Instance.GameManager.Player.Death(name);
+                AppManager.Instance.GameManager.players[0].Death(name);
             }
             else if (!isGoRight)
             {
                 GraphicsComponent.StopAnimation();
                 GraphicsComponent.StartAnimation("ZombieLeftAttack");
-                AppManager.Instance.GameManager.Player.Death(name);
+                AppManager.Instance.GameManager.players[0].Death(name);
             }
         }
 
@@ -63,34 +67,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            double delta = gameTime.ElapsedGameTime.TotalSeconds;
             if (isGoRight)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
-                {
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
-                    velocity = new Vector2(monster_speed, 0);
-                    _pos = new Vector2(Pos.X + monster_speed * (delta), Pos.Y);
-                }
+                velocity = new Vector2(monster_speed, 0);
             }
 
             else if (!isGoRight)
             {
                 if(GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
-                {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                    velocity = new Vector2(-monster_speed, 0);
-                    _pos = new Vector2(Pos.X - monster_speed * (delta), Pos.Y);
-                }
-            }
-
-            if(Pos.X <= leftBorder)
-            {
-                isGoRight = true;
-            }
-            if(Pos.X >= rightBorder)
-            {
-                isGoRight = false;
+                velocity = new Vector2(-monster_speed, 0);
             }
         }
 

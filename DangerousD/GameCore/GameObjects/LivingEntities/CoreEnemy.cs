@@ -29,9 +29,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 Death();
                 isAlive = false;
             }
-
-            Move(gameTime);
-
             base.Update(gameTime);
         }
         public abstract void Death();

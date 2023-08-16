@@ -12,17 +12,22 @@ namespace DangerousD.GameCore
 {
     public class GameManager
     {
-        List<LivingEntity> livingEntities;
-        List<Entity> entities;
-        List<MapObject> mapObjects;
-        public MapManager mapManager; 
-        public Player Player { get; set; }
+
+        public List<LivingEntity> livingEntities;
+        public List<Entity> entities;
+        public List<MapObject> mapObjects;
+        public MapManager mapManager;
+        public PhysicsManager physicsManager;
+        public List<Player> players;
+        public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             entities = new List<Entity>();
+            players = new List<Player>();
             mapManager = new MapManager();
+            physicsManager = new PhysicsManager();
             mapManager.Init();
         }
 
@@ -34,6 +39,11 @@ namespace DangerousD.GameCore
                 entities.Add(gameObject as Entity);
             if (gameObject is MapObject)
                 mapObjects.Add(gameObject as MapObject);
+            if (gameObject is Player)
+            {
+                players.Add(gameObject as Player);
+                GetPlayer1= players[0];
+            }
         }
 
         public void Draw(SpriteBatch _spriteBatch)
@@ -54,6 +64,10 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
             foreach (var item in livingEntities)
                 item.Update(gameTime);
+
+            physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, gameTime);
+
+
         }
     }
 }
