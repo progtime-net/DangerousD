@@ -27,10 +27,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
-        public override void Update(GameTime gameTime, Player player)
+        public override void Update(GameTime gameTime)
         {
             Move(gameTime);
-
+            var player = AppManager.Instance.GameManager.Player;
             if(Pos.X + 20 <= player.Pos.X || Pos.X - 20 >= player.Pos.X)
             {
                 Attack();
@@ -61,15 +61,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Move(GameTime gameTime, Player player)
+        public override void Move(GameTime gameTime)
         {
-            double delta = gameTime.ElapsedGameTime.TotalSeconds;
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (isGoRight)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
                     velocity = new Vector2(monster_speed, 0);
+                    _pos = new Vector2(Pos.X + monster_speed * (delta), Pos.Y);
                 }
             }
 
@@ -79,7 +80,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                     velocity = new Vector2(-monster_speed, 0);
+                    _pos = new Vector2(Pos.X - monster_speed * (delta), Pos.Y);
                 }
+            }
+
+            if(Pos.X <= leftBorder)
+            {
+                isGoRight = true;
+            }
+            if(Pos.X >= rightBorder)
+            {
+                isGoRight = false;
             }
         }
 

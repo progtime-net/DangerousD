@@ -23,7 +23,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FrankMoveRight", "FrankMoveLeft" }, "FrankMoveRight");
 
-        public override void Attack(Player player)
+        public override void Attack()
         {
 
         }
@@ -33,7 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Move(GameTime gameTime, Player player)
+        public override void Move(GameTime gameTime)
         {
            /* if (player.Pos.X - _pos.X <= 20 || player.Pos.X - _pos.X <= -20)
             {

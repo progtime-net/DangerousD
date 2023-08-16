@@ -22,7 +22,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             //здесь я не понял
         }
 
-        public virtual void Update(GameTime gameTime, Player player)
+        public virtual void Update(GameTime gameTime)
         {
             if (monster_health <= 0)
             {
@@ -30,7 +30,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 isAlive = false;
             }
 
-            Move(gameTime, AppManager.Instance.GameManager.Player);
+            Move(gameTime);
 
             base.Update(gameTime);
         }
@@ -38,6 +38,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public abstract void Attack();
 
-        public abstract void Move(GameTime gameTime, Player player);
+        public abstract void Move(GameTime gameTime);
     }
 }
