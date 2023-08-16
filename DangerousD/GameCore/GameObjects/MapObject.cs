@@ -10,9 +10,11 @@ public abstract class MapObject : GameObject
     public bool IsColliderOn;
     private Rectangle _sourceRectangle;
     protected override GraphicsComponent GraphicsComponent { get; } = new("tiles");
-    public MapObject(Vector2 position, Rectangle sourceRectangle) : base(position)
+    public MapObject(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position)
     {
         _sourceRectangle = sourceRectangle;
+        Width = (int)size.X;
+        Height = (int)size.Y;
     }
 
     public override void Initialize()

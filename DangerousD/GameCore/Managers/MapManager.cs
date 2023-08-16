@@ -9,6 +9,12 @@ namespace DangerousD.GameCore.Managers
     public class MapManager
     {
         private int _columns;
+        private int _scale;
+        
+        public MapManager(int scale)
+        {
+            _scale = scale;
+        }
         
         //Level
         public void LoadLevel(string level)
@@ -46,18 +52,19 @@ namespace DangerousD.GameCore.Managers
                     
                     Vector2 pos = new((chunkX + i % chunkW) * tileSize.X,
                         (chunkY + i / chunkW) * tileSize.Y);
-                    Rectangle sourceRect = new(new Point(tiles[i] % _columns, tiles[i] / _columns), tileSize.ToPoint());
+                    pos *= _scale;
+                    Rectangle sourceRect = new(new Point(tiles[i] % _columns, tiles[i] / _columns ) * tileSize.ToPoint(), tileSize.ToPoint());
 
                     switch (tileType)
                     {
                         case "collidable":
-                            new StopTile(pos, sourceRect);
+                            new StopTile(pos, tileSize * _scale, sourceRect);
                             break;
                         case "platform":
-                            new Platform(pos, sourceRect);
+                            new Platform(pos, tileSize * _scale, sourceRect);
                             break;
                         case "non_collidable":
-                            new Tile(pos, sourceRect);
+                            new Tile(pos, tileSize * _scale, sourceRect);
                             break;
                     }}
             }

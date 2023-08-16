@@ -5,7 +5,7 @@ namespace DangerousD.GameCore.GameObjects.MapObjects;
 
 public class StopTile : MapObject
 {
-    public StopTile(Vector2 position, Rectangle sourceRectangle) : base(position, sourceRectangle)
+    public StopTile(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position, size, sourceRectangle)
     {
         IsColliderOn = true;
     }

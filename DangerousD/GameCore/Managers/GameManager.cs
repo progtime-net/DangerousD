@@ -27,7 +27,7 @@ namespace DangerousD.GameCore
             mapObjects = new List<MapObject>();
             entities = new List<Entity>();
             players = new List<Player>();
-            mapManager = new MapManager();
+            mapManager = new MapManager(1);
             physicsManager = new PhysicsManager();
         }
 
