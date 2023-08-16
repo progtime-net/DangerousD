@@ -9,5 +9,9 @@ namespace DangerousD.GameCore.Managers
 {
     internal class SettingsManager
     {
+        public void SetFullScreen(bool IsFullScreen)
+        {
+
+        }
     }
 }
