@@ -18,7 +18,6 @@ namespace DangerousD.GameCore.Network
         public Vector2 velocity { get; set; }
         public Type type { get; set; }
 
-
         /// <summary>
         /// Нанести урон сущности
         /// </summary>
@@ -82,6 +81,26 @@ namespace DangerousD.GameCore.Network
             objId = EntityId;
             name = StateName;
             velocity = EntityVelocity;
+        }
+
+        /// <summary>
+        /// Подключается к хосту и передаёт своё имя    
+        /// </summary>
+        /// <param name="PlayerName"></param>
+        public NetworkTask(string PlayerName)
+        {
+            operation = NetworkTaskOperationEnum.ConnectToHost;
+            name = PlayerName;
+        }
+
+        /// <summary>
+        /// Получает id игрока на клиенте от хоста
+        /// </summary>
+        /// <param name="PlayerId"></param>
+        public NetworkTask(int PlayerId)
+        {
+            operation = NetworkTaskOperationEnum.GetClientPlayerId;
+            objId = PlayerId;
         }
     }
 }
