@@ -19,7 +19,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Height = 160;
             GraphicsComponent.StartAnimation("FrankMoveLeft");
             monster_speed = 1;
-            name = "Фрэнк";
+            name = "Frank";
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FrankMoveRight", "FrankMoveLeft" }, "FrankMoveRight");
 
@@ -39,17 +39,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 player.Death(name);
             } */
-
-            if (isGoRight)
+           
+            if (_pos.X <= 1)
             {
+                isGoRight = true;
                 if (GraphicsComponent.GetCurrentAnimation != "FrankMoveRight")
                 {
                     GraphicsComponent.StartAnimation("FrankMoveRight");
                     velocity = new Vector2(monster_speed, 0);
                 }
             }
-            else if (!isGoRight)
+            else if (_pos.X >= 500)
             {
+                isGoRight = false;
                 if (GraphicsComponent.GetCurrentAnimation != "FrankMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("FrankMoveLeft");
@@ -57,13 +59,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
             }
 
-            if (_pos.X <= 1)
+            if (isGoRight)
             {
-                isGoRight = true;
+                _pos.X += monster_speed;
             }
-            else if (_pos.X >= 500)
+            else
             {
-                isGoRight = false;
+                _pos.X -= monster_speed;
             }
         }
     }

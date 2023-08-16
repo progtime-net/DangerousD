@@ -22,7 +22,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             //здесь я не понял
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (monster_health <= 0)
             {

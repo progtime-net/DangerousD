@@ -12,8 +12,9 @@ namespace DangerousD.GameCore.Levels
         {
             var Трава = new GrassBlock(new Vector2(0, 128));
             var Death = new TestAnimationDeath(new Vector2(128, 128));
-            var Zombie = new Zombie(new Vector2(256, 128));
+            //var Zombie = new Zombie(new Vector2(256, 128));
             var Frank = new Frank(new Vector2(384, 128));
+            var FlameSkull = new FlameSkull(new Vector2(512, 128));
         }
     }
 }
