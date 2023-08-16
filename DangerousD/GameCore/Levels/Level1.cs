@@ -10,9 +10,9 @@ namespace DangerousD.GameCore.Levels
     {
         public void InitLevel()
         {
-            new Player(new Vector2(0,0));
+            new Player(new Vector2(80,0));
 
-            var Zombie = new Zombie(new Vector2(256, 128));
+            var Zombie = new Zombie(new Vector2(140, 128));
             var Frank = new Frank(new Vector2(384, 128));
 
             new GrassBlock(new Vector2(0, 224));

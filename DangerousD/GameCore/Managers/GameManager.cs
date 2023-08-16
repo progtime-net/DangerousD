@@ -19,6 +19,7 @@ namespace DangerousD.GameCore
         public MapManager mapManager;
         public PhysicsManager physicsManager;
         public List<Player> players;
+        public List<GameObject> otherObjects = new();
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
@@ -33,16 +34,27 @@ namespace DangerousD.GameCore
 
         internal void Register(GameObject gameObject)
         {
-            if (gameObject is LivingEntity)
-                livingEntities.Add(gameObject as LivingEntity);
-            if (gameObject is Entity)
-                entities.Add(gameObject as Entity);
-            if (gameObject is MapObject)
-                mapObjects.Add(gameObject as MapObject);
             if (gameObject is Player)
             {
+                livingEntities.Add(gameObject as LivingEntity);
                 players.Add(gameObject as Player);
-                GetPlayer1= players[0];
+                GetPlayer1 = players[0];
+            }
+            else if (gameObject is LivingEntity)
+            {
+                livingEntities.Add(gameObject as LivingEntity);
+            }
+            else if (gameObject is Entity)
+            {
+                entities.Add(gameObject as Entity);
+            }
+            else if (gameObject is MapObject)
+            {
+                mapObjects.Add(gameObject as MapObject);
+            }
+            else
+            {
+                otherObjects.Add(gameObject);
             }
         }
 
@@ -54,6 +66,8 @@ namespace DangerousD.GameCore
                 item.Draw(_spriteBatch);
             foreach (var item in livingEntities)
                 item.Draw(_spriteBatch);
+            foreach (var item in otherObjects)
+                item.Draw(_spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -63,6 +77,8 @@ namespace DangerousD.GameCore
             foreach (var item in entities)
                 item.Update(gameTime);
             foreach (var item in livingEntities)
+                item.Update(gameTime);
+            foreach (var item in otherObjects)
                 item.Update(gameTime);
 
             physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, gameTime);

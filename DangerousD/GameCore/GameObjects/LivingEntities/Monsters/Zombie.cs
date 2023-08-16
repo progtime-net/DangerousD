@@ -15,30 +15,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private bool isGoRight = true;
         int leftBorder;
         int rightBorder;
+        bool isAttaking = false;
         public Zombie(Vector2 position) : base(position)
         {
             Width = 72;
             Height = 120;
-            monster_speed = 10;
-            GraphicsComponent.StartAnimation("ZombieLeftAttack");
+            monster_speed = 3;
             name = "Zombie";
-            leftBorder = (int)position.X;
-            rightBorder = (int)position.X + 200;
+            leftBorder = (int)position.X - 60;
+            rightBorder = (int)position.X + 120;
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
         public override void Update(GameTime gameTime)
         {
-            if (AppManager.Instance.GameManager.GetPlayer1.Pos.X>Pos.X) 
-                isGoRight = true; 
-            else
-                isGoRight = false;
-            Move(gameTime);
-
-            if(Pos.X + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.X || Pos.X - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.X)
+            if (!isAttaking)
             {
-                Attack();
-                AppManager.Instance.GameManager.GetPlayer1.Death(name);
+                Move(gameTime);
             }
 
             base.Update(gameTime);
@@ -46,16 +39,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
+            velocity.X = 0;
+            isAttaking = true;
             if (isGoRight)
             {
-                GraphicsComponent.StopAnimation();
-                GraphicsComponent.StartAnimation("ZombieRightAttack");
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                {
+                    GraphicsComponent.StartAnimation("ZombieAttackRight");
+                }
                 AppManager.Instance.GameManager.players[0].Death(name);
             }
             else if (!isGoRight)
             {
-                GraphicsComponent.StopAnimation();
-                GraphicsComponent.StartAnimation("ZombieLeftAttack");
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieLeftAttack")
+                {
+                    GraphicsComponent.StartAnimation("ZombieLeftAttack");
+                }
                 AppManager.Instance.GameManager.players[0].Death(name);
             }
         }
@@ -67,20 +66,45 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            double delta = gameTime.ElapsedGameTime.TotalSeconds;
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (isGoRight)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                {
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
-                velocity = new Vector2(monster_speed, 0);
+                }
+                velocity.X = monster_speed;
             }
 
             else if (!isGoRight)
             {
-                if(GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                velocity = new Vector2(-monster_speed, 0);
+                }
+                velocity.X = -monster_speed;
             }
+
+            if(Pos.X >= rightBorder)
+            {
+                isGoRight = false;
+            }
+
+            else if(Pos.X <= leftBorder)
+            {
+                isGoRight = true;
+            }
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            if(gameObject is Player)
+            {
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    Attack();
+                }
+            }
+            base.OnCollision(gameObject);
         }
 
         public void TakeDamage(int damage)
