@@ -44,6 +44,7 @@ namespace DangerousD.GameCore.Managers
         {
             for (int i = 0; i < livingEntities.Count; i++)
             {
+                Rectangle oldRect = new Rectangle();
                 for (int j = 0; j < mapObjects.Count; j++)
                 {
                     if (livingEntities[i].Rectangle.Intersects(mapObjects[j].Rectangle))
@@ -68,7 +69,7 @@ namespace DangerousD.GameCore.Managers
                             livingEntities[i].SetPosition(new Vector2(livingEntities[i].Pos.X,
                                 livingEntities[i].Pos.Y - (livingEntities[i].Rectangle.Bottom - mapObjects[j].Rectangle.Top)));
                         }
-                        if (livingEntities[i].Rectangle.Top < mapObjects[j].Rectangle.Bottom)
+                        if (livingEntities[i].Rectangle.Top > mapObjects[j].Rectangle.Bottom)
                         {
                             livingEntities[i].velocity.Y = 0;
                             livingEntities[i].SetPosition(new Vector2(livingEntities[i].Pos.X,
