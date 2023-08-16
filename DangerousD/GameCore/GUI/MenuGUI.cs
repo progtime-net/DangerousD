@@ -1,6 +1,7 @@
 ﻿using DangerousD.GameCore.Managers;
 using Microsoft.Xna.Framework;
 using MonogameLibrary.UI.Elements;
+using System.Diagnostics;
 
 namespace DangerousD.GameCore.GUI;
 
@@ -10,8 +11,10 @@ internal class MenuGUI : AbstractGui
     {
         int wigth = AppManager.Instance.Window.ClientBounds.Width;
         int height = AppManager.Instance.Window.ClientBounds.Height;
+        
 
-        Elements.Add(new Label(Manager) { rectangle = new Rectangle(10, 10, 50, 50), text = "Dangerous" });
+        Elements.Add(new Label(Manager) { rectangle = new Rectangle((wigth - 50) / 2 - 60, 30, 50, 50), text = "Dangerous", mainColor = Color.Transparent, scale = 0.7f, fontName = "Font2", fontColor = Color.White });
+        Elements.Add(new Label(Manager) { rectangle = new Rectangle((wigth - 50) / 2 + 250, 60, 50, 50), text = "D", mainColor = Color.Transparent, scale = 1.2f, fontName = "Font2", fontColor = Color.White });
         var butSingle = new ButtonText(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 130, 300, 50), text = "Singleplayer", fontName = "ButtonFont" };
         Elements.Add(butSingle);
         butSingle.LeftButtonPressed += () =>
@@ -36,5 +39,10 @@ internal class MenuGUI : AbstractGui
         {
             AppManager.Instance.Exit();
         };
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        base.Update(gameTime);
     }
 }   

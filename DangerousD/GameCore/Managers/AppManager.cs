@@ -36,7 +36,7 @@ namespace DangerousD.GameCore
             resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             GameManager = new GameManager();
 
-            gameState = GameState.Lobby;
+            gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
             LobbyGUI = new LobbyGUI();
