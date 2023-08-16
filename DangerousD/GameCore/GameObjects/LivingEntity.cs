@@ -11,7 +11,7 @@ public abstract class LivingEntity : Entity
     {
         acceleration = new Vector2(0, 10);
     }
-    public void SetPosition(Vector2 position) { targetPosition = position; }
+    public void SetPosition(Vector2 position) { targetPosition = position; _pos = position; } //TODO befrend targetpos and physics engine
 
     public override void Update(GameTime gameTime)
     {
@@ -19,7 +19,7 @@ public abstract class LivingEntity : Entity
         {
             Vector2 dir = targetPosition - Pos;
             dir.Normalize();
-            Pos += dir * velocity;
+            _pos += dir * velocity;
         }
         base.Update(gameTime);
     }

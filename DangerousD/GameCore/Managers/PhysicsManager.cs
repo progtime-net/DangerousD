@@ -19,6 +19,13 @@ namespace DangerousD.GameCore.Managers
             {
                 item.velocity = item.velocity + item.acceleration * delta;
             }
+
+            //SD setting positions before check
+            foreach (var item in livingEntities)
+            {
+                item.SetPosition(item.Pos + item.velocity);
+            }
+
             CheckCollisions(livingEntities, mapObjects);
             OnCollision(entities, livingEntities);
             OnCollision(livingEntities);
@@ -44,24 +51,24 @@ namespace DangerousD.GameCore.Managers
                         if (livingEntities[i].Rectangle.Right > mapObjects[j].Rectangle.Left)
                         {
 
+                            //livingEntities[i].SetPosition(livingEntities[i].Pos- new Vector2(livingEntities[i].velocity.X));
                             livingEntities[i].velocity.X = 0;
-
                             livingEntities[i].SetPosition(new Vector2(livingEntities[i].Pos.X - (livingEntities[i].Rectangle.Right - mapObjects[j].Rectangle.Left),
                                 livingEntities[i].Pos.Y));
                         }
-                        else if (livingEntities[i].Rectangle.Left < mapObjects[j].Rectangle.Right)
+                        if (livingEntities[i].Rectangle.Left < mapObjects[j].Rectangle.Right)
                         {
                             livingEntities[i].velocity.X = 0;
                             livingEntities[i].SetPosition(new Vector2(livingEntities[i].Pos.X + mapObjects[j].Rectangle.Right - livingEntities[i].Rectangle.Left,
                                 livingEntities[i].Pos.Y));
                         }
-                        else if (livingEntities[i].Rectangle.Bottom > mapObjects[j].Rectangle.Top)
+                        if (livingEntities[i].Rectangle.Bottom > mapObjects[j].Rectangle.Top)
                         {
                             livingEntities[i].velocity.Y = 0;
                             livingEntities[i].SetPosition(new Vector2(livingEntities[i].Pos.X,
                                 livingEntities[i].Pos.Y - (livingEntities[i].Rectangle.Bottom - mapObjects[j].Rectangle.Top)));
                         }
-                        else if (livingEntities[i].Rectangle.Top < mapObjects[j].Rectangle.Bottom)
+                        if (livingEntities[i].Rectangle.Top < mapObjects[j].Rectangle.Bottom)
                         {
                             livingEntities[i].velocity.Y = 0;
                             livingEntities[i].SetPosition(new Vector2(livingEntities[i].Pos.X,

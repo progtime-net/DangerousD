@@ -12,9 +12,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     {
         public Player(Vector2 position) : base(position)
         {
+            Width = 32;
+            Height = 64;
         }
 
-        protected override GraphicsComponent GraphicsComponent => throw new NotImplementedException();
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");//TODO: Change to player
 
         public void Kill()
         {
