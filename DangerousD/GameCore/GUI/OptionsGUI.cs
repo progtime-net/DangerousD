@@ -17,7 +17,10 @@ namespace DangerousD.GameCore.GUI
                 rectangle = new Rectangle(650, 150, 100, 40)
             };
 
-            Label lblOptions = new Label(Manager, 0);
+            var checkBox = new CheckBox(Manager);
+            checkBox.rectangle = new Rectangle(690, 400, 40, 40);
+
+            Label lblOptions = new Label(Manager);
             lblOptions.fontName = "Font2";
             lblOptions.text = "Options";
             lblOptions.rectangle = new Rectangle(300, 20, 210, 50);
@@ -25,8 +28,15 @@ namespace DangerousD.GameCore.GUI
 
             Label lblValue = new Label(Manager);
             lblValue.fontName = "Font2";
-            lblValue.text = "Value";
-            lblValue.rectangle = new Rectangle(400, 150, 250, 40);
+            lblValue.text = "Valume";
+            lblValue.rectangle = new Rectangle(300, 150, 250, 40);
+            lblValue.mainColor = Color.Transparent;
+
+            Label lblIsFullScreen = new Label(Manager);
+            lblIsFullScreen.fontName = "Font2";
+            lblIsFullScreen.text = "Full Screen";
+            lblIsFullScreen.rectangle = new Rectangle(300, 400, 250, 40);
+            lblIsFullScreen.mainColor = Color.Transparent;
         }
     } 
 }
