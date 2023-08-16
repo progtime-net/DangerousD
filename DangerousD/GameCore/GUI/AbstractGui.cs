@@ -26,7 +26,7 @@ public abstract class AbstractGui : IDrawableObject
 
     public virtual void LoadContent()
     {
-        Manager.LoadContent(AppManager.Instance.Content, "Font");
+        Manager.LoadContent(AppManager.Instance.Content, "Font2");
     }
 
     public virtual void Update(GameTime gameTime)

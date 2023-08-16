@@ -15,7 +15,7 @@ namespace MonogameLibrary.UI.Base
         protected Texture2D texture;
         protected int layerIndex;
         protected UIManager Manager;
-        protected string textureName;
+        public string textureName;
         public Rectangle rectangle = new Rectangle(0, 0, 10, 10);
         public Color mainColor = Color.White;
 

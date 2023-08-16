@@ -39,6 +39,7 @@ namespace DangerousD.GameCore
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
+            LobbyGUI = new LobbyGUI();
         }
 
         protected override void Initialize()
@@ -46,6 +47,7 @@ namespace DangerousD.GameCore
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize(GraphicsDevice);
             LoginGUI.Initialize(GraphicsDevice);
+            LobbyGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
@@ -54,6 +56,7 @@ namespace DangerousD.GameCore
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
+            LobbyGUI.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
         }
