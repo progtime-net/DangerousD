@@ -10,6 +10,7 @@ namespace DangerousD.GameCore.Graphics
 {
     public class GraphicsComponent
     {
+        public  Action actionOfAnimationEnd;
         private List<AnimationContainer> animations;
         private List<Texture2D> textures;
         private List<string> texturesNames;
@@ -115,9 +116,11 @@ namespace DangerousD.GameCore.Graphics
                     if (!currentAnimation.IsCycle)
                     {
                         currentAnimation = neitralAnimation;
+                        actionOfAnimationEnd();
                     }
 
                     currentFrame = 0;
+
                 }
 
                 buildSourceRectangle();
