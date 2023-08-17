@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace DangerousD.GameCore
 {
     public enum ScopeState { Up, Middle, Down }
-    class InputManager
+    public class InputManager
     {
         public delegate void Delegat();
         public event Delegat MovEventJump;
