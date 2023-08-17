@@ -12,16 +12,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     public class Player : LivingEntity
     {
         bool isAlive = true;
+        bool isRight;
+        string stayAnimation;
         public Player(Vector2 position) : base(position)
         {
-            Width = 32;
-            Height = 64;
-            AppManager.Instance.InputManager.MovEventJump += AnimationJump;
+            Width = 24;
+            Height = 32;
+            AppManager.Instance.InputManager.MovEventJump += Jump;
             
         }
         public bool IsAlive { get { return isAlive; } }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack", "DeathFromZombie" }, "ZombieMoveLeft");//TODO: Change to player
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
+            "playerJumpRight" , "playerJumpLeft"}, "playerStayLeft");
 
         public void Kill()
         {
@@ -43,9 +46,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             isAlive = false;
         }
-        public void AnimationJump()
+        public override void Update(GameTime gameTime)
+        {
+
+            base.Update(gameTime);
+        }
+        public void Jump()
         {
             velocity.Y = -300;
+            //сюда анимацию и доделать
         }
     }
 }
