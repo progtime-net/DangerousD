@@ -22,7 +22,7 @@ namespace DangerousD.GameCore
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public GameState gameState { get; private set; }
-        public MultiPlayerStatus multiPlayerStatus { get; private set; }
+        public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
@@ -176,6 +176,8 @@ namespace DangerousD.GameCore
 
         public void NetworkSync(NetworkTask networkTask)
         {
+            //TODO
+            return;
             switch (networkTask.operation)
             {
                 case NetworkTaskOperationEnum.TakeDamage:
