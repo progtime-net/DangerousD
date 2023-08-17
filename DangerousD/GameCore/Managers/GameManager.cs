@@ -21,7 +21,6 @@ namespace DangerousD.GameCore
         public List<Player> players;
         public List<GameObject> otherObjects = new();
 
-        public List<GameObject> GetAllGameObjects { get; private set; }
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {

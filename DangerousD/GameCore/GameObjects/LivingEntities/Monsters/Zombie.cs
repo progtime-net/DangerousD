@@ -107,5 +107,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
+
+        public override void Attack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

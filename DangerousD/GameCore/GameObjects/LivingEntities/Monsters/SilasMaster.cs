@@ -39,9 +39,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             currentTime++;
         }
 
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
         public override void Death()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Move(GameTime gameTime)

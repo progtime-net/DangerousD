@@ -170,6 +170,7 @@ namespace DangerousD.GameCore.Managers
             
             return null;
         }
+        
         public GameObject RayCast(LivingEntity entity1, Vector2 targetCast)
         {
             Rectangle rectangle;

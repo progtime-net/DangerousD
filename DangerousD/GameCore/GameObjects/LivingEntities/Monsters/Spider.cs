@@ -28,7 +28,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Height = 24;
             delay = 0;
             webLength = 0;
-            monster_speed = 1;
+            monster_speed = 2;
             acceleration = Vector2.Zero;
         }
 
@@ -36,6 +36,29 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
+            if (!isAttack)
+            {
+                Move(gameTime);
+            }
+            else
+            {
+                Attack(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
+        /// <summary>
+        /// НИЧЕГО НЕ ДЕЛАЕТ! НУЖЕН ДЛЯ ПЕРЕОПРЕДЕЛЕНИЯ 
+        /// </summary>
+        public override void Attack()
+        {
+        }
+        /// <summary>
+        /// Атака паука РАБОЧАЯ
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Attack(GameTime gameTime)
+        { //48 72
             if (isDownUp)
             {
                 Width = 48;
@@ -73,12 +96,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     Height = 24;
                 }
             }
-
-            base.Update(gameTime);
-        }
-        public override void Attack()
-        { //48 72
-           
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -101,7 +118,32 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-
+            if (isGoRight)
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "SpiderMoveRight")
+                {
+                    GraphicsComponent.StartAnimation("SpiderMoveRight");
+                }
+                velocity.X = monster_speed;
+            }
+            else
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "SpiderMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("SpiderMoveLeft");
+                }
+                velocity.X = -monster_speed;
+            }
+            if (Pos.X >= rightBoarder)
+            {
+                isGoRight = false;
+            }
+            else if (Pos.X <= leftBoarder)
+            {
+                isGoRight = true;
+            }
         }
+
+        
     }
 }

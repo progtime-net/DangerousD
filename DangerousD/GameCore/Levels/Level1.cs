@@ -12,15 +12,13 @@ namespace DangerousD.GameCore.Levels
         {
             new Player(new Vector2(80,0));
             var Zombie = new Zombie(new Vector2(140, 128));
-            var Frank = new Frank(new Vector2(384, 128));
+            var Frank = new Frank(new Vector2(300, 0));
 
             var Spider = new Spider(new Vector2(112, 0));
             var FlameSkull = new FlameSkull(new Vector2(512, 0));
             var Werewolf = new Werewolf(new Vector2(640, 0));
-            var Ghost = new Ghost(new Vector2(730, 0));
-            var Frank = new Frank(new Vector2(100, 64));
+            var Ghost = new Ghost(new Vector2(300, 0));
             var FrankBalls = new FrankBalls(new Vector2(Frank.Pos.X, Frank.Pos.Y));
-	        var Zombie = new Zombie(new Vector2(300, 64));
            
             var SilasHand = new SilasHands(new Vector2(200,64));
             var SilasMaster = new SilasMaster(new Vector2(400, 64));
