@@ -9,6 +9,7 @@ using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -27,6 +28,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private bool isAttacked = false;
         private bool isShooting = false;
         public GameObject objectAttack;
+        public bool isInvincible;
         private int bullets;
 
         public Player(Vector2 position) : base(position)
@@ -56,6 +58,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     bullets++;
                 }
             };
+        }
+
+        public Player(Vector2 position, bool isInvincible) : this(position)
+        {
+            this.isInvincible = isInvincible;
         }
 
         public bool IsAlive { get { return isAlive; } }
@@ -152,7 +159,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked)
+            if (!isAttacked || isInvincible)
             {
                 Move(gameTime);
             }

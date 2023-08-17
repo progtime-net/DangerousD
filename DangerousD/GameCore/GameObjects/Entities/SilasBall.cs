@@ -12,7 +12,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
 {
     public class SilasBall : LivingEntity
     {
-        private bool IsVisibility=true;
+        public bool IsVisibility=true;
         public SilasBall(Vector2 position) : base(position)
         {
             Height = 60;

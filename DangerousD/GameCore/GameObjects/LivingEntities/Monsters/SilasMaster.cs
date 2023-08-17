@@ -67,6 +67,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             for (int i = 0; i < balls.Count; i++)
             {
                 balls[i].SetPosition(new Vector2(Pos.X + i * 40, Pos.Y + 120));
+                balls[i].IsVisibility=true;
             }
                 
             
