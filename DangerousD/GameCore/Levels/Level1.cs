@@ -28,6 +28,8 @@ namespace DangerousD.GameCore.Levels
                 new GrassBlock(new Vector2(i*32, 256));
             }
             new GrassBlock(new Vector2(500, 224));
+            Player player = new Player(new Vector2(400, 64));
+            player.AnimationJump();
         }
     }
 }

@@ -144,37 +144,45 @@ namespace DangerousD.GameCore.Managers
             {
                 rectangle.X = (int)(entity2.Pos.X + (i / length) * distance.X);
                 rectangle.Y = (int)(entity2.Pos.Y + (i / length) * distance.Y);
+                if (i == length - 1)
+                {
+                    return null;
+                }
                 for (int j = 0; j < AppManager.Instance.GameManager.entities.Count; j++)
                 {
-                    if (AppManager.Instance.GameManager.entities[i].Rectangle.Intersects(rectangle))
+                    if (AppManager.Instance.GameManager.entities[j].Rectangle.Intersects(rectangle))
                     {
-                        return AppManager.Instance.GameManager.entities[i];
+                        gameObject = AppManager.Instance.GameManager.entities[j];
                     }
                 }
                 for (int r = 0; r < AppManager.Instance.GameManager.mapObjects.Count; r++)
                 {
-                    if (AppManager.Instance.GameManager.mapObjects[i].Rectangle.Intersects(rectangle))
+                    if (AppManager.Instance.GameManager.mapObjects[r].Rectangle.Intersects(rectangle))
                     {
-                        return AppManager.Instance.GameManager.mapObjects[i];
+                        gameObject = AppManager.Instance.GameManager.mapObjects[r];
                     }
                 }
                 for (int w = 0; w < AppManager.Instance.GameManager.livingEntities.Count; w++)
                 {
-                    if (AppManager.Instance.GameManager.livingEntities[i].Rectangle.Intersects(rectangle))
+                    if (AppManager.Instance.GameManager.livingEntities[w].Rectangle.Intersects(rectangle))
                     {
-                        return AppManager.Instance.GameManager.livingEntities[i];
+                        gameObject = AppManager.Instance.GameManager.livingEntities[w];
                     }
                 }
             }
-          
-            
-            return null;
+
+            if (gameObject == entity1)
+            {
+                return null;
+            }
+            return gameObject;
         }
         public GameObject RayCast(LivingEntity entity1, Vector2 targetCast)
         {
             Rectangle rectangle;
             Vector2 direction = entity1.Pos - targetCast;
             rectangle = new Rectangle((int)targetCast.X, (int)targetCast.Y, 1, 1);
+            GameObject gameObject = null;
             double k = direction.Length();
 
             for (int i = 0; i < k; i++)
@@ -183,28 +191,31 @@ namespace DangerousD.GameCore.Managers
                 rectangle.Y = (int)(targetCast.Y + (i / k) * direction.X);
                 for (int j = 0; j < AppManager.Instance.GameManager.entities.Count; j++)
                 {
-                    if (AppManager.Instance.GameManager.entities[i].Rectangle.Intersects(rectangle))
+                    if (AppManager.Instance.GameManager.entities[j].Rectangle.Intersects(rectangle))
                     {
-                        return AppManager.Instance.GameManager.entities[i];
+                        gameObject =  AppManager.Instance.GameManager.entities[j];
                     }
                 }
                 for (int r = 0; r < AppManager.Instance.GameManager.mapObjects.Count; r++)
                 {
-                    if (AppManager.Instance.GameManager.mapObjects[i].Rectangle.Intersects(rectangle))
+                    if (AppManager.Instance.GameManager.mapObjects[r].Rectangle.Intersects(rectangle))
                     {
-                        return AppManager.Instance.GameManager.mapObjects[i];
+                       gameObject = AppManager.Instance.GameManager.mapObjects[r];
                     }
                 }
                 for (int w = 0; w < AppManager.Instance.GameManager.livingEntities.Count; w++)
                 {
-                    if (AppManager.Instance.GameManager.livingEntities[i].Rectangle.Intersects(rectangle))
+                    if (AppManager.Instance.GameManager.livingEntities[w].Rectangle.Intersects(rectangle))
                     {
-                        return AppManager.Instance.GameManager.livingEntities[i];
+                        gameObject = AppManager.Instance.GameManager.livingEntities[w];
                     }
                 }
-            }         
-            
-            return null;
+            }
+            if (gameObject == entity1)
+            {
+                return null;
+            }
+            return gameObject;
         }
 
         public List<GameObject> CheckRectangle(Rectangle rectangle, Type type)
