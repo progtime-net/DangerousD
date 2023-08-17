@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Serialization;
 using DangerousD.GameCore.GameObjects;
+using System.Globalization;
 
 namespace DangerousD.GameCore.Managers
 {
@@ -46,8 +47,8 @@ namespace DangerousD.GameCore.Managers
         private void InstantiateTiles(XmlNode layer, Vector2 tileSize)
         {
             string tileType = layer.Attributes["class"].Value;
-            float offsetX = layer.Attributes["offsetx"] is not null ? float.Parse(layer.Attributes["offsetx"].Value) : 0;
-            float offsetY = layer.Attributes["offsety"] is not null ? float.Parse(layer.Attributes["offsety"].Value) : 0;
+            float offsetX = layer.Attributes["offsetx"] is not null ? float.Parse(layer.Attributes["offsetx"].Value, CultureInfo.InvariantCulture) : 0;
+            float offsetY = layer.Attributes["offsety"] is not null ? float.Parse(layer.Attributes["offsety"].Value, CultureInfo.InvariantCulture) : 0;
 
             
             Debug.Write(layer.SelectNodes("data/chunk").Count);
@@ -105,7 +106,7 @@ namespace DangerousD.GameCore.Managers
             foreach (XmlNode entity in group.ChildNodes)
             {
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
-                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX, float.Parse(entity.Attributes["y"].Value) + offsetY) * _scale);
+                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 inst.Height *= _scale;
                 inst.Width *= _scale;

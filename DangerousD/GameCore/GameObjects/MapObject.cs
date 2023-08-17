@@ -7,7 +7,7 @@ namespace DangerousD.GameCore.GameObjects;
 
 public abstract class MapObject : GameObject
 {
-    public bool IsColliderOn;
+    public virtual bool IsColliderOn { get; protected set; } = true;
     private Rectangle _sourceRectangle;
     protected override GraphicsComponent GraphicsComponent { get; } = new("tiles");
     public MapObject(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position)

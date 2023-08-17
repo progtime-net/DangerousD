@@ -23,7 +23,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 1;
             name = "Zombie";
             leftBorder = (int)position.X - 100;
             rightBorder = (int)position.X + 100;
@@ -114,7 +114,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public void Target()
         {
-            if(physicsManager.RayCast(this, AppManager.Instance.GameManager.players[0]) == null)
+            if(AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-50, (int)Pos.Y, Width+100, Height), typeof(Player))!=null)
             {
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {

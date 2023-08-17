@@ -17,6 +17,7 @@ namespace DangerousD.GameCore
         public List<LivingEntity> livingEntities;
         public List<Entity> entities;
         public List<MapObject> mapObjects;
+        public List<MapObject> BackgroundObjects;
         public List<GameObject> others;
         public MapManager mapManager;
         public PhysicsManager physicsManager;
@@ -29,6 +30,7 @@ namespace DangerousD.GameCore
             GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
+            BackgroundObjects = new List<MapObject>();
             entities = new List<Entity>();
             players = new List<Player>();
             mapManager = new MapManager(1);
@@ -46,23 +48,27 @@ namespace DangerousD.GameCore
 
         internal void Register(GameObject gameObject)
         {
-            if (gameObject is Player)
+            //GetAllGameObjects.Add(gameObject);
+            if (gameObject is Player objPl)
             {
                 livingEntities.Add(gameObject as LivingEntity);
-                players.Add(gameObject as Player);
+                players.Add(objPl);
                 GetPlayer1 = players[0];
             }
-            else if (gameObject is LivingEntity)
+            else if (gameObject is LivingEntity objLE)
             {
-                livingEntities.Add(gameObject as LivingEntity);
+                livingEntities.Add(objLE);
             }
-            else if (gameObject is Entity)
+            else if (gameObject is Entity objE)
             {
-                entities.Add(gameObject as Entity);
+                entities.Add(objE);
             }
-            else if (gameObject is MapObject)
+            else if (gameObject is MapObject obj)
             {
-                mapObjects.Add(gameObject as MapObject);
+                if (obj.IsColliderOn)
+                    mapObjects.Add(obj);
+                else
+                    BackgroundObjects.Add(obj);
             }
             else
             {
@@ -72,6 +78,8 @@ namespace DangerousD.GameCore
 
         public void Draw(SpriteBatch _spriteBatch)
         {
+            foreach (var item in BackgroundObjects)
+                item.Draw(_spriteBatch);
             foreach (var item in mapObjects)
                 item.Draw(_spriteBatch);
             foreach (var item in entities)
@@ -84,15 +92,15 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
+            foreach (var item in BackgroundObjects)
+                item.Update(gameTime);
             foreach (var item in mapObjects)
                 item.Update(gameTime);
             foreach (var item in entities)
                 item.Update(gameTime);
-            
+
             for (int i = 0; i < livingEntities.Count; i++)
-            {
                 livingEntities[i].Update(gameTime);
-            }
             foreach (var item in otherObjects)
                 item.Update(gameTime);
 

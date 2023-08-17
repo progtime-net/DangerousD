@@ -19,12 +19,12 @@ public abstract class LivingEntity : Entity
 
     public override void Update(GameTime gameTime)
     {
-        if (Vector2.Distance(Pos, targetPosition) > 0.5f)
-        {
-            Vector2 dir = targetPosition - Pos;
-            dir.Normalize();
-            _pos += dir * velocity;
-        }
+        //if (Vector2.DistanceSquared(Pos, targetPosition) > 0.25f)
+        //{
+        //    Vector2 dir = targetPosition - Pos;
+        //    dir.Normalize();
+        //    _pos += dir * velocity;
+        //}
         base.Update(gameTime);
     }
 

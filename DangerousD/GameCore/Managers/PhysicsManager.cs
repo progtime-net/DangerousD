@@ -36,33 +36,24 @@ namespace DangerousD.GameCore.Managers
         public void CheckCollisions(List<LivingEntity> livingEntities,
             List<MapObject> mapObjects)
         {
+            LivingEntity currentEntity;
+            Rectangle oldRect;
             for (int i = 0; i < livingEntities.Count; i++)
             {
-                var currentEntity = livingEntities[i];
-                Rectangle oldRect = currentEntity.Rectangle;
+                currentEntity = livingEntities[i];
+                oldRect = currentEntity.Rectangle;
                 bool isXNormalise = true;
                 bool isYNormalise = true;  
 
-                oldRect.Offset((int)currentEntity.velocity.X / 2, 0);
+                oldRect.Offset((int)currentEntity.velocity.X, 0);
                 for (int j = 0; j < mapObjects.Count; j++)
                 {
-                    if (oldRect.Intersects(mapObjects[j].Rectangle))
-                    {
-                        isXNormalise = false;
-                        oldRect.Offset(-(int)currentEntity.velocity.X / 2, 0);
-                        break;
-                    }
-
-                }
-                if (isXNormalise)
-                { 
-                    oldRect.Offset((int)currentEntity.velocity.X / 2, 0);
-                    for (int j = 0; j < mapObjects.Count; j++)
+                    if (Math.Abs(mapObjects[i].Pos.X - currentEntity.Pos.X)< currentEntity.velocity.X*2 && Math.Abs(mapObjects[i].Pos.Y - currentEntity.Pos.Y) < 50)
                     {
                         if (oldRect.Intersects(mapObjects[j].Rectangle))
                         {
                             isXNormalise = false;
-                            oldRect.Offset(-(int)currentEntity.velocity.X / 2, 0);
+                            oldRect.Offset(-(int)currentEntity.velocity.X, 0);
                             break;
                         }
                     }
@@ -71,27 +62,15 @@ namespace DangerousD.GameCore.Managers
                     currentEntity.velocity.X = 0;
 
 
-                oldRect.Offset(0, (int)currentEntity.velocity.Y/2);
+                oldRect.Offset(0, (int)currentEntity.velocity.Y);
                 for (int j = 0; j < mapObjects.Count; j++)
                 {
+
                     if (oldRect.Intersects(mapObjects[j].Rectangle))
                     {
                         isYNormalise = false;
-                        oldRect.Offset(0, -(int)currentEntity.velocity.Y / 2);
+                        oldRect.Offset(0, -(int)currentEntity.velocity.Y);
                         break;
-                    }
-                }
-                if (isYNormalise)
-                {
-                    oldRect.Offset(0, (int)currentEntity.velocity.Y / 2);
-                    for (int j = 0; j < mapObjects.Count; j++)
-                    {
-                        if (oldRect.Intersects(mapObjects[j].Rectangle))
-                        {
-                            isYNormalise = false;
-                            oldRect.Offset(0, -(int)currentEntity.velocity.Y / 2);
-                            break;
-                        }
                     }
                 }
                 if (!isYNormalise)
