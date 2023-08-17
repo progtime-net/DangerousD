@@ -56,6 +56,7 @@ namespace DangerousD.GameCore
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
            spriteBatch.Draw(debugTexture,new Rectangle(Rectangle.X-GraphicsComponent.CameraPosition.X,Rectangle.Y-GraphicsComponent.CameraPosition.Y,Rectangle.Width,Rectangle.Height), Color.White);
+
         }
     }
 }

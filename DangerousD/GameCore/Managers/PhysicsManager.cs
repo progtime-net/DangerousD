@@ -43,12 +43,12 @@ namespace DangerousD.GameCore.Managers
                 currentEntity = livingEntities[i];
                 oldRect = currentEntity.Rectangle;
                 bool isXNormalise = true;
-                bool isYNormalise = true;  
+                bool isYNormalise = true;
 
                 oldRect.Offset((int)currentEntity.velocity.X, 0);
                 for (int j = 0; j < mapObjects.Count; j++)
                 {
-                    if (Math.Abs(mapObjects[i].Pos.X - currentEntity.Pos.X)< currentEntity.velocity.X*2 && Math.Abs(mapObjects[i].Pos.Y - currentEntity.Pos.Y) < 50)
+                    if (Math.Abs(mapObjects[i].Pos.X - currentEntity.Pos.X) < currentEntity.velocity.X * 2 && Math.Abs(mapObjects[i].Pos.Y - currentEntity.Pos.Y) < 50)
                     {
                         if (oldRect.Intersects(mapObjects[j].Rectangle))
                         {
@@ -210,6 +210,21 @@ namespace DangerousD.GameCore.Managers
                         intersected.Add(gameObjects[i]);
                     }
                 }
+            }
+            return intersected;
+        }
+        public List<GameObject> CheckRectangle(Rectangle rectangle)
+        {
+            var gameObjects = AppManager.Instance.GameManager.mapObjects;
+            List<GameObject> intersected = new List<GameObject>();
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                
+                    if (gameObjects[i].Rectangle.Intersects(rectangle) && gameObjects[i].IsColliderOn)
+                    {
+                        intersected.Add(gameObjects[i]);
+                    }
+                
             }
             return intersected;
         }
