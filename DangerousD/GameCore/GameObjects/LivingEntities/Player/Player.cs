@@ -23,6 +23,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int rightBorder;
         public int leftBorder;
         public bool isVisible = true;
+        private bool isAttacked = false;
         public GameObject objectAttack;
 
         public Player(Vector2 position) : base(position)
@@ -70,6 +71,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
+            isAttacked = true;
             if(monsterName == "Zombie")
             {
                 DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
@@ -77,7 +79,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (a == "DeathFrom" + monsterName)
                     {
-                        AppManager.Instance.ChangeGameState(GameState.GameOver);
+                        AppManager.Instance.ChangeGameState(GameState.Death);
                     }
                 };
             }
@@ -99,6 +101,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
+            if (!isAttacked)
+            {
+                Move(gameTime);
+            }
+            else
+            {
+                velocity.X = 0;
+            }
             base.Update(gameTime);
         }
 
