@@ -28,7 +28,7 @@ namespace DangerousD.GameCore
         public GameState gameState { get; private set; }
         public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
         public Point resolution = new Point(1920, 1080);
-        public Point inGameResolution = new Point(1366, 768);
+        public Point inGameResolution = new Point(1920, 1080);
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;

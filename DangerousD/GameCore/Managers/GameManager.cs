@@ -83,6 +83,36 @@ namespace DangerousD.GameCore
                 otherObjects.Add(gameObject);
             }
         }
+        
+        public void Remove(GameObject gameObject)
+        {
+            GetAllGameObjects.Remove(gameObject);
+            if (gameObject is Player objPl)
+            {
+                livingEntities.Remove(gameObject as LivingEntity);
+                players.Remove(objPl);
+            }
+            else if (gameObject is LivingEntity objLE)
+            {
+                livingEntities.Remove(objLE);
+            }
+            else if (gameObject is Entity objE)
+            {
+                entities.Remove(objE);
+            }
+            else if (gameObject is MapObject obj)
+            {
+                if (obj.IsColliderOn)
+                    mapObjects.Remove(obj);
+                else
+                    BackgroundObjects.Remove(obj);
+            }
+            else
+            {
+                otherObjects.Remove(gameObject);
+            }
+        }
+
         public void Draw(SpriteBatch _spriteBatch)
         {
             foreach (var item in BackgroundObjects)

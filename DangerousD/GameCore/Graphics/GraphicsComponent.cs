@@ -16,6 +16,7 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
+        static private int scaling=3;
         public AnimationContainer CurrentAnimation
         {
             get
@@ -167,6 +168,8 @@ namespace DangerousD.GameCore.Graphics
 
             destinationRectangle.X -= CameraPosition.X;
             destinationRectangle.Y -= CameraPosition.Y;
+
+            destinationRectangle = Scaling(destinationRectangle);
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }
@@ -191,10 +194,18 @@ namespace DangerousD.GameCore.Graphics
             destinationRectangle.X -= CameraPosition.X;
             destinationRectangle.Y -= CameraPosition.Y;
 
+            destinationRectangle = Scaling(destinationRectangle);
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }
-
+        private Rectangle Scaling(Rectangle destinationRectangle)
+        {
+            destinationRectangle.X *= scaling;
+            destinationRectangle.Y *= scaling;
+            destinationRectangle.Width *= scaling;
+            destinationRectangle.Height *= scaling;
+            return destinationRectangle;
+        }
         private void buildSourceRectangle()
         {
             sourceRectangle = new Rectangle();
@@ -222,6 +233,12 @@ namespace DangerousD.GameCore.Graphics
                 interval = lastInterval;
             }
         }
-        public static Point CameraPosition = new Point(0, 0);
+        public static void SetCameraPosition(Vector2 playerPosition)
+        {
+            CameraPosition=(playerPosition).ToPoint();
+            CameraPosition.X -= 300;
+            CameraPosition.Y -= 200;
+        }
+        public static Point CameraPosition = new Point(-700, 300);
     }
 }
