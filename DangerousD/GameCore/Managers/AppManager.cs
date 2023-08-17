@@ -13,7 +13,7 @@ using DangerousD.GameCore.Managers;
 
 namespace DangerousD.GameCore
 {
-    public enum GameState { Menu, Options, Lobby, Game, Login }
+    public enum GameState { Menu, Options, Lobby, Game, Login, GameOver }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set;  }
