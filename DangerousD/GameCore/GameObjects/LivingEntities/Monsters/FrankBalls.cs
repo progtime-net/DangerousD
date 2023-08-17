@@ -15,6 +15,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private Rectangle collision;
         private Vector2 position;
         private int healthBall;
+        private bool isFlyRight = true;
+        private bool isAttacking = false;
 
         public Rectangle Collision
         {
@@ -27,16 +29,36 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             name = "FrankBalls";
             Width = 40;
             Height = 40;
-            monster_speed = 1;
+            monster_speed = 3;
             acceleration = Vector2.Zero;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
 
+        public override void Update(GameTime gameTime)
+        {
+            if(!isAttacking)
+            {
+                Move(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
+
         public override void Attack()
         {
             collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
-            
+            isAttacking = true;
+
+            if(isFlyRight)
+            {
+                AppManager.Instance.GameManager.players[0].Death(name);
+            }
+            else if(!isFlyRight)
+            {
+                AppManager.Instance.GameManager.players[0].Death(name);
+            }
+
         }
 
         public override void Death()
@@ -46,7 +68,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            
+            velocity.X = 0;
+            velocity.Y = 0;
+
+            if(isFlyRight)
+            {
+                velocity.X += monster_speed;
+                velocity.Y += monster_speed;
+            }
+            else if(!isFlyRight)
+            {
+                velocity.X -= monster_speed;
+                velocity.Y -= monster_speed;
+            }
         }
     }
 }
