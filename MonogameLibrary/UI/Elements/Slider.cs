@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonogameLibrary.UI.Base;
@@ -17,7 +18,9 @@ namespace MonogameLibrary.UI.Elements
         }
         public delegate void OnSliderChanges(float value);
         public event OnSliderChanges? SliderChanged;
+        public int indentation = 5;
 
+        Texture2D texture2; 
         public Rectangle sliderRect = new Rectangle(0, 0, 30, 30);
         private float sliderValue = 0;
         private float minValue = 0, maxValue = 1;
@@ -50,6 +53,13 @@ namespace MonogameLibrary.UI.Elements
                 sliderState = SliderState.None;
             return false;
         }
+
+        public override void LoadTexture(ContentManager content)
+        {
+            texture2 = content.Load<Texture2D>("slider");
+            base.LoadTexture(content);
+        }
+
         public void SetValue(float setvalue)
         {
             sliderValue = setvalue;
@@ -60,14 +70,14 @@ namespace MonogameLibrary.UI.Elements
         {
             base.Draw(_spriteBatch);
             sliderRect.Location = rectangle.Location;
-            sliderRect.X += (int)(sliderValue * (rectangle.Width - sliderRect.Width));
+            sliderRect.X += (int)(sliderValue * (rectangle.Width - sliderRect.Width - indentation * 2) + indentation);
             sliderRect.Y -= sliderRect.Height / 2 - rectangle.Height / 2;
             if (sliderState == SliderState.Moving)
-                _spriteBatch.Draw(texture, sliderRect, Color.DarkRed);
+                _spriteBatch.Draw(texture2, sliderRect, Color.DarkRed);
             else if(sliderState == SliderState.HoveringOverSliderButton)
-                _spriteBatch.Draw(texture, sliderRect, new Color(200,0,0));
+                _spriteBatch.Draw(texture2, sliderRect, new Color(200,0 ,0));
             else
-                _spriteBatch.Draw(texture, sliderRect, Color.Red);
+                _spriteBatch.Draw(texture2, sliderRect, Color.Red);
             DrawText(_spriteBatch);
         }
     }

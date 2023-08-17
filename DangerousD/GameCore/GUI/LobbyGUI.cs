@@ -45,9 +45,10 @@ namespace DangerousD.GameCore.GUI
                         screenWidth / 30 * 10, screenHeight / 30 * 3),
                     text = "ip",
                     scale = 0.16f,
-                    fontColor = Color.Gray,
+                    fontColor = Color.Black,
                     fontName = "font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground6-1"
 
                 };
                 searchBarTextBox.TextChanged += input => {

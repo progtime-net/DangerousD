@@ -23,7 +23,9 @@ namespace DangerousD.GameCore.GUI
             {
                 MinValue = 0,
                 MaxValue = 1,
-                rectangle = new Rectangle(wigth / 2 + 220, 275, (int)(100 * 2.4), 40)
+                rectangle = new Rectangle(wigth / 2 + 220, 275, (int)(100 * 2.4), 40),
+                indentation = 5,
+                textureName = "sliderBackground"
             };
 
             var cB = new CheckBox(Manager);

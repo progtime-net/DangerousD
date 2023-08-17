@@ -14,43 +14,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin MonstersAnimations.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:MonstersAnimations.png
-
-#begin deathAnimation.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:deathAnimation.png
-
 #begin ButtonFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:ButtonFont.spritefont
-
-
-#begin DoomTestSong.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:DoomTestSong.mp3
 
 #begin checkboxs_off-on.png
 /importer:TextureImporter
@@ -88,6 +57,18 @@
 /processorParam:TextureFormat=Color
 /build:checkboxs_on.png
 
+#begin deathAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:deathAnimation.png
+
 #begin deathBackground.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -99,6 +80,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:deathBackground.jpg
+
+#begin DoomTestSong.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:DoomTestSong.mp3
 
 #begin Font_25.spritefont
 /importer:FontDescriptionImporter
@@ -120,18 +107,6 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Font2.spritefont
-
-#begin menuFon.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:menuFon.jpg
 
 #begin menuFon.jpg
 /importer:TextureImporter
@@ -169,18 +144,6 @@
 /processorParam:TextureFormat=Color
 /build:menuFon3.jpg
 
-#begin tiles.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles.png
-
 #begin MonstersAnimations.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -216,6 +179,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
+
+#begin slider.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:slider.png
+
+#begin sliderBackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sliderBackground.png
 
 #begin textboxbackground1-1.png
 /importer:TextureImporter
@@ -264,6 +251,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textboxbackground6-1.png
+
+#begin tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiles.png
 
 #begin wall.jpg
 /importer:TextureImporter
