@@ -14,8 +14,8 @@ namespace DangerousD.GameCore
     {
         protected Vector2 _pos;
         public Vector2 Pos => _pos;
-        public int Width { get; protected set; }
-        public int Height { get; protected set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
         public Vector2 velocity;
         public Vector2 acceleration;

@@ -2,7 +2,7 @@
 using DangerousD.GameCore.GameObjects.MapObjects;
 using Microsoft.Xna.Framework;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
-
+using System.Collections.Generic;
 
 namespace DangerousD.GameCore.Levels
 {
@@ -11,9 +11,14 @@ namespace DangerousD.GameCore.Levels
         public void InitLevel()
         {
             new Player(new Vector2(80,0));
-
             var Zombie = new Zombie(new Vector2(140, 128));
             var Frank = new Frank(new Vector2(384, 128));
+
+            var Spider = new Spider(new Vector2(112, 0));
+            var FlameSkull = new FlameSkull(new Vector2(512, 0));
+            var Werewolf = new Werewolf(new Vector2(640, 0));
+            var Ghost = new Ghost(new Vector2(730, 0));
+            var FrankBalls = new FrankBalls(new Vector2(Frank.Pos.X, Frank.Pos.Y));
 
             new GrassBlock(new Vector2(0, 224));
             for (int i = 0; i < 50; i++)
