@@ -14,13 +14,9 @@ using DangerousD.GameCore.Managers;
 namespace DangerousD.GameCore
 {
     public enum MultiPlayerStatus { SinglePlayer, Host, Client }
-<<<<<<< HEAD
-    public enum GameState { Menu, Options, Lobby, Game, Login, Death, HUD }
-=======
-    public enum GameState { Menu, Options, Lobby, Game, Login, Death,
+    public enum GameState { Menu, Options, Lobby, Game, Login, Death, HUD,
         GameOver
     }
->>>>>>> e6d0f2b8a092647a5c02741fd70194bfb376b202
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set; }
