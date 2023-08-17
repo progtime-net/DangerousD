@@ -81,6 +81,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
         public override void Death()
         {
             if (monster_health <= 0)
@@ -122,6 +127,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             monster_speed *= -1;
             _pos.X += 5 * monster_speed;
             Debug.WriteLine("Collision");
+        }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
         }
     }
 }

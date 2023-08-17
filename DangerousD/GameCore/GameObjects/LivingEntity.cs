@@ -11,16 +11,20 @@ public abstract class LivingEntity : Entity
     {
         acceleration = new Vector2(0, 30);
     }
-    public void SetPosition(Vector2 position) { targetPosition = position; _pos = position; } //TODO befrend targetpos and physics engine
+    public override void SetPosition(Vector2 position)
+    {
+        targetPosition = position; _pos = position;
+        
+    } //TODO befrend targetpos and physics engine
 
     public override void Update(GameTime gameTime)
     {
-        if (Vector2.Distance(Pos, targetPosition) > 0.5f)
-        {
-            Vector2 dir = targetPosition - Pos;
-            dir.Normalize();
-            _pos += dir * velocity;
-        }
+        //if (Vector2.DistanceSquared(Pos, targetPosition) > 0.25f)
+        //{
+        //    Vector2 dir = targetPosition - Pos;
+        //    dir.Normalize();
+        //    _pos += dir * velocity;
+        //}
         base.Update(gameTime);
     }
 

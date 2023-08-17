@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:references/MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -71,6 +72,19 @@
 /processorParam:TextureFormat=Color
 /build:menuFon.jpg
 
+#begin MonstersAnimations.png
+#begin menuFon.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:menuFon.jpg
+
 #begin MenuFon2.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -117,7 +131,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
+/build:tiles.png
 
 #begin playerAnimation.png
 /importer:TextureImporter

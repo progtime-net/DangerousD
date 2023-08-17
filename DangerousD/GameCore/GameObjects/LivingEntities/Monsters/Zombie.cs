@@ -110,23 +110,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
-
-        public void Target()
+        public override void Target()
         {
-            if(physicsManager.RayCast(this, AppManager.Instance.GameManager.players[0]) == null)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)) != null)
             {
-                if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
+                if (isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     leftBorder = Pos.X - 10;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
-                else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
+                else if (!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     rightBorder = Pos.X + 10;
-                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
+                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X;
                 }
             }
         }
@@ -141,5 +140,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 rightBorder = 760;
             }
         }
+
+        public override void Attack(GameTime gameTime)
+        {}
     }
 }

@@ -22,10 +22,12 @@ namespace DangerousD.GameCore
         protected abstract GraphicsComponent GraphicsComponent { get; }
         public GameObject(Vector2 pos)
         {
+            Initialize();
             _pos = pos;
             Width = 500;
             Height = 101;
             //Animator = new GraphicsComponent(new() { "playerIdle" });
+            
             LoadContent();
             AppManager.Instance.GameManager.Register(this);
         }
@@ -34,7 +36,7 @@ namespace DangerousD.GameCore
         {
         }
 
-        public virtual void Initialize(GraphicsDevice graphicsDevice)
+        public virtual void Initialize()
         {
         }
 
@@ -53,7 +55,8 @@ namespace DangerousD.GameCore
         {
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
-           // spriteBatch.Draw(debugTexture, Rectangle, Color.White);
+           //wdaspriteBatch.Draw(debugTexture,new Rectangle(Rectangle.X-GraphicsComponent.CameraPosition.X,Rectangle.Y-GraphicsComponent.CameraPosition.Y,Rectangle.Width,Rectangle.Height), Color.White);
+
         }
     }
 }

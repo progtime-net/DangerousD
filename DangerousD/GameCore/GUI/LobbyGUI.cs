@@ -80,7 +80,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 hostButton.LeftButtonPressed += () => {
-
+                    AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.HostInit(AppManager.Instance.IpAddress);
 
                 };
@@ -106,6 +106,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 joinSelectedButton.LeftButtonPressed += () => {
+                    AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.ClientInit(AppManager.Instance.IpAddress);
                 };
                 Button joinByIpButton = new ButtonText(Manager)

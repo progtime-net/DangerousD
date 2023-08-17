@@ -27,7 +27,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
         }
 
         public override void Death()
@@ -39,12 +44,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (Pos.Y> AppManager.Instance.GameManager.GetPlayer1.Pos.Y)
             {
-                velocity.Y = monster_speed;
+                velocity.Y = -monster_speed;
 
             }
             else
             {
-                velocity.Y = 0;
+                velocity.Y = monster_speed;
             }
             if (Pos.X> AppManager.Instance.GameManager.GetPlayer1.Pos.X)
             {
@@ -55,9 +60,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.X = monster_speed;
             }
         }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            Move(gameTime);
             if ((Pos.X + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.X || Pos.X - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.X)&&(Pos.Y + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.Y || Pos.Y - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.Y))
             {
                 
