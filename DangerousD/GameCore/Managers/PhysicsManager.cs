@@ -77,6 +77,7 @@ namespace DangerousD.GameCore.Managers
                 if (currentEntity is Player)
                 {
                     AppManager.Instance.DebugHUD.Set("velocity", currentEntity.velocity.ToString());
+                    AppManager.Instance.DebugHUD.Set("falling", (currentEntity as Player).FallingThroughPlatform.ToString());
                     AppManager.Instance.DebugHUD.Set("intersects y", "");
                 }
                 foreach (var mapObject in mapObjects)
@@ -107,7 +108,7 @@ namespace DangerousD.GameCore.Managers
         {
             foreach (var player in players)
             {
-                if (player.velocity.Y <= 0)
+                if (player.velocity.Y <= 0 || player.FallingThroughPlatform)
                 {
                     continue;
                 }
@@ -129,6 +130,8 @@ namespace DangerousD.GameCore.Managers
                 }
                 if (collidedY)
                 {
+                    // костыль потому что в CheckCollisionsLE_MO он спускается
+                    newRect.Y -= (int)Math.Ceiling(player.velocity.Y);
                     player.isOnGround = true;
                     player.velocity.Y = 0;
                 }

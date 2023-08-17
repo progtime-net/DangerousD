@@ -29,6 +29,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private bool isShooting = false;
         public GameObject objectAttack;
         private int bullets;
+        public bool FallingThroughPlatform = false;
 
         public Player(Vector2 position) : base(position)
         {
@@ -153,6 +154,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public override void Update(GameTime gameTime)
         {
+            if (isOnGround && FallingThroughPlatform)
+            {
+                FallingThroughPlatform = false;
+                AppManager.Instance.DebugHUD.Log("not falling");
+            }
             GraphicsComponent.SetCameraPosition(Pos);
             if (!isAttacked)
             {
@@ -214,8 +220,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void MoveDown()
         {
-            // ПОЧЕМУ
-            velocity.Y = -11;
+            FallingThroughPlatform = true;
+            isOnGround = false;
+            AppManager.Instance.DebugHUD.Log("FallingThroughPlatform");
         }
 
     }
