@@ -32,9 +32,9 @@ namespace DangerousD.GameCore.GUI
             loginBackground.LoadTexture(AppManager.Instance.Content);
 
             Elements.Add(new Label(Manager) {
-                rectangle = new Rectangle(screenWidth / 2 - 250, screenHeight / 6 - 50, 500, 100),
+                rectangle = new Rectangle(screenWidth / 2 - (int)(250 * 2.4), screenHeight / 6 - 100, (int)(500 * 2.4), (int)(100 * 2.4)),
                 text = "Login",
-                scale = 0.8f,
+                scale = 1.7f,
                 fontColor = Color.White,
                 mainColor = Color.Transparent,
                 fontName = "ButtonFont"
@@ -44,13 +44,16 @@ namespace DangerousD.GameCore.GUI
             {
                 TextBox loginTextBox = new TextBox(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 2 - 125, screenHeight / 6 * 2 - 20, 250, 40),
+                    rectangle = new Rectangle(screenWidth / 2 - (int)(125 * 2.4), screenHeight / 6 * 2 - 20, (int)(250 * 2.4), (int)(40 * 2.4)),
                     text = "NickName",
-                    scale = 0.16f,
+                    scale = 0.33f,
                     fontColor = Color.Gray,
                     fontName = "Font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground6-1"
+
                 };
+                loginTextBox.LoadTexture(AppManager.Instance.Content);
                 loginTextBox.TextChanged += input => {
                     if (loginTextBox.fontColor == Color.Gray)
                     {
@@ -67,13 +70,15 @@ namespace DangerousD.GameCore.GUI
 
                 TextBox passwordTextBox = new TextBox(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 2 - 125, screenHeight / 6 * 3 - 40, 250, 40),
+                    rectangle = new Rectangle(screenWidth / 2 - (int)(125 * 2.4), screenHeight / 6 * 3 - 40, (int)(250 * 2.4), (int)(40 * 2.4)),
                     text = "Password",
-                    scale = 0.16f,
+                    scale = 0.33f,
                     fontColor = Color.Gray,
                     fontName = "font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground6-1"
                 };
+                passwordTextBox.LoadTexture(AppManager.Instance.Content);
                 passwordTextBox.TextChanged += input => {
                     if (passwordTextBox.fontColor == Color.Gray)
                     {
@@ -91,12 +96,13 @@ namespace DangerousD.GameCore.GUI
 
             // Кнопки
             {
-                Button logButton = new ButtonText(Manager) {
-                    rectangle = new Rectangle(screenWidth / 4 + 50, screenHeight / 6 * 4, 100, 50),
+                Button logButton = new Button(Manager) {
+                    rectangle = new Rectangle(screenWidth / 4 + (int)(50 * 2.4), screenHeight / 6 * 3 + 100, (int)(100 * 2.4), (int)(50 * 2.4)),
                     text = "LogIn",
-                    scale = 0.2f,
-                    fontColor = Color.Black,
-                    fontName = "font2"
+                    scale = 0.6f,
+                    fontColor = Color.White,
+                    fontName = "ButtonFont",
+                    textureName = "textboxbackground2-1"
                 };
                 logButton.LeftButtonPressed += () => {
                     if (CheckUser())
@@ -105,23 +111,25 @@ namespace DangerousD.GameCore.GUI
                     }
                 };
 
-                Button regButton = new ButtonText(Manager)
+                Button regButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 4 * 2 + 50, screenHeight / 6 * 4, 100, 50),
+                    rectangle = new Rectangle(screenWidth / 4 * 2 + (int)(50 * 2.4), screenHeight / 6 * 3 + 100, (int)(100 * 2.4), (int)(50 * 2.4)),
                     text = "Reg",
-                    scale = 0.2f,
-                    fontColor = Color.Black,
-                    fontName = "font2"
+                    scale = 0.6f,
+                    fontColor = Color.White,
+                    fontName = "ButtonFont",
+                    textureName = "textboxbackground2-1"
                 };
                 regButton.LeftButtonPressed += GoToRegWebServer;
 
-                Button backButton = new ButtonText(Manager)
+                Button backButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, 50, 50),
+                    rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)),
                     text = "<-",
-                    scale = 0.3f,
+                    scale = 0.72f,
                     fontColor = Color.Black,
-                    fontName = "font2"
+                    fontName = "font2",
+                    textureName = "textboxbackground1-1"
                 };
                 backButton.LeftButtonPressed += () => {
                     AppManager.Instance.ChangeGameState(GameState.Menu);

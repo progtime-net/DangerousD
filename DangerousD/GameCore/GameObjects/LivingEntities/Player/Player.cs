@@ -27,8 +27,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public Player(Vector2 position) : base(position)
         {
-            Width = 32;
-            Height = 64;
+            Width = 16;
+            Height = 32;
 
             AppManager.Instance.InputManager.ShootEvent += Shoot;
 
@@ -85,8 +85,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Jump()
         {
-            velocity.Y = -30;
-            isJump = true;
+            if (isOnGround)
+            {
+                velocity.Y = -11;
+            }
             // здесь будет анимация
         }
         public void Shoot()
@@ -97,42 +99,39 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
-            velocity.X = 0.5f;
-            if (velocity.Y == 0)
-            {
-                isJump = false;
-            }
-            Move(gameTime);
             base.Update(gameTime);
         }
 
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            velocity.X = 5 * AppManager.Instance.InputManager.VectorMovementDirection.X;
+            if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")
+                if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
                 {
                     GraphicsComponent.StartAnimation("playerMoveRight");
                 }
-                velocity.X = 10;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A))
+            else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
             {
                 if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("playerMoveLeft");
                 }
-                 velocity.X = -10;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isJump)
+            else if(AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
             {
-                Jump();
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                }
             }
         }
         public void MoveDown()
         {
-
+            // ПОЧЕМУ
+            velocity.Y = -11;
         }
 
     }

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DangerousD.GameCore.GUI
 {
-    interface IDrawableObject
+    public interface IDrawableObject
     {
         void Initialize();
         void LoadContent();
