@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="10" nextobjectid="47">
  <tileset firstgid="1" source="map.tsx"/>
- <layer id="1" name="Collision" class="collidable" width="30" height="20" locked="1" offsetx="-352.033" offsety="192.098">
+ <layer id="1" name="Collision" class="StopTile" width="30" height="20" locked="1" offsetx="-352.033" offsety="192.098">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -311,7 +311,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="4" name="Background 2" class="non_collidable" width="30" height="20" visible="0" locked="1">
+ <layer id="4" name="Background 2" class="Tile" width="30" height="20" visible="0" locked="1">
   <data encoding="csv">
    <chunk x="0" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -441,36 +441,7 @@
 </chunk>
   </data>
  </layer>
- <objectgroup id="2" name="Collectables 100 - 1" visible="0" locked="1" offsetx="53.25" offsety="-12">
-  <object id="6" x="81.4167" y="71.3333">
-   <point/>
-  </object>
-  <object id="7" x="128.083" y="168.667">
-   <point/>
-  </object>
-  <object id="10" x="289.417" y="264.667">
-   <point/>
-  </object>
-  <object id="11" x="-144.583" y="358">
-   <point/>
-  </object>
-  <object id="13" x="0.0833333" y="453.333">
-   <point/>
-  </object>
-  <object id="14" x="637.417" y="454.667">
-   <point/>
-  </object>
-  <object id="15" x="640.083" y="359.333">
-   <point/>
-  </object>
-  <object id="16" x="638.75" y="263.333">
-   <point/>
-  </object>
-  <object id="17" x="638.75" y="170">
-   <point/>
-  </object>
- </objectgroup>
- <layer id="6" name="Ladders" class="platform" width="30" height="20" locked="1">
+ <layer id="6" name="Ladders" class="Platform" width="30" height="20" locked="1">
   <data encoding="csv">
    <chunk x="-16" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -546,7 +517,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="3" name="Backgrond" class="non_collidable" width="30" height="20" visible="0" locked="1" offsetx="-256.033" offsety="256.098">
+ <layer id="3" name="Backgrond" class="Tile" width="30" height="20" visible="0" locked="1" offsetx="-256.033" offsety="256.098">
   <data encoding="csv">
    <chunk x="-16" y="-16" width="16" height="16">
 29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,
@@ -730,30 +701,7 @@
 </chunk>
   </data>
  </layer>
- <objectgroup id="5" name="Collectables 100 - 2" visible="0" locked="1">
-  <object id="19" x="696.667" y="40">
-   <point/>
-  </object>
-  <object id="20" x="616" y="40.6667">
-   <point/>
-  </object>
-  <object id="21" x="213.333" y="57.3333">
-   <point/>
-  </object>
-  <object id="22" x="232.667" y="153">
-   <point/>
-  </object>
-  <object id="23" x="137.667" y="247.667">
-   <point/>
-  </object>
-  <object id="24" x="361" y="441.333">
-   <point/>
-  </object>
-  <object id="25" x="488.333" y="341.667">
-   <point/>
-  </object>
- </objectgroup>
- <objectgroup id="8" name="Zombies" locked="1">
+ <objectgroup id="8" name="Zombies" class="LivingEntities.Monsters.Zombie" locked="1">
   <object id="26" x="265" y="469.5">
    <point/>
   </object>
@@ -800,23 +748,6 @@
    <point/>
   </object>
   <object id="41" x="582" y="83">
-   <point/>
-  </object>
- </objectgroup>
- <objectgroup id="9" name="Short Zombies" locked="1">
-  <object id="42" x="-141.333" y="373.333">
-   <point/>
-  </object>
-  <object id="43" x="-141.333" y="282.667">
-   <point/>
-  </object>
-  <object id="44" x="-130.667" y="186.667">
-   <point/>
-  </object>
-  <object id="45" x="-132" y="86.6667">
-   <point/>
-  </object>
-  <object id="46" x="641.333" y="274.667">
    <point/>
   </object>
  </objectgroup>

@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using DangerousD.GameCore.GameObjects.MapObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml.Serialization;
+using DangerousD.GameCore.GameObjects;
+
 namespace DangerousD.GameCore.Managers
 {
     public class MapManager
@@ -28,11 +32,14 @@ namespace DangerousD.GameCore.Managers
                 int.Parse(xml.DocumentElement.Attributes["tileheight"].Value));
             //tileSize *= _scale;
             
-            XmlNodeList layers = xml.DocumentElement.SelectNodes("layer");
-            Debug.Write(layers.Count);
-            foreach (XmlNode layer in layers)
+            foreach (XmlNode layer in xml.DocumentElement.SelectNodes("layer"))
             {
                 InstantiateTiles(layer, tileSize);
+            }
+
+            foreach (XmlNode layer in xml.DocumentElement.SelectNodes("objectgroup"))
+            {
+                InstantiateEntities(layer);
             }
         }
 
@@ -60,8 +67,10 @@ namespace DangerousD.GameCore.Managers
                             (chunkY + i / chunkW) * tileSize.Y * _scale + offsetY);
                         //pos *= _scale;
                         Rectangle sourceRect = new(new Point((tiles[i] -1) % _columns, (tiles[i] -1) / _columns) * tileSize.ToPoint(), tileSize.ToPoint());
-                    
-                        switch (tileType)
+                        Type type = Type.GetType($"DangerousD.GameCore.GameObjects.MapObjects.{tileType}");
+                        Activator.CreateInstance(type, pos, tileSize * _scale, sourceRect);
+
+                        /*switch (tileType)
                         {
                             case "collidable":
                                 new StopTile(pos, tileSize * _scale, sourceRect);
@@ -72,7 +81,7 @@ namespace DangerousD.GameCore.Managers
                             case "non_collidable":
                                 new Tile(pos, tileSize * _scale, sourceRect);
                                 break;
-                        }
+                        }*/
                     }
                     
                     }
@@ -86,6 +95,16 @@ namespace DangerousD.GameCore.Managers
             XmlNode root = xml.DocumentElement;
             
             _columns = int.Parse(root.Attributes["columns"].Value);
+        }
+
+        private void InstantiateEntities(XmlNode group)
+        {
+            string entityType = group.Attributes["class"].Value;
+            foreach (XmlNode entity in group.ChildNodes)
+            {
+                Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
+                Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value), float.Parse(entity.Attributes["y"].Value)));
+            }
         }
     }
 }
