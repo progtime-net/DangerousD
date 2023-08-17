@@ -10,7 +10,7 @@ namespace DangerousD.GameCore.Network
 {
     public class NetworkManager
     {
-        public delegate void ReceivingHandler(NetworkTask networkTask);
+        public delegate void ReceivingHandler(List<NetworkTask> networkTask);
 
         public event ReceivingHandler GetReceivingMessages;
 
@@ -89,8 +89,6 @@ namespace DangerousD.GameCore.Network
         }
         public void SendMsg(NetworkTask networkTask)
         {
-            //TODO
-            return;
             byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
             if (state == "Host")
@@ -146,7 +144,7 @@ namespace DangerousD.GameCore.Network
                 }
                 else
                 {
-                    GetReceivingMessages(JsonConvert.DeserializeObject<NetworkTask>(so.sb.ToString()));
+                    GetReceivingMessages(JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString()));
                 }
             }
             catch { }

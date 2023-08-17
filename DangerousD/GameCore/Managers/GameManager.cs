@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 
 namespace DangerousD.GameCore
 {
@@ -16,6 +17,7 @@ namespace DangerousD.GameCore
         public List<LivingEntity> livingEntities;
         public List<Entity> entities;
         public List<MapObject> mapObjects;
+        public List<GameObject> others;
         public MapManager mapManager;
         public PhysicsManager physicsManager;
         public List<Player> players;
@@ -23,14 +25,23 @@ namespace DangerousD.GameCore
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
+            others = new List<GameObject>();
             GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             entities = new List<Entity>();
             players = new List<Player>();
-            mapManager = new MapManager();
+            mapManager = new MapManager(1);
             physicsManager = new PhysicsManager();
-            mapManager.Init();
+        }
+
+        public void Initialize()
+        {
+            //mapManager.LoadLevel("Level1");
+        }
+
+        public void LoadContent()
+        {
         }
 
         internal void Register(GameObject gameObject)
@@ -77,8 +88,11 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
             foreach (var item in entities)
                 item.Update(gameTime);
-            foreach (var item in livingEntities)
-                item.Update(gameTime);
+            
+            for (int i = 0; i < livingEntities.Count; i++)
+            {
+                livingEntities[i].Update(gameTime);
+            }
             foreach (var item in otherObjects)
                 item.Update(gameTime);
 
