@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Serialization;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
+using DangerousD.GameCore.GameObjects.LivingEntities;
 
 namespace DangerousD.GameCore.Managers
 {
@@ -70,22 +71,8 @@ namespace DangerousD.GameCore.Managers
                         Rectangle sourceRect = new(new Point((tiles[i] -1) % _columns, (tiles[i] -1) / _columns) * tileSize.ToPoint(), tileSize.ToPoint());
                         Type type = Type.GetType($"DangerousD.GameCore.GameObjects.MapObjects.{tileType}");
                         Activator.CreateInstance(type, pos, tileSize * _scale, sourceRect);
-
-                        /*switch (tileType)
-                        {
-                            case "collidable":
-                                new StopTile(pos, tileSize * _scale, sourceRect);
-                                break;
-                            case "platform":
-                                new Platform(pos, tileSize * _scale, sourceRect);
-                                break;
-                            case "non_collidable":
-                                new Tile(pos, tileSize * _scale, sourceRect);
-                                break;
-                        }*/
                     }
-                    
-                    }
+                }
             }
         }
 
@@ -105,10 +92,20 @@ namespace DangerousD.GameCore.Managers
             float offsetY = group.Attributes["offsety"] is not null ? float.Parse(group.Attributes["offsety"].Value) : 0;
             foreach (XmlNode entity in group.ChildNodes)
             {
-                Debug.WriteLine(entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "");
                 string entityType = entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "";
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityGroup}{entityType}");
-                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
+                Vector2 pos =
+                    new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
+                        float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
+                Entity inst;
+                if (type.Equals(typeof(Player)) &&  entity.Attributes["name"].Value == "DEBUGUS")
+                {
+                    inst = (Entity)Activator.CreateInstance(type, pos, true);
+                }
+                else
+                {
+                    inst = (Entity)Activator.CreateInstance(type, pos);
+                }
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 inst.Height *= _scale;
                 inst.Width *= _scale;

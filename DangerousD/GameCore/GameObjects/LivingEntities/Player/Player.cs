@@ -25,9 +25,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int leftBorder;
         public bool isVisible = true;
         private bool isAttacked = false;
+        public bool isInvincible;
         public GameObject objectAttack;
 
-        public Player(Vector2 position) : base(position)
+        public Player(Vector2 position, bool isInvincible = false) : base(position)
         {
             Width = 16;
             Height = 32;
@@ -40,6 +41,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
+            this.isInvincible = isInvincible;
 
         }
 
@@ -98,7 +100,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
-            if (!isAttacked)
+            if (!isAttacked || isInvincible)
             {
                 Move(gameTime);
             }
