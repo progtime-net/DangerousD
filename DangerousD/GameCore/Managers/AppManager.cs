@@ -14,12 +14,15 @@ using DangerousD.GameCore.Managers;
 namespace DangerousD.GameCore
 {
     public enum GameState { Menu, Options, Lobby, Game, Login, GameOver }
+    public enum MultiPlayerStatus { SinglePlayer, Host, Client }
     public class AppManager : Game
     {
-        public static AppManager Instance { get; private set;  }
+        public static AppManager Instance { get; private set; }
+        public string IpAddress { get; private set; } = "127.0.0.1";
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch; 
-        GameState gameState;
+        private SpriteBatch _spriteBatch;
+        public GameState gameState { get; private set; }
+        public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
@@ -44,6 +47,8 @@ namespace DangerousD.GameCore
 
             SettingsManager = new SettingsManager();
             SettingsManager.LoadSettings();
+
+            NetworkManager.GetReceivingMessages += NetworkSync;
 
             resolution = SettingsManager.Resolution;
             _graphics.PreferredBackBufferWidth = resolution.X;
@@ -162,10 +167,41 @@ namespace DangerousD.GameCore
                 case GameState.Game:
                     GameManager.mapManager.LoadLevel("");
                     break;
+                case GameState.GameOver:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        public void NetworkSync(NetworkTask networkTask)
+        {
+            //TODO
+            return;
+            switch (networkTask.operation)
+            {
+                case NetworkTaskOperationEnum.TakeDamage:
+                    break;
+                case NetworkTaskOperationEnum.SendSound:
+                    SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
+                    break;
+                case NetworkTaskOperationEnum.CreateEntity:
+                    break;
+                case NetworkTaskOperationEnum.SendPosition:
+                    break;
+                case NetworkTaskOperationEnum.ChangeState:
+                    break;
+                case NetworkTaskOperationEnum.ConnectToHost:
+                    break;
+                case NetworkTaskOperationEnum.GetClientPlayerId:
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
+        {
+            this.multiPlayerStatus = multiPlayerStatus;
+        }
     }
 }

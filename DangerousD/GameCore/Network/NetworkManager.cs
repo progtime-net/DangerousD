@@ -21,20 +21,27 @@ namespace DangerousD.GameCore.Network
 
         private void Init(string IpAddress)
         {
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress address = IPAddress.Parse(IpAddress);
-            int port = 8000;
-            endPoint = new IPEndPoint(address, port);
+            try
+            {
+                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IPAddress address = IPAddress.Parse(IpAddress);
+                int port = 8000;
+                endPoint = new IPEndPoint(address, port);
+            }
+            catch { }
         }
         private void AcceptSockets()
         {
             while (true)
             {
-                Socket clientSocket = socket.Accept();
-                clientSockets.Add(clientSocket);
-                Thread receiveThread = new Thread(BeginHostReceive);
-                receiveThread.Start(clientSocket);
-                Console.WriteLine("Connected");
+                try
+                {
+                    Socket clientSocket = socket.Accept();
+                    clientSockets.Add(clientSocket);
+                    Thread receiveThread = new Thread(BeginHostReceive);
+                    receiveThread.Start(clientSocket);
+                }
+                catch { }
 
             }
         }
@@ -43,77 +50,106 @@ namespace DangerousD.GameCore.Network
             Socket clientSocket = clSocket as Socket;
             while (clientSocket != null)
             {
-                byte[] bytesCount = new byte[4];
-                clientSocket.Receive(bytesCount);
-                byte[] Data = new byte[BitConverter.ToInt32(bytesCount)];
-                StateObject so = new StateObject(clientSocket, Data);
-                IAsyncResult count = clientSocket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, AsyncReceiveCallback, so);
+                try
+                {
+                    byte[] bytesCount = new byte[4];
+                    clientSocket.Receive(bytesCount);
+                    byte[] Data = new byte[BitConverter.ToInt32(bytesCount)];
+                    StateObject so = new StateObject(clientSocket, Data);
+                    IAsyncResult count = clientSocket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, AsyncReceiveCallback, so);
+                }
+                catch { }
             }
         }
         public void HostInit(string IpAddress)
         {
-            Init(IpAddress);
-            socket.Bind(endPoint);
-            socket.Listen(4);
-            Thread acceptThread = new Thread(AcceptSockets);
-            acceptThread.Start();
-            state = "Host";
-            Console.WriteLine("Start Accept");
+            try
+            {
+                Init(IpAddress);
+                socket.Bind(endPoint);
+                socket.Listen(4);
+                Thread acceptThread = new Thread(AcceptSockets);
+                acceptThread.Start();
+                state = "Host";
+            }
+            catch { }
         }
         public void ClientInit(string IpAddress)
         {
-            Init(IpAddress);
-            socket.Connect(endPoint);
-            state = "Client";
-            Thread.Sleep(10);
-            Thread ReceivingThread = new Thread(ReceiveMsgFromHost);
-            ReceivingThread.Start();
+            try
+            {
+                Init(IpAddress);
+                socket.Connect(endPoint);
+                state = "Client";
+                Thread.Sleep(10);
+                Thread ReceivingThread = new Thread(ReceiveMsgFromHost);
+                ReceivingThread.Start();
+            }
+            catch { }
         }
         public void SendMsg(NetworkTask networkTask)
-        { 
+        {
+            //TODO
+            return;
             byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
             if (state == "Host")
             {
-                foreach (Socket socket in clientSockets)
+                try
+                {
+                    foreach (Socket socket in clientSockets)
+                    {
+                        socket.Send(BitConverter.GetBytes(count));
+                        socket.Send(Data);
+                    }
+                }
+                catch { }
+            }
+            else
+            {
+                try
                 {
                     socket.Send(BitConverter.GetBytes(count));
                     socket.Send(Data);
                 }
-            }
-            else
-            {
-                socket.Send(BitConverter.GetBytes(count));
-                socket.Send(Data);
+                catch { }
             }
         }
         private void ReceiveMsgFromHost()
         {
             while (true)
             {
-                byte[] bytesCount = new byte[4];
-                socket.Receive(bytesCount);
-                byte[] Data = new byte[BitConverter.ToInt32(bytesCount)];
-                StateObject so = new StateObject(socket, Data);
-                IAsyncResult count = socket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, AsyncReceiveCallback, so);
+                try
+                {
+                    byte[] bytesCount = new byte[4];
+                    socket.Receive(bytesCount);
+                    byte[] Data = new byte[BitConverter.ToInt32(bytesCount)];
+                    StateObject so = new StateObject(socket, Data);
+                    IAsyncResult count = socket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, AsyncReceiveCallback, so);
+                }
+                catch { }
             }
         }
 
         private void AsyncReceiveCallback(IAsyncResult ar)
         {
-            StateObject so = ar.AsyncState as StateObject;
-            Socket clientSocket = so.workSocket;
-            int readCount = clientSocket.EndReceive(ar);
-            so.UploadedBytesCount += readCount;
-            so.sb.Append(Encoding.Unicode.GetString(so.buffer, 0, readCount));
-            if (so.UploadedBytesCount < so.bufferSize)
+            try
             {
-                clientSocket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, new AsyncCallback(AsyncReceiveCallback), so);
+                StateObject so = ar.AsyncState as StateObject;
+                Socket clientSocket = so.workSocket;
+                int readCount = clientSocket.EndReceive(ar);
+                so.UploadedBytesCount += readCount;
+                so.sb.Append(Encoding.Unicode.GetString(so.buffer, 0, readCount));
+                if (so.UploadedBytesCount < so.bufferSize)
+                {
+                    clientSocket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, new AsyncCallback(AsyncReceiveCallback), so);
+                }
+                else
+                {
+                    GetReceivingMessages(JsonConvert.DeserializeObject<NetworkTask>(so.sb.ToString()));
+                }
             }
-            else
-            {
-                GetReceivingMessages(JsonConvert.DeserializeObject<NetworkTask>(so.sb.ToString()));
-            }
+            catch { }
         }
     }
 }
