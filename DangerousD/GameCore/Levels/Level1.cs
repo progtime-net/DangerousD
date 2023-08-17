@@ -3,6 +3,7 @@ using DangerousD.GameCore.GameObjects.MapObjects;
 using Microsoft.Xna.Framework;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 using System.Collections.Generic;
+using DangerousD.GameCore.GameObjects.Entities;
 
 namespace DangerousD.GameCore.Levels
 {
@@ -19,9 +20,9 @@ namespace DangerousD.GameCore.Levels
             var Frank = new Frank(new Vector2(100, 64));
             var FrankBalls = new FrankBalls(new Vector2(Frank.Pos.X, Frank.Pos.Y));
 	        var Zombie = new Zombie(new Vector2(300, 64));
-           
+            var SilasBall = new SilasBall(new Vector2(550, 64));
             var SilasHand = new SilasHands(new Vector2(200,64));
-            var SilasMaster = new SilasMaster(new Vector2(400, 64));
+            var SilasMaster = new SilasMaster(new Vector2(400, 300));
             new GrassBlock(new Vector2(0, 224));
             for (int i = 0; i < 50; i++)
             {
