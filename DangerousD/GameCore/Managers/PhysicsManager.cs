@@ -136,7 +136,7 @@ namespace DangerousD.GameCore.Managers
 
             Rectangle rectangle;
             Vector2 distance = entity1.Pos - entity2.Pos;
-            rectangle = new Rectangle((int)entity1.Pos.X, (int)entity1.Pos.Y, entity2.Width, entity2.Height);
+            rectangle = new Rectangle((int)entity1.Pos.X, (int)entity1.Pos.Y - 5, entity2.Width, entity2.Height);
             GameObject gameObject = null;
             double length = distance.Length();
 
