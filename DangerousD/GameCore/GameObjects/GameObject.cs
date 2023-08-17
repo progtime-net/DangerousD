@@ -53,7 +53,7 @@ namespace DangerousD.GameCore
         {
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
-           // spriteBatch.Draw(debugTexture, Rectangle, Color.White);
+            //spriteBatch.Draw(debugTexture, Rectangle, Color.White);
         }
     }
 }

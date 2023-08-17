@@ -18,6 +18,7 @@ namespace DangerousD.GameCore.GameObjects.MapObjects
         {
             Width = 32;
             Height = 32;
+            IsColliderOn = true;
         }
     }
 }

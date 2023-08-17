@@ -12,6 +12,7 @@ namespace DangerousD.GameCore
 {
     public class GameManager
     {
+        public List<GameObject> GetAllGameObjects { get; private set; }
 
         public List<LivingEntity> livingEntities;
         public List<Entity> entities;
@@ -23,6 +24,7 @@ namespace DangerousD.GameCore
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
+            GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             entities = new List<Entity>();
@@ -34,6 +36,9 @@ namespace DangerousD.GameCore
 
         internal void Register(GameObject gameObject)
         {
+            
+
+            GetAllGameObjects.Add(gameObject);
             if (gameObject is Player)
             {
                 livingEntities.Add(gameObject as LivingEntity);

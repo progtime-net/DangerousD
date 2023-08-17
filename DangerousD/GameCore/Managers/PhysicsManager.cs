@@ -206,5 +206,20 @@ namespace DangerousD.GameCore.Managers
             }
             return null;
         }
+        public List<GameObject> CheckRectangle(Rectangle rectangle)
+        {
+            var gameObjects = AppManager.Instance.GameManager.mapObjects;
+            List<GameObject> intersected = new List<GameObject>();
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                
+                    if (gameObjects[i].Rectangle.Intersects(rectangle) && gameObjects[i].IsColliderOn)
+                    {
+                        intersected.Add(gameObjects[i]);
+                    }
+                
+            }
+            return intersected;
+        }
     }
 }
