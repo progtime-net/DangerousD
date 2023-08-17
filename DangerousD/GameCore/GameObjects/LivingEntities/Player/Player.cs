@@ -100,7 +100,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 isJump = false;
             }
             base.Update(gameTime);
-            Move(gameTime);
+            if (id == AppManager.Instance.GameManager.GetPlayer1.id)
+            {
+                Move(gameTime);
+            }
         }
 
         public void Move(GameTime gameTime)

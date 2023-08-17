@@ -59,7 +59,7 @@ namespace DangerousD.GameCore
             resolution = SettingsManager.Resolution;
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
@@ -99,6 +99,7 @@ namespace DangerousD.GameCore
             SoundManager.LoadSounds();
             SoundManager.StartAmbientSound("DoomTestSong"); 
             renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -222,9 +223,16 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.ConnectToHost:
                         Player connectedPlayer = new Player(Vector2.Zero);
                         NetworkTasks.Add(new NetworkTask(connectedPlayer.id));
+                        NetworkTask task = new NetworkTask();
+                        NetworkTasks.Add(task.AddConnectedPlayer(GameManager.GetPlayer1.id, GameManager.GetPlayer1.Pos));
                         break;
                     case NetworkTaskOperationEnum.GetClientPlayerId:
                         GameManager.GetPlayer1.id = networkTask.objId;
+                        break;
+                    case NetworkTaskOperationEnum.AddConnectedPlayer:
+                        Player remoteConnectedPlayer = new Player(networkTask.position);
+                        remoteConnectedPlayer.id = networkTask.objId;
+                        GameManager.players.Add(remoteConnectedPlayer);
                         break;
                     default:
                         break;

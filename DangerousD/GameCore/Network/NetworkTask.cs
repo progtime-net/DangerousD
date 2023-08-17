@@ -128,5 +128,12 @@ namespace DangerousD.GameCore.Network
             this.velocity = velocity;
             this.type = type;
         }
+        public NetworkTask AddConnectedPlayer(int connectedPlayerId, Vector2 playerPosition)
+        {
+            operation = NetworkTaskOperationEnum.AddConnectedPlayer;
+            objId = connectedPlayerId;
+            position = playerPosition;
+            return this;
+        }
     }
 }
