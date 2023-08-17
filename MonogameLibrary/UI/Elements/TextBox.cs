@@ -93,7 +93,7 @@ namespace MonogameLibrary.UI.Elements
                 _spriteBatch.Draw(texture, rectangle, new Color(211, 211, 211));
             else
                 _spriteBatch.Draw(texture, rectangle, new Color(112, 128, 144));
-            DrawText(_spriteBatch);
+            DrawText(_spriteBatch); 
         }
     }
 
