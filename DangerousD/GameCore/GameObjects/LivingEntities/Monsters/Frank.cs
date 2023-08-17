@@ -12,9 +12,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     internal class Frank : CoreEnemy
     {
+        private Vector2 position;
         private bool isGoRight = false;
+
+        public Vector2 Position
+        {
+            get { return position; }
+        }
+
         public Frank(Vector2 position) : base(position)
         {
+            this.position = position;
             Width = 112;
             Height = 160;
             GraphicsComponent.StartAnimation("FrankMoveLeft");

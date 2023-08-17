@@ -12,8 +12,18 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class FrankBalls : CoreEnemy
     {
+        private Rectangle collision;
+        private Vector2 position;
+        private int healthBall;
+
+        public Rectangle Collision
+        {
+            get { return collision; }
+        }
+
         public FrankBalls(Vector2 position) : base(position)
         {
+            this.position = position;
             name = "FrankBalls";
             Width = 40;
             Height = 40;
@@ -25,7 +35,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
-
+            collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
+            
         }
 
         public override void Death()
@@ -35,7 +46,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-
+            
         }
     }
 }
