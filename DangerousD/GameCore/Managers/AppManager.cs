@@ -12,7 +12,7 @@ using MonogameLibrary.UI.Base;
 
 namespace DangerousD.GameCore
 {
-    public enum GameState { Menu, Options, Lobby, Game, Login }
+    public enum GameState { Menu, Options, Lobby, Game, Login, Death }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set;  }
@@ -25,6 +25,7 @@ namespace DangerousD.GameCore
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
+        IDrawableObject DeathGUI;
 
         public GameManager GameManager { get; private set; } = new GameManager();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
@@ -40,11 +41,12 @@ namespace DangerousD.GameCore
              
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
-            _graphics.IsFullScreen = true;
+            //_graphics.IsFullScreen = true;
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
             LobbyGUI = new LobbyGUI();
+            DeathGUI = new DeathGUI();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
         }
@@ -55,6 +57,7 @@ namespace DangerousD.GameCore
             MenuGUI.Initialize(GraphicsDevice);
             LoginGUI.Initialize(GraphicsDevice);
             LobbyGUI.Initialize(GraphicsDevice);
+            DeathGUI.Initialize(GraphicsDevice);
             base.Initialize();
         }
 
@@ -64,6 +67,7 @@ namespace DangerousD.GameCore
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
             LobbyGUI.LoadContent();
+            DeathGUI.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
             renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
@@ -87,6 +91,9 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Lobby:
                     LobbyGUI.Update(gameTime);
+                    break;
+                case GameState.Death:
+                    DeathGUI.Update(gameTime);
                     break;
                 case GameState.Game:
                     GameManager.Update(gameTime);
@@ -116,6 +123,9 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Lobby:
                     LobbyGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Death:
+                    DeathGUI.Draw(_spriteBatch);
                     break;
                 case GameState.Game:
                     _spriteBatch.Begin(SpriteSortMode.Deferred,null,SamplerState.PointClamp);

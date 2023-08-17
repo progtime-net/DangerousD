@@ -29,6 +29,7 @@ namespace MonogameLibrary.UI.Base
         static MouseState mouseState, prevmouseState;
         static KeyboardState keyboardState;
         public static Point resolutionInGame, resolution;
+        
 
         public void LoadContent(ContentManager content, string font)
         {

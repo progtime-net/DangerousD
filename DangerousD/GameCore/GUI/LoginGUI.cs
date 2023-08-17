@@ -49,8 +49,11 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.16f,
                     fontColor = Color.Gray,
                     fontName = "Font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground"
+
                 };
+                loginTextBox.LoadTexture(AppManager.Instance.Content);
                 loginTextBox.TextChanged += input => {
                     if (loginTextBox.fontColor == Color.Gray)
                     {
@@ -72,8 +75,10 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.16f,
                     fontColor = Color.Gray,
                     fontName = "font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground"
                 };
+                passwordTextBox.LoadTexture(AppManager.Instance.Content);
                 passwordTextBox.TextChanged += input => {
                     if (passwordTextBox.fontColor == Color.Gray)
                     {

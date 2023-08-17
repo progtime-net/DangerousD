@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
 using MonogameLibrary.UI.Base;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace DangerousD.GameCore.GUI
 {
@@ -29,8 +30,11 @@ namespace DangerousD.GameCore.GUI
             lobbyBackground.LoadTexture(AppManager.Instance.Content);
 
             // CheckBoxs
-            Elements.Add(new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
-                screenWidth / 30 * 26, screenHeight / 15 * 10) });
+            var lobby = new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
+                screenWidth / 30 * 26, screenHeight / 15 * 10), textureName = "textboxbackground2" };
+            Elements.Add(lobby);
+            lobby.LoadTexture(AppManager.Instance.Content);
+
 
             // Buttons
             {
@@ -101,11 +105,13 @@ namespace DangerousD.GameCore.GUI
                         screenWidth / 30 * 10, screenHeight / 30 * 3),
                     text = "ip",
                     scale = 0.16f,
-                    fontColor = Color.Gray,
+                    fontColor = Color.White,
                     fontName = "font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground"
 
                 };
+                searchBarTextBox.LoadTexture(AppManager.Instance.Content);
                 searchBarTextBox.TextChanged += input => {
                     if (searchBarTextBox.fontColor == Color.Gray)
                     {

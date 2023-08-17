@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 namespace DangerousD.GameCore
 {
     public enum ScopeState { Up, Middle, Down }
+    public enum ControlsState { Gamepad, Keyboard, Mouse }
     class InputManager
     {
         public delegate void Delegat();
@@ -19,26 +20,32 @@ namespace DangerousD.GameCore
 
         Vector2 vectorMovementDirection;     
         ScopeState scopeState;        // Положение оружия. Up, Middle, Down.
+        ControlsState controlsState;
 
         private bool isJumpDown;      // Блокирует физическое нажатие прыжка и спуска
         private bool isShoot;
 
         public Vector2 VectorMovementDirection { get => vectorMovementDirection; }
         public ScopeState ScopeState { get => scopeState; }
+        public string currentControlsState = ""; 
 
         public InputManager()
         {
             this.isJumpDown = false;
             this.isShoot = false;
             scopeState = ScopeState.Middle;
+            controlsState= ControlsState.Mouse;
             vectorMovementDirection = new Vector2(0, 0);
         }
-
+        public void SetState(ControlsState controlsStates)
+        {
+            currentControlsState = controlsStates.ToString();
+        }
         public void Update()
         {
             // Работа с GamePad
             if (GamePad.GetState(0).IsConnected)
-            {   
+            { 
                 // Обработка гейм-пада. Задает Vector2 vectorMovementDirection являющийся вектором отклонения левого стика.
                 GamePadState gamePadState = GamePad.GetState(0);
                 vectorMovementDirection = gamePadState.ThumbSticks.Left;
@@ -86,6 +93,7 @@ namespace DangerousD.GameCore
                 {
                     isShoot = false;
                 }
+                SetState(ControlsState.Gamepad);
             }
 
             // Работа с KeyBoard
