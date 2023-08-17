@@ -33,7 +33,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
-            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Host)
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
             {
                 AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(Vector2.Zero, soundName));
             }
@@ -45,7 +45,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
-            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Host) 
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
             {
                 AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(soundPos, soundName));
             }
