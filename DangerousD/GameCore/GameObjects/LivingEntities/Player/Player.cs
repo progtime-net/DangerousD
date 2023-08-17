@@ -26,8 +26,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public Player(Vector2 position) : base(position)
         {
-            Width = 32;
-            Height = 64;
+            Width = 16;
+            Height = 32;
 
             AppManager.Instance.InputManager.ShootEvent += Shoot;
 
@@ -82,7 +82,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void AnimationJump()
         {
-            velocity.Y = -30;
+            velocity.Y = -11;
             isJump = true;
             // здесь будет анимация
         }
@@ -106,25 +106,29 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (AppManager.Instance.InputManager.VectorMovementDirection.X==1)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")//идёт направо
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
                 }
-                velocity.X = 10;
+                velocity.X = 5;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A))
+            else if (AppManager.Instance.InputManager.VectorMovementDirection.X == -1)//идёт налево
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                 }
-                 velocity.X = -10;
+                 velocity.X = -5;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isJump)
+            else if(AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
             {
-                AnimationJump();
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                }
+                velocity.X = 0;
             }
             if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
             {
@@ -134,7 +138,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void MoveDown()
         {
-
+            velocity.Y = -11;
+            isJump = true;
         }
 
     }

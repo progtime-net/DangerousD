@@ -11,11 +11,13 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MonogameLibrary.UI.Base
 {
+    public enum InputState { GamePad, Keyboard, Mouse }
     public class UIManager
     {
         Dictionary<int, List<DrawableUIElement>> layerCollection = new();
         public GraphicsDevice GraphicsDevice { get; private set; }
         public SpriteFont BaseFont { get; private set; }
+        public InputState inputState = InputState.Mouse;
         public void Initialize(GraphicsDevice graphicsDevice)
         {
             GraphicsDevice = graphicsDevice;
@@ -29,6 +31,7 @@ namespace MonogameLibrary.UI.Base
         static MouseState mouseState, prevmouseState;
         static KeyboardState keyboardState;
         public static Point resolutionInGame, resolution;
+        
 
         public void LoadContent(ContentManager content, string font)
         {

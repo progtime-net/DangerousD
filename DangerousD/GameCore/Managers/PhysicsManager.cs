@@ -20,9 +20,9 @@ namespace DangerousD.GameCore.Managers
                 item.velocity = item.velocity + item.acceleration * delta;
             }
 
-            CheckCollisions(livingEntities, mapObjects);
-            OnCollision(entities, livingEntities);
-            OnCollision(livingEntities);
+            CheckCollisionsLE_MO(livingEntities, mapObjects);
+            CheckCollisionsE_LE(entities, livingEntities);
+            CheckCollisionsLE_LE(livingEntities);
 
             //entities dont move
             //Living entities dont move
@@ -33,29 +33,27 @@ namespace DangerousD.GameCore.Managers
             //OnCollision
 
         }
-        public void CheckCollisions(List<LivingEntity> livingEntities,
+        private void CheckCollisionsLE_MO(List<LivingEntity> livingEntities,
             List<MapObject> mapObjects)
         {
-            LivingEntity currentEntity;
-            Rectangle oldRect;
-            for (int i = 0; i < livingEntities.Count; i++)
+            foreach (var currentEntity in livingEntities)
             {
-                currentEntity = livingEntities[i];
-                oldRect = currentEntity.Rectangle;
+                Rectangle oldRect = currentEntity.Rectangle;
                 bool isXNormalise = true;
                 bool isYNormalise = true;
 
                 oldRect.Offset((int)currentEntity.velocity.X, 0);
-                for (int j = 0; j < mapObjects.Count; j++)
+                foreach (var mapObject in mapObjects)
                 {
-                    if (Math.Abs(mapObjects[i].Pos.X - currentEntity.Pos.X) < 550 && Math.Abs(mapObjects[i].Pos.Y - currentEntity.Pos.Y) < 550)
+                    if (
+                        Math.Abs(mapObject.Pos.X - currentEntity.Pos.X) < 550 
+                        && Math.Abs(mapObject.Pos.Y - currentEntity.Pos.Y) < 550
+                        && oldRect.Intersects(mapObject.Rectangle)
+                    )
                     {
-                        if (oldRect.Intersects(mapObjects[j].Rectangle))
-                        {
-                            isXNormalise = false;
-                            oldRect.Offset(-(int)currentEntity.velocity.X, 0);
-                            break;
-                        }
+                        isXNormalise = false;
+                        oldRect.Offset(-(int)currentEntity.velocity.X, 0);
+                        break;
                     }
                 }
                 if (!isXNormalise)
@@ -63,10 +61,9 @@ namespace DangerousD.GameCore.Managers
 
 
                 oldRect.Offset(0, (int)currentEntity.velocity.Y);
-                for (int j = 0; j < mapObjects.Count; j++)
+                foreach (var mapObject in mapObjects)
                 {
-
-                    if (oldRect.Intersects(mapObjects[j].Rectangle))
+                    if (oldRect.Intersects(mapObject.Rectangle))
                     {
                         isYNormalise = false;
                         oldRect.Offset(0, -(int)currentEntity.velocity.Y);
@@ -79,22 +76,21 @@ namespace DangerousD.GameCore.Managers
             }
 
         }
-        public void OnCollision(List<Entity> entities, List<LivingEntity> livingEntities)
+        private void CheckCollisionsE_LE(List<Entity> entities, List<LivingEntity> livingEntities)
         {
-            for (int i = 0; i < entities.Count; i++)
+            foreach (var entity in entities)
             {
-                for (int j = 0; j < livingEntities.Count; j++)
+                foreach (var livingEntity in livingEntities)
                 {
-                    if (livingEntities[j].Rectangle.Intersects(entities[i].Rectangle))
+                    if (livingEntity.Rectangle.Intersects(entity.Rectangle))
                     {
-                        livingEntities[j].OnCollision(entities[i]);
-                        entities[i].OnCollision(livingEntities[j]);
+                        livingEntity.OnCollision(entity);
+                        entity.OnCollision(livingEntity);
                     }
                 }
             }
-
         }
-        public void OnCollision(List<LivingEntity> livingEntities)
+        private void CheckCollisionsLE_LE(List<LivingEntity> livingEntities)
         {
             for (int i = 0; i < livingEntities.Count; i++)
             {
