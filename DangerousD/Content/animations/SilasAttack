@@ -1,0 +1,20 @@
+{
+  "id": "SilasAttack",
+  "textureName": "MonstersAnimations",
+  "startSpriteRectangle": {
+    "X": 1,
+    "Y": 618,
+    "Width": 72,
+    "Height": 80
+  },
+  "frameSecond": [
+    {
+      "Item1": 0,
+      "Item2": 5
+    }
+  ],
+  "textureFrameInterval": 1,
+  "framesCount": 2,
+  "isCycle": true,
+  "offset": "0, 0"
+}

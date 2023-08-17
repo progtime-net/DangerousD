@@ -16,6 +16,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         protected int monster_speed;
         protected string name;
         protected bool isAlive = true;
+        protected bool isAttack;
+        protected int leftBoarder;
+        protected int rightBoarder;
 
         public CoreEnemy(Vector2 position) : base(position)
         {

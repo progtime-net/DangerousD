@@ -17,6 +17,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         protected int webLength;
         protected bool isDown;
         protected bool isDownUp;
+
         public Spider(Vector2 position) : base(position)
         {
             isDownUp = true;
