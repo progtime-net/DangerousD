@@ -16,7 +16,14 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
-
+        public AnimationContainer CurrentAnimation
+        {
+            get
+            {
+                return currentAnimation;
+            }
+        }
+        public string LastAnimation { get; set; }
         public string GetCurrentAnimation
         {
             get { return currentAnimation.Id; }
@@ -26,6 +33,13 @@ namespace DangerousD.GameCore.Graphics
         //private SpriteBatch _spriteBatch;
 
         private int currentFrame;
+        public int CurrentFrame
+        {
+            get
+            {
+                return currentFrame;
+            }
+        }
         private int interval;
         private int lastInterval;
         private Rectangle sourceRectangle;
