@@ -27,7 +27,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 1;
             name = "Zombie";
             leftBorder = (int)position.X - 100;
             rightBorder = (int)position.X + 100;
