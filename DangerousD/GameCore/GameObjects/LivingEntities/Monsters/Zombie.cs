@@ -25,8 +25,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Height = 40;
             monster_speed = 3;
             name = "Zombie";
-            leftBorder = (int)position.X - 100;
-            rightBorder = (int)position.X + 100;
+            leftBorder = (int)position.X - 50;
+            rightBorder = (int)position.X + 50;
             physicsManager = new PhysicsManager();
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
@@ -48,9 +48,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isAttaking = true;
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieRightAttack")
                 {
-                    GraphicsComponent.StartAnimation("ZombieAttackRight");
+                    GraphicsComponent.StartAnimation("ZombieRightAttack");
                 }
                 AppManager.Instance.GameManager.players[0].Death(name);
             }
@@ -71,7 +71,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (isGoRight)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")

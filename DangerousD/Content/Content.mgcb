@@ -13,17 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin MonstersAnimations.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
+#begin ButtonFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:MonstersAnimations.png
+/processorParam:TextureFormat=Compressed
+/build:ButtonFont.spritefont
 
 #begin deathAnimation.png
 /importer:TextureImporter
@@ -36,13 +31,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:deathAnimation.png
-
-#begin ButtonFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:ButtonFont.spritefont
 
 #begin DoomTestSong.mp3
 /importer:Mp3Importer
@@ -107,6 +95,18 @@
 /processorParam:TextureFormat=Color
 /build:menuFon3.jpg
 
+#begin MonstersAnimations.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MonstersAnimations.png
+
 #begin PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -118,6 +118,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
+
+#begin playerAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:playerAnimation.png
 
 #begin wall.jpg
 /importer:TextureImporter
