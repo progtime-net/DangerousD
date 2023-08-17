@@ -25,6 +25,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int leftBorder;
         public bool isVisible = true;
         private bool isAttacked = false;
+        public bool isInvincible = false;
         public GameObject objectAttack;
 
         public Player(Vector2 position) : base(position)
@@ -40,7 +41,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
+        }
 
+        public Player(Vector2 position, bool isInvincible = false) : this(position)
+        {
+            this.isInvincible = isInvincible;
         }
 
         public bool IsAlive { get { return isAlive; } }
