@@ -38,13 +38,13 @@ namespace DangerousD.GameCore
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
-             
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
             //_graphics.IsFullScreen = true;
             gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
+            OptionsGUI = new OptionsGUI();
             LobbyGUI = new LobbyGUI();
             DeathGUI = new DeathGUI();
             UIManager.resolution = resolution;
@@ -56,6 +56,9 @@ namespace DangerousD.GameCore
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize(GraphicsDevice);
             LoginGUI.Initialize(GraphicsDevice);
+
+            OptionsGUI.Initialize(GraphicsDevice);
+
             LobbyGUI.Initialize(GraphicsDevice);
             DeathGUI.Initialize(GraphicsDevice);
             base.Initialize();
@@ -66,6 +69,7 @@ namespace DangerousD.GameCore
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
+            OptionsGUI.LoadContent();
             LobbyGUI.LoadContent();
             DeathGUI.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
