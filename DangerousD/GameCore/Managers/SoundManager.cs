@@ -47,7 +47,7 @@ namespace DangerousD.GameCore
             PlayingSounds.Add(sound);
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
             {
-                AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(Vector2.Zero, soundName));
+                AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(Vector2.Zero, soundName));
             }
         }
         public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos) // запустить звук у которого есть позиция
@@ -59,7 +59,7 @@ namespace DangerousD.GameCore
             PlayingSounds.Add(sound);
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
             {
-                AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(soundPos, soundName));
+                AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(soundPos, soundName));
             }
         } 
         public void StopAllSounds() // остановка всех звуков

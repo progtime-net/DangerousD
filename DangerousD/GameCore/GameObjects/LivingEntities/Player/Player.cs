@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -51,10 +52,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (gameObject is Player)
-            {
-                isVisible = false;
-            }
             base.OnCollision(gameObject);
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -123,6 +120,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                 }
+            }
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
+            {
+                NetworkTask task = new NetworkTask(id, Pos);
+                AppManager.Instance.NetworkTasks.Add(task);
             }
         }
         public void MoveDown()
