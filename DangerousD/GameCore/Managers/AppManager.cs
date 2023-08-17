@@ -116,7 +116,7 @@ namespace DangerousD.GameCore
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.SetRenderTarget(renderTarget);  
             switch (gameState)
             {
                 case GameState.Menu:
@@ -146,6 +146,7 @@ namespace DangerousD.GameCore
             _spriteBatch.Begin();
             _spriteBatch.Draw(renderTarget, new Rectangle(0,0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             _spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
