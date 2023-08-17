@@ -116,9 +116,12 @@ namespace DangerousD.GameCore.Graphics
                 {
                     if (!currentAnimation.IsCycle)
                     {
-                        actionOfAnimationEnd(currentAnimation.Id);
+			            if(actionOfAnimationEnd != null)
+                        {
+                            actionOfAnimationEnd(currentAnimation.Id);
+			            }
                         currentAnimation = neitralAnimation;
-                        
+                       
                     }
 
                     currentFrame = 0;

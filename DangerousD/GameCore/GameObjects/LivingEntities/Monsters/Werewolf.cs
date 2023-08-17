@@ -14,9 +14,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     {
         public Werewolf(Vector2 position) : base(position)
         {
+            name = "Wolf";
+            monster_speed = 1;
+            Width = 78;
+            Height = 96;
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "WolfMoveRight", "WolfMoveLeft", "WolfJumpRight", "WolfJumpLeft" }, "");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "WolfMoveRight", "WolfMoveLeft", "WolfJumpRight", "WolfJumpLeft" }, "WolfMoveRight");
 
         public override void Attack()
         {
