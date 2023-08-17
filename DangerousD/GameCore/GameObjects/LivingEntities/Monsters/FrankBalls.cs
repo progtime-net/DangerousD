@@ -14,7 +14,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     {
         private Rectangle collision;
         private Vector2 position;
-        private int healthBall;
         private bool isFlyRight = true;
         private bool isAttacking = false;
 

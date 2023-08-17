@@ -64,7 +64,7 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (tiles[i] != 0)
                     {
-                        Vector2 pos = new(((chunkX+ i % chunkW) * tileSize.X  + offsetX) * _scale,
+                        Vector2 pos = new(((chunkX+ i % chunkW) * tileSize.X  + offsetX) * _scale + 370,
                             ((chunkY + i / chunkW) * tileSize.Y + offsetY) * _scale);
                         //pos *= _scale;
                         Rectangle sourceRect = new(new Point((tiles[i] -1) % _columns, (tiles[i] -1) / _columns) * tileSize.ToPoint(), tileSize.ToPoint());
@@ -106,7 +106,7 @@ namespace DangerousD.GameCore.Managers
             foreach (XmlNode entity in group.ChildNodes)
             {
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
-                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
+                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX+280, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY - 200) * _scale);
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 inst.Height *= _scale;
                 inst.Width *= _scale;

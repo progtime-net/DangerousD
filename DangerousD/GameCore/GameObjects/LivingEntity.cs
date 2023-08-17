@@ -5,8 +5,6 @@ namespace DangerousD.GameCore.GameObjects;
 public abstract class LivingEntity : Entity
 {
     private Vector2 targetPosition;
-    public Vector2 velocity;
-    public Vector2 acceleration;
     public LivingEntity(Vector2 position) : base(position)
     {
         acceleration = new Vector2(0, 30);
