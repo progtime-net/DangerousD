@@ -20,6 +20,9 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> {"DeathFromZombie"},
             "DeathFromZombie");
+
+        public GraphicsComponent Gr => GraphicsComponent;
+
         private void PlayDeath(string deathName)
         {
             if (GraphicsComponent.GetCurrentAnimation != "DeathFromZombie")

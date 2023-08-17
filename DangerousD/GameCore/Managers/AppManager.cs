@@ -162,6 +162,8 @@ namespace DangerousD.GameCore
                 case GameState.Game:
                     GameManager.mapManager.LoadLevel("");
                     break;
+                case GameState.GameOver:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
