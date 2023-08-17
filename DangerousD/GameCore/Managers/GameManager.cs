@@ -28,11 +28,7 @@ namespace DangerousD.GameCore
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
-<<<<<<< HEAD
             others = new List<GameObject>();
-=======
-
->>>>>>> livingEntitiesVlad
             GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
@@ -48,15 +44,8 @@ namespace DangerousD.GameCore
 
         internal void Register(GameObject gameObject)
         {
-<<<<<<< HEAD
-            
-
             GetAllGameObjects.Add(gameObject);
             if (gameObject is Player objPl)
-=======
-            GetAllGameObjects.Add(gameObject);
-            if (gameObject is Player)
->>>>>>> livingEntitiesVlad
             {
                 livingEntities.Add(gameObject as LivingEntity);
                 players.Add(objPl);
