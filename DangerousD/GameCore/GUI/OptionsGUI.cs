@@ -63,7 +63,8 @@ namespace DangerousD.GameCore.GUI
             Button bTExit = new Button(Manager) 
             { fontName = "Font2", scale = 0.72f, text = "<-", rectangle = new Rectangle(wigth / 30, height / 30, (int)(40 * 2.4), (int)(40 * 2.4)), textureName = "textboxbackground1-1" };
             Elements.Add(bTExit);
-            bTExit.LeftButtonPressed += () => {
+            bTExit.LeftButtonPressed += () => 
+            {
                 AppManager.Instance.ChangeGameState(GameState.Menu);
             };
         }
