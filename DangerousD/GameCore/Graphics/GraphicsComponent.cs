@@ -198,6 +198,10 @@ namespace DangerousD.GameCore.Graphics
         private void buildSourceRectangle()
         {
             sourceRectangle = new Rectangle();
+            if (currentAnimation == null)
+            {
+                currentAnimation = neitralAnimation;
+            }
             sourceRectangle.X = currentAnimation.StartSpriteRectangle.X + currentFrame *
                 (currentAnimation.StartSpriteRectangle.Width + currentAnimation.TextureFrameInterval);
             sourceRectangle.Y = currentAnimation.StartSpriteRectangle.Y;

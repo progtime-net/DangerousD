@@ -16,6 +16,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         bool isAlive = true;
         bool isRight;
         string stayAnimation;
+        bool isJump = false;
         public int health;
         public bool isGoRight = false;
         public Vector2 playerVelocity;
@@ -31,18 +32,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
             AppManager.Instance.InputManager.ShootEvent += Shoot;
 
-            AppManager.Instance.InputManager.MovEventJump += AnimationJump;
+            AppManager.Instance.InputManager.MovEventJump += Jump;
             AppManager.Instance.InputManager.MovEventDown += MoveDown;
 
-           playerVelocity = new Vector2(100, 0);
+           velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
 
-        }
-
-        private void AnimationJump()
-        {
-            velocity.Y = -300;
         }
 
         public bool IsAlive { get { return isAlive; } }
@@ -89,12 +85,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Jump()
         {
-            velocity.Y = -300;
-            //сюда анимацию и доделать
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                velocity.Y = -300;
-            }
+            velocity.Y = -30;
+            isJump = true;
             // здесь будет анимация
         }
         public void Shoot()
@@ -106,9 +98,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
             velocity.X = 0.5f;
-            if (!isVisible)
+            if (velocity.Y == 0)
             {
-
+                isJump = false;
             }
             Move(gameTime);
             base.Update(gameTime);
@@ -117,29 +109,25 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (isGoRight)
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")
                 {
                     GraphicsComponent.StartAnimation("playerMoveRight");
                 }
-                _pos = playerVelocity * delta;
+                velocity.X = 10;
             }
-            else if (!isGoRight)
+            else if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("playerMoveLeft");
                 }
-                    _pos= -playerVelocity * delta;
+                 velocity.X = -10;
             }
-            if (_pos.X >= rightBorder)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isJump)
             {
-                isGoRight = false;
-            }
-            if (_pos.X >= leftBorder)
-            {
-                isGoRight = true;
+                Jump();
             }
         }
         public void MoveDown()
