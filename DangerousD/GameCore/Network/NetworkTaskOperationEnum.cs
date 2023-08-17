@@ -9,6 +9,6 @@ namespace DangerousD.GameCore.Network
     [Serializable]
     public enum NetworkTaskOperationEnum
     {
-        TakeDamage, SendSound, CreateEntity, SendPosition, ChangeState, ConnectToHost, GetClientPlayerId
+        TakeDamage, SendSound, CreateEntity, SendPosition, ChangeState, ConnectToHost, GetClientPlayerId, AddConnectedPlayer
     }
 }
