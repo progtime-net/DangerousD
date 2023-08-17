@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
-using System.Windows.Forms;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -17,13 +16,6 @@ namespace AnimationsFileCreator
             Console.WriteLine("Добро пожаловать в костыльную программу по созданию файлов анимации для игры DungerousD");
             Console.Write("Введите название текстуры (нажмите enter, чтобы выбрать файл во всплывающем окошке): ");
             string textureName = Console.ReadLine();
-            if (textureName == "")
-            {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.ShowDialog();
-                textureName = dialog.FileName.Split('\\').Last();
-                textureName = textureName.Split('.')[0];
-            }
             Console.WriteLine("Введите количество кадров анимации: ");
             int framesCount = int.Parse(Console.ReadLine());
             Console.WriteLine("Введите длительность кадра в анимации: ");

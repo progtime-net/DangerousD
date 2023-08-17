@@ -166,7 +166,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("lvl");
+                    GameManager.mapManager.LoadLevel("map");
                     break;
                 case GameState.GameOver:
                     break;

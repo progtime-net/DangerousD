@@ -63,7 +63,7 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (tiles[i] != 0)
                     {
-                        Vector2 pos = new(((chunkX+ i % chunkW) * tileSize.X  + offsetX) * _scale,
+                        Vector2 pos = new(((chunkX+ i % chunkW) * tileSize.X  + offsetX) * _scale + 400,
                             ((chunkY + i / chunkW) * tileSize.Y + offsetY) * _scale);
                         //pos *= _scale;
                         Rectangle sourceRect = new(new Point((tiles[i] -1) % _columns, (tiles[i] -1) / _columns) * tileSize.ToPoint(), tileSize.ToPoint());

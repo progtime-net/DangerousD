@@ -97,6 +97,10 @@ namespace DangerousD.GameCore.Managers
                 if (!isYNormalise)
                     currentEntity.velocity.Y = 0;
                 currentEntity.SetPosition(new Vector2(oldRect.X, oldRect.Y));
+                if (!isXNormalise || !isYNormalise)
+                {
+                    currentEntity.OnCollisionWithObsticle(mapObjects[i]);
+                }
             }
 
         }

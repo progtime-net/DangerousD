@@ -20,13 +20,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             get { return position; }
         }
 
-        public Frank(Vector2 position) : base(position)
+        public Frank(Vector2 position) : base(new Vector2(300, 200))
         {
-            this.position = position;
+            //position = new Vector2(300, 200);
             Width = 112;
             Height = 160;
             GraphicsComponent.StartAnimation("FrankMoveLeft");
-            monster_speed = 1;
+            monster_speed = 3;
             name = "Frank";
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FrankMoveRight", "FrankMoveLeft" }, "FrankMoveRight");

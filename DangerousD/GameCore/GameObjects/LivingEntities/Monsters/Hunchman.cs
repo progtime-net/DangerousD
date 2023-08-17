@@ -12,8 +12,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Hunchman : CoreEnemy
     {
+        private bool isGoRight = true;
+
         public Hunchman(Vector2 position) : base(position)
         {
+            Width = 20;
+            Height = 30;
+            name = "Hunchman";
+            GraphicsComponent.StartAnimation("");
+            monster_speed = 3;
+
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "HunchmanMoveLeft", "HunchmanMoveRight", "HunchmanAttackLeft", "HunchmanAttackRight" }, "HunchmanMoveRight");
@@ -30,7 +38,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
+            var player = AppManager.Instance.GameManager.players[0];
+            if(player.Pos.X > 0)
+            {
 
+            }
         }
     }
 }
