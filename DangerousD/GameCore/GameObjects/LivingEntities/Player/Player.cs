@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -14,27 +15,54 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     {
         bool isAlive = true;
         public int health;
+        public bool isGoRight = false;
+        public Vector2 playerVelocity;
+        public int rightBorder;
+        public int leftBorder;
+        public bool isVisible = true;
+        public GameObject objectAttack;
+
         public Player(Vector2 position) : base(position)
         {
             Width = 32;
             Height = 64;
-<<<<<<< HEAD
-            AppManager.Instance.InputManager.MovEventJump += Jump;
+
             AppManager.Instance.InputManager.ShootEvent += Shoot;
 
-=======
             AppManager.Instance.InputManager.MovEventJump += AnimationJump;
->>>>>>> 833da68a4e42a47ab035a220c049aa9937eb1969
+            AppManager.Instance.InputManager.MovEventDown += MoveDown;
+
+           playerVelocity = new Vector2(100, 0);
+            rightBorder = (int)position.X + 100;
+            leftBorder = (int)position.X - 100;
+
         }
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack", "DeathFromZombie" }, "ZombieMoveLeft");//TODO: Change to player
 
-        public void Kill()
+        public void Attack()
         {
-
+            if (objectAttack.Rectangle.Intersects(this.Rectangle))
+            {
+                isVisible = false;
+            }
         }
-
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
+            {
+                isVisible = false;
+            }
+            base.OnCollision(gameObject);
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (isVisible)
+            {
+                base.Draw(spriteBatch);
+            }
+        }
         public void Death(string monsterName)
         {
             if(monsterName == "Zombie")
@@ -50,7 +78,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             isAlive = false;
         }
-        public void Jump()
+        public void AnimationJump()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -62,11 +90,51 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
 
         }
+
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
             velocity.X = 0.5f;
             base.Update(gameTime);
+            if (!isVisible)
+            {
+
+            }
+            Move(gameTime);
         }
+
+        public void Move(GameTime gameTime)
+        {
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (isGoRight)
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                {
+                    GraphicsComponent.StartAnimation("ZombieMoveRight");
+                }
+                _pos = playerVelocity * delta;
+            }
+            else if (!isGoRight)
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                }
+                    _pos= -playerVelocity * delta;
+            }
+            if (_pos.X >= rightBorder)
+            {
+                isGoRight = false;
+            }
+            if (_pos.X >= leftBorder)
+            {
+                isGoRight = true;
+            }
+        }
+        public void MoveDown()
+        {
+
+        }
+
     }
 }
