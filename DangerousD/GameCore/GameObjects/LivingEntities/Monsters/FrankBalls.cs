@@ -21,7 +21,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             acceleration = Vector2.Zero;
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new (new List<string> { "BallMoveRight" }, "BallMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
 
         public override void Attack()
         {

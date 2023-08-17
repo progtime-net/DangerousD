@@ -8,8 +8,10 @@ using System.Text;
 
 namespace DangerousD.GameCore.Graphics
 {
+
     public class GraphicsComponent
     {
+        public Action<string> actionOfAnimationEnd;
         private List<AnimationContainer> animations;
         private List<Texture2D> textures;
         private List<string> texturesNames;
@@ -114,10 +116,16 @@ namespace DangerousD.GameCore.Graphics
                 {
                     if (!currentAnimation.IsCycle)
                     {
+			            if(actionOfAnimationEnd != null)
+                        {
+                            actionOfAnimationEnd(currentAnimation.Id);
+			            }
                         currentAnimation = neitralAnimation;
+                       
                     }
 
                     currentFrame = 0;
+
                 }
 
                 buildSourceRectangle();
@@ -146,6 +154,28 @@ namespace DangerousD.GameCore.Graphics
             }
            
             
+            _spriteBatch.Draw(texture,
+                destinationRectangle, sourceRectangle, Color.White);
+        }
+        public void DrawAnimation(Rectangle destinationRectangle, SpriteBatch _spriteBatch, Rectangle sourceRectangle)
+        {
+            Texture2D texture = textures[texturesNames.FindIndex(x => x == currentAnimation.TextureName)];
+            float scale;
+            if (currentAnimation.Offset.X != 0)
+            {
+                destinationRectangle.X -= (int)currentAnimation.Offset.X;
+                scale = destinationRectangle.Height / sourceRectangle.Height;
+                destinationRectangle.Width = (int)(sourceRectangle.Width * scale);
+
+            }
+            else if (currentAnimation.Offset.Y != 0)
+            {
+                destinationRectangle.Y -= (int)currentAnimation.Offset.Y;
+                scale = destinationRectangle.Width / sourceRectangle.Width;
+                destinationRectangle.Height = (int)(sourceRectangle.Height * scale);
+            }
+
+
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }

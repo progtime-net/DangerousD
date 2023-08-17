@@ -40,26 +40,35 @@ namespace DangerousD.GameCore.Managers
             {
                 var currentEntity = livingEntities[i];
                 Rectangle oldRect = currentEntity.Rectangle;
-
+                bool isXNormalise = true;
+                bool isYNormalise = true;  
 
                 oldRect.Offset((int)currentEntity.velocity.X / 2, 0);
                 for (int j = 0; j < mapObjects.Count; j++)
                 {
                     if (oldRect.Intersects(mapObjects[j].Rectangle))
                     {
+                        isXNormalise = false;
                         oldRect.Offset(-(int)currentEntity.velocity.X / 2, 0);
                         break;
                     }
+
                 }
-                oldRect.Offset((int)currentEntity.velocity.X / 2, 0);
-                for (int j = 0; j < mapObjects.Count; j++)
-                {
-                    if (oldRect.Intersects(mapObjects[j].Rectangle))
+                if (isXNormalise)
+                { 
+                    oldRect.Offset((int)currentEntity.velocity.X / 2, 0);
+                    for (int j = 0; j < mapObjects.Count; j++)
                     {
-                        oldRect.Offset(-(int)currentEntity.velocity.X / 2, 0);
-                        break;
+                        if (oldRect.Intersects(mapObjects[j].Rectangle))
+                        {
+                            isXNormalise = false;
+                            oldRect.Offset(-(int)currentEntity.velocity.X / 2, 0);
+                            break;
+                        }
                     }
                 }
+                if (!isXNormalise)
+                    currentEntity.velocity.X = 0;
 
 
                 oldRect.Offset(0, (int)currentEntity.velocity.Y/2);
@@ -67,19 +76,26 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (oldRect.Intersects(mapObjects[j].Rectangle))
                     {
+                        isYNormalise = false;
                         oldRect.Offset(0, -(int)currentEntity.velocity.Y / 2);
                         break;
                     }
                 }
-                oldRect.Offset(0, (int)currentEntity.velocity.Y / 2);
-                for (int j = 0; j < mapObjects.Count; j++)
+                if (isYNormalise)
                 {
-                    if (oldRect.Intersects(mapObjects[j].Rectangle))
+                    oldRect.Offset(0, (int)currentEntity.velocity.Y / 2);
+                    for (int j = 0; j < mapObjects.Count; j++)
                     {
-                        oldRect.Offset(0, -(int)currentEntity.velocity.Y / 2);
-                        break;
+                        if (oldRect.Intersects(mapObjects[j].Rectangle))
+                        {
+                            isYNormalise = false;
+                            oldRect.Offset(0, -(int)currentEntity.velocity.Y / 2);
+                            break;
+                        }
                     }
                 }
+                if (!isYNormalise)
+                    currentEntity.velocity.Y = 0;
                 currentEntity.SetPosition(new Vector2(oldRect.X, oldRect.Y));
             }
 
@@ -92,8 +108,8 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (livingEntities[j].Rectangle.Intersects(entities[i].Rectangle))
                     {
-                        livingEntities[j].OnCollision();
-                        entities[i].OnCollision();
+                        livingEntities[j].OnCollision(entities[i]);
+                        entities[i].OnCollision(livingEntities[j]);
                     }
                 }
             }
@@ -107,8 +123,8 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (livingEntities[i].Rectangle.Intersects(livingEntities[j].Rectangle))
                     {
-                        livingEntities[i].OnCollision();
-                        livingEntities[j].OnCollision();
+                        livingEntities[i].OnCollision(livingEntities[j]);
+                        livingEntities[j].OnCollision(livingEntities[i]);
                     }
                 }
             }
@@ -128,11 +144,30 @@ namespace DangerousD.GameCore.Managers
             {
                 rectangle.X = (int)(entity2.Pos.X + (i / length) * distance.X);
                 rectangle.Y = (int)(entity2.Pos.Y + (i / length) * distance.Y);
+            }
+          
+            for (int i = 0; i < AppManager.Instance.GameManager.entities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.entities[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.entities[i];
+                }
+            }
+            for (int i = 0; i < AppManager.Instance.GameManager.mapObjects.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.mapObjects[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.mapObjects[i];
+                }
+            }
 
-                //if (rectangle.Intersects(GameManager.Rectangle))
-                //{
-                //    return game
-                //}
+           
+        for (int i = 0; i < AppManager.Instance.GameManager.livingEntities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.livingEntities[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.livingEntities[i];
+                }
             }
             return gameObject;
         }
@@ -140,23 +175,35 @@ namespace DangerousD.GameCore.Managers
         {
             Rectangle rectangle;
             Vector2 direction = entity1.Pos - targetCast;
-            rectangle = new Rectangle((int)entity1.Pos.X, (int)entity1.Pos.Y, 1, 1);
-            GameObject gameObject = null;
+            rectangle = new Rectangle((int)targetCast.X, (int)targetCast.Y, 1, 1);
             double k = direction.Length();
 
             for (int i = 0; i < k; i++)
             {
-                rectangle.X = (int)(entity1.Pos.X + (i / k) * direction.X);
-                rectangle.Y = (int)(entity1.Pos.Y + (i / k) * direction.X);
-                if (gameObject != null)
+                rectangle.X = (int)(targetCast.X + (i / k) * direction.X);
+                rectangle.Y = (int)(targetCast.Y + (i / k) * direction.X);
+            }         
+            for (int i = 0; i < AppManager.Instance.GameManager.entities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.entities[i].Rectangle.Intersects(rectangle))
                 {
-                    break;
-                    return gameObject;
+                    return AppManager.Instance.GameManager.entities[i];
                 }
-
             }
-
-
+            for (int i = 0; i < AppManager.Instance.GameManager.mapObjects.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.mapObjects[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.mapObjects[i];
+                }
+            }
+            for (int i = 0; i < AppManager.Instance.GameManager.livingEntities.Count; i++)
+            {
+                if (AppManager.Instance.GameManager.livingEntities[i].Rectangle.Intersects(rectangle))
+                {
+                    return AppManager.Instance.GameManager.livingEntities[i];
+                }
+            }
             return null;
         }
     }
