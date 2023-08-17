@@ -1,5 +1,5 @@
 {
-  "id": "SilasMove",
+  "id": "SilasAttack",
   "textureName": "MonstersAnimations",
   "startSpriteRectangle": {
     "X": 1,
@@ -10,7 +10,7 @@
   "frameSecond": [
     {
       "Item1": 0,
-      "Item2": 60
+      "Item2": 5
     }
   ],
   "textureFrameInterval": 1,

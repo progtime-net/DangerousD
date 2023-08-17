@@ -15,6 +15,7 @@ namespace DangerousD.GameCore.Levels
             var Zombie = new Zombie(new Vector2(300, 64));
             var Frank = new Frank(new Vector2(100, 64));
             var SilasHand = new SilasHands(new Vector2(200,64));
+            var SilasMaster = new SilasMaster(new Vector2(400, 64));
             new GrassBlock(new Vector2(0, 224));
             for (int i = 0; i < 50; i++)
             {

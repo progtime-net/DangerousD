@@ -57,6 +57,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             if ((Pos.X + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.X || Pos.X - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.X)&&(Pos.Y + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.Y || Pos.Y - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.Y))
             {
                 
