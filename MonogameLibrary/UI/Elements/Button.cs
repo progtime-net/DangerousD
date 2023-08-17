@@ -40,7 +40,7 @@ namespace MonogameLibrary.UI.Elements
                     if (mouseState.LeftButton != prevmouseState.LeftButton)
                     {
                         hoverState = HoverState.Pressing;
-                        LeftButtonPressed?.Invoke();
+                        CallLeftBtnEvent();
                         return true;
                     }
                 }
@@ -76,6 +76,10 @@ namespace MonogameLibrary.UI.Elements
             }
 
             DrawText(_spriteBatch);
+        }
+        public void CallLeftBtnEvent()
+        {
+            LeftButtonPressed?.Invoke();
         }
     }
 }
