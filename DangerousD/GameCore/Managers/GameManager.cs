@@ -25,7 +25,7 @@ namespace DangerousD.GameCore
         public List<Player> players;
         public List<GameObject> otherObjects = new();
 
-        public Player GetPlayer1 { get; private set; }
+        public Player GetPlayer1 => players[0];
         public GameManager()
         {
             others = new List<GameObject>();
@@ -49,7 +49,6 @@ namespace DangerousD.GameCore
             {
                 livingEntities.Add(gameObject as LivingEntity);
                 players.Add(objPl);
-                GetPlayer1 = players[0];
             }
             else if (gameObject is LivingEntity objLE)
             {
@@ -69,6 +68,35 @@ namespace DangerousD.GameCore
             else
             {
                 otherObjects.Add(gameObject);
+            }
+        }
+
+        public void Remove(GameObject gameObject)
+        {
+            GetAllGameObjects.Remove(gameObject);
+            if (gameObject is Player objPl)
+            {
+                livingEntities.Remove(gameObject as LivingEntity);
+                players.Remove(objPl);
+            }
+            else if (gameObject is LivingEntity objLE)
+            {
+                livingEntities.Remove(objLE);
+            }
+            else if (gameObject is Entity objE)
+            {
+                entities.Remove(objE);
+            }
+            else if (gameObject is MapObject obj)
+            {
+                if (obj.IsColliderOn)
+                    mapObjects.Remove(obj);
+                else
+                    BackgroundObjects.Remove(obj);
+            }
+            else
+            {
+                otherObjects.Remove(gameObject);
             }
         }
 
