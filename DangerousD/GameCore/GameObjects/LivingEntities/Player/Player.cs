@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using DangerousD.GameCore.Network;
+using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -25,8 +25,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int leftBorder;
         public bool isVisible = true;
         private bool isAttacked = false;
-        public bool isInvincible = false;
+        private bool isShooting = false;
         public GameObject objectAttack;
+        private int bullets;
 
         public Player(Vector2 position) : base(position)
         {
@@ -37,21 +38,30 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
             AppManager.Instance.InputManager.MovEventJump += Jump;
             AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            AppManager.Instance.InputManager.ShootEvent += Shoot;
 
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
-        }
+            bullets = 5;
 
-        public Player(Vector2 position, bool isInvincible = false) : this(position)
-        {
-            this.isInvincible = isInvincible;
+            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            {
+                if (a == "playerShootLeft" || a == "playerShootRight")
+                {
+                    isShooting = false;
+                }
+                if (a == "playerReload")
+                {
+                    bullets++;
+                }
+            };
         }
 
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
-            "playerJumpRight" , "playerJumpLeft"}, "playerStayLeft");
+            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload"}, "playerReload");
 
         public void Attack()
         {
@@ -59,6 +69,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             {
                 isVisible = false;
             }
+
         }
         public override void OnCollision(GameObject gameObject)
         {
@@ -97,9 +108,47 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Shoot()
         {
-
+            if (bullets > 0)
+            {
+                if (!isShooting)
+                {
+                    isShooting = true;
+                    bullets--;
+                    if (isRight)
+                    {
+                        if (GraphicsComponent.GetCurrentAnimation != "playerShootRight")
+                        {
+                            GraphicsComponent.StartAnimation("playerShootRight");
+                        }
+                        var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), 100, 10), typeof(Zombie));
+                        if (targets != null)
+                        {
+                            foreach (var target in targets)
+                            {
+                                Zombie targetZombie = (Zombie)target;
+                                targetZombie.TakeDamage();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (GraphicsComponent.GetCurrentAnimation != "playerShootRight")
+                        {
+                            GraphicsComponent.StartAnimation("playerShootRight");
+                        }
+                        var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), -100, 10), typeof(Zombie));
+                        if (targets != null)
+                        {
+                            foreach (var target in targets)
+                            {
+                                Zombie targetZombie = (Zombie)target;
+                                targetZombie.TakeDamage();
+                            }
+                        }
+                    }
+                }
+            }
         }
-
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.SetCameraPosition(Pos);
@@ -118,25 +167,41 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             velocity.X = 5 * AppManager.Instance.InputManager.VectorMovementDirection.X;
-            if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
+            if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight")
             {
-                if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
+                if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
                 {
-                    GraphicsComponent.StartAnimation("playerMoveRight");
+                    isRight = true;
+                    if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
+                    {
+                        GraphicsComponent.StartAnimation("playerMoveRight");
+                    }
                 }
-            }
-            else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
-            {
-                if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
+                else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
                 {
-                    GraphicsComponent.StartAnimation("playerMoveLeft");
+                    isRight = false;
+                    if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
+                    {
+                        GraphicsComponent.StartAnimation("playerMoveLeft");
+                    }
                 }
-            }
-            else if(AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
-            {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                else if (AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
                 {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                    if(bullets < 5)
+                    {
+                        if (GraphicsComponent.GetCurrentAnimation != "playerReload")
+                        {
+                            GraphicsComponent.StartAnimation("playerReload");
+                        }
+                    }
+                    else if (isRight)
+                    {
+                        GraphicsComponent.StartAnimation("playerRightStay");
+                    }
+                    else if (!isRight)
+                    {
+                        GraphicsComponent.StartAnimation("playerStayLeft");
+                    }
                 }
             }
             if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
