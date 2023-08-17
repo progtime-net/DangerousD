@@ -77,8 +77,11 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
             foreach (var item in entities)
                 item.Update(gameTime);
-            foreach (var item in livingEntities)
-                item.Update(gameTime);
+            
+            for (int i = 0; i < livingEntities.Count; i++)
+            {
+                livingEntities[i].Update(gameTime);
+            }
             foreach (var item in otherObjects)
                 item.Update(gameTime);
 
