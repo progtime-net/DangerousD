@@ -56,8 +56,8 @@ namespace DangerousD.GameCore
             resolution = SettingsManager.Resolution;
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
-            //_graphics.IsFullScreen = true;
-            gameState = GameState.HUD;
+            _graphics.IsFullScreen = true;
+            gameState = GameState.Menu;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
             OptionsGUI = new OptionsGUI();
