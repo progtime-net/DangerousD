@@ -11,6 +11,8 @@ using System.Diagnostics;
 
 using MonogameLibrary.UI.Elements;
 using MonogameLibrary.UI.Enums;
+using System.Net;
+using System.IO;
 
 namespace DangerousD.GameCore.GUI
 {
@@ -56,13 +58,15 @@ namespace DangerousD.GameCore.GUI
                     {
                         loginTextBox.text = ""; loginTextBox.fontColor = Color.Black;
                     }
+                    username = loginTextBox.text;
                 };
                 loginTextBox.StopChanging += input => {
                     if (input.Length == 0)
                     {
-                        loginTextBox.text = "NickName";
+                        loginTextBox.text = "NickName/Email";
                         loginTextBox.fontColor = Color.Gray;
                     }
+                    username = loginTextBox.text;
                 };
 
                 TextBox passwordTextBox = new TextBox(Manager)
@@ -79,6 +83,7 @@ namespace DangerousD.GameCore.GUI
                     {
                         passwordTextBox.text = ""; passwordTextBox.fontColor = Color.Black;
                     }
+                    password = passwordTextBox.text;
                 };
                 passwordTextBox.StopChanging += input => {
                     if (input.Length == 0)
@@ -86,6 +91,7 @@ namespace DangerousD.GameCore.GUI
                         passwordTextBox.text = "Password";
                         passwordTextBox.fontColor = Color.Gray;
                     }
+                    password = passwordTextBox.text;
                 };
             }
 
@@ -132,10 +138,64 @@ namespace DangerousD.GameCore.GUI
         private void GoToRegWebServer()
         {
             // TODO
+            string target = "http://dangerousd.1gb.ru/Registration";
+
+            /*
+            System.Diagnostics.Process.Start(target);
+
+            //Use no more than one assignment when you test this code.
+            //string target = "ftp://ftp.microsoft.com";
+            //string target = "C:\\Program Files\\Microsoft Visual Studio\\INSTALL.HTM";
+            try
+            {
+                System.Diagnostics.Process.Start(target);
+            }
+            catch (System.ComponentModel.Win32Exception noBrowser)
+            {
+                //if (noBrowser.ErrorCode == -2147467259)
+                    //MessageBox.Show(noBrowser.Message);
+            }
+            catch (System.Exception other)
+            {
+                //MessageBox.Show(other.Message);
+            }
+            */
         }
         private bool CheckUser()
         {
+            //string email = "a@a";
+            //string pass = "123456";
+
+            string email = username;
+            string pass = password;
+
+           // Manager.
+
+            var request = (HttpWebRequest)WebRequest.Create($"http://dangerousd.1gb.ru/logingame?emailusername={email}&password={password}");
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            // responseString => {"answerCode":false,"email":null,"username":null}
+            // {"answerCode":true,"email":"a@a","username":"Firest"}
+
+            return GetAnswer(responseString);
+        }
+
+        // {"answerCode":false,"email":null,"username":null}
+        private bool GetAnswer(string response)
+        {
+            string[] answerCode = response.Split(':');
+            answerCode = answerCode[1].Split(',');
+
+
+
+            if (answerCode[0] == "false")
+            {
+                return false;
+            }
+
             return true;
         }
+
     }
 }
