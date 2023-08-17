@@ -176,6 +176,8 @@ namespace DangerousD.GameCore
 
         public void NetworkSync(NetworkTask networkTask)
         {
+            //TODO
+            return;
             switch (networkTask.operation)
             {
                 case NetworkTaskOperationEnum.TakeDamage:

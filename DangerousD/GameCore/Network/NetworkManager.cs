@@ -88,7 +88,9 @@ namespace DangerousD.GameCore.Network
             catch { }
         }
         public void SendMsg(NetworkTask networkTask)
-        { 
+        {
+            //TODO
+            return;
             byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
             if (state == "Host")
