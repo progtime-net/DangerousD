@@ -13,6 +13,7 @@ namespace DangerousD.GameCore.Network
         public NetworkTaskOperationEnum operation { get; set; }
         public string name { get; set; }
         public int value { get; set; }
+        public bool isParam { get; set; }    
         public int objId { get; set; }
         public Vector2 position { get; set; }
         public Vector2 velocity { get; set; }
@@ -101,6 +102,29 @@ namespace DangerousD.GameCore.Network
         {
             operation = NetworkTaskOperationEnum.GetClientPlayerId;
             objId = PlayerId;
+        }
+
+        /// <summary>
+        /// Универсальный конструктор для нестандартных операций. То, что не нужно(кроме операции) делать null. 
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="isParam"></param>
+        /// <param name="objId"></param>
+        /// <param name="position"></param>
+        /// <param name="velocity"></param>
+        /// <param name="type"></param>
+        public NetworkTask(NetworkTaskOperationEnum operation, string name, int value, bool isParam, int objId, Vector2 position, Vector2 velocity, Type type)
+        {
+            this.operation = operation;
+            this.name = name;
+            this.value = value;
+            this.isParam = isParam;
+            this.objId = objId;
+            this.position = position;
+            this.velocity = velocity;
+            this.type = type;
         }
     }
 }

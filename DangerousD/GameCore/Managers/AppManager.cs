@@ -17,7 +17,8 @@ namespace DangerousD.GameCore
     public enum MultiPlayerStatus { SinglePlayer, Host, Client }
     public class AppManager : Game
     {
-        public static AppManager Instance { get; private set;  }
+        public static AppManager Instance { get; private set; }
+        public string IpAddress { get; private set; } = "127.0.0.1";
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public GameState gameState { get; private set; }
@@ -173,7 +174,26 @@ namespace DangerousD.GameCore
 
         public void NetworkSync(NetworkTask networkTask)
         {
-            
+            switch (networkTask.operation)
+            {
+                case NetworkTaskOperationEnum.TakeDamage:
+                    break;
+                case NetworkTaskOperationEnum.SendSound:
+                    SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
+                    break;
+                case NetworkTaskOperationEnum.CreateEntity:
+                    break;
+                case NetworkTaskOperationEnum.SendPosition:
+                    break;
+                case NetworkTaskOperationEnum.ChangeState:
+                    break;
+                case NetworkTaskOperationEnum.ConnectToHost:
+                    break;
+                case NetworkTaskOperationEnum.GetClientPlayerId:
+                    break;
+                default:
+                    break;
+            }
         }
         public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
         {
