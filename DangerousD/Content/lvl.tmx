@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="10" nextobjectid="47">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="11" nextobjectid="49">
  <tileset firstgid="1" source="map.tsx"/>
  <layer id="1" name="Collision" class="StopTile" width="30" height="20" locked="1" offsetx="-352.033" offsety="192.098">
   <data encoding="csv">
@@ -748,6 +748,11 @@
    <point/>
   </object>
   <object id="41" x="582" y="83">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="10" name="Player" class="LivingEntities.Player">
+  <object id="47" x="-260" y="461.333">
    <point/>
   </object>
  </objectgroup>
