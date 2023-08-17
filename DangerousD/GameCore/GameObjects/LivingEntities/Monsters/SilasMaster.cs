@@ -16,8 +16,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
 
         }
-        protected override GraphicsComponent GraphicsComponent => throw new NotImplementedException();
-
+        protected override GraphicsComponent GraphicsComponent { get; } = new GraphicsComponent(new List<string>() { "SilasMove" }, "SilasMove");
         public override void Attack()
         {
             throw new NotImplementedException();

@@ -21,7 +21,7 @@ namespace DangerousD.GameCore.Graphics
                 return currentAnimation;
             }
         }
-        
+        public string LastAnimation { get; set; }
         public string GetCurrentAnimation
         {
             get { return currentAnimation.Id; }
