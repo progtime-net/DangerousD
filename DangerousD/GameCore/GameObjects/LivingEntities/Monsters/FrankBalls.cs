@@ -12,19 +12,58 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class FrankBalls : CoreEnemy
     {
+        private Rectangle collision;
+        private Vector2 position;
+        private int healthBall;
+        private bool isFlyRight = true;
+        private bool isAttacking = false;
+
+        public Rectangle Collision
+        {
+            get { return collision; }
+        }
+
         public FrankBalls(Vector2 position) : base(position)
         {
+            this.position = position;
             name = "FrankBalls";
             Width = 40;
             Height = 40;
-            monster_speed = 1;
+            monster_speed = 3;
             acceleration = Vector2.Zero;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
 
+        public override void Update(GameTime gameTime)
+        {
+<<<<<<< HEAD
+            if(!isAttacking)
+            {
+                Move(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
+
+=======
+            
+            base.Update(gameTime);
+        }
+>>>>>>> livingEntitiesVlad
         public override void Attack()
         {
+            collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
+            isAttacking = true;
+
+            if(isFlyRight)
+            {
+                AppManager.Instance.GameManager.players[0].Death(name);
+            }
+            else if(!isFlyRight)
+            {
+                AppManager.Instance.GameManager.players[0].Death(name);
+            }
 
         }
 
@@ -35,7 +74,29 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
+            velocity.X = 0;
+            velocity.Y = 0;
 
+            if(isFlyRight)
+            {
+                velocity.X += monster_speed;
+                velocity.Y += monster_speed;
+            }
+            else if(!isFlyRight)
+            {
+                velocity.X -= monster_speed;
+                velocity.Y -= monster_speed;
+            }
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -64,7 +64,6 @@ namespace DangerousD.GameCore
 
         protected override void Initialize()
         {
-            GameManager.Initialize();
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize();
             LoginGUI.Initialize();
@@ -179,6 +178,7 @@ namespace DangerousD.GameCore
         {
             foreach (NetworkTask networkTask in networkTasks)
             {
+<<<<<<< HEAD
                 switch (networkTask.operation)
                 {
                     case NetworkTaskOperationEnum.TakeDamage:
@@ -199,6 +199,25 @@ namespace DangerousD.GameCore
                     default:
                         break;
                 }
+=======
+                case NetworkTaskOperationEnum.TakeDamage:
+                    break;
+                case NetworkTaskOperationEnum.SendSound:
+                   // SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
+                    break;
+                case NetworkTaskOperationEnum.CreateEntity:
+                    break;
+                case NetworkTaskOperationEnum.SendPosition:
+                    break;
+                case NetworkTaskOperationEnum.ChangeState:
+                    break;
+                case NetworkTaskOperationEnum.ConnectToHost:
+                    break;
+                case NetworkTaskOperationEnum.GetClientPlayerId:
+                    break;
+                default:
+                    break;
+>>>>>>> livingEntitiesVlad
             }
 
         }

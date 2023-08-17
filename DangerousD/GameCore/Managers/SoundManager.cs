@@ -20,6 +20,7 @@ namespace DangerousD.GameCore
         public void LoadSounds() // метод для загрузки звуков из папки
         {
             var k = Directory.GetFiles("../../..//Content").Where(x => x.EndsWith("mp3"));
+
             if (k.Count() > 0)
             {
 
@@ -31,6 +32,10 @@ namespace DangerousD.GameCore
 
             }
 
+            if (k.Count()>0)
+            {
+
+            }
         }
 
         public void StartAmbientSound(string soundName) // запустить звук у которого нет позиции

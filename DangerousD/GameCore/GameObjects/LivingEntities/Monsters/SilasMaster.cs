@@ -61,6 +61,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             currentTime++;
         }
+<<<<<<< HEAD
         private void SpawnAttackBall()
         {
             for (int i = 0; i < balls.Count; i++)
@@ -70,9 +71,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 
             
         }
+=======
+
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
+>>>>>>> livingEntitiesVlad
         public override void Death()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Move(GameTime gameTime)
@@ -105,6 +114,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 isGoRight = true;
             }
         }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

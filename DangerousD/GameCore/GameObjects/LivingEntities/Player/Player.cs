@@ -18,9 +18,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             Width = 32;
             Height = 64;
+<<<<<<< HEAD
             AppManager.Instance.InputManager.MovEventJump += Jump;
             AppManager.Instance.InputManager.ShootEvent += Shoot;
 
+=======
+            AppManager.Instance.InputManager.MovEventJump += AnimationJump;
+>>>>>>> 833da68a4e42a47ab035a220c049aa9937eb1969
         }
         public bool IsAlive { get { return isAlive; } }
 
@@ -57,6 +61,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public void Shoot()
         {
 
+        }
+        public override void Update(GameTime gameTime)
+        {
+            GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
+            velocity.X = 0.5f;
+            base.Update(gameTime);
         }
     }
 }

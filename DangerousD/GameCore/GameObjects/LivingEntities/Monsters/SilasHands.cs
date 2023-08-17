@@ -27,7 +27,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
         }
 
         public override void Death()
@@ -55,6 +60,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.X = monster_speed;
             }
         }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
