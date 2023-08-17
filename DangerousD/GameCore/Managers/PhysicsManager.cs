@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.GameObjects.LivingEntities;
 using Microsoft.Xna.Framework;
 
 namespace DangerousD.GameCore.Managers
@@ -38,41 +39,65 @@ namespace DangerousD.GameCore.Managers
         {
             foreach (var currentEntity in livingEntities)
             {
-                Rectangle oldRect = currentEntity.Rectangle;
-                bool isXNormalise = true;
-                bool isYNormalise = true;
+                var currentRect = currentEntity.Rectangle;
+                var newRect = currentRect;
 
-                oldRect.Offset((int)currentEntity.velocity.X, 0);
+                #region x collision
+                var collidedX = false;
+                var tryingRectX = currentRect;
+                tryingRectX.Offset((int)Math.Ceiling(currentEntity.velocity.X), 0);
                 foreach (var mapObject in mapObjects)
                 {
                     if (
                         Math.Abs(mapObject.Pos.X - currentEntity.Pos.X) < 550 
                         && Math.Abs(mapObject.Pos.Y - currentEntity.Pos.Y) < 550
-                        && oldRect.Intersects(mapObject.Rectangle)
+                        && tryingRectX.Intersects(mapObject.Rectangle)
                     )
                     {
-                        isXNormalise = false;
-                        oldRect.Offset(-(int)currentEntity.velocity.X, 0);
+                        collidedX = true;
                         break;
                     }
                 }
-                if (!isXNormalise)
+                if (collidedX)
+                {
                     currentEntity.velocity.X = 0;
-
-
-                oldRect.Offset(0, (int)currentEntity.velocity.Y);
+                }
+                else
+                {
+                    newRect.X = tryingRectX.X;
+                }
+                #endregion
+                
+                #region y collision
+                var collidedY = false;
+                var tryingRectY = currentRect;
+                tryingRectY.Offset(0, (int)Math.Ceiling(currentEntity.velocity.Y));
+                if (currentEntity is Player)
+                {
+                    AppManager.Instance.DebugHUD.Set("velocity", currentEntity.velocity.ToString());
+                    AppManager.Instance.DebugHUD.Set("intersects y", "");
+                }
                 foreach (var mapObject in mapObjects)
                 {
-                    if (oldRect.Intersects(mapObject.Rectangle))
+                    if (tryingRectY.Intersects(mapObject.Rectangle))
                     {
-                        isYNormalise = false;
-                        oldRect.Offset(0, -(int)currentEntity.velocity.Y);
+                        if (currentEntity is Player) AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
+                        collidedY = true;
                         break;
                     }
                 }
-                if (!isYNormalise)
+                currentEntity.isOnGround = collidedY && currentEntity.velocity.Y > 0;
+                if (collidedY)
+                {
                     currentEntity.velocity.Y = 0;
-                currentEntity.SetPosition(new Vector2(oldRect.X, oldRect.Y));
+                }
+                else
+                {
+                    newRect.Y = tryingRectY.Y;
+                }
+                #endregion
+
+                currentEntity.SetPosition(new Vector2(newRect.X, newRect.Y));
             }
 
         }

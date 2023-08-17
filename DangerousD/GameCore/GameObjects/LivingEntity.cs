@@ -4,7 +4,7 @@ namespace DangerousD.GameCore.GameObjects;
 
 public abstract class LivingEntity : Entity
 {
-    private Vector2 targetPosition;
+    public bool isOnGround = true;
     public Vector2 velocity;
     public Vector2 acceleration;
     public LivingEntity(Vector2 position) : base(position)
@@ -13,7 +13,7 @@ public abstract class LivingEntity : Entity
     }
     public override void SetPosition(Vector2 position)
     {
-        targetPosition = position; _pos = position;
+        _pos = position;
         
     } //TODO befrend targetpos and physics engine
 

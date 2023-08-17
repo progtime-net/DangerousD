@@ -81,8 +81,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void AnimationJump()
         {
-            velocity.Y = -11;
-            isJump = true;
+            if (isOnGround)
+            {
+                velocity.Y = -11;
+            }
             // здесь будет анимация
         }
         public void Shoot()
@@ -93,11 +95,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
-            velocity.X = 0.5f;
-            if (velocity.Y == 0)
-            {
-                isJump = false;
-            }
             base.Update(gameTime);
             Move(gameTime);
         }
@@ -105,21 +102,20 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (AppManager.Instance.InputManager.VectorMovementDirection.X==1)
+            velocity.X = 5 * AppManager.Instance.InputManager.VectorMovementDirection.X;
+            if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")//идёт направо
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
                 }
-                velocity.X = 5;
             }
-            else if (AppManager.Instance.InputManager.VectorMovementDirection.X == -1)//идёт налево
+            else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                 }
-                 velocity.X = -5;
             }
             else if(AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
             {
@@ -127,13 +123,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                 }
-                velocity.X = 0;
             }
         }
         public void MoveDown()
         {
+            // ПОЧЕМУ
             velocity.Y = -11;
-            isJump = true;
         }
 
     }
