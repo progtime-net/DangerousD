@@ -17,8 +17,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         float leftBorder;
         float rightBorder;
         bool isAttaking = false;
+<<<<<<< HEAD
         bool isTarget = false;
         PhysicsManager physicsManager;
+=======
+
+>>>>>>> livingEntitiesVlad
         public Zombie(Vector2 position) : base(position)
         {
             Width = 24;
@@ -112,6 +116,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.OnCollision(gameObject);
         }
 
+<<<<<<< HEAD
         public void Target()
         {
             if(AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-50, (int)Pos.Y, Width+100, Height), typeof(Player))!=null)
@@ -130,6 +135,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }
+=======
+        public override void Attack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
+>>>>>>> livingEntitiesVlad
         }
     }
 }

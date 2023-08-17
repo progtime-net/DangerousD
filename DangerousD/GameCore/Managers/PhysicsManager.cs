@@ -156,6 +156,7 @@ namespace DangerousD.GameCore.Managers
             }
             return gameObject;
         }
+        
         public GameObject RayCast(LivingEntity entity1, Vector2 targetCast)
         {
             Rectangle rectangle;
@@ -196,7 +197,6 @@ namespace DangerousD.GameCore.Managers
             }
             return gameObject;
         }
-
         public List<GameObject> CheckRectangle(Rectangle rectangle, Type type)
         {
             var gameObjects = AppManager.Instance.GameManager.GetAllGameObjects;
