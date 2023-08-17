@@ -8,9 +8,10 @@ using System.Text;
 
 namespace DangerousD.GameCore.Graphics
 {
+
     public class GraphicsComponent
     {
-        //public  Action actionOfAnimationEnd;
+        public Action<string> actionOfAnimationEnd;
         private List<AnimationContainer> animations;
         private List<Texture2D> textures;
         private List<string> texturesNames;
@@ -115,8 +116,12 @@ namespace DangerousD.GameCore.Graphics
                 {
                     if (!currentAnimation.IsCycle)
                     {
+			            if(actionOfAnimationEnd != null)
+                        {
+                            actionOfAnimationEnd(currentAnimation.Id);
+			            }
                         currentAnimation = neitralAnimation;
-                        //actionOfAnimationEnd();
+                       
                     }
 
                     currentFrame = 0;
