@@ -16,7 +16,7 @@ namespace MonogameLibrary.UI.Elements
         public delegate void OnButtonPressed();
         public event OnButtonPressed? RightButtonPressed;
         public event OnButtonPressed? LeftButtonPressed;
-        protected HoverState hoverState = HoverState.None;
+        public HoverState hoverState = HoverState.None;
 
         public Button(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {

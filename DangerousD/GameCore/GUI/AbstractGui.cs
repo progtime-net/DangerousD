@@ -51,24 +51,25 @@ public abstract class AbstractGui : IDrawableObject
     {
         string state = AppManager.Instance.InputManager.currentControlsState;
 
+        
+
         if (ActiveElements.Count != 0)
         {
-            switch (state)
+            if (state == "Gamepad")
             {
-                case "Gamepad":
-                    GamePadState gamePadState = GamePad.GetState(0);
-                    GamepadInput(gamePadState);
-                    break;
-                case "Keyboard":
-                    KeyboardState keyBoardState = Keyboard.GetState(0);
-                    KeyBoardInput(keyBoardState);
-                    break;
-                default:
-                    break;
+                GamePadState gamePadState = GamePad.GetState(0);
+                GamepadInput(gamePadState);
+            }
+            else if (state == "Keyboard" || state == "Mouse")
+            {
+                KeyboardState keyBoardState = Keyboard.GetState();
+                KeyBoardInput(keyBoardState);
             }
         }
 
         Manager.Update();
+
+        (SelectedElement as Button).hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
     }
         
     public virtual void Draw(SpriteBatch spriteBatch)
@@ -81,6 +82,7 @@ public abstract class AbstractGui : IDrawableObject
         {
             isPressed = true;
             ChangeSelectedElement(-1);
+            Debug.WriteLine("switch");
         }
         else if (gamePadState.DPad.Down == ButtonState.Pressed && !isPressed)
         {
@@ -89,7 +91,6 @@ public abstract class AbstractGui : IDrawableObject
         }
         else if (gamePadState.Buttons.A == ButtonState.Pressed && !isPressed)
         {
-            Debug.WriteLine("ssss");
             isPressed = true;
             if (SelectedElement is ButtonText)
             {
@@ -97,7 +98,9 @@ public abstract class AbstractGui : IDrawableObject
                 button.CallLeftBtnEvent();
             }
         }
-        else if (isPressed)
+        else if (isPressed && (gamePadState.Buttons.A == ButtonState.Released && 
+                        gamePadState.DPad.Down == ButtonState.Released && 
+                        gamePadState.DPad.Up == ButtonState.Released))
         {
             isPressed = false;
         }
@@ -123,7 +126,9 @@ public abstract class AbstractGui : IDrawableObject
                 button.CallLeftBtnEvent();
             }
         }
-        else if (isPressed)
+        else if (isPressed && (keyboardState.IsKeyUp(Keys.Enter) &&
+                            keyboardState.IsKeyUp(Keys.Down) &&
+                            keyboardState.IsKeyUp(Keys.Up)))
         {
             isPressed = false;
         }
@@ -134,25 +139,25 @@ public abstract class AbstractGui : IDrawableObject
         {
             if (ActiveElements[i] == SelectedElement)
             {
-                if (i == 0)
+                if (i + x >= ActiveElements.Count)
                 {
-                    SelectedElement = ActiveElements.Last();
+                    SelectedElement = ActiveElements.First();
+                    return;
                 }
                 else
                 {
-                    if (i == ActiveElements.Count - 1 && x >= 1)
+                    if (i + x < 0)
                     {
-                        SelectedElement = ActiveElements.First();
+                        SelectedElement = ActiveElements.Last();
+                        return;
                     }
                     else
                     {
                         SelectedElement = ActiveElements[i + x];
+                        return;
                     }
-
                 }
-                
             }
-            
         }
     }
     private bool CheckOnBadElements(DrawableUIElement element)
@@ -162,10 +167,6 @@ public abstract class AbstractGui : IDrawableObject
             return true;
         }
         else if (element is ButtonText)
-        {
-            return true;
-        }
-        else if (element is CheckBox)
         {
             return true;
         }

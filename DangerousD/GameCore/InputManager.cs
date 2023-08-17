@@ -158,6 +158,7 @@ namespace DangerousD.GameCore
                 {
                     isShoot = false;
                 }
+                SetState(ControlsState.Keyboard);
             }
         }
     }
