@@ -9,6 +9,7 @@ using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -84,6 +85,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
+            return;
             isAttacked = true;
             if(monsterName == "Zombie")
             {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.GameObjects.MapObjects;
 using Microsoft.Xna.Framework;
 
 namespace DangerousD.GameCore.Managers
@@ -13,7 +14,7 @@ namespace DangerousD.GameCore.Managers
     {
 
         public void UpdateCollisions(List<Entity> entities, List<LivingEntity> livingEntities,
-            List<MapObject> mapObjects, GameTime gameTime)
+            List<MapObject> mapObjects, List<Player> players, GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (var item in livingEntities)
@@ -21,7 +22,8 @@ namespace DangerousD.GameCore.Managers
                 item.velocity = item.velocity + item.acceleration * delta;
             }
 
-            CheckCollisionsLE_MO(livingEntities, mapObjects);
+            CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile).ToList());
+            CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList());
             CheckCollisionsE_LE(entities, livingEntities);
             CheckCollisionsLE_LE(livingEntities);
 
@@ -98,6 +100,40 @@ namespace DangerousD.GameCore.Managers
                 #endregion
 
                 currentEntity.SetPosition(new Vector2(newRect.X, newRect.Y));
+            }
+
+        }
+        private void CheckCollisionsPlayer_Platform(List<Player> players, List<Platform> platforms)
+        {
+            foreach (var player in players)
+            {
+                if (player.velocity.Y <= 0)
+                {
+                    continue;
+                }
+                var currentRect = player.Rectangle;
+                var newRect = currentRect;
+                
+                var collidedY = false;
+                var tryingRectY = currentRect;
+                tryingRectY.Offset(0, (int)Math.Ceiling(player.velocity.Y));
+                AppManager.Instance.DebugHUD.Set("intersects platform", "false");
+                foreach (var platform in platforms)
+                {
+                    if (tryingRectY.Intersects(platform.Rectangle))
+                    {
+                        AppManager.Instance.DebugHUD.Set("intersects platform", "true");
+                        collidedY = true;
+                        break;
+                    }
+                }
+                if (collidedY)
+                {
+                    player.isOnGround = true;
+                    player.velocity.Y = 0;
+                }
+
+                player.SetPosition(new Vector2(newRect.X, newRect.Y));
             }
 
         }
