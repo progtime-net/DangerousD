@@ -21,9 +21,9 @@ namespace DangerousD.GameCore.Managers
                 item.velocity = item.velocity + item.acceleration * delta;
             }
 
-            CheckCollisionsLE_MO(livingEntities, mapObjects);
-            CheckCollisionsE_LE(entities, livingEntities);
-            CheckCollisionsLE_LE(livingEntities);
+            CheckCollisionsLE_MO(livingEntities.ToList(), mapObjects);
+            CheckCollisionsE_LE(entities, livingEntities.ToList());
+            CheckCollisionsLE_LE(livingEntities.ToList());
 
             //entities dont move
             //Living entities dont move

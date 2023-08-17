@@ -27,15 +27,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private bool isAttacked = false;
         public GameObject objectAttack;
 
-        public Player(Vector2 position) : base(position)
+        public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
         {
             Width = 16;
             Height = 32;
 
-            AppManager.Instance.InputManager.ShootEvent += Shoot;
-
-            AppManager.Instance.InputManager.MovEventJump += Jump;
-            AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            if (!isNetworkPlayer)
+            {
+                AppManager.Instance.InputManager.ShootEvent += Shoot;
+                AppManager.Instance.InputManager.MovEventJump += Jump;
+                AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            }
 
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;

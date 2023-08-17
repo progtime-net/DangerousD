@@ -231,16 +231,22 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.ChangeState:
                         break;
                     case NetworkTaskOperationEnum.ConnectToHost:
-                        Player connectedPlayer = new Player(Vector2.Zero);
+                        Player connectedPlayer = new Player(Vector2.Zero, true);
                         NetworkTasks.Add(new NetworkTask(connectedPlayer.id));
                         NetworkTask task = new NetworkTask();
-                        NetworkTasks.Add(task.AddConnectedPlayer(GameManager.GetPlayer1.id, GameManager.GetPlayer1.Pos));
+                        foreach (Player player in GameManager.players)
+                        {
+                            if (player.id != connectedPlayer.id)
+                            {
+                                NetworkTasks.Add(task.AddConnectedPlayer(player.id, player.Pos));
+                            }
+                        }
                         break;
                     case NetworkTaskOperationEnum.GetClientPlayerId:
                         GameManager.GetPlayer1.id = networkTask.objId;
                         break;
                     case NetworkTaskOperationEnum.AddConnectedPlayer:
-                        Player remoteConnectedPlayer = new Player(networkTask.position);
+                        Player remoteConnectedPlayer = new Player(networkTask.position, true);
                         remoteConnectedPlayer.id = networkTask.objId;
                         GameManager.players.Add(remoteConnectedPlayer);
                         break;

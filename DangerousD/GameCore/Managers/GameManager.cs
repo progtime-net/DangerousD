@@ -99,7 +99,8 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
-            AppManager.Instance.DebugHUD.Set("playerId: ", GetPlayer1.id.ToString());
+            Player p = players.Find(x => x.id == 16);
+            if (p != null) AppManager.Instance.DebugHUD.Set("NextPlayerVelocity: ", p.velocity.ToString());
             if (AppManager.Instance.NetworkTasks.Count > 0)
             {
                 AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
@@ -117,7 +118,6 @@ namespace DangerousD.GameCore
                 {
                     livingEntitiesWithoutPlayers[i].Update(gameTime);
                 }
-                GetPlayer1.Update(gameTime);
             }
             else
             {
@@ -125,7 +125,6 @@ namespace DangerousD.GameCore
                 {
                     livingEntitiesWithoutPlayers[i].PlayAnimation();
                 }
-                GetPlayer1.Update(gameTime);
             }
             GetPlayer1.Update(gameTime);
             foreach (var item in otherObjects)

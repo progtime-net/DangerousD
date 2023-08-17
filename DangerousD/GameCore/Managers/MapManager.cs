@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Serialization;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
+using DangerousD.GameCore.GameObjects.LivingEntities;
 
 namespace DangerousD.GameCore.Managers
 {
@@ -106,7 +107,16 @@ namespace DangerousD.GameCore.Managers
             foreach (XmlNode entity in group.ChildNodes)
             {
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
-                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
+                Vector2 vector = new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY);
+                Entity inst;
+                if (type.Equals(typeof(Player)))
+                {
+                    inst = (Entity)Activator.CreateInstance(type, vector * _scale, false);
+                }
+                else 
+                {
+                    inst = (Entity)Activator.CreateInstance(type, vector * _scale);
+                }
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 inst.Height *= _scale;
                 inst.Width *= _scale;
