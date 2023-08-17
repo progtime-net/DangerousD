@@ -23,7 +23,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public bool IsAlive { get { return isAlive; } }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft" }, "playerStayLeft");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
+            "playerJumpRight" , "playerJumpLeft"}, "playerStayLeft");
 
         public void Kill()
         {
