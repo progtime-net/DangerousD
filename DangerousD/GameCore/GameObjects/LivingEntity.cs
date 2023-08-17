@@ -11,7 +11,11 @@ public abstract class LivingEntity : Entity
     {
         acceleration = new Vector2(0, 30);
     }
-    public void SetPosition(Vector2 position) { targetPosition = position; _pos = position; } //TODO befrend targetpos and physics engine
+    public override void SetPosition(Vector2 position)
+    {
+        targetPosition = position; _pos = position;
+        
+    } //TODO befrend targetpos and physics engine
 
     public override void Update(GameTime gameTime)
     {

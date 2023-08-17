@@ -31,7 +31,7 @@ namespace DangerousD.GameCore
         public Point inGameResolution = new Point(800, 480);
         private RenderTarget2D renderTarget;
 
-        public GameManager GameManager { get; private set; } = new GameManager();
+        public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
         public InputManager InputManager { get; private set; } = new InputManager();
@@ -39,9 +39,9 @@ namespace DangerousD.GameCore
         public SettingsManager SettingsManager { get; private set; } = new SettingsManager();
         public AppManager()
         {
+            Content.RootDirectory = "Content";
             Instance = this;
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
@@ -64,10 +64,11 @@ namespace DangerousD.GameCore
 
         protected override void Initialize()
         {
+            GameManager.Initialize();
             AnimationBuilder.LoadAnimations();
-            MenuGUI.Initialize(GraphicsDevice);
-            LoginGUI.Initialize(GraphicsDevice);
-            LobbyGUI.Initialize(GraphicsDevice);
+            MenuGUI.Initialize();
+            LoginGUI.Initialize();
+            LobbyGUI.Initialize();
             base.Initialize();
         }
 
@@ -165,7 +166,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("");
+                    GameManager.mapManager.LoadLevel("lvl");
                     break;
                 case GameState.GameOver:
                     break;

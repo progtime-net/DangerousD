@@ -17,9 +17,9 @@ public abstract class AbstractGui : IDrawableObject
 
     protected abstract void CreateUI();
     private GraphicsDevice graphicsDevice;
-    public virtual void Initialize(GraphicsDevice graphicsDevice)
+    public virtual void Initialize()
     {
-        Manager.Initialize(graphicsDevice);
+        Manager.Initialize(AppManager.Instance.GraphicsDevice);
         this.graphicsDevice = graphicsDevice;
         CreateUI();
     }
