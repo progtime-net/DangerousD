@@ -19,6 +19,7 @@ namespace DangerousD.GameCore.Network
         public Vector2 velocity { get; set; }
         public Type type { get; set; }
 
+        public NetworkTask() { }
         /// <summary>
         /// Нанести урон сущности
         /// </summary>
@@ -125,6 +126,13 @@ namespace DangerousD.GameCore.Network
             this.position = position;
             this.velocity = velocity;
             this.type = type;
+        }
+        public NetworkTask AddConnectedPlayer(int connectedPlayerId, Vector2 playerPosition)
+        {
+            operation = NetworkTaskOperationEnum.AddConnectedPlayer;
+            objId = connectedPlayerId;
+            position = playerPosition;
+            return this;
         }
     }
 }

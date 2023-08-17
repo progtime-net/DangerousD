@@ -8,14 +8,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
+using System.Linq;
+using DangerousD.GameCore.GUI;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore
 {
     public class GameManager
     {
         public List<GameObject> GetAllGameObjects { get; private set; }
-
+        private int currentEntityId = 0;
         public List<LivingEntity> livingEntities;
+        public List<LivingEntity> livingEntitiesWithoutPlayers;
         public List<Entity> entities;
         public List<MapObject> mapObjects;
         public List<MapObject> BackgroundObjects;
@@ -24,35 +28,43 @@ namespace DangerousD.GameCore
         public PhysicsManager physicsManager;
         public List<Player> players;
         public List<GameObject> otherObjects = new();
-
-        public Player GetPlayer1;
+        
+        public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
             others = new List<GameObject>();
             GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
+            livingEntitiesWithoutPlayers = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             BackgroundObjects = new List<MapObject>();
             entities = new List<Entity>();
             players = new List<Player>();
             mapManager = new MapManager(1);
             physicsManager = new PhysicsManager();
-            
-        }
 
-        
+        }
 
         internal void Register(GameObject gameObject)
         {
             GetAllGameObjects.Add(gameObject);
+            if (gameObject is Entity)
+            {
+                gameObject.id = currentEntityId;
+                currentEntityId++;
+            }
             if (gameObject is Player objPl)
             {
                 livingEntities.Add(gameObject as LivingEntity);
                 players.Add(objPl);
-                GetPlayer1 = players[0];
+                if (GetPlayer1 is null)
+                {
+                    GetPlayer1 = players[players.Count - 1];
+                }
             }
             else if (gameObject is LivingEntity objLE)
             {
+                livingEntitiesWithoutPlayers.Add(objLE);
                 livingEntities.Add(objLE);
             }
             else if (gameObject is Entity objE)
@@ -71,36 +83,6 @@ namespace DangerousD.GameCore
                 otherObjects.Add(gameObject);
             }
         }
-
-        public void Remove(GameObject gameObject)
-        {
-            GetAllGameObjects.Remove(gameObject);
-            if (gameObject is Player objPl)
-            {
-                livingEntities.Remove(gameObject as LivingEntity);
-                players.Remove(objPl);
-            }
-            else if (gameObject is LivingEntity objLE)
-            {
-                livingEntities.Remove(objLE);
-            }
-            else if (gameObject is Entity objE)
-            {
-                entities.Remove(objE);
-            }
-            else if (gameObject is MapObject obj)
-            {
-                if (obj.IsColliderOn)
-                    mapObjects.Remove(obj);
-                else
-                    BackgroundObjects.Remove(obj);
-            }
-            else
-            {
-                otherObjects.Remove(gameObject);
-            }
-        }
-
         public void Draw(SpriteBatch _spriteBatch)
         {
             foreach (var item in BackgroundObjects)
@@ -117,21 +99,39 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
+            AppManager.Instance.DebugHUD.Set("playerId: ", GetPlayer1.id.ToString());
+            if (AppManager.Instance.NetworkTasks.Count > 0)
+            {
+                AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
+                AppManager.Instance.NetworkTasks.Clear();
+            }
             foreach (var item in BackgroundObjects)
                 item.Update(gameTime);
             foreach (var item in mapObjects)
                 item.Update(gameTime);
             foreach (var item in entities)
                 item.Update(gameTime);
-
-            for (int i = 0; i < livingEntities.Count; i++)
-                livingEntities[i].Update(gameTime);
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
+            {
+                for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
+                {
+                    livingEntitiesWithoutPlayers[i].Update(gameTime);
+                }
+                GetPlayer1.Update(gameTime);
+            }
+            else
+            {
+                for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
+                {
+                    livingEntitiesWithoutPlayers[i].PlayAnimation();
+                }
+                GetPlayer1.Update(gameTime);
+            }
+            GetPlayer1.Update(gameTime);
             foreach (var item in otherObjects)
                 item.Update(gameTime);
 
             physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, gameTime);
-
-
         }
     }
 }
