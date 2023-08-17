@@ -19,10 +19,16 @@ namespace DangerousD.GameCore
 
         public void LoadSounds() // метод для загрузки звуков из папки
         {
-            string[] soundFiles = Directory.GetFiles("../../../Content").Where(x=>x.EndsWith("mp3")).Select(x=>x.Split("\\").Last().Replace(".mp3", "")).ToArray();// папка со звуками там где exe 
-            foreach (var soundFile in soundFiles)
+            var k = Directory.GetFiles("../../..//Content").Where(x => x.EndsWith("mp3"));
+            if (k.Count() > 0)
             {
-                Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>(soundFile).CreateInstance());
+
+                string[] soundFiles = k.Select(x => x.Split("\\").Last().Split("/").Last().Replace(".mp3", "")).ToArray();// папка со звуками там где exe 
+                foreach (var soundFile in soundFiles)
+                {
+                    Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>(soundFile).CreateInstance());
+                }
+
             }
 
         }
@@ -33,7 +39,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
-            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Host)
             {
                 AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(Vector2.Zero, soundName));
             }
@@ -45,7 +51,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
-            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Host) 
             {
                 AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(soundPos, soundName));
             }

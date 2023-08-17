@@ -6,18 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.PlayerDeath;
+using Microsoft.Xna.Framework.Input;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
     public class Player : LivingEntity
     {
         bool isAlive = true;
+        public int health;
         public Player(Vector2 position) : base(position)
         {
             Width = 32;
             Height = 64;
-            AppManager.Instance.InputManager.MovEventJump += AnimationJump;
-            
+            AppManager.Instance.InputManager.MovEventJump += Jump;
+            AppManager.Instance.InputManager.ShootEvent += Shoot;
+
         }
         public bool IsAlive { get { return isAlive; } }
 
@@ -43,9 +46,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             isAlive = false;
         }
-        public void AnimationJump()
+        public void Jump()
         {
-            velocity.Y = -300;
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                velocity.Y = -300;
+            }
+            // здесь будет анимация
+        }
+        public void Shoot()
+        {
+
         }
     }
 }
