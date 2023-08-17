@@ -1,0 +1,1 @@
+{"id":"HunchmanAttackRight","textureName":"MonstersAnimations","startSpriteRectangle":{"X":101,"Y":99,"Width":40,"Height":24},"frameSecond":[{"Item1":0,"Item2":10}],"textureFrameInterval":1,"framesCount":3,"isCycle":true,"offset":"0, 0"}
