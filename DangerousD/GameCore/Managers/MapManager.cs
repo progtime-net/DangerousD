@@ -100,12 +100,13 @@ namespace DangerousD.GameCore.Managers
 
         private void InstantiateEntities(XmlNode group)
         {
-            string entityType = group.Attributes["class"].Value;
+            string entityGroup = group.Attributes["class"] is not null ? group.Attributes["class"].Value : "";
             float offsetX = group.Attributes["offsetx"] is not null ? float.Parse(group.Attributes["offsetx"].Value) : 0;
             float offsetY = group.Attributes["offsety"] is not null ? float.Parse(group.Attributes["offsety"].Value) : 0;
             foreach (XmlNode entity in group.ChildNodes)
             {
-                Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
+                string entityType = group.Attributes["type"] is not null ? "." + group.Attributes["type"].Value : "";
+                Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityGroup}{entityType}");
                 Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 inst.Height *= _scale;
