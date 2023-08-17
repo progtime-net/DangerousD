@@ -47,5 +47,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             velocity.Y = -300;
         }
+        public override void Update(GameTime gameTime)
+        {
+            GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
+            velocity.X = 0.5f;
+            base.Update(gameTime);
+        }
     }
 }

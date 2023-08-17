@@ -164,8 +164,9 @@ namespace DangerousD.GameCore.Graphics
                 scale = destinationRectangle.Width / sourceRectangle.Width;
                 destinationRectangle.Height = (int)(sourceRectangle.Height * scale);
             }
-           
-            
+
+            destinationRectangle.X -= CameraPosition.X;
+            destinationRectangle.Y -= CameraPosition.Y;
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }
@@ -187,6 +188,8 @@ namespace DangerousD.GameCore.Graphics
                 destinationRectangle.Height = (int)(sourceRectangle.Height * scale);
             }
 
+            destinationRectangle.X -= CameraPosition.X;
+            destinationRectangle.Y -= CameraPosition.Y;
 
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
@@ -215,5 +218,6 @@ namespace DangerousD.GameCore.Graphics
                 interval = lastInterval;
             }
         }
+        public static Point CameraPosition = new Point(0, 0);
     }
 }
