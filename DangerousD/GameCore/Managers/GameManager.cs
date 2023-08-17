@@ -25,7 +25,7 @@ namespace DangerousD.GameCore
         public List<Player> players;
         public List<GameObject> otherObjects = new();
 
-        public Player GetPlayer1 => players[0];
+        public Player GetPlayer1;
         public GameManager()
         {
             others = new List<GameObject>();
@@ -49,6 +49,7 @@ namespace DangerousD.GameCore
             {
                 livingEntities.Add(gameObject as LivingEntity);
                 players.Add(objPl);
+                GetPlayer1 = players[0];
             }
             else if (gameObject is LivingEntity objLE)
             {
