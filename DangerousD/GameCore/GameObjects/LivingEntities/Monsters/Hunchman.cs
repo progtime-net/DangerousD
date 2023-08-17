@@ -87,7 +87,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
+            if (gameManager.physicsManager.RayCast(this, new Vector2(Pos.X + Width + 10, Pos.Y + Height)) is not null)
+            {
+                monster_speed *= -1;
+            }
+            
             velocity.X = monster_speed;
+
             if (velocity.X > 0)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "HunchmanMoveRight")
