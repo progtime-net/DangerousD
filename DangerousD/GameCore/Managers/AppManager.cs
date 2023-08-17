@@ -14,7 +14,7 @@ using DangerousD.GameCore.Managers;
 namespace DangerousD.GameCore
 {
     public enum MultiPlayerStatus { SinglePlayer, Host, Client }
-    public enum GameState { Menu, Options, Lobby, Game, Login, Death }
+    public enum GameState { Menu, Options, Lobby, Game, Login, Death, HUD }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set; }
@@ -30,6 +30,7 @@ namespace DangerousD.GameCore
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
         IDrawableObject DeathGUI;
+        IDrawableObject HUD;
 
         public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
@@ -55,13 +56,14 @@ namespace DangerousD.GameCore
             resolution = SettingsManager.Resolution;
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
-            _graphics.IsFullScreen = true;
-            gameState = GameState.Menu;
+            //_graphics.IsFullScreen = true;
+            gameState = GameState.HUD;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
             OptionsGUI = new OptionsGUI();
             LobbyGUI = new LobbyGUI();
             DeathGUI = new DeathGUI();
+            HUD = new HUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
         }
@@ -73,7 +75,7 @@ namespace DangerousD.GameCore
             LoginGUI.Initialize();
 
             OptionsGUI.Initialize();
-
+            HUD.Initialize();
             LobbyGUI.Initialize();
             DeathGUI.Initialize();
             base.Initialize();
@@ -87,6 +89,7 @@ namespace DangerousD.GameCore
             OptionsGUI.LoadContent();
             LobbyGUI.LoadContent();
             DeathGUI.LoadContent();
+            HUD.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
             SoundManager.LoadSounds();
@@ -119,6 +122,9 @@ namespace DangerousD.GameCore
                 case GameState.Death:
                     DeathGUI.Update(gameTime);
                     break;
+                case GameState.HUD:
+                    HUD.Update(gameTime);
+                    break;
                 case GameState.Game:
                     GameManager.Update(gameTime);
                     break;
@@ -150,6 +156,9 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Death:
                     DeathGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.HUD:
+                    HUD.Draw(_spriteBatch);
                     break;
                 case GameState.Game:
                     _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
