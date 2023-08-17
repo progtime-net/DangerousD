@@ -105,7 +105,8 @@ namespace DangerousD.GameCore.Managers
             float offsetY = group.Attributes["offsety"] is not null ? float.Parse(group.Attributes["offsety"].Value) : 0;
             foreach (XmlNode entity in group.ChildNodes)
             {
-                string entityType = group.Attributes["type"] is not null ? "." + group.Attributes["type"].Value : "";
+                Debug.WriteLine(entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "");
+                string entityType = entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "";
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityGroup}{entityType}");
                 Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));

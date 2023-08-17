@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="200" height="200" tilewidth="16" tileheight="16" infinite="1" nextlayerid="7" nextobjectid="42">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="200" height="200" tilewidth="16" tileheight="16" infinite="1" nextlayerid="8" nextobjectid="43">
  <tileset firstgid="1" source="../Documents/Github_repos/DangerousD/DangerousD/Content/map.tsx"/>
  <layer id="3" name="Слой тайлов 3" class="Tile" width="200" height="200">
   <data encoding="csv">
@@ -77,6 +77,11 @@
 </chunk>
   </data>
  </layer>
+ <objectgroup id="7" name="Player" class="LivingEntities">
+  <object id="42" type="Player" x="236.506" y="-54.4681">
+   <point/>
+  </object>
+ </objectgroup>
  <layer id="1" name="Collidable" class="StopTile" width="200" height="200">
   <data encoding="csv">
    <chunk x="-32" y="0" width="16" height="16">
@@ -189,7 +194,7 @@
 </chunk>
   </data>
  </layer>
- <objectgroup id="6" name="Zombies" class="LivingEntity.Zombie">
+ <objectgroup id="6" name="Zombies" class="LivingEntities.Monsters.Zombie">
   <object id="17" x="568" y="130">
    <point/>
   </object>
@@ -343,9 +348,6 @@
   </data>
  </layer>
  <objectgroup id="5" name="Various enemies" class="LivingEntities.Monsters">
-  <object id="3" type="Player" x="262" y="-11">
-   <point/>
-  </object>
   <object id="7" type="SilasMaster" x="126" y="-25">
    <point/>
   </object>
