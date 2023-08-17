@@ -11,6 +11,7 @@ using DangerousD.GameCore.Managers;
 using MonogameLibrary.UI.Base;
 using System.Diagnostics;
 using DangerousD.GameCore.Network;
+using System.Xml.Linq;
 
 namespace DangerousD.GameCore.GUI
 {
@@ -30,8 +31,11 @@ namespace DangerousD.GameCore.GUI
             lobbyBackground.LoadTexture(AppManager.Instance.Content);
 
             // CheckBoxs
-            Elements.Add(new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
-                screenWidth / 30 * 26, screenHeight / 15 * 10) });
+            var lobby = new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
+                screenWidth / 30 * 26, screenHeight / 15 * 10), textureName = "textboxbackground2,5-1" };
+            Elements.Add(lobby);
+            lobby.LoadTexture(AppManager.Instance.Content);
+
 
             // Buttons and ip textbox
             {
@@ -41,9 +45,10 @@ namespace DangerousD.GameCore.GUI
                         screenWidth / 30 * 10, screenHeight / 30 * 3),
                     text = "ip",
                     scale = 0.16f,
-                    fontColor = Color.Gray,
+                    fontColor = Color.Black,
                     fontName = "font2",
-                    textAligment = TextAligment.Left
+                    textAligment = TextAligment.Left,
+                    textureName = "textboxbackground6-1"
 
                 };
                 searchBarTextBox.TextChanged += input => {
@@ -59,62 +64,68 @@ namespace DangerousD.GameCore.GUI
                         searchBarTextBox.text = "ip";
                     }
                 };
-                Button backButton = new ButtonText(Manager)
+                Button backButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 30, screenHeight / 30, 60, 50),
+                    rectangle = new Rectangle(screenWidth / 30, screenHeight / 30, (int)(40 * 2.4), (int)(40 * 2.4)),
                     text = "<-",
-                    scale = 0.3f,
+                    scale = 0.72f,
                     fontColor = Color.Black,
-                    fontName = "font2"
+                    fontName = "font2",
+                    textureName = "textboxbackground1-1"
                 };
                 backButton.LeftButtonPressed += () => {
                     AppManager.Instance.ChangeGameState(GameState.Menu);
                 };
 
-                Button hostButton = new ButtonText(Manager)
+                Button hostButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 30, screenHeight / 15 * 13, 120, 50),
+                    rectangle = new Rectangle(screenWidth / 30, screenHeight / 15 * 13, (int)(120 * 2.4), (int)(50 * 2.4)),
                     text = "Host",
-                    scale = 0.2f,
-                    fontColor = Color.Black,
-                    fontName = "font2"
+                    scale = 0.48f,
+                    fontColor = Color.DarkBlue,
+                    fontName = "buttonFont",
+                    textureName = "textboxbackground2-1"
                 };
                 hostButton.LeftButtonPressed += () => {
-
+                    AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.HostInit(AppManager.Instance.IpAddress);
 
                 };
 
-                Button refreshButton = new ButtonText(Manager)
+                Button refreshButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 30 * 6, screenHeight / 15 * 13, 120, 50),
+                    rectangle = new Rectangle(screenWidth / 30 * 6, screenHeight / 15 * 13, (int)(120 * 2.4), (int)(50 * 2.4)),
                     text = "Refresh",
-                    scale = 0.2f,
-                    fontColor = Color.Black,
-                    fontName = "font2"
+                    scale = 0.48f,
+                    fontColor = Color.DarkBlue,
+                    fontName = "buttonFont",
+                    textureName = "textboxbackground2-1"
                 };
                 refreshButton.LeftButtonPressed += () => {
                     
                 };
 
-                Button joinSelectedButton = new ButtonText(Manager)
+                Button joinSelectedButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 30 * 25, screenHeight / 15 * 13, 120, 50),
+                    rectangle = new Rectangle(screenWidth / 30 * 25, screenHeight / 15 * 13, (int)(120 * 2.4), (int)(50 * 2.4)),
                     text = "Join",
-                    scale = 0.2f,
-                    fontColor = Color.Black,
-                    fontName = "font2"
+                    scale = 0.48f,
+                    fontColor = Color.DarkBlue,
+                    fontName = "buttonFont",
+                    textureName = "textboxbackground2-1"
                 };
                 joinSelectedButton.LeftButtonPressed += () => {
+                    AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.ClientInit(AppManager.Instance.IpAddress);
                 };
-                Button joinByIpButton = new ButtonText(Manager)
+                Button joinByIpButton = new Button(Manager)
                 {
-                    rectangle = new Rectangle(screenWidth / 30 * 25, screenHeight / 30, 120, 50),
+                    rectangle = new Rectangle(screenWidth / 30 * 25, screenHeight / 30, (int)(120 * 2.4), (int)(50 * 2.4)),
                     text = "JoinByIp",
-                    scale = 0.2f,
-                    fontColor = Color.Black,
-                    fontName = "font2"
+                    scale = 0.48f,
+                    fontColor = Color.DarkBlue,
+                    fontName = "buttonFont",
+                    textureName = "textboxbackground2-1"
                 };
                 joinByIpButton.LeftButtonPressed += () => {
                     AppManager.Instance.NetworkManager.ClientInit(searchBarTextBox.text);

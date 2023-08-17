@@ -20,7 +20,8 @@ namespace DangerousD.GameCore
         public void LoadSounds() // метод для загрузки звуков из папки
         {
             var k = Directory.GetFiles("../../..//Content").Where(x => x.EndsWith("mp3"));
-            if (k.Count()>0)
+
+            if (k.Count() > 0)
             {
 
                 string[] soundFiles = k.Select(x => x.Split("\\").Last().Split("/").Last().Replace(".mp3", "")).ToArray();// папка со звуками там где exe 
@@ -30,17 +31,23 @@ namespace DangerousD.GameCore
                 }
 
             }
+
+            if (k.Count()>0)
+            {
+
+            }
         }
 
         public void StartAmbientSound(string soundName) // запустить звук у которого нет позиции
         {
+            return;
             var sound = new Sound(Sounds[soundName]);
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
             {
-                AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(Vector2.Zero, soundName));
+                AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(Vector2.Zero, soundName));
             }
         }
         public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos) // запустить звук у которого есть позиция
@@ -52,7 +59,7 @@ namespace DangerousD.GameCore
             PlayingSounds.Add(sound);
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
             {
-                AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(soundPos, soundName));
+                AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(soundPos, soundName));
             }
         } 
         public void StopAllSounds() // остановка всех звуков

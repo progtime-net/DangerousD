@@ -14,11 +14,10 @@ namespace DangerousD.GameCore
     {
         protected Vector2 _pos;
         public Vector2 Pos => _pos;
+        public int id;
         public int Width { get; set; }
         public int Height { get; set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
-        public Vector2 velocity;
-        public Vector2 acceleration;
         protected abstract GraphicsComponent GraphicsComponent { get; }
         public GameObject(Vector2 pos)
         {
@@ -40,9 +39,13 @@ namespace DangerousD.GameCore
         {
         }
 
-        public void LoadContent()
+        public void PlayAnimation()
         {
             GraphicsComponent.LoadContent();
+        }
+        public void LoadContent()
+        {
+            PlayAnimation();
         }
 
         public virtual void Update(GameTime gameTime)

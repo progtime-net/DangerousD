@@ -42,27 +42,27 @@
   </data>
  </layer>
 <objectgroup id="755" name="Zombies" class="LivingEntities.Player" locked="1">
- <object id="26" x="-50" y="300">
+ <object id="26" x="-50" y="100">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="Слой объектов 1" class="LivingEntities.Monsters.FlameSkull">
-  <object id="1" x="1" y="300">
+  <object id="1" x="1" y="100">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="Слой объектов 2" class="LivingEntities.Monsters.FrankBalls">
-  <object id="2" x="1" y="300">
+  <object id="2" x="1" y="100">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="4" name="Слой объектов 3" class="LivingEntities.Monsters.Frank">
-  <object id="3" x="-56" y="420">
+  <object id="3" x="-56" y="100">
    <point/>
   </object>
  </objectgroup>
 <objectgroup id="5" name="Zombies" class="LivingEntities.Monsters.Spider">
- <object id="4" x="1" y="300">
+ <object id="4" x="1" y="100">
    <point/>
   </object>
  </objectgroup>
