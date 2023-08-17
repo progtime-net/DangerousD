@@ -12,11 +12,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     {
         public Ghost(Vector2 position) : base(position)
         {
+            monster_speed = 1;
+            name = "Ghost";
+            Width = 48;
+            Height = 62;
+            GraphicsComponent.StartAnimation("GhostSpawn");
 
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "GhostMoveRight", "GhostMoveLeft", "GhostSpawn", "GhostAttack" }, "");
-
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "GhostMoveRight", "GhostMoveLeft", "GhostSpawn", "GhostAttack" }, "GhostMoveRight");
 
         public override void Attack()
         {

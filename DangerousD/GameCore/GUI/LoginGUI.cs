@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
+using DangerousD.GameCore.Managers;
+using MonogameLibrary.UI.Base;
+using System.Diagnostics;
+
 using MonogameLibrary.UI.Elements;
 using MonogameLibrary.UI.Enums;
 
@@ -20,8 +24,12 @@ namespace DangerousD.GameCore.GUI
 
         protected override void CreateUI()
         {
-            int screenWidth = AppManager.Instance.resolution.X;
-            int screenHeight = AppManager.Instance.resolution.Y;
+            int screenWidth = AppManager.Instance.inGameResolution.X;
+            int screenHeight = AppManager.Instance.inGameResolution.Y;
+
+            var loginBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "menuFon2" };
+            Elements.Add(loginBackground);
+            loginBackground.LoadTexture(AppManager.Instance.Content);
 
             Elements.Add(new Label(Manager) {
                 rectangle = new Rectangle(screenWidth / 2 - 250, screenHeight / 6 - 50, 500, 100),
@@ -29,7 +37,7 @@ namespace DangerousD.GameCore.GUI
                 scale = 0.8f,
                 fontColor = Color.White,
                 mainColor = Color.Transparent,
-                fontName = "font2"
+                fontName = "ButtonFont"
             });
 
             // TextBox-ы
@@ -83,7 +91,7 @@ namespace DangerousD.GameCore.GUI
 
             // Кнопки
             {
-                Button logButton = new Button(Manager) {
+                Button logButton = new ButtonText(Manager) {
                     rectangle = new Rectangle(screenWidth / 4 + 50, screenHeight / 6 * 4, 100, 50),
                     text = "LogIn",
                     scale = 0.2f,
@@ -97,7 +105,7 @@ namespace DangerousD.GameCore.GUI
                     }
                 };
 
-                Button regButton = new Button(Manager)
+                Button regButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 4 * 2 + 50, screenHeight / 6 * 4, 100, 50),
                     text = "Reg",
@@ -107,7 +115,7 @@ namespace DangerousD.GameCore.GUI
                 };
                 regButton.LeftButtonPressed += GoToRegWebServer;
 
-                Button backButton = new Button(Manager)
+                Button backButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, 50, 50),
                     text = "<-",

@@ -14,10 +14,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     {
         public FlameSkull(Vector2 position) : base(position)
         {
-
+            Width = 62;
+            Height = 40;
+            monster_speed = 3;
+            name = "Skull";
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FlameSkullMoveLeft", "FlameSkullMoveRight" }, "FlameSkullMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FlameSkullMoveRight" , "FlameSkullMoveLeft"}, "FlameSkullMoveRight");
 
         public override void Attack()
         {

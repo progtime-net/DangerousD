@@ -8,8 +8,10 @@ using System.Text;
 
 namespace DangerousD.GameCore.Graphics
 {
+
     public class GraphicsComponent
     {
+        public event Action<string> actionOfAnimationEnd;
         private List<AnimationContainer> animations;
         private List<Texture2D> textures;
         private List<string> texturesNames;
@@ -27,13 +29,11 @@ namespace DangerousD.GameCore.Graphics
         private int interval;
         private int lastInterval;
         private Rectangle sourceRectangle;
-
         public GraphicsComponent(List<string> animationsId, string neitralAnimationId)
         {
             //this._spriteBatch = _spriteBatch;
             currentFrame = 0;
             lastInterval = 1;
-
             LoadAnimations(animationsId, neitralAnimationId);
             currentAnimation = neitralAnimation;
             SetInterval();
@@ -114,10 +114,16 @@ namespace DangerousD.GameCore.Graphics
                 {
                     if (!currentAnimation.IsCycle)
                     {
+			            if(actionOfAnimationEnd != null)
+                        {
+                            actionOfAnimationEnd(currentAnimation.Id);
+			            }
                         currentAnimation = neitralAnimation;
+                       
                     }
 
                     currentFrame = 0;
+
                 }
 
                 buildSourceRectangle();

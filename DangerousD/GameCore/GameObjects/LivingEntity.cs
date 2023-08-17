@@ -23,4 +23,12 @@ public abstract class LivingEntity : Entity
         }
         base.Update(gameTime);
     }
+
+    public virtual void StartCicycleAnimation(string animationName)
+    {
+        if (GraphicsComponent.GetCurrentAnimation != animationName)
+        {
+            GraphicsComponent.StartAnimation(animationName);
+        }
+    }
 }
