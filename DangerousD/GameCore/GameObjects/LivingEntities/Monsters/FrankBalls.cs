@@ -29,7 +29,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             name = "FrankBalls";
             Width = 40;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 2;
             acceleration = Vector2.Zero;
         }
 
@@ -37,9 +37,20 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
-            if(!isAttacking)
+            collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
+
+            if (!isAttacking)
             {
                 Move(gameTime);
+            }
+
+            if(GraphicsComponent.GetCurrentAnimation == "FrankMoveRight")
+            {
+                isFlyRight = true;
+            }
+            else if(GraphicsComponent.GetCurrentAnimation == "FrankMoveLeft")
+            {
+                isFlyRight = false;
             }
 
             base.Update(gameTime);
@@ -47,7 +58,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
-            collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
             isAttacking = true;
 
             if(isFlyRight)
