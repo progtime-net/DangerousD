@@ -19,6 +19,8 @@ namespace DangerousD.GameCore.Network
         public Vector2 velocity { get; set; }
         public Type type { get; set; }
 
+
+        public NetworkTask() { }
         /// <summary>
         /// Нанести урон сущности
         /// </summary>

@@ -8,14 +8,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
+using System.Linq;
 
 namespace DangerousD.GameCore
 {
     public class GameManager
     {
         public List<GameObject> GetAllGameObjects { get; private set; }
-
+        private int currentEntityId = 0;
         public List<LivingEntity> livingEntities;
+        public List<LivingEntity> livingEntitiesWithoutPlayers;
         public List<Entity> entities;
         public List<MapObject> mapObjects;
         public List<MapObject> BackgroundObjects;
@@ -31,6 +33,7 @@ namespace DangerousD.GameCore
             others = new List<GameObject>();
             GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
+            livingEntitiesWithoutPlayers = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             BackgroundObjects = new List<MapObject>();
             entities = new List<Entity>();
@@ -45,14 +48,23 @@ namespace DangerousD.GameCore
         internal void Register(GameObject gameObject)
         {
             GetAllGameObjects.Add(gameObject);
+            if (gameObject is Entity)
+            {
+                gameObject.id = currentEntityId;
+                currentEntityId++;
+            }
             if (gameObject is Player objPl)
             {
                 livingEntities.Add(gameObject as LivingEntity);
                 players.Add(objPl);
-                GetPlayer1 = players[0];
+                if (GetPlayer1 is null)
+                {
+                    GetPlayer1 = players[players.Count - 1];
+                }
             }
             else if (gameObject is LivingEntity objLE)
             {
+                livingEntitiesWithoutPlayers.Add(objLE);
                 livingEntities.Add(objLE);
             }
             else if (gameObject is Entity objE)
@@ -88,6 +100,11 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
+            if (AppManager.Instance.NetworkTasks.Count > 0)
+            {
+                AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
+                AppManager.Instance.NetworkTasks.Clear();
+            }
             foreach (var item in BackgroundObjects)
                 item.Update(gameTime);
             foreach (var item in mapObjects)
@@ -95,8 +112,22 @@ namespace DangerousD.GameCore
             foreach (var item in entities)
                 item.Update(gameTime);
 
-            for (int i = 0; i < livingEntities.Count; i++)
-                livingEntities[i].Update(gameTime);
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
+            {
+                for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
+                {
+                    livingEntitiesWithoutPlayers[i].Update(gameTime);
+                }
+                GetPlayer1.Update(gameTime);
+            }
+            else
+            {
+                for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
+                {
+                    livingEntitiesWithoutPlayers[i].PlayAnimation();
+                }
+                GetPlayer1.Update(gameTime);
+            }
             foreach (var item in otherObjects)
                 item.Update(gameTime);
 

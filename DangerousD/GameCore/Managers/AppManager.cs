@@ -10,6 +10,8 @@ using DangerousD.GameCore.Graphics;
 using DangerousD.GameCore.Network;
 using MonogameLibrary.UI.Base;
 using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.GameObjects;
 
 namespace DangerousD.GameCore
 {
@@ -19,6 +21,7 @@ namespace DangerousD.GameCore
     {
         public static AppManager Instance { get; private set; }
         public string IpAddress { get; private set; } = "127.0.0.1";
+        public List<NetworkTask> NetworkTasks { get; set; } = new List<NetworkTask>();
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public GameState gameState { get; private set; }
@@ -188,12 +191,17 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.CreateEntity:
                         break;
                     case NetworkTaskOperationEnum.SendPosition:
+                        LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
+                        entity.SetPosition(networkTask.position);
                         break;
                     case NetworkTaskOperationEnum.ChangeState:
                         break;
                     case NetworkTaskOperationEnum.ConnectToHost:
+                        Player connectedPlayer = new Player(Vector2.Zero);
+                        NetworkTasks.Add(new NetworkTask(connectedPlayer.id));
                         break;
                     case NetworkTaskOperationEnum.GetClientPlayerId:
+                        GameManager.GetPlayer1.id = networkTask.objId;
                         break;
                     default:
                         break;

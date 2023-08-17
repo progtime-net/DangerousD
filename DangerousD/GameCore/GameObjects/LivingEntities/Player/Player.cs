@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -53,7 +54,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             if (gameObject is Player)
             {
-                isVisible = false;
+                //isVisible = false;
             }
             base.OnCollision(gameObject);
         }
@@ -124,6 +125,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isJump)
             {
                 AnimationJump();
+            }
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
+            {
+                NetworkTask task = new NetworkTask(id, Pos);
+                AppManager.Instance.NetworkTasks.Add(task);
             }
         }
         public void MoveDown()

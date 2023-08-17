@@ -13,6 +13,7 @@ namespace DangerousD.GameCore
     public abstract class GameObject : IDrawableObject
     {
         protected Vector2 _pos;
+        public int id = 0;
         public Vector2 Pos => _pos;
         public int Width { get; set; }
         public int Height { get; set; }
@@ -45,9 +46,13 @@ namespace DangerousD.GameCore
             GraphicsComponent.LoadContent();
         }
 
-        public virtual void Update(GameTime gameTime)
+        public void PlayAnimation()
         {
             GraphicsComponent.Update();
+        }
+        public virtual void Update(GameTime gameTime)
+        {
+            PlayAnimation();
         }
 
         public static Texture2D debugTexture;

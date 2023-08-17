@@ -25,7 +25,7 @@ namespace DangerousD.GameCore.Network
             {
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 IPAddress address = IPAddress.Parse(IpAddress);
-                int port = 8000;
+                int port = 51873;
                 endPoint = new IPEndPoint(address, port);
             }
             catch { }
@@ -71,6 +71,7 @@ namespace DangerousD.GameCore.Network
                 Thread acceptThread = new Thread(AcceptSockets);
                 acceptThread.Start();
                 state = "Host";
+                AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.Host);
             }
             catch { }
         }
@@ -84,10 +85,13 @@ namespace DangerousD.GameCore.Network
                 Thread.Sleep(10);
                 Thread ReceivingThread = new Thread(ReceiveMsgFromHost);
                 ReceivingThread.Start();
+                NetworkTask connectionTask = new NetworkTask("Player");
+                AppManager.Instance.NetworkTasks.Add(connectionTask);
+                AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.Client);
             }
             catch { }
         }
-        public void SendMsg(NetworkTask networkTask)
+        public void SendMsg(List<NetworkTask> networkTask)
         {
             byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
