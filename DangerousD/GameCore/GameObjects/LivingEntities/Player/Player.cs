@@ -14,6 +14,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     public class Player : LivingEntity
     {
         bool isAlive = true;
+        bool isRight;
+        string stayAnimation;
         bool isJump = false;
         public int health;
         public bool isGoRight = false;
@@ -21,6 +23,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int rightBorder;
         public int leftBorder;
         public bool isVisible = true;
+        private bool isAttacked = false;
         public GameObject objectAttack;
 
         public Player(Vector2 position) : base(position)
@@ -30,7 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
             AppManager.Instance.InputManager.ShootEvent += Shoot;
 
-            AppManager.Instance.InputManager.MovEventJump += AnimationJump;
+            AppManager.Instance.InputManager.MovEventJump += Jump;
             AppManager.Instance.InputManager.MovEventDown += MoveDown;
 
            velocity = new Vector2(0, 0);
@@ -38,9 +41,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             leftBorder = (int)position.X - 100;
 
         }
+
         public bool IsAlive { get { return isAlive; } }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack", "DeathFromZombie" }, "ZombieMoveLeft");//TODO: Change to player
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
+            "playerJumpRight" , "playerJumpLeft"}, "playerStayLeft");
 
         public void Attack()
         {
@@ -66,23 +71,26 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
-            /*if(monsterName == "Zombie")
+            isAttacked = true;
+            if(monsterName == "Zombie")
             {
                 DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
                 {
                     if (a == "DeathFrom" + monsterName)
                     {
-                        AppManager.Instance.ChangeGameState(GameState.GameOver);
+                        AppManager.Instance.ChangeGameState(GameState.Death);
                     }
                 };
             }
-            isAlive = false;*/
+            isAlive = false;
         }
-        public void AnimationJump()
+        public void Jump()
         {
-            velocity.Y = -11;
-            isJump = true;
+            if (isOnGround)
+            {
+                velocity.Y = -11;
+            }
             // здесь будет анимация
         }
         public void Shoot()
@@ -93,33 +101,34 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
-            velocity.X = 0.5f;
-            if (velocity.Y == 0)
+            if (!isAttacked)
             {
-                isJump = false;
+                Move(gameTime);
+            }
+            else
+            {
+                velocity.X = 0;
             }
             base.Update(gameTime);
-            Move(gameTime);
         }
 
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (AppManager.Instance.InputManager.VectorMovementDirection.X==1)
+            velocity.X = 5 * AppManager.Instance.InputManager.VectorMovementDirection.X;
+            if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")//идёт направо
+                if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
                 {
-                    GraphicsComponent.StartAnimation("ZombieMoveRight");
+                    GraphicsComponent.StartAnimation("playerMoveRight");
                 }
-                velocity.X = 5;
             }
-            else if (AppManager.Instance.InputManager.VectorMovementDirection.X == -1)//идёт налево
+            else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
                 {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                    GraphicsComponent.StartAnimation("playerMoveLeft");
                 }
-                 velocity.X = -5;
             }
             else if(AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
             {
@@ -127,13 +136,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                 }
-                velocity.X = 0;
             }
         }
         public void MoveDown()
         {
+            // ПОЧЕМУ
             velocity.Y = -11;
-            isJump = true;
         }
 
     }

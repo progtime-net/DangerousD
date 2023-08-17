@@ -13,8 +13,8 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
     {
         public DeathRectangle(Vector2 pos, string DeathType) : base(pos)
         {
-            Height = 128;
-            Width = 128;
+            Height = 48;
+            Width = 48;
             PlayDeath(DeathType);
         }
 

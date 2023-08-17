@@ -14,7 +14,13 @@ using DangerousD.GameCore.Managers;
 namespace DangerousD.GameCore
 {
     public enum MultiPlayerStatus { SinglePlayer, Host, Client }
+<<<<<<< HEAD
     public enum GameState { Menu, Options, Lobby, Game, Login, Death, HUD }
+=======
+    public enum GameState { Menu, Options, Lobby, Game, Login, Death,
+        GameOver
+    }
+>>>>>>> e6d0f2b8a092647a5c02741fd70194bfb376b202
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set; }
@@ -24,13 +30,14 @@ namespace DangerousD.GameCore
         public GameState gameState { get; private set; }
         public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
         public Point resolution = new Point(1920, 1080);
-        public Point inGameResolution = new Point(1920, 1080);
+        public Point inGameResolution = new Point(1366, 768);
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
         IDrawableObject DeathGUI;
         IDrawableObject HUD;
+        public DebugHUD DebugHUD;
 
         public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
@@ -64,6 +71,7 @@ namespace DangerousD.GameCore
             LobbyGUI = new LobbyGUI();
             DeathGUI = new DeathGUI();
             HUD = new HUD();
+            DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
         }
@@ -74,6 +82,7 @@ namespace DangerousD.GameCore
             MenuGUI.Initialize();
             LoginGUI.Initialize();
 
+            DebugHUD.Initialize();
             OptionsGUI.Initialize();
             HUD.Initialize();
             LobbyGUI.Initialize();
@@ -84,6 +93,7 @@ namespace DangerousD.GameCore
         protected override void LoadContent() 
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            DebugHUD.LoadContent();
             MenuGUI.LoadContent();
             LoginGUI.LoadContent();
             OptionsGUI.LoadContent();
@@ -131,6 +141,7 @@ namespace DangerousD.GameCore
                 default:
                     break;
             }
+            DebugHUD.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -174,6 +185,7 @@ namespace DangerousD.GameCore
             _spriteBatch.End();
 
 
+            DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
 
