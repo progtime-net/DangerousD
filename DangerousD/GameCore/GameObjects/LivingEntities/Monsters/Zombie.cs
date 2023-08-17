@@ -7,23 +7,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.Managers;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
         private bool isGoRight = true;
-        int leftBorder;
-        int rightBorder;
+        float leftBorder;
+        float rightBorder;
         bool isAttaking = false;
+        bool isTarget = false;
+        PhysicsManager physicsManager;
         public Zombie(Vector2 position) : base(position)
         {
-            Width = 72;
-            Height = 120;
+            Width = 24;
+            Height = 40;
             monster_speed = 3;
             name = "Zombie";
-            leftBorder = (int)position.X - 60;
-            rightBorder = (int)position.X + 120;
+            leftBorder = (int)position.X - 100;
+            rightBorder = (int)position.X + 100;
+            physicsManager = new PhysicsManager();
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
@@ -31,6 +35,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (!isAttaking)
             {
+                Target();
                 Move(gameTime);
             }
 
@@ -105,6 +110,26 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
             }
             base.OnCollision(gameObject);
+        }
+
+        public void Target()
+        {
+            if(physicsManager.RayCast(this, AppManager.Instance.GameManager.players[0]) == null)
+            {
+                if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
+                {
+                    isTarget = true;
+                    leftBorder = Pos.X - 10;
+                    rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
+                }
+
+                else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
+                {
+                    isTarget = true;
+                    rightBorder = Pos.X + 10;
+                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
+                }
+            }
         }
     }
 }

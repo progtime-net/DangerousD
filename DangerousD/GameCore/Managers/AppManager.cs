@@ -14,12 +14,15 @@ using DangerousD.GameCore.Managers;
 namespace DangerousD.GameCore
 {
     public enum GameState { Menu, Options, Lobby, Game, Login, GameOver }
+    public enum MultiPlayerStatus { SinglePlayer, Host, Client }
     public class AppManager : Game
     {
-        public static AppManager Instance { get; private set;  }
+        public static AppManager Instance { get; private set; }
+        public string IpAddress { get; private set; } = "127.0.0.1";
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch; 
-        GameState gameState;
+        private SpriteBatch _spriteBatch;
+        public GameState gameState { get; private set; }
+        public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
@@ -28,7 +31,7 @@ namespace DangerousD.GameCore
         public Point inGameResolution = new Point(800, 480);
         private RenderTarget2D renderTarget;
 
-        public GameManager GameManager { get; private set; } = new GameManager();
+        public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
         public InputManager InputManager { get; private set; } = new InputManager();
@@ -36,14 +39,16 @@ namespace DangerousD.GameCore
         public SettingsManager SettingsManager { get; private set; } = new SettingsManager();
         public AppManager()
         {
+            Content.RootDirectory = "Content";
             Instance = this;
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
             IsMouseVisible = true;
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
 
             SettingsManager = new SettingsManager();
             SettingsManager.LoadSettings();
+
+            NetworkManager.GetReceivingMessages += NetworkSync;
 
             resolution = SettingsManager.Resolution;
             _graphics.PreferredBackBufferWidth = resolution.X;
@@ -59,10 +64,11 @@ namespace DangerousD.GameCore
 
         protected override void Initialize()
         {
+            GameManager.Initialize();
             AnimationBuilder.LoadAnimations();
-            MenuGUI.Initialize(GraphicsDevice);
-            LoginGUI.Initialize(GraphicsDevice);
-            LobbyGUI.Initialize(GraphicsDevice);
+            MenuGUI.Initialize();
+            LoginGUI.Initialize();
+            LobbyGUI.Initialize();
             base.Initialize();
         }
 
@@ -160,12 +166,45 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("");
+                    GameManager.mapManager.LoadLevel("lvl");
+                    break;
+                case GameState.GameOver:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        public void NetworkSync(List<NetworkTask> networkTasks)
+        {
+            foreach (NetworkTask networkTask in networkTasks)
+            {
+                switch (networkTask.operation)
+                {
+                    case NetworkTaskOperationEnum.TakeDamage:
+                        break;
+                    case NetworkTaskOperationEnum.SendSound:
+                        SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
+                        break;
+                    case NetworkTaskOperationEnum.CreateEntity:
+                        break;
+                    case NetworkTaskOperationEnum.SendPosition:
+                        break;
+                    case NetworkTaskOperationEnum.ChangeState:
+                        break;
+                    case NetworkTaskOperationEnum.ConnectToHost:
+                        break;
+                    case NetworkTaskOperationEnum.GetClientPlayerId:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
+        {
+            this.multiPlayerStatus = multiPlayerStatus;
+        }
     }
 }
