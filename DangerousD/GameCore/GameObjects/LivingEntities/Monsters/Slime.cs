@@ -233,12 +233,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Target()
+        public void Target()
         {
 
         }
 
-        public override void Attack(GameTime gameTime)
+        public void Attack(GameTime gameTime)
         {
 
         }

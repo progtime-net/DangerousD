@@ -13,6 +13,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
+        private bool isGoRight;
+        private bool isAttack;
+
         float leftBorder;
         float rightBorder;
         bool isAttaking = false;
@@ -118,7 +121,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
-        public override void Target()
+        public void Target()
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
             {
@@ -149,7 +152,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public override void Attack(GameTime gameTime)
+        public  void Attack(GameTime gameTime)
         {}
     }
 }
