@@ -11,7 +11,7 @@ namespace DangerousD.GameCore.Levels
         public void InitLevel()
         {
             new Player(new Vector2(0,0));
-
+            /*
             var Spider = new Spider(new Vector2(112, 0));
             var Zombie = new Zombie(new Vector2(256, 0));
             var Frank = new Frank(new Vector2(384, 0));
@@ -19,6 +19,8 @@ namespace DangerousD.GameCore.Levels
             var Werewolf = new Werewolf(new Vector2(640, 0));
             var Ghost = new Ghost(new Vector2(730, 0));
             var FrankBalls = new FrankBalls(new Vector2(Frank.Pos.X, Frank.Pos.Y));
+            */
+            var HunchMan = new Hunchman(new Vector2(100, 100));
             
             //Spider down-up
 
