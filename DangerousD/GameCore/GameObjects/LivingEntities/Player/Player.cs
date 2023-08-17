@@ -16,6 +16,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             Width = 32;
             Height = 64;
+            GraphicsComponent.actionOfAnimationEnd += () =>
+            {
+                AppManager.Instance.ChangeGameState(GameState.GameOver);
+            };
         }
         public bool IsAlive { get { return isAlive; } }
 
@@ -31,6 +35,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             if(monsterName == "Zombie")
             {
                 DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
+                GraphicsComponent.actionOfAnimationEnd();
             }
             isAlive = false;
         }
