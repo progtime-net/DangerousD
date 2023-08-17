@@ -30,7 +30,7 @@ namespace DangerousD.GameCore.GUI
             spriteBatch.Begin();
             spriteBatch.DrawString(
                 _spriteFont,
-                Join(",", _text.Select(el => el.Key + ": " + el.Value).ToList()),
+                Join("\n", _text.Select(el => el.Key + ": " + el.Value).ToList()),
                 new Vector2(10, 10),
                 Color.Cyan,
                 0,
