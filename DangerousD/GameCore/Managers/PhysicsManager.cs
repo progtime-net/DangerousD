@@ -48,7 +48,7 @@ namespace DangerousD.GameCore.Managers
                 oldRect.Offset((int)currentEntity.velocity.X, 0);
                 for (int j = 0; j < mapObjects.Count; j++)
                 {
-                    if (Math.Abs(mapObjects[i].Pos.X - currentEntity.Pos.X) < currentEntity.velocity.X * 2 && Math.Abs(mapObjects[i].Pos.Y - currentEntity.Pos.Y) < 50)
+                    if (Math.Abs(mapObjects[i].Pos.X - currentEntity.Pos.X) < 550 && Math.Abs(mapObjects[i].Pos.Y - currentEntity.Pos.Y) < 550)
                     {
                         if (oldRect.Intersects(mapObjects[j].Rectangle))
                         {
