@@ -14,6 +14,7 @@ namespace DangerousD.GameCore
     public class GameManager
     {
         public List<GameObject> GetAllGameObjects { get; private set; }
+
         public List<LivingEntity> livingEntities;
         public List<Entity> entities;
         public List<MapObject> mapObjects;
@@ -23,6 +24,7 @@ namespace DangerousD.GameCore
         public PhysicsManager physicsManager;
         public List<Player> players;
         public List<GameObject> otherObjects = new();
+
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
@@ -35,20 +37,14 @@ namespace DangerousD.GameCore
             players = new List<Player>();
             mapManager = new MapManager(1);
             physicsManager = new PhysicsManager();
+            
         }
 
-        public void Initialize()
-        {
-            //mapManager.LoadLevel("Level1");
-        }
-
-        public void LoadContent()
-        {
-        }
+        
 
         internal void Register(GameObject gameObject)
         {
-            //GetAllGameObjects.Add(gameObject);
+            GetAllGameObjects.Add(gameObject);
             if (gameObject is Player objPl)
             {
                 livingEntities.Add(gameObject as LivingEntity);

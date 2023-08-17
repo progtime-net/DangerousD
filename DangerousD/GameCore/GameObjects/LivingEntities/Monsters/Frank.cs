@@ -12,24 +12,25 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     internal class Frank : CoreEnemy
     {
-        private Vector2 position;
-        private bool isGoRight = false;
-
-        public Vector2 Position
-        {
-            get { return position; }
-        }
-
         public Frank(Vector2 position) : base(position)
         {
-            this.position = position;
+            isGoRight = false;
+
             Width = 112;
             Height = 160;
+            leftBoarder = 50;
+            rightBoarder = 300;
             GraphicsComponent.StartAnimation("FrankMoveLeft");
-            monster_speed = 1;
+            monster_speed = 2;
             name = "Frank";
         }
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FrankMoveRight", "FrankMoveLeft" }, "FrankMoveRight");
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "FrankMoveRight", "FrankMoveLeft" }, "FrankMoveLeft");
+
+        public override void Update(GameTime gameTime)
+        {
+            Move(gameTime);
+            base.Update(gameTime);
+        }
 
         public override void Attack()
         {
@@ -43,14 +44,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            var player = AppManager.Instance.GameManager.players[0];
-            if (player.Pos.X - _pos.X <= 20 || player.Pos.X - _pos.X <= -20)
-            {
-                player.Death(name);
-            } 
-           
             if (isGoRight)
-            {  
+            {
                 if (GraphicsComponent.GetCurrentAnimation != "FrankMoveRight")
                 {
                     GraphicsComponent.StartAnimation("FrankMoveRight");
@@ -65,6 +60,24 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 velocity.X = -monster_speed;
             }
+            if (Pos.X >= rightBoarder)
+            {
+                isGoRight = false;
+            }   
+            else if (Pos.X <= leftBoarder)
+            {
+                isGoRight = true;
+            }
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
         }
     }
 }

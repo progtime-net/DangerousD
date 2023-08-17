@@ -23,7 +23,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 1;
+            monster_speed = 3;
             name = "Zombie";
             leftBorder = (int)position.X - 100;
             rightBorder = (int)position.X + 100;
@@ -111,25 +111,29 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
-
-        public void Target()
+        public override void Target()
         {
-            if(AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-50, (int)Pos.Y, Width+100, Height), typeof(Player))!=null)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)) != null)
             {
-                if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
+                if (isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     leftBorder = Pos.X - 10;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
-                else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
+                else if (!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     rightBorder = Pos.X + 10;
-                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
+                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X;
                 }
             }
         }
+        public override void Attack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }

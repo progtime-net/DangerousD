@@ -22,8 +22,10 @@ public abstract class MapObject : GameObject
         
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public virtual void Draw(SpriteBatch spriteBatch)
     {
         GraphicsComponent.DrawAnimation(Rectangle, spriteBatch, _sourceRectangle);
+        //spriteBatch.Draw(debugTexture, new Rectangle(Rectangle.X - GraphicsComponent.CameraPosition.X, Rectangle.Y - GraphicsComponent.CameraPosition.Y, Rectangle.Width, Rectangle.Height), Color.White);
+
     }
 }

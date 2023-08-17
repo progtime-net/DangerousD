@@ -44,7 +44,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
             base.Update(gameTime);
         }
-
         public override void Attack()
         {
             collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
@@ -81,6 +80,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.X -= monster_speed;
                 velocity.Y -= monster_speed;
             }
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
+        public override void Target()
+        {
+            throw new NotImplementedException();
         }
     }
 }

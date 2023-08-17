@@ -64,7 +64,6 @@ namespace DangerousD.GameCore
 
         protected override void Initialize()
         {
-            GameManager.Initialize();
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize();
             LoginGUI.Initialize();
