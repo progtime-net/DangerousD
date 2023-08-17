@@ -38,7 +38,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Target();
                 Move(gameTime);
             }
-
+            fixBorder();
             base.Update(gameTime);
         }
 
@@ -128,6 +128,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     rightBorder = Pos.X + 10;
                     leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
+            }
+        }
+        public void fixBorder()
+        {
+            if(leftBorder <= 0)
+            {
+                leftBorder = 0;
+            }
+            if(rightBorder >= 800)
+            {
+                rightBorder = 760;
             }
         }
     }
