@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="11" nextobjectid="49">
  <tileset firstgid="1" source="map.tsx"/>
- <layer id="1" name="Collision" class="StopTile" width="30" height="20" offsetx="-352.033" offsety="192.098">
+ <layer id="1" name="Collision" class="StopTile" width="30" height="20" visible="0" offsetx="-352.033" offsety="192.098">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -311,7 +311,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="4" name="Background 2" class="Tile" width="30" height="20" locked="1">
+ <layer id="4" name="Background 2" class="Tile" width="30" height="20" visible="0" locked="1">
   <data encoding="csv">
    <chunk x="0" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -441,7 +441,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="6" name="Ladders" class="Platform" width="30" height="20" locked="1">
+ <layer id="6" name="Ladders" class="Platform" width="30" height="20" visible="0" locked="1">
   <data encoding="csv">
    <chunk x="-16" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -517,7 +517,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="3" name="Backgrond" class="Tile" width="30" height="20" locked="1" offsetx="-256.033" offsety="256.098">
+ <layer id="3" name="Backgrond" class="Tile" width="30" height="20" visible="0" locked="1" offsetx="-256.033" offsety="256.098">
   <data encoding="csv">
    <chunk x="-16" y="-16" width="16" height="16">
 29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,
@@ -701,7 +701,7 @@
 </chunk>
   </data>
  </layer>
- <objectgroup id="8" name="Zombies" class="LivingEntities.Monsters.Zombie" locked="1">
+ <objectgroup id="8" name="Zombies" class="LivingEntities.Monsters.Zombie" visible="0">
   <object id="26" x="265" y="469.5">
    <point/>
   </object>
