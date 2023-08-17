@@ -100,7 +100,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public override void Update(GameTime gameTime)
         {
-            GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
+            GraphicsComponent.SetCameraPosition(Pos);
             if (!isAttacked)
             {
                 Move(gameTime);
