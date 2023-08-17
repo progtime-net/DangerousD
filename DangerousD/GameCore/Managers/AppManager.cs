@@ -174,30 +174,32 @@ namespace DangerousD.GameCore
             }
         }
 
-        public void NetworkSync(NetworkTask networkTask)
+        public void NetworkSync(List<NetworkTask> networkTasks)
         {
-            //TODO
-            return;
-            switch (networkTask.operation)
+            foreach (NetworkTask networkTask in networkTasks)
             {
-                case NetworkTaskOperationEnum.TakeDamage:
-                    break;
-                case NetworkTaskOperationEnum.SendSound:
-                    SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
-                    break;
-                case NetworkTaskOperationEnum.CreateEntity:
-                    break;
-                case NetworkTaskOperationEnum.SendPosition:
-                    break;
-                case NetworkTaskOperationEnum.ChangeState:
-                    break;
-                case NetworkTaskOperationEnum.ConnectToHost:
-                    break;
-                case NetworkTaskOperationEnum.GetClientPlayerId:
-                    break;
-                default:
-                    break;
+                switch (networkTask.operation)
+                {
+                    case NetworkTaskOperationEnum.TakeDamage:
+                        break;
+                    case NetworkTaskOperationEnum.SendSound:
+                        SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
+                        break;
+                    case NetworkTaskOperationEnum.CreateEntity:
+                        break;
+                    case NetworkTaskOperationEnum.SendPosition:
+                        break;
+                    case NetworkTaskOperationEnum.ChangeState:
+                        break;
+                    case NetworkTaskOperationEnum.ConnectToHost:
+                        break;
+                    case NetworkTaskOperationEnum.GetClientPlayerId:
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
         public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
         {
