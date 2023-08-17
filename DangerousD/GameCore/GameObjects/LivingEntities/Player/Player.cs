@@ -14,6 +14,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     public class Player : LivingEntity
     {
         bool isAlive = true;
+        bool isJump = false;
         public int health;
         public bool isGoRight = false;
         public Vector2 playerVelocity;
@@ -32,7 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             AppManager.Instance.InputManager.MovEventJump += AnimationJump;
             AppManager.Instance.InputManager.MovEventDown += MoveDown;
 
-           playerVelocity = new Vector2(100, 0);
+           velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
 
@@ -65,7 +66,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
-            if(monsterName == "Zombie")
+            /*if(monsterName == "Zombie")
             {
                 DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -76,14 +77,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
-            isAlive = false;
+            isAlive = false;*/
         }
         public void AnimationJump()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                velocity.Y = -300;
-            }
+            velocity.Y = -30;
+            isJump = true;
             // здесь будет анимация
         }
         public void Shoot()
@@ -95,40 +94,36 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
             velocity.X = 0.5f;
-            base.Update(gameTime);
-            if (!isVisible)
+            if (velocity.Y == 0)
             {
-
+                isJump = false;
             }
+            base.Update(gameTime);
             Move(gameTime);
         }
 
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (isGoRight)
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveRight");
                 }
-                _pos = playerVelocity * delta;
+                velocity.X = 10;
             }
-            else if (!isGoRight)
+            else if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("ZombieMoveLeft");
                 }
-                    _pos= -playerVelocity * delta;
+                 velocity.X = -10;
             }
-            if (_pos.X >= rightBorder)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isJump)
             {
-                isGoRight = false;
-            }
-            if (_pos.X >= leftBorder)
-            {
-                isGoRight = true;
+                AnimationJump();
             }
         }
         public void MoveDown()
