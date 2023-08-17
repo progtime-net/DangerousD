@@ -63,8 +63,8 @@ namespace DangerousD.GameCore.Managers
                 {
                     if (tiles[i] != 0)
                     {
-                        Vector2 pos = new((chunkX+ i % chunkW) * tileSize.X * _scale + offsetX,
-                            (chunkY + i / chunkW) * tileSize.Y * _scale + offsetY);
+                        Vector2 pos = new(((chunkX+ i % chunkW) * tileSize.X  + offsetX) * _scale,
+                            ((chunkY + i / chunkW) * tileSize.Y + offsetY) * _scale);
                         //pos *= _scale;
                         Rectangle sourceRect = new(new Point((tiles[i] -1) % _columns, (tiles[i] -1) / _columns) * tileSize.ToPoint(), tileSize.ToPoint());
                         Type type = Type.GetType($"DangerousD.GameCore.GameObjects.MapObjects.{tileType}");
@@ -100,11 +100,14 @@ namespace DangerousD.GameCore.Managers
         private void InstantiateEntities(XmlNode group)
         {
             string entityType = group.Attributes["class"].Value;
+            float offsetX = group.Attributes["offsetx"] is not null ? float.Parse(group.Attributes["offsetx"].Value) : 0;
+            float offsetY = group.Attributes["offsety"] is not null ? float.Parse(group.Attributes["offsety"].Value) : 0;
             foreach (XmlNode entity in group.ChildNodes)
             {
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
-                Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value), float.Parse(entity.Attributes["y"].Value)));
-            }
+                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX, float.Parse(entity.Attributes["y"].Value) + offsetY) * _scale);
+                inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+            }   
         }
     }
 }
