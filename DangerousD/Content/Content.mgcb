@@ -87,6 +87,13 @@
 /processorParam:Quality=Best
 /build:DoomTestSong.mp3
 
+#begin Font_12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font_12.spritefont
+
 #begin Font_25.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
