@@ -24,6 +24,7 @@ namespace MonogameLibrary.UI.Elements
         
         public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
+            //if (Manager.)
             if (rectangle.Intersects(new Rectangle(mouseState.Position, Point.Zero)))
             {
                 if (mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed)

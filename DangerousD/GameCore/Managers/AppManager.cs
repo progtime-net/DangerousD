@@ -19,7 +19,7 @@ namespace DangerousD.GameCore
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public Point resolution = new Point(1920, 1080);
-        public Point inGameResolution = new Point(800, 480);
+        public Point inGameResolution = new Point(1920, 1080);
         GameState gameState;
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
@@ -30,6 +30,7 @@ namespace DangerousD.GameCore
         public GameManager GameManager { get; private set; } = new GameManager();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
+        public InputManager InputManager { get; private set; } = new InputManager();
         private RenderTarget2D renderTarget;
         public AppManager()
         {
@@ -40,8 +41,8 @@ namespace DangerousD.GameCore
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
-            //_graphics.IsFullScreen = true;
-            gameState = GameState.Menu;
+            _graphics.IsFullScreen = true;
+            gameState = GameState.Menu ;
             MenuGUI = new MenuGUI();
             LoginGUI = new LoginGUI();
             OptionsGUI = new OptionsGUI();
@@ -81,6 +82,8 @@ namespace DangerousD.GameCore
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            InputManager.Update();
 
             switch (gameState)
             {
