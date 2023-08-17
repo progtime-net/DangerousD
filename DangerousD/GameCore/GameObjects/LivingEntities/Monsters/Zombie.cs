@@ -18,8 +18,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         bool isAttaking = false;
         public Zombie(Vector2 position) : base(position)
         {
-            Width = 72;
-            Height = 120;
+            Width = 24;
+            Height = 40;
             monster_speed = 3;
             name = "Zombie";
             leftBorder = (int)position.X - 60;

@@ -107,6 +107,8 @@ namespace DangerousD.GameCore.Managers
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
                 Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX, float.Parse(entity.Attributes["y"].Value) + offsetY) * _scale);
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+                inst.Height *= _scale;
+                inst.Width *= _scale;
             }   
         }
     }
