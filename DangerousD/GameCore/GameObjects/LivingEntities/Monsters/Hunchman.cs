@@ -40,10 +40,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 Attack();
                 Move(gameTime);
-                
+            }
+            else
+            {
+                velocity.X = 0;
             }
             Death();
-            base.Update(gameTime);
 
         }
 
@@ -58,6 +60,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     if (gameObject is null)
                     {
                         isAttacking = true;
+                        GraphicsComponent.StopAnimation();
                         if (velocity.X > 0)
                         {
                             if (GraphicsComponent.GetCurrentAnimation != "HunchmanAttackRight")

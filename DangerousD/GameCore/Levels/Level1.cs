@@ -12,8 +12,8 @@ namespace DangerousD.GameCore.Levels
         {
             //Spider down-up
 
-            new Player(new Vector2(80,0));
-            var Zombie = new Zombie(new Vector2(250, 128));
+            //new Player(new Vector2(80,0));
+            //var Zombie = new Zombie(new Vector2(250, 128));
             //var Frank = new Frank(new Vector2(384, 128));
             //var Spider = new Spider(new Vector2(112, 0));
             //var FlameSkull = new FlameSkull(new Vector2(512, 0));
@@ -32,7 +32,7 @@ namespace DangerousD.GameCore.Levels
             }
             new GrassBlock(new Vector2(500, 224));
             Player player = new Player(new Vector2(400, 64));
-            player.AnimationJump();
+            //player.AnimationJump();
 
             //new GrassBlock(new Vector2(500, 224));
         }
