@@ -46,7 +46,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     webLength++;
                     _pos.Y += 25;
                     web.Height = webLength * 25;
-                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2, Pos.Y - 25 * webLength));
+                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2 + 2, Pos.Y - 25 * webLength));
                     delay = 0;
                     if (webLength == 4)
                     {
@@ -59,7 +59,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     webLength--;
                     _pos.Y -= 25;
                     web.Height = webLength * 25;
-                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2, Pos.Y - 25 * webLength));
+                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2 + 2, Pos.Y - 25 * webLength));
                     delay = 0;
                     if (webLength == 0)
                     {

@@ -23,6 +23,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
 
+        public override void Update(GameTime gameTime)
+        {
+            
+            base.Update(gameTime);
+        }
         public override void Attack()
         {
 

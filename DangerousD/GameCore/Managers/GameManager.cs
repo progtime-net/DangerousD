@@ -20,9 +20,13 @@ namespace DangerousD.GameCore
         public PhysicsManager physicsManager;
         public List<Player> players;
         public List<GameObject> otherObjects = new();
+
+        public List<GameObject> GetAllGameObjects { get; private set; }
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
+
+            GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             entities = new List<Entity>();
@@ -34,6 +38,7 @@ namespace DangerousD.GameCore
 
         internal void Register(GameObject gameObject)
         {
+            GetAllGameObjects.Add(gameObject);
             if (gameObject is Player)
             {
                 livingEntities.Add(gameObject as LivingEntity);

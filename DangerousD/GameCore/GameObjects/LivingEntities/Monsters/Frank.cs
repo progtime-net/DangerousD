@@ -13,10 +13,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     internal class Frank : CoreEnemy
     {
         private bool isGoRight = false;
+        private int leftBoarder;
+        private int rightBoarder;
+
         public Frank(Vector2 position) : base(position)
         {
             Width = 112;
             Height = 160;
+            leftBoarder = 50;
+            rightBoarder = 500;
             GraphicsComponent.StartAnimation("FrankMoveLeft");
             monster_speed = 1;
             name = "Frank";

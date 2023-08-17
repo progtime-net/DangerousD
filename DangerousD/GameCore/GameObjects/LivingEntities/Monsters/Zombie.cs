@@ -16,6 +16,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         int leftBorder;
         int rightBorder;
         bool isAttaking = false;
+
         public Zombie(Vector2 position) : base(position)
         {
             Width = 72;
