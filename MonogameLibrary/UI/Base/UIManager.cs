@@ -7,7 +7,7 @@ using MonogameLibrary.UI.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using static System.Net.Mime.MediaTypeNames;
+using static System.Net.Mime.MediaTypeNames; 
 
 namespace MonogameLibrary.UI.Base
 {
@@ -28,6 +28,7 @@ namespace MonogameLibrary.UI.Base
         public KeyboardState GetKeyboardState { get { return keyboardState; } }
         static MouseState mouseState, prevmouseState;
         static KeyboardState keyboardState;
+        public static Point resolutionInGame, resolution;
 
         public void LoadContent(ContentManager content, string font)
         {
@@ -48,11 +49,13 @@ namespace MonogameLibrary.UI.Base
             }
         }
         public void Update()
-        {
+        { 
             try
             {
                 keyboardState = Keyboard.GetState();
                 mouseState = Mouse.GetState();
+                mouseState = new MouseState((int)(mouseState.X*(float)resolutionInGame.X/resolution.X),
+                    (int)(mouseState.Y * (float)resolutionInGame.Y / resolution.Y), mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
             }
             catch
             {

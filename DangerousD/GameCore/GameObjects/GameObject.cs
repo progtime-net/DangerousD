@@ -48,12 +48,12 @@ namespace DangerousD.GameCore
             GraphicsComponent.Update();
         }
 
-        //static Texture2D debugTexture;
+        public static Texture2D debugTexture;
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
-            //spriteBatch.Draw(debugTexture, Rectangle, Color.White);
+           // spriteBatch.Draw(debugTexture, Rectangle, Color.White);
         }
     }
 }
