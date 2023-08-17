@@ -37,7 +37,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
-<<<<<<< HEAD
             if(!isAttacking)
             {
                 Move(gameTime);
@@ -45,12 +44,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
             base.Update(gameTime);
         }
-
-=======
-            
-            base.Update(gameTime);
-        }
->>>>>>> livingEntitiesVlad
         public override void Attack()
         {
             collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);

@@ -12,23 +12,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     internal class Frank : CoreEnemy
     {
-<<<<<<< HEAD
-        private Vector2 position;
-        private bool isGoRight = false;
-
-        public Vector2 Position
-        {
-            get { return position; }
-        }
-
-        public Frank(Vector2 position) : base(position)
-        {
-            this.position = position;
-=======
         public Frank(Vector2 position) : base(position)
         {
             isGoRight = false;
->>>>>>> livingEntitiesVlad
+
             Width = 112;
             Height = 160;
             leftBoarder = 50;

@@ -178,7 +178,6 @@ namespace DangerousD.GameCore
         {
             foreach (NetworkTask networkTask in networkTasks)
             {
-
                 switch (networkTask.operation)
                 {
                     case NetworkTaskOperationEnum.TakeDamage:
@@ -199,9 +198,6 @@ namespace DangerousD.GameCore
                     default:
                         break;
                 }
-
-                
-                    
             }
 
         }

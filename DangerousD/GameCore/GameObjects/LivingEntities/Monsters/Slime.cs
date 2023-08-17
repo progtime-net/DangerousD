@@ -50,8 +50,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (GraphicsComponent.GetCurrentAnimation != "SlimeReadyJumpLeftBottom")
                 {
                     GraphicsComponent.StartAnimation("SlimeReadyJumpLeftBottom");
-
-<<<<<<< HEAD
                 }
                 delay--;
                 if (delay <= 0)
@@ -150,13 +148,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             spriteBatch.Draw(debugTexture, new Rectangle((int)Pos.X, (int)Pos.Y + Height, 48, 5), Color.White);
             base.Draw(spriteBatch);
         }
-=======
-        public override void Attack(GameTime gameTime)
-        {
-
-        }
-
->>>>>>> livingEntitiesVlad
         public override void Death()
         {
 
@@ -244,7 +235,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Target()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
         }
     }
 }
