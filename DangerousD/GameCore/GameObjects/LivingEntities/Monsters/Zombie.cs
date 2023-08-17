@@ -48,7 +48,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isAttaking = true;
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
+                if (GraphicsComponent.GetCurrentAnimation != "ZombieRightAttack")
                 {
                     GraphicsComponent.StartAnimation("ZombieAttackRight");
                 }

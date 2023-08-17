@@ -17,7 +17,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             Width = 32;
             Height = 64;
             AppManager.Instance.InputManager.MovEventJump += AnimationJump;
-            
         }
         public bool IsAlive { get { return isAlive; } }
 
