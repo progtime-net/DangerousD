@@ -21,12 +21,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         PhysicsManager physicsManager;
         public Zombie(Vector2 position) : base(position)
         {
-            Width = 48;
-            Height = 80;
+            Width = 24;
+            Height = 40;
             monster_speed = 3;
             name = "Zombie";
-            leftBorder = (int)position.X - 60;
-            rightBorder = (int)position.X + 120;
+            leftBorder = (int)position.X - 100;
+            rightBorder = (int)position.X + 100;
             physicsManager = new PhysicsManager();
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
