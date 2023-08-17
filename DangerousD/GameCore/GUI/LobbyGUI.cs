@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
 using MonogameLibrary.UI.Base;
 using System.Diagnostics;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GUI
 {
@@ -32,8 +33,32 @@ namespace DangerousD.GameCore.GUI
             Elements.Add(new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
                 screenWidth / 30 * 26, screenHeight / 15 * 10) });
 
-            // Buttons
+            // Buttons and ip textbox
             {
+                TextBox searchBarTextBox = new TextBox(Manager)
+                {
+                    rectangle = new Rectangle(screenWidth / 30 * 14, screenHeight / 30,
+                        screenWidth / 30 * 10, screenHeight / 30 * 3),
+                    text = "ip",
+                    scale = 0.16f,
+                    fontColor = Color.Gray,
+                    fontName = "font2",
+                    textAligment = TextAligment.Left
+
+                };
+                searchBarTextBox.TextChanged += input => {
+                    if (searchBarTextBox.fontColor == Color.Gray)
+                    {
+                        searchBarTextBox.text = ""; searchBarTextBox.fontColor = Color.Black;
+                    }
+                };
+                searchBarTextBox.StopChanging += input => {
+                    if (input.Length == 0)
+                    {
+                        searchBarTextBox.fontColor = Color.Gray;
+                        searchBarTextBox.text = "ip";
+                    }
+                };
                 Button backButton = new ButtonText(Manager)
                 {
                     rectangle = new Rectangle(screenWidth / 30, screenHeight / 30, 60, 50),
@@ -55,7 +80,9 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 hostButton.LeftButtonPressed += () => {
-                    
+
+                    AppManager.Instance.NetworkManager.HostInit(AppManager.Instance.IpAddress);
+
                 };
 
                 Button refreshButton = new ButtonText(Manager)
@@ -79,7 +106,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 joinSelectedButton.LeftButtonPressed += () => {
-
+                    AppManager.Instance.NetworkManager.ClientInit(AppManager.Instance.IpAddress);
                 };
                 Button joinByIpButton = new ButtonText(Manager)
                 {
@@ -90,34 +117,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 joinByIpButton.LeftButtonPressed += () => {
-
-                };
-            }
-
-            // SearchBar
-            {
-                TextBox searchBarTextBox = new TextBox(Manager) {
-                    rectangle = new Rectangle(screenWidth / 30 * 14, screenHeight / 30,
-                        screenWidth / 30 * 10, screenHeight / 30 * 3),
-                    text = "ip",
-                    scale = 0.16f,
-                    fontColor = Color.Gray,
-                    fontName = "font2",
-                    textAligment = TextAligment.Left
-
-                };
-                searchBarTextBox.TextChanged += input => {
-                    if (searchBarTextBox.fontColor == Color.Gray)
-                    {
-                        searchBarTextBox.text = ""; searchBarTextBox.fontColor = Color.Black;
-                    }
-                };
-                searchBarTextBox.StopChanging += input => {
-                    if (input.Length == 0)
-                    {
-                        searchBarTextBox.fontColor = Color.Gray;
-                        searchBarTextBox.text = "ip";
-                    }
+                    AppManager.Instance.NetworkManager.ClientInit(searchBarTextBox.text);
                 };
             }
         }
