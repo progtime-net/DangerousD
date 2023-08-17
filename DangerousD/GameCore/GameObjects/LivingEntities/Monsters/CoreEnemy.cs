@@ -24,11 +24,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public override void Update(GameTime gameTime)
         {
-            if (monster_health <= 0)
-            {
-                Death();
-                isAlive = false;
-            }
             base.Update(gameTime);
         }
         public abstract void Death();
@@ -36,5 +31,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public abstract void Attack();
 
         public abstract void Move(GameTime gameTime);
+
+        public void TakeDamage(int damage)
+        {
+            monster_health -= damage;
+            if (monster_health <= 0)
+            {
+                Death();
+                isAlive = false;
+            }
+        }
     }
 }

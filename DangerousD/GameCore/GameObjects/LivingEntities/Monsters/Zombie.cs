@@ -106,11 +106,5 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
-
-        public void TakeDamage(int damage)
-        {
-            monster_health -= damage;
-            //play take damage animation
-        }
     }
 }
