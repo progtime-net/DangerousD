@@ -34,6 +34,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
+            // P.S. Всё в классе можешь смело удалять и переписывать с нуля.
             gameManager = AppManager.Instance.GameManager;
            
             if (!isAttacking)
