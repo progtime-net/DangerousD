@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
 using MonogameLibrary.UI.Base;
 using System.Diagnostics;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GUI
 {
@@ -55,7 +56,10 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2"
                 };
                 hostButton.LeftButtonPressed += () => {
-                    
+
+                    AppManager.Instance.NetworkManager.HostInit("");
+
+
                 };
 
                 Button refreshButton = new ButtonText(Manager)

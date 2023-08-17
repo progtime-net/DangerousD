@@ -14,12 +14,14 @@ using DangerousD.GameCore.Managers;
 namespace DangerousD.GameCore
 {
     public enum GameState { Menu, Options, Lobby, Game, Login }
+    public enum MultiPlayerStatus { SinglePlayer, Host, Client }
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set;  }
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch; 
-        GameState gameState;
+        private SpriteBatch _spriteBatch;
+        public GameState gameState { get; private set; }
+        public MultiPlayerStatus multiPlayerStatus { get; private set; }
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
@@ -44,6 +46,8 @@ namespace DangerousD.GameCore
 
             SettingsManager = new SettingsManager();
             SettingsManager.LoadSettings();
+
+            NetworkManager.GetReceivingMessages += NetworkSync;
 
             resolution = SettingsManager.Resolution;
             _graphics.PreferredBackBufferWidth = resolution.X;
@@ -167,5 +171,13 @@ namespace DangerousD.GameCore
             }
         }
 
+        public void NetworkSync(NetworkTask networkTask)
+        {
+            
+        }
+        public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
+        {
+            this.multiPlayerStatus = multiPlayerStatus;
+        }
     }
 }

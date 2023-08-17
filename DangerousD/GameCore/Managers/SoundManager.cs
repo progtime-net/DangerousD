@@ -42,6 +42,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
+            AppManager.Instance.NetworkManager.SendMsg(new Network.NetworkTask(sound.Position, soundName));
         } 
         public void StopAllSounds() // остановка всех звуков
         {
