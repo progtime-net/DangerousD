@@ -35,6 +35,7 @@ internal class MenuGUI : AbstractGui
         butSingle.LeftButtonPressed += () =>
         {
             AppManager.Instance.ChangeGameState(GameState.Game);
+            AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.SinglePlayer);
         };
         var butMulti = new ButtonText(Manager) { rectangle = new Rectangle((wigth - 300) / 2, 190, 300, 50), text = "Multiplayer", fontName = "ButtonFont" };
         Elements.Add(butMulti);

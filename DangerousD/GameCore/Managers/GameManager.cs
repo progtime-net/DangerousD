@@ -12,7 +12,7 @@ namespace DangerousD.GameCore
 {
     public class GameManager
     {
-
+        public List<GameObject> GetAllGameObjects { get; private set; }
         public List<LivingEntity> livingEntities;
         public List<Entity> entities;
         public List<MapObject> mapObjects;
@@ -23,6 +23,7 @@ namespace DangerousD.GameCore
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
+            GetAllGameObjects = new List<GameObject>();
             livingEntities = new List<LivingEntity>();
             mapObjects = new List<MapObject>();
             entities = new List<Entity>();
