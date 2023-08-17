@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Serialization;
 
 namespace DangerousD.GameCore.Managers
 {
@@ -21,10 +22,12 @@ namespace DangerousD.GameCore.Managers
         public void SetResolution(Point resolution)
         {
             settingsContainer.Resolution = resolution;
+            AppManager.Instance.resolution = resolution;
         }
         public void SetMainVolume(float volume)
         {
             settingsContainer.MainVolume = MainVolume;
+            ///AppManager.Instance.SoundManager.
 
         }
         public void SetMusicVolume(float volume)
@@ -45,22 +48,30 @@ namespace DangerousD.GameCore.Managers
         {
             if (!File.Exists("GameSettings.txt"))
             {
-                File.Create("GameSettings.txt");
                 SaveSettings();
                 return;
             }
-                
-            var serializedObject = JsonConvert.DeserializeObject<SettingsContainer>(File.ReadAllText("GameSettings.txt")); 
-            
+
+            settingsContainer = JsonConvert.DeserializeObject<SettingsContainer>(File.ReadAllText("GameSettings.txt"));
+            SetIsFullScreen(settingsContainer.IsFullScreen);
+            SetMainVolume(settingsContainer.MainVolume);
+            SetMusicVolume(settingsContainer.MusicVolume);
+            SetResolution(settingsContainer.Resolution);
+            SetSoundEffectsVolume(settingsContainer.SoundEffectsVolume);
+
+
         }
         public void SaveSettings()
         {
-            if (!File.Exists("GameSettings.txt"))
-                File.Create("GameSettings.txt");
-            File.WriteAllText("GameSettings.txt", JsonConvert.SerializeObject(settingsContainer));
+            using (StreamWriter streamWriter = new StreamWriter("GameSettings.txt"))
+            {
+                string _str = JsonConvert.SerializeObject(settingsContainer);
+                streamWriter.Write(_str);
+            } 
         }
 
     }
+    [Serializable]
     public class SettingsContainer
     {
         [JsonProperty("IsFullScreen")]
