@@ -136,7 +136,7 @@ namespace DangerousD.GameCore
             _currTime += gameTime.ElapsedGameTime.Milliseconds;
             if (AppManager.Instance.NetworkTasks.Count > 0)
             {
-                if (_currTime - _lastUpdate > 800)
+                if (_currTime - _lastUpdate > 50)
                 {
                     AppManager.Instance.DebugHUD.Log("sending");
                     AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
