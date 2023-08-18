@@ -44,6 +44,7 @@ namespace DangerousD.GameCore.GUI
             Button backButton = new Button(Manager)
             {
                 rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)), 
+                text = "<-",
                 fontColor = Color.Black,
                 fontName = "font2",
                 textureName = "textboxbackground1-1"
