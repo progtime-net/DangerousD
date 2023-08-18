@@ -700,7 +700,7 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="Player" class="LivingEntities.Player">
-  <object id="47" x="-500" y="461.333">
+  <object id="47" x="0" y="461.333">
    <point/>
   </object>
  </objectgroup>

@@ -36,7 +36,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string>
-            { "HunchmanMoveLeft", "HunchmanMoveRight", "HunchmanDaggerLeft", "HunchmanDaggerRight" }, "HunchmanMoveLeft");
+            { "HunchmanMoveLeft", "HunchmanMoveRight", "HunchmanAttackLeft", "HunchmanAttackRight" }, "HunchmanMoveLeft");
 
 
         public override void Update(GameTime gameTime)
@@ -56,17 +56,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isAttaking = true;
             if (isGoRight)
             {
-                if (animation != "HunchmanDaggerRight")
+                if (animation != "HunchmanAttackRight")
                 {
-                    GraphicsComponent.StartAnimation("HunchmanDaggerRight");
+                    GraphicsComponent.StartAnimation("HunchmanAttackRight");
                 }
+                HunchmanDagger hunchmanDagger = new HunchmanDagger(Pos,isGoRight);
             }
             else
             {
-                if (animation != "HunchmanDaggerLeft")
+                if (animation != "HunchmanAttackLeft")
                 {
-                    GraphicsComponent.StartAnimation("HunchmanDaggerLeft");
+                    GraphicsComponent.StartAnimation("HunchmanAttackLeft");
                 }
+                HunchmanDagger hunchmanDagger = new HunchmanDagger(Pos, isGoRight);
             }
         }
 
@@ -117,18 +119,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public override void OnCollision(GameObject gameObject)
-        {
-            if (gameObject is Player)
-            {
-                if (AppManager.Instance.GameManager.players[0].IsAlive)
-                {
-                    Attack();
-                }
-            }
-
-            base.OnCollision(gameObject);
-        }
+        
 
         public void Target()
         {
@@ -136,18 +127,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
             if (physicsManager.RayCast(this, player) == null)
             {
-                if(this._pos.X <= player.Pos.X)
-                {
-                    isTarget = true;
-                    leftBoarder = Pos.X - 10;
-                    rightBoarder = player.Pos.X;
-                }
-                else if(this._pos.X >= player.Pos.X)
-                {
-                    isTarget = true;
-                    rightBoarder = Pos.X + 10;
-                    leftBoarder = player.Pos.X;
-                }
+                Attack();
             }
         }
     }
