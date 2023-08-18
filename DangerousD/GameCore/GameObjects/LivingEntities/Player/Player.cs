@@ -93,7 +93,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (a == "DeathFrom" + monsterName)
                     {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
+                       // AppManager.Instance.ChangeGameState(GameState.Death);
                     }
                 };
             }
@@ -101,10 +101,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Jump()
         {
-            if (isOnGround)
-            {
+            //if (isOnGround)
+            //{
                 velocity.Y = -11;
-            }
+            //}
             // здесь будет анимация
         }
         public void Shoot()
@@ -127,7 +127,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             foreach (var target in targets)
                             {
                                 Zombie targetZombie = (Zombie)target;
-                                targetZombie.TakeDamage();
+                             //   targetZombie.TakeDamage();
                             }
                         }
                     }
@@ -143,7 +143,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             foreach (var target in targets)
                             {
                                 Zombie targetZombie = (Zombie)target;
-                                targetZombie.TakeDamage();
+                               // targetZombie.TakeDamage();
                             }
                         }
                     }
@@ -152,7 +152,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public override void Update(GameTime gameTime)
         {
-            GraphicsComponent.SetCameraPosition(Pos);
+          //  GraphicsComponent.SetCameraPosition(Pos);
             if (!isAttacked)
             {
                 Move(gameTime);
@@ -207,8 +207,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
             {
-                NetworkTask task = new NetworkTask(id, Pos);
-                AppManager.Instance.NetworkTasks.Add(task);
+                //NetworkTask task = new NetworkTask(id, Pos);
+                //AppManager.Instance.NetworkTasks.Add(task);
             }
         }
         public void MoveDown()
