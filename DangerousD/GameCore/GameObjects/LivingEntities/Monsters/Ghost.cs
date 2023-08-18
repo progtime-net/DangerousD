@@ -111,20 +111,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public void TakeDamage()
         {
             monster_health--;
-
-<<<<<<< HEAD
-        public override void Target()
-=======
-            
             if (monster_health <= 0)
             {
                 Death();
             }
         }
-        public void Target()
->>>>>>> черешня
+
+        public override void Target()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

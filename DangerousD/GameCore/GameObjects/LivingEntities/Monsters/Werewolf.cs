@@ -18,17 +18,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public Werewolf(Vector2 position) : base(position)
         {
             name = "Wolf";
-<<<<<<< HEAD
-            monster_speed = 4;
-            Width = 39;
-            Height = 48;
-=======
             monster_speed = 3;
             Width = 39;
             Height = 48;
             delay = 10;
             monster_health = 3;
->>>>>>> черешня
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "WolfMoveRight", "WolfMoveLeft", "WolfJumpRight", "WolfJumpLeft" }, "WolfMoveRight");
@@ -108,10 +102,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Attack(GameTime gameTime)
         {
         }
-<<<<<<< HEAD
 
-        public override void Target()
-=======
         public void Jump()
         {
             var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
@@ -158,11 +149,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);/*/
         }
-        public void Target()
->>>>>>> черешня
-        {
-
-        }
         public void TakeDamage()
         {
             monster_health--;
@@ -172,6 +158,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 Death();
             }
+        }
+
+        public override void Target()
+        {
         }
     }
 }
