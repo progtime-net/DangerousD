@@ -62,7 +62,7 @@
   </object>
  </objectgroup>
 <objectgroup id="5" name="Zombies" class="LivingEntities.Monsters.Spider">
- <object id="4" x="1" y="100">
+ <object id="4" x="-80" y="100">
    <point/>
   </object>
  </objectgroup>
