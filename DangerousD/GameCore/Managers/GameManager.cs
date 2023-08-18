@@ -149,7 +149,6 @@ namespace DangerousD.GameCore
                 }
             }
             else
-
             {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
                 {

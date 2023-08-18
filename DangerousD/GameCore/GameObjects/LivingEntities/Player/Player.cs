@@ -247,11 +247,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 }
             }
-            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
-            {
-                NetworkTask task = new NetworkTask(id, Pos);
-                AppManager.Instance.NetworkTasks.Add(task);
-            }
         }
         public void MoveDown()
         {

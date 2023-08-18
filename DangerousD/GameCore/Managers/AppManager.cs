@@ -242,11 +242,6 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.ChangeState:
                         if (networkTask.objId != GameManager.GetPlayer1.id)
                         {
-                            List<GraphicsComponent> gcs = new List<GraphicsComponent>();
-                            foreach (var player in GameManager.players)
-                            {
-                                gcs.Add(player.GetGraphicsComponent());
-                            }
                             LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
                             if (entity != null)
                             {

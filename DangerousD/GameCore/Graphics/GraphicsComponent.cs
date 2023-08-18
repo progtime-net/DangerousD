@@ -1,4 +1,6 @@
-﻿using DangerousD.GameCore.Managers;
+﻿using DangerousD.GameCore.GameObjects;
+using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.Managers;
 using DangerousD.GameCore.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -107,13 +109,13 @@ namespace DangerousD.GameCore.Graphics
 
         public void StartAnimation(string startedanimationId)
         {
-            if (startedanimationId == "playerShootRight" && parentId == 17)
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
             {
-                string a = "2";
-            }
-            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer && startedanimationId != GetCurrentAnimation)
-            {
+                LivingEntity entity = AppManager.Instance.GameManager.livingEntities.Find(x => x.id == parentId);
+                if (((entity is Player) || AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) && startedanimationId != GetCurrentAnimation)
+                {
                     AppManager.Instance.NetworkTasks.Add(new NetworkTask(parentId, startedanimationId, Vector2.Zero));
+                }
             }
             currentFrame = 0;
             currentAnimation = animations.Find(x => x.Id == startedanimationId);
