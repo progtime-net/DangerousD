@@ -185,6 +185,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public void TakeDamage()
         {
+            if (monster_health == 3)
+                AppManager.Instance.SoundManager.StartSound("z3", Pos, Pos);
+            if (monster_health == 2)
+                AppManager.Instance.SoundManager.StartSound("z1", Pos, Pos);
+            if (monster_health == 1)
+                AppManager.Instance.SoundManager.StartSound("z3", Pos, Pos);
             monster_health--;
             GraphicsComponent.StartAnimation("ZombieRightAttack");
             Particle particle = new Particle(Pos);

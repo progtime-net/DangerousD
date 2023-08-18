@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using DangerousD.GameCore.GameObjects.Entities.Items;
 
 namespace DangerousD.GameCore.GameObjects.Entities
 {
     public class Door : Entity
     {
         private Rectangle _sourceRectangle;
-        
+        Random random = new Random();
         public Door(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position)
         {
             _sourceRectangle = sourceRectangle;
@@ -46,6 +47,11 @@ namespace DangerousD.GameCore.GameObjects.Entities
                     {
                         AppManager.Instance.GameManager.Remove(this);
                         //тут спавн лута
+                        for (int i = 0; i < random.Next(0,15); i++)
+                        {
+                            var d = new Diamond(Vector2.Zero);
+                            d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
+                        }
                     }
                 }
             }

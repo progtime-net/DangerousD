@@ -81,12 +81,17 @@
 /processorParam:TextureFormat=Color
 /build:deathBackground.jpg
 
-
-#begin DoomTestSong.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/DoomTestSong.mp3
+#begin Diamond.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Diamond.png
 
 #begin doors.png
 /importer:TextureImporter
@@ -127,6 +132,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Font2.spritefont
+
+#begin GetScore.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GetScore.png
 
 #begin menuFon.jpg
 /importer:TextureImporter
@@ -243,6 +260,24 @@
 /processorParam:TextureFormat=Color
 /build:sliderBackground.png
 
+#begin SmokeAnimation2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SmokeAnimation2.png
+
+#begin sounds/collected_coins.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/collected_coins.mp3
+
 #begin sounds/DoomTestSong.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -255,17 +290,17 @@
 /processorParam:Quality=Best
 /build:sounds/shotgun_shot.mp3
 
-#begin SmokeAnimation2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:SmokeAnimation2.png
+#begin sounds/z1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/z1.mp3
+
+#begin sounds/z3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/z3.mp3
 
 #begin textboxbackground1-1.png
 /importer:TextureImporter
