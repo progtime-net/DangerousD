@@ -44,61 +44,6 @@ namespace DangerousD.GameCore.Managers
                 var currentRect = currentEntity.Rectangle;
                 var newRect = currentRect;
 
-                #region x collision
-                var collidedX = false;
-                var tryingRectX = currentRect;
-                tryingRectX.Offset((int)Math.Ceiling(currentEntity.velocity.X), 0);
-                foreach (var mapObject in mapObjects)
-                {
-                    if (
-                        Math.Abs(mapObject.Pos.X - currentEntity.Pos.X) < 550 
-                        && Math.Abs(mapObject.Pos.Y - currentEntity.Pos.Y) < 550
-                        && tryingRectX.Intersects(mapObject.Rectangle)
-                    )
-                    {
-                        collidedX = true;
-                        break;
-                    }
-                }
-                if (collidedX)
-                {
-                    currentEntity.velocity.X = 0;
-                }
-                else
-                {
-                    newRect.X = tryingRectX.X;
-                }
-                #endregion
-                
-                #region y collision
-                var collidedY = false;
-                var tryingRectY = currentRect;
-                tryingRectY.Offset(0, (int)Math.Ceiling(currentEntity.velocity.Y));
-                if (currentEntity is Player)
-                {
-                    AppManager.Instance.DebugHUD.Set("velocity", currentEntity.velocity.ToString());
-                    AppManager.Instance.DebugHUD.Set("falling", (currentEntity as Player).FallingThroughPlatform.ToString());
-                    AppManager.Instance.DebugHUD.Set("intersects y", "");
-                }
-                foreach (var mapObject in mapObjects)
-                {
-                    if (tryingRectY.Intersects(mapObject.Rectangle))
-                    {
-                        if (currentEntity is Player) AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
-                        collidedY = true;
-                        break;
-                    }
-                }
-                currentEntity.isOnGround = collidedY && currentEntity.velocity.Y > 0;
-                if (collidedY)
-                {
-                    currentEntity.velocity.Y = 0;
-                }
-                else
-                {
-                    newRect.Y = tryingRectY.Y;
-                }
-                #endregion
 
                 currentEntity.SetPosition(new Vector2(newRect.X, newRect.Y));
             }
