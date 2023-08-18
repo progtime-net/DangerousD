@@ -344,6 +344,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 Height = 5;
                 Width = 5;
             }
+            int time = 0;   
             protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft" }, "playerMoveLeft");
             Vector2 direction;
             public Vector2 maindirection;
@@ -414,9 +415,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
-                if (maindirection != velocity)
+                if (time >= 10)
                 {
                     AppManager.Instance.GameManager.Remove(this);
+                }
+                if (gameTime.TotalGameTime.Milliseconds > 800)
+                {
+                    time += 1;
                 }
                 base.Update(gameTime);
             }
