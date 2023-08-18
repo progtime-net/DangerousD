@@ -92,10 +92,6 @@ namespace DangerousD.GameCore.Managers
             float offsetY = group.Attributes["offsety"] is not null ? float.Parse(group.Attributes["offsety"].Value) : 0;
             foreach (XmlNode entity in group.ChildNodes)
             {
-<<<<<<< HEAD
-                Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityType}");
-                Entity inst = (Entity)Activator.CreateInstance(type, new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX, float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY ) * _scale);
-=======
                 string entityType = entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "";
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityGroup}{entityType}");
                 Vector2 pos =
@@ -110,7 +106,6 @@ namespace DangerousD.GameCore.Managers
                 {
                     inst = (Entity)Activator.CreateInstance(type, pos);
                 }
->>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
                 inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 inst.Height *= _scale;
                 inst.Width *= _scale;

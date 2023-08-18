@@ -13,7 +13,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
-        private bool isGoRight;
         private bool isAttack;
 
         float leftBorder;
@@ -128,12 +127,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
-<<<<<<< HEAD
 
-        public override void Target()
-=======
         public void Target()
->>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
             {
@@ -163,11 +158,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 rightBorder = 760;
             }
         }
-
-<<<<<<< HEAD
-        public override void Attack(GameTime gameTime) { }
-=======
-        public  void Attack(GameTime gameTime)
+        public override void Attack(GameTime gameTime)
         {}
 
         public void TakeDamage()
@@ -180,6 +171,5 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Death();
             }
         }
->>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
     }
 }
