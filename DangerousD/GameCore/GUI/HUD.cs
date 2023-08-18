@@ -16,22 +16,26 @@ namespace DangerousD.GameCore.GUI
     {  
         int wigth = AppManager.Instance.inGameResolution.X;
         int height = AppManager.Instance.inGameResolution.Y;
-        float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
+        float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
         Texture2D texture;
         SpriteFont spriteFont;
 
         public void Draw(SpriteBatch spriteBatch)
         { 
             spriteBatch.Begin();
-            spriteBatch.Draw(texture, new Rectangle(wigth / 35 - 2, height / 35 - 2, 120 + 2, 70 + 2), Color.DarkRed);
-            spriteBatch.DrawString(spriteFont, "AMMO", new Vector2(wigth / 34 + 4, height / 30 - 6), Color.Gray, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
-            spriteBatch.DrawString(spriteFont, "AMMO", new Vector2(wigth / 34 + 1, height / 30 - 6), Color.White, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
-            for (int i = 0; i < 5; i++)
+            spriteBatch.Draw(texture, new Rectangle(
+                (int)((wigth / 35 - 2) * scaler), 
+                (int)((height / 35 - 2) * scaler), 
+                (int)((120 + 2) * scaler), 
+                (int)((70 + 2) * scaler)), Color.DarkRed);
+            spriteBatch.DrawString(spriteFont, "AMMO", new Vector2((wigth / 34 + 4)* scaler, height / 30 - 6), Color.Gray, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(spriteFont, "AMMO", new Vector2((wigth / 34 + 1 )* scaler, height / 30 - 6), Color.White, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
+            for (int i = 1; i < 6; i++)
             {
                 if (i <= AppManager.Instance.GameManager.players[0].Bullets)
                 {
-                    spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13 + 2, height / 17 + 4, 5, 20), new Color(0.8f, 0.8f, 0, 1f));
-                    spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13, height / 17 + 4, 5, 20), Color.Yellow);
+                    spriteBatch.Draw(texture, new Rectangle((int)((wigth / 30 + i * 13 + 2) * scaler), (int)((height / 17 + 4) * scaler), (int)((5) * scaler), (int)((20) * scaler)), new Color(0.8f, 0.8f, 0, 1f));
+                    spriteBatch.Draw(texture, new Rectangle((int)((wigth / 30 + i * 13) * scaler), (int)((height / 17 + 4) * scaler), (int)((5) * scaler), (int)((20) * scaler)), Color.Yellow);
                 }
                 else
                 { 

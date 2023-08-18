@@ -73,7 +73,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
-            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot"}, "playerReload");
+            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot", "playerShootUpRight", "playerShootUpLeft"}, "playerReload");
 
         public void Attack()
         {
@@ -87,11 +87,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             base.OnCollision(gameObject);
         }
+        public Rectangle GetShootRectangle(bool isRight)
+        {
+            if (isRight) 
+                return new Rectangle((int)Pos.X, (int)(Pos.Y) + 10, shootLength + Width, Height / 2);
+            else
+                return new Rectangle((int)Pos.X-shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (isVisible)
             {
                 base.Draw(spriteBatch);
+            }
+            if (AppManager.Instance.InputManager.CollisionsCheat)
+            {
+                Rectangle attackRect = GetShootRectangle(isRight);
+                spriteBatch.Draw(debugTexture,
+                                     new Rectangle((attackRect.X - GraphicsComponent.CameraPosition.X) * GraphicsComponent.scaling,
+                                     (attackRect.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling,
+                                     attackRect.Width * GraphicsComponent.scaling,
+                                     attackRect.Height * GraphicsComponent.scaling), Color.White);
+
             }
         }
         public void Death(string monsterName)
@@ -113,6 +130,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 };
             }
             else if(monsterName == "Spider")
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if (monsterName == "SilasHand")
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if (monsterName == "SilasBall")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -151,6 +190,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             {
                                 Zombie targetZombie = (Zombie)targets.First();
                                 targetZombie.TakeDamage();
+
+                            }
+                            targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands)).OrderBy(x => (x.Pos - Pos).LengthSquared());
+                            if (targets.Count() > 0)
+                            {
+                                SilasHands targetHand = (SilasHands)targets.First();
+                                targetHand.TakeDamage();
                             }
                             SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
                         }
@@ -165,6 +211,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                     Zombie targetZombie = (Zombie)target;
                                     targetZombie.TakeDamage();
                                 }
+                            }
+                            targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands));
+                            if (targets.Count() > 0)
+                            {
+                                SilasHands targetHand = (SilasHands)targets.First();
+                                targetHand.TakeDamage();   
                             }
                             SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                         }
@@ -239,19 +291,53 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                     else if (isRight)
                     {
-                        GraphicsComponent.StartAnimation("playerRightStay");
+                        if (isUping)
+                        {
+                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpRight")
+                            {
+                                GraphicsComponent.StartAnimation("playerShootUpRight");
+                            }
+                        }
+                        else
+                        {
+                            GraphicsComponent.StartAnimation("playerRightStay");
+                        }
                     }
                     else if (!isRight)
                     {
-                        GraphicsComponent.StartAnimation("playerStayLeft");
+                        if (isUping)
+                        {
+                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpLeft")
+                            {
+                                GraphicsComponent.StartAnimation("playerShootUpLeft");
+                            }
+                        }
+                        else
+                        {
+                            GraphicsComponent.StartAnimation("playerStayLeft");
+                        }
                     }
                 }
+            }
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
+            {
+                NetworkTask task = new NetworkTask(id, Pos);
+                AppManager.Instance.NetworkTasks.Add(task);
             }
         }
         public void MoveDown()
         {
             FallingThroughPlatform = true;
             isOnGround = false;
+        }
+
+        public class Bullet : GameObjects.LivingEntity
+        {
+            public Bullet(Vector2 position) : base(position)
+            {
+            }
+            protected override GraphicsComponent GraphicsComponent { get; } = new("ZombieMoveLeft");
+
         }
     }
 }

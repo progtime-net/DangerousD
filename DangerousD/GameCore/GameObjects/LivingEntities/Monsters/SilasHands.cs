@@ -19,7 +19,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Width = 16;
             Height = 16;
             monster_health = 2;
-            monster_speed = 2;
+            monster_speed = 1;
             acceleration = Vector2.Zero;
             
         }
@@ -28,7 +28,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
-
+            AppManager.Instance.GameManager.GetPlayer1.Death(name);
         }
 
         public override void Attack(GameTime gameTime)
@@ -38,7 +38,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+
+            AppManager.Instance.GameManager.Remove(this);
+
         }
 
         public override void Move(GameTime gameTime)
@@ -71,12 +77,30 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             base.Update(gameTime);
             Move(gameTime);
-            if ((Pos.X + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.X || Pos.X - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.X)&&(Pos.Y + 20 <= AppManager.Instance.GameManager.GetPlayer1.Pos.Y || Pos.Y - 20 >= AppManager.Instance.GameManager.GetPlayer1.Pos.Y))
-            {
-                
-                AppManager.Instance.GameManager.GetPlayer1.Death(name);
-            }
+            
             GraphicsComponent.Update();
+        }
+        public void TakeDamage()
+        {
+            monster_health--;
+            GraphicsComponent.StartAnimation("SilasHandMove");
+            Particle particle = new Particle(Pos);
+            if (monster_health <= 0)
+            {
+                Death();
+            }
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
+            {
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    Attack();
+
+                }
+            }
+            base.OnCollision(gameObject);
         }
     }
 }

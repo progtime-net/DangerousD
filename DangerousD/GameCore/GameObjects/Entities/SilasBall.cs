@@ -1,4 +1,5 @@
-﻿using DangerousD.GameCore.Graphics;
+﻿using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,12 +15,15 @@ namespace DangerousD.GameCore.GameObjects.Entities
     {
         
         private Vector2 v;
+        public string name;
         public SilasBall(Vector2 position) : base(position)
         {
             Height = 24;
             Width = 24;
             acceleration = Vector2.Zero;
-            
+            name = "SilasHand";
+
+
         }
         public SilasBall(Vector2 position, Vector2 velosity) : base(position)
         {
@@ -28,7 +32,8 @@ namespace DangerousD.GameCore.GameObjects.Entities
             acceleration = Vector2.Zero;
             velocity = velosity;
             v = velosity;
-            
+            name = "SilasHand";
+
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "SilasBallMove" }, "SilasBallMove");
@@ -47,6 +52,22 @@ namespace DangerousD.GameCore.GameObjects.Entities
             base.Draw(spriteBatch);
             
             
+        }
+        public void Attack()
+        {
+            AppManager.Instance.GameManager.GetPlayer1.Death(name);
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            base.OnCollision(gameObject);
+            if (gameObject is Player)
+            {
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    Attack();
+
+                }
+            }
         }
     }
 }
