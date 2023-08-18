@@ -1,1 +1,1 @@
-{"id":"GhostAttack","textureName":"MonstersAnimations","startSpriteRectangle":{"X":101,"Y":503,"Width":24,"Height":31},"frameSecond":[{"Item1":0,"Item2":10}],"textureFrameInterval":1,"framesCount":2,"isCycle":false,"offset":"0, 0"}
+{"id":"GhostAttack","textureName":"MonstersAnimations","startSpriteRectangle":{"X":101,"Y":503,"Width":24,"Height":31},"frameSecond":[{"Item1":0,"Item2":10}],"textureFrameInterval":50,"framesCount":2,"isCycle":false,"offset":"0, 0"}

@@ -14,7 +14,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
-        private bool isAttack;
 
         float leftBorder;
         float rightBorder;
@@ -59,18 +58,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Target();
                 Move(gameTime);
             }
-            fixBorder();
+            //fixBorder();
             base.Update(gameTime);
         }
 
         public override void Attack()
         {
-            AppManager.Instance.GameManager.GetPlayer1.Death(name);
+            isAttaking = true;
+            PlayAttackAnimation();
+            AppManager.Instance.GameManager.GetClosestPlayer(Pos).Death(name);
         }
         public void PlayAttackAnimation()
         {
             velocity.X = 0;
-            isAttaking = true;
             if (isGoRight)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieRightAttack")
@@ -124,7 +124,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
+            if (gameObject.id == AppManager.Instance.GameManager.GetClosestPlayer(Pos).id && AppManager.Instance.GameManager.GetClosestPlayer(Pos).IsAlive)
             {
                 if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
