@@ -18,7 +18,7 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
             PlayDeath(DeathType);
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> {"DeathFromZombie"},
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> {"DeathFromZombie", "DeathFromSilasHand" },
             "DeathFromZombie");
 
         public GraphicsComponent Gr => GraphicsComponent;
@@ -28,6 +28,10 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
             if (GraphicsComponent.GetCurrentAnimation != "DeathFromZombie")
             {
                 GraphicsComponent.StartAnimation("DeathFromZombie");
+            }
+            if (GraphicsComponent.GetCurrentAnimation != "DeathFromSilasHand")
+            {
+                GraphicsComponent.StartAnimation("DeathFromSilasHand");
             }
         }
 

@@ -87,11 +87,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             base.OnCollision(gameObject);
         }
+        public Rectangle GetShootRectangle(bool isRight)
+        {
+            if (isRight) 
+                return new Rectangle((int)Pos.X, (int)(Pos.Y) + 10, shootLength + Width, Height / 2);
+            else
+                return new Rectangle((int)Pos.X-shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (isVisible)
             {
                 base.Draw(spriteBatch);
+            }
+            if (AppManager.Instance.InputManager.CollisionsCheat)
+            {
+                Rectangle attackRect = GetShootRectangle(isRight);
+                spriteBatch.Draw(debugTexture,
+                                     new Rectangle((attackRect.X - GraphicsComponent.CameraPosition.X) * GraphicsComponent.scaling,
+                                     (attackRect.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling,
+                                     attackRect.Width * GraphicsComponent.scaling,
+                                     attackRect.Height * GraphicsComponent.scaling), Color.White);
+
             }
         }
         public void Death(string monsterName)
@@ -113,6 +130,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 };
             }
             else if(monsterName == "Spider")
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if (monsterName == "SilasHand")
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if (monsterName == "SilasBall")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -146,18 +185,25 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         if (isRight)
                         {
                             StartCicycleAnimation("playerShootRight");
-                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
+                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
                             if (targets.Count() > 0)
                             {
                                 Zombie targetZombie = (Zombie)targets.First();
                                 targetZombie.TakeDamage();
+
+                            }
+                            targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands)).OrderBy(x => (x.Pos - Pos).LengthSquared());
+                            if (targets.Count() > 0)
+                            {
+                                SilasHands targetHand = (SilasHands)targets.First();
+                                targetHand.TakeDamage();
                             }
                             SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
                         }
                         else
                         {
                             StartCicycleAnimation("playerShootLeft");
-                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y - 10f), shootLength, 10), typeof(Zombie));
+                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(Zombie));
                             if (targets != null)
                             {
                                 foreach (var target in targets)
@@ -165,6 +211,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                     Zombie targetZombie = (Zombie)target;
                                     targetZombie.TakeDamage();
                                 }
+                            }
+                            targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands));
+                            if (targets.Count() > 0)
+                            {
+                                SilasHands targetHand = (SilasHands)targets.First();
+                                targetHand.TakeDamage();   
                             }
                             SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                         }
@@ -257,6 +309,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             FallingThroughPlatform = true;
             isOnGround = false;
-        }
+        } 
     }
 }

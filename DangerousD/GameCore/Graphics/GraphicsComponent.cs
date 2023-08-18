@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace DangerousD.GameCore.Graphics
@@ -18,7 +19,7 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
-        static private int scaling = 4;
+        static public int scaling = 4;
         public int parentId;
         public AnimationContainer CurrentAnimation
         {
