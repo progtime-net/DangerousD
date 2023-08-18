@@ -38,7 +38,7 @@ namespace DangerousD.GameCore
         IDrawableObject HUD;
         public DebugHUD DebugHUD;
         public List<NetworkTask> NetworkTasks = new List<NetworkTask>();
-
+        public string currentMap;
         public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
@@ -74,6 +74,7 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
+            currentMap = "lvl";
         }
 
         protected override void Initialize()
@@ -204,7 +205,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("LastLvl");
+                    GameManager.mapManager.LoadLevel(currentMap);
                     GameManager.FindBorders();
                     break;
                 case GameState.Death:
@@ -289,6 +290,10 @@ namespace DangerousD.GameCore
         public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
         {
             this.multiPlayerStatus = multiPlayerStatus;
+        }
+        public void Restart(string map)
+        {
+
         }
     }
 }
