@@ -17,6 +17,7 @@ namespace DangerousD.GameCore.GameObjects.Entities.Items
             Width = 32;
             Height = 32;
             GraphicsComponent.StartAnimation("score"+ score);
+            AppManager.Instance.GameManager.GetPlayer1.score += score;
             GraphicsComponent.actionOfAnimationEnd += (a) => { AppManager.Instance.GameManager.Remove(this); };
         }
         public override void Initialize()

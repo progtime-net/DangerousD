@@ -9,6 +9,7 @@ namespace DangerousD.GameCore.GUI;
 
 internal class DeathGUI : AbstractGui
 {
+    
     protected override void CreateUI()
     {
         int wigth = AppManager.Instance.inGameResolution.X;
@@ -23,6 +24,7 @@ internal class DeathGUI : AbstractGui
         Elements.Add(butMenu);
         butMenu.LeftButtonPressed += () =>
         {
+            AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.Restart("lvl");
         };
         foreach (var item in Elements)
@@ -40,6 +42,7 @@ internal class DeathGUI : AbstractGui
 
     public override void Update(GameTime gameTime)
     {
+        (Elements[2] as DrawableTextedUiElement).text = $"Score: {AppManager.Instance.GameManager.GetPlayer1.score}";
         base.Update(gameTime);
     }
 }

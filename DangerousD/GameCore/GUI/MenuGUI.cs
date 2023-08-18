@@ -49,6 +49,7 @@ internal class MenuGUI : AbstractGui
         Elements.Add(butSingle);
         butSingle.LeftButtonPressed += () =>
         {
+            AppManager.Instance.SoundManager.StartSound("StartGame", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.ChangeGameState(GameState.Game);
             AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.SinglePlayer);
             
@@ -59,6 +60,7 @@ internal class MenuGUI : AbstractGui
         Elements.Add(butMulti);
         butMulti.LeftButtonPressed += () =>
         {
+            AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.ChangeGameState(GameState.Login);
         };
         var butOption = new ButtonText(Manager) { rectangle = new Rectangle((wigth - (int)(160 * 2.4)) / 2, 590, (int)(160 * 2.4), (int)(50 * 2.4)), text = "Option", scale = 1.2f, fontName = "ButtonFont" };
@@ -66,12 +68,14 @@ internal class MenuGUI : AbstractGui
         butOption.LeftButtonPressed += () =>
         {
             // открытие настроек
+            AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.ChangeGameState(GameState.Options);
         };
         var butExit = new ButtonText(Manager) { rectangle = new Rectangle((wigth - (int)(110 * 2.4)) / 2, 710, (int)(110 * 2.4), (int)(50 * 2.4)), text = "Exit", scale = 1.2f, fontName = "ButtonFont" };
         Elements.Add(butExit);
         butExit.LeftButtonPressed += () =>
         {
+            AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.Exit();
         };
 

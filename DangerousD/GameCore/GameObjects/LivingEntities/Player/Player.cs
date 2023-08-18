@@ -300,6 +300,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             if (GraphicsComponent.GetCurrentAnimation != "playerReload")
                             {
                                 GraphicsComponent.StartAnimation("playerReload");
+                                AppManager.Instance.SoundManager.StartSound("reloading", Pos,Pos);
                             }
                         }
                         else

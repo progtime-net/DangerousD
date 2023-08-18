@@ -24,7 +24,7 @@ public class Diamond : Entity
         if (gameObject is Player)
         {
             AppManager.Instance.GameManager.Remove(this);
-            new ScoreText(Pos, ScoreText.scores[random.Next(0, ScoreText.scores.Length-1)]);
+            new ScoreText(Pos, ScoreText.scores[random.Next(0, ScoreText.scores.Length)]);
             AppManager.Instance.SoundManager.StartSound("collected_coins", Pos, Pos);
         }
         base.OnCollision(gameObject);   
