@@ -23,7 +23,7 @@ namespace DangerousD.GameCore
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set; }
-        public string IpAddress { get; private set; } = "127.0.0.1";
+        public string IpAddress { get; private set; } = "0.0.0.0";
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public GameState gameState { get; private set; }
