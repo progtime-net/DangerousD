@@ -31,7 +31,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isInvincible;
         private int bullets;
         public bool FallingThroughPlatform = false;
-
+        public bool isUping = false;
 
         
 
@@ -162,6 +162,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public override void Update(GameTime gameTime)
         {
+            if (AppManager.Instance.InputManager.ScopeState==ScopeState.Up)
+            {
+                isUping = true;
+            }
+            else
+            {
+                isUping = false;
+            }
             if (isOnGround && FallingThroughPlatform)
             {
                 FallingThroughPlatform = false;
