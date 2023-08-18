@@ -12,10 +12,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class HunchmanDagger : CoreEnemy
     {
+        private bool isGoRight = false;
+
         public HunchmanDagger(Vector2 position) : base(position)
         {
             name = "Hunchman";
-            monster_speed = 1;
+            monster_speed = 4;
             Width = 9;
             Height = 6;
         }
@@ -34,7 +36,31 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
+            velocity.X = 0;
+            var animation = GraphicsComponent.GetCurrentAnimation;
 
+            if (animation == "HunchmanDaggerRight")
+            {
+                velocity.X = monster_speed;
+            }
+            else if (animation == "HunchmanDaggerLeft")
+            {
+                velocity.X = -monster_speed;
+            }
+        }
+
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
+            {
+                AppManager.Instance.GameManager.players[0].Death(name);
+            }
+            else
+            {
+                Death();
+            }
+
+            base.OnCollision(gameObject);
         }
     }
 }

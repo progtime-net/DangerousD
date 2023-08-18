@@ -204,7 +204,7 @@ namespace DangerousD.GameCore.Graphics
 
         private void SetInterval()
         {
-            Tuple<int, int> i = currentAnimation.FrameTime.Find(x => x.Item1 == currentFrame);
+             Tuple<int, int> i = currentAnimation.FrameTime.Find(x => x.Item1 == currentFrame);
             if (i != null)
             {
                 interval = i.Item2;

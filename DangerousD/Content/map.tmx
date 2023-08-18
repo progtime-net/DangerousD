@@ -42,7 +42,7 @@
   </data>
  </layer>
  <objectgroup id="2" name="Слой объектов 1" class="LivingEntities.Monsters.FlameSkull">
-  <object id="1" x="-56" y="80">
+  <object id="1" x="400" y="1000">
    <point/>
   </object>
  </objectgroup>
@@ -51,8 +51,8 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="Слой объектов 3" class="LivingEntities.Monsters.Frank">
-  <object id="3" x="-53" y="158">
+<objectgroup id="4" name="Слой объектов 3" class="LivingEntities.Monsters.Hunchman">
+ <object id="3" x="300" y="230">
    <point/>
   </object>
  </objectgroup>
