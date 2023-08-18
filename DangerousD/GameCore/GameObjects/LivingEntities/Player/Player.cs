@@ -32,14 +32,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private int bullets;
         public bool FallingThroughPlatform = false;
         public bool isUping = false;
+        public bool isNetworkPlayer;
 
-        
+
+
 
         public int Bullets { get { return bullets; } }
 
         public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
 
         {
+            this.isNetworkPlayer = isNetworkPlayer;
             Width = 16;
             Height = 32;
 
@@ -48,24 +51,24 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 AppManager.Instance.InputManager.ShootEvent += Shoot;
                 AppManager.Instance.InputManager.MovEventJump += Jump;
                 AppManager.Instance.InputManager.MovEventDown += MoveDown;
+                velocity = new Vector2(0, 0);
+                rightBorder = (int)position.X + 100;
+                leftBorder = (int)position.X - 100;
+                bullets = 5;
+
+                this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "playerShootLeft" || a == "playerShootRight")
+                    {
+                        isShooting = false;
+                    }
+                    if (a == "playerReload")
+                    {
+                        bullets++;
+                    }
+                };
             }
 
-           velocity = new Vector2(0, 0);
-            rightBorder = (int)position.X + 100;
-            leftBorder = (int)position.X - 100;
-            bullets = 5;
-
-            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
-            {
-                if (a == "playerShootLeft" || a == "playerShootRight")
-                {
-                    isShooting = false;
-                }
-                if (a == "playerReload")
-                {
-                    bullets++;
-                }
-            };
         }
 
         public bool IsAlive { get { return isAlive; } }
@@ -251,6 +254,5 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             isOnGround = false;
             AppManager.Instance.DebugHUD.Log("FallingThroughPlatform");
         }
-
     }
 }

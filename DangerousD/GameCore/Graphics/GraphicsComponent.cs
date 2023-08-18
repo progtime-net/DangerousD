@@ -1,4 +1,5 @@
 ﻿using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +19,7 @@ namespace DangerousD.GameCore.Graphics
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
         static private int scaling = 4;
+        public int parentId;
         public AnimationContainer CurrentAnimation
         {
             get
@@ -105,6 +107,14 @@ namespace DangerousD.GameCore.Graphics
 
         public void StartAnimation(string startedanimationId)
         {
+            if (startedanimationId == "playerShootRight" && parentId == 17)
+            {
+                string a = "2";
+            }
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer && startedanimationId != GetCurrentAnimation)
+            {
+                    AppManager.Instance.NetworkTasks.Add(new NetworkTask(parentId, startedanimationId, Vector2.Zero));
+            }
             currentFrame = 0;
             currentAnimation = animations.Find(x => x.Id == startedanimationId);
 
