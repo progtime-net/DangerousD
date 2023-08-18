@@ -28,7 +28,7 @@ namespace DangerousD.GameCore
         public PhysicsManager physicsManager;
         public List<Player> players;
         public List<GameObject> otherObjects = new();
-        
+        public Vector4 CameraBorder;
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
@@ -42,6 +42,7 @@ namespace DangerousD.GameCore
             players = new List<Player>();
             mapManager = new MapManager(1);
             physicsManager = new PhysicsManager();
+            CameraBorder = Vector4.Zero;
 
         }
 
@@ -83,6 +84,36 @@ namespace DangerousD.GameCore
                 otherObjects.Add(gameObject);
             }
         }
+        
+        public void Remove(GameObject gameObject)
+        {
+            GetAllGameObjects.Remove(gameObject);
+            if (gameObject is Player objPl)
+            {
+                livingEntities.Remove(gameObject as LivingEntity);
+                players.Remove(objPl);
+            }
+            else if (gameObject is LivingEntity objLE)
+            {
+                livingEntities.Remove(objLE);
+            }
+            else if (gameObject is Entity objE)
+            {
+                entities.Remove(objE);
+            }
+            else if (gameObject is MapObject obj)
+            {
+                if (obj.IsColliderOn)
+                    mapObjects.Remove(obj);
+                else
+                    BackgroundObjects.Remove(obj);
+            }
+            else
+            {
+                otherObjects.Remove(gameObject);
+            }
+        }
+
         public void Draw(SpriteBatch _spriteBatch)
         {
             foreach (var item in BackgroundObjects)
@@ -99,7 +130,6 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
-            AppManager.Instance.DebugHUD.Set("playerId: ", GetPlayer1.id.ToString());
             if (AppManager.Instance.NetworkTasks.Count > 0)
             {
                 AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
@@ -117,21 +147,43 @@ namespace DangerousD.GameCore
                 {
                     livingEntitiesWithoutPlayers[i].Update(gameTime);
                 }
-                GetPlayer1.Update(gameTime);
             }
             else
+
+
             {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
                 {
                     livingEntitiesWithoutPlayers[i].PlayAnimation();
                 }
-                GetPlayer1.Update(gameTime);
             }
             GetPlayer1.Update(gameTime);
             foreach (var item in otherObjects)
                 item.Update(gameTime);
 
-            physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, gameTime);
+            physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, players, gameTime);
+        }
+        public void FindBorders()
+        {
+            foreach (var item in GetAllGameObjects)
+            {
+                if (item.Pos.X<CameraBorder.X)
+                {
+                    CameraBorder.X = item.Pos.X;
+                }
+                if (item.Pos.X > CameraBorder.Y)
+                {
+                    CameraBorder.Y = item.Pos.X;
+                }
+                if (item.Pos.Y < CameraBorder.Z)
+                {
+                    CameraBorder.Z = item.Pos.Y;
+                }
+                if (item.Pos.Y > CameraBorder.W)
+                {
+                    CameraBorder.W = item.Pos.Y;
+                }
+            }
         }
     }
 }

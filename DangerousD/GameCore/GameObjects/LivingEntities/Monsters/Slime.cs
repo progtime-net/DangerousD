@@ -12,8 +12,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Slime : CoreEnemy
     {
+<<<<<<< HEAD
         private bool isGoRight = true;
         private bool isDown = true;
+=======
+        private bool isDown = false;
+>>>>>>> main
         int leftBorder;
         int rightBorder;
         bool isAttaking = false;
@@ -269,7 +273,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Target()
+        public void Target()
         {
 
         }
