@@ -62,11 +62,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             };
         }
 
-        public Player(Vector2 position, bool isInvincible) : this(position)
-        {
-            this.isInvincible = isInvincible;
-        }
-
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
