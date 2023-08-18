@@ -46,6 +46,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
                     {
                         AppManager.Instance.GameManager.Remove(this);
                         //тут спавн лута
+                        Diamond diamonds = new Diamond(new Vector2((int)Pos.X, (int)Pos.Y));
                     }
                 }
             }

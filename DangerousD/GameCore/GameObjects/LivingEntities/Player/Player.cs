@@ -32,7 +32,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isUping = false;
         public bool isNetworkPlayer;
         private int shootLength = 160;
-
+        public int score = 0;
 
 
 
