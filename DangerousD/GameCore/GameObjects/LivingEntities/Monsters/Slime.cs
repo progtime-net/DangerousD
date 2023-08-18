@@ -12,8 +12,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Slime : CoreEnemy
     {
+
         private bool isGoRight = true;
         private bool isDown = true;
+     
+      
+
         int leftBorder;
         int rightBorder;
         bool isAttaking = false;
@@ -30,6 +34,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             rightBorder = 400;
             //acceleration = Vector2.Zero;
             delay = 30;
+            
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "SlimeMoveLeftTop", "SlimeMoveLeftBottom", "SlimeMoveRightTop",
@@ -40,7 +45,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             
         }
-        public void Jump()
+        public void Jump(GameTime gameTime)
         {
             var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle(0, 0, 100, 100));
             velocity.X = 0;
@@ -56,17 +61,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (delay <= 0)
                 {
                     
-                    velocity = new Vector2(5, -3);
+                    velocity = new Vector2(5, -4);
                     acceleration.Y = 0;
+                    
                     if (GraphicsComponent.GetCurrentAnimation != "SlimeJumpLeftBottom")
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpLeftBottom");
                     }
                     getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y - 5, 48, 5));
-                    if (getCols.Count > 0)
+                    if (getCols.Count > 0 )
                     {
                         isJumping = false;
                         isDown = false;
+                        isAttaking = false;
                     }
                 }
 
@@ -81,7 +88,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (delay <= 0)
                 {
                     
-                    velocity = new Vector2(-5, -3);
+                    velocity = new Vector2(-5, -4);
                     acceleration.Y = 0;
                     if (GraphicsComponent.GetCurrentAnimation != "SlimeJumpRightBottom")
                     {
@@ -92,6 +99,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     {
                         isJumping = false;
                         isDown = false;
+                        isAttaking = false;
                     }
                 }
             }
@@ -106,19 +114,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (delay <= 0)
                 {
                    
-                    velocity = new Vector2(5, 3);
+                    velocity = new Vector2(5, 4);
                     acceleration.Y = 0;
+                    
                     if (GraphicsComponent.GetCurrentAnimation != "SlimeJumpLeftTop")
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpLeftTop");
                     }
                     getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X+1, (int)Pos.Y + Height, 46, 5));
                     
-                    if (getCols.Count > 0)
+                    if (getCols.Count > 0 )
                     {
                         isJumping = false;
                         isDown = true;
+                        isAttaking = false;
                         acceleration.Y = 10;
+                        Move(gameTime);
                     }
                 }
 
@@ -132,24 +143,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 delay--;
                 if (delay <= 0)
                 {
-                    velocity = new Vector2(-5, 3);
+                    velocity = new Vector2(-5, 4);
                     acceleration.Y = 0;
+                    
                     if (GraphicsComponent.GetCurrentAnimation != "SlimeJumpRightTop")
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpRightTop");
                     }
                     getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X+1, (int)Pos.Y + Height, 46, 5));
-                    if (getCols.Count > 0)
+                    if (getCols.Count > 0 )
                     {
                         isJumping = false;
                         isDown = true;
+                        isAttaking = false;
                         acceleration.Y = 10;
+                        Move(gameTime);
                         
                     }
                 }
 
 
             }
+            
 
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -246,24 +261,26 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     acceleration.Y = -acceleration.Y;
                 }
             }
-            Attack();
-            
-            if (!isJumping)
+            AppManager.Instance.DebugHUD.Set(name, isAttaking.ToString());
+            if(!isJumping)
             {
                 if (isDown)
                 {
-                    Jump();
+                    Jump(gameTime);
                 }
                 else if(IsInAim())
                 {
-                    Jump();
+                    Jump(gameTime);
+                    isAttaking = true;
                 }
-                else
+                else if(!isAttaking)
                 {
                     Move(gameTime);
+                    
                 }
-                
+                else { Jump(gameTime); }
             }
+            
             
 
             base.Update(gameTime);
@@ -283,6 +300,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X + Width, (int)Pos.Y + Height, 200, 500), false);
                 if (getCols.Count > 0)
                 {
+                    
                     return true;
                 }
             }
@@ -291,10 +309,29 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 200, (int)Pos.Y + Height, 200, 500), false);
                 if (getCols.Count > 0)
                 {
+                    
                     return true;
                 }
             }
-            
+            /*/else if (isGoRight && isDown)
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X +Width, (int)Pos.Y -500, 200, 500), false);
+                if (getCols.Count > 0)
+                {
+                    isAttaking = true;
+                    return true;
+                }
+            }
+            else if (!isGoRight && isDown)
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 200, (int)Pos.Y - 500, 200, 500), false);
+                if (getCols.Count > 0)
+                {
+                    isAttaking = true;
+                    return true;
+                }
+            }/*/
+
             return false;
             
         }
