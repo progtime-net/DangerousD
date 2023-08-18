@@ -71,5 +71,10 @@
    <point/>
   </object>
  </objectgroup>
+<objectgroup id="6" name="Слой объектов 1" class="LivingEntities.Monsters.Ghost">
+	<object id="5" x="150" y="200">
+	<point/>
+	</object>
+</objectgroup>
 
 </map>

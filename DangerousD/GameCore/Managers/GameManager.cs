@@ -87,7 +87,7 @@ namespace DangerousD.GameCore
                 otherObjects.Add(gameObject);
             }
         }
-        
+
         public void Remove(GameObject gameObject)
         {
             GetAllGameObjects.Remove(gameObject);
@@ -148,8 +148,10 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
             foreach (var item in mapObjects)
                 item.Update(gameTime);
-            foreach (var item in entities)
-                item.Update(gameTime);
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entities[i].Update(gameTime);
+            }
             if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
             {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
@@ -172,7 +174,7 @@ namespace DangerousD.GameCore
                 }
             }
             GetPlayer1.Update(gameTime);
-            for(int i = 0; i < otherObjects.Count; i++)
+            for (int i = 0; i < otherObjects.Count; i++)
             {
                 otherObjects[i].Update(gameTime);
             }
@@ -183,7 +185,7 @@ namespace DangerousD.GameCore
         {
             foreach (var item in GetAllGameObjects)
             {
-                if (item.Pos.X<CameraBorder.X)
+                if (item.Pos.X < CameraBorder.X)
                 {
                     CameraBorder.X = item.Pos.X;
                 }
@@ -200,6 +202,11 @@ namespace DangerousD.GameCore
                     CameraBorder.W = item.Pos.Y;
                 }
             }
+        }
+
+        public Player GetClosestPlayer(Vector2 position)
+        {
+            return players.OrderBy(x => (x.Pos - position).Length()).First();
         }
     }
 }

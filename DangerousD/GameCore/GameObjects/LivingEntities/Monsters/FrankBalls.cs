@@ -17,6 +17,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private bool isFlyRight = true;
         private bool isFlyUp = true;
         private bool isAttacking = false;
+        private int hp;
 
         public Rectangle Collision
         {
@@ -32,6 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             monster_speed = 3;
             velocity = new Vector2(3,-3);
             acceleration = Vector2.Zero;
+            hp = 10;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
@@ -39,7 +41,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Update(GameTime gameTime)
         {
             Move(gameTime);
-            AppManager.Instance.DebugHUD.Set(name, velocity.ToString());
+            
+            Death();
+            
             base.Update(gameTime);
         }
         public override void Attack()
@@ -60,7 +64,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
-
+            if (hp <= 0)
+            {
+                AppManager.Instance.GameManager.Remove(this);
+            }
         }
 
         public override void Move(GameTime gameTime)
@@ -75,6 +82,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyRight = false;
                     velocity.X = -velocity.X;
+                    hp--;
                 }
             }
             else
@@ -84,6 +92,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyRight = true;
                     velocity.X = -velocity.X;
+                    hp--;
                 }
             }
             if (isFlyUp)
@@ -94,6 +103,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyUp = false;
                     velocity.Y = -velocity.Y;
+                    hp--;
                 }
             }
             else
@@ -103,6 +113,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyUp = true;
                     velocity.Y = -velocity.Y;
+                    hp--;
                 }
             }
 
