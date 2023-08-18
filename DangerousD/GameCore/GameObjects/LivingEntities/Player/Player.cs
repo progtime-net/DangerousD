@@ -424,7 +424,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     if (gameObject is CoreEnemy)
                     {
                         CoreEnemy enemy = (CoreEnemy)gameObject;
-                        enemy.TakeDamage(1);
+                        enemy.TakeDamage();
                         AppManager.Instance.GameManager.Remove(this);
                     }
                     base.OnCollision(gameObject);
