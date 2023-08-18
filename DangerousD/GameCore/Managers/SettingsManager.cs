@@ -27,22 +27,26 @@ namespace DangerousD.GameCore.Managers
         public void SetMainVolume(float volume)
         {
             settingsContainer.MainVolume = MainVolume;
-            ///AppManager.Instance.SoundManager.
+            //AppManager.Instance.SoundManager.
 
         }
         public void SetMusicVolume(float volume)
         {
             settingsContainer.MusicVolume = MainVolume;
+            SaveSettings();
 
         }
         public void SetSoundEffectsVolume(float volume)
         {
             settingsContainer.SoundEffectsVolume = MainVolume;
+            SaveSettings();
 
         }
         public void SetIsFullScreen(bool isFullScreen)
         {
             settingsContainer.IsFullScreen = isFullScreen;
+            AppManager.Instance.SetIsFullScreen(isFullScreen);
+            SaveSettings();
         }
         public void LoadSettings()
         {

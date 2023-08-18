@@ -13,6 +13,7 @@ internal class DeathGUI : AbstractGui
     {
         int wigth = AppManager.Instance.inGameResolution.X;
         int height = AppManager.Instance.inGameResolution.Y;
+        float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
         var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "deathBackground" };
         Elements.Add(menuBackground);
         menuBackground.LoadTexture(AppManager.Instance.Content);
@@ -24,6 +25,17 @@ internal class DeathGUI : AbstractGui
         {
             AppManager.Instance.ChangeGameState(GameState.Menu);
         };
+        foreach (var item in Elements)
+        {
+            item.rectangle.X = (int)(scaler * item.rectangle.X);
+            item.rectangle.Y = (int)(scaler * item.rectangle.Y);
+            item.rectangle.Width = (int)(scaler * item.rectangle.Width);
+            item.rectangle.Height = (int)(scaler * item.rectangle.Height);
+            if (item is DrawableTextedUiElement)
+            {
+                (item as DrawableTextedUiElement).scale *= scaler;
+            }
+        }
     }
 
     public override void Update(GameTime gameTime)
