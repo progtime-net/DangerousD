@@ -19,18 +19,7 @@ namespace DangerousD.GameCore.Network
         public Vector2 velocity { get; set; }
         public Type type { get; set; }
 
-        /// <summary>
-        /// Нанести урон сущности
-        /// </summary>
-        /// <param name="LivingEntityId"></param>
-        /// <param name="Damage"></param>
-        public NetworkTask(int LivingEntityId, int Damage)
-        {
-            operation = NetworkTaskOperationEnum.TakeDamage;
-            objId = LivingEntityId;
-            value = Damage;
-        }
-
+        public NetworkTask() { }
         /// <summary>
         /// Проиграть звук на позиции
         /// </summary>
@@ -48,14 +37,12 @@ namespace DangerousD.GameCore.Network
         /// </summary>
         /// <param name="EntityType"></param>
         /// <param name="EntityPosition"></param>
-        /// <param name="EntityVelocity"></param>
         /// <param name="ParentId"></param>
-        public NetworkTask(Type EntityType, Vector2 EntityPosition, Vector2 EntityVelocity, int ParentId)
+        public NetworkTask(Type EntityType, Vector2 EntityPosition, int ParentId)
         {
             operation = NetworkTaskOperationEnum.CreateEntity;
             type = EntityType;
             position = EntityPosition;
-            velocity = EntityVelocity;
             objId = ParentId;
         }
 
@@ -125,6 +112,26 @@ namespace DangerousD.GameCore.Network
             this.position = position;
             this.velocity = velocity;
             this.type = type;
+        }
+        public NetworkTask AddConnectedPlayer(int connectedPlayerId, Vector2 playerPosition)
+        {
+            operation = NetworkTaskOperationEnum.AddConnectedPlayer;
+            objId = connectedPlayerId;
+            position = playerPosition;
+            return this;
+        }
+        public NetworkTask DeleteObject(int objectId)
+        {
+            operation = NetworkTaskOperationEnum.DeleteObject;
+            objId = objectId;
+            return this;
+        }
+        public NetworkTask KillPlayer(int playerId, string mosterName)
+        {
+            operation = NetworkTaskOperationEnum.KillPlayer;
+            name = mosterName;
+            objId = playerId;
+            return this;
         }
     }
 }

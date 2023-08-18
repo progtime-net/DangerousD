@@ -19,8 +19,10 @@ namespace MonogameLibrary.UI.Elements
         }
         protected HoverState hoverState = HoverState.None;
 
+        float gameTime = 0;
         public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
+            gameTime += (float)Manager.gameTime.ElapsedGameTime.TotalSeconds;
             if (rectangle.Intersects(new Rectangle(mouseState.Position, Point.Zero)))
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)

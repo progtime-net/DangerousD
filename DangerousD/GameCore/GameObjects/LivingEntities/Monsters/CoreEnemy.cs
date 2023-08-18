@@ -16,6 +16,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         protected int monster_speed;
         protected string name;
         protected bool isAlive = true;
+        protected int leftBoarder = 0;
+        protected int rightBoarder = 800;
+        protected bool isGoRight;
 
         public CoreEnemy(Vector2 position) : base(position)
         {
@@ -29,6 +32,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public abstract void Death();
 
         public abstract void Attack();
+        public abstract void Attack(GameTime gameTime);
 
         public abstract void Move(GameTime gameTime);
 

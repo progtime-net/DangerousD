@@ -14,7 +14,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     public class FrankBalls : CoreEnemy
     {
         private Rectangle collision;
+        private Vector2 position;
         private bool isFlyRight = true;
+        private bool isFlyUp = true;
         private bool isAttacking = false;
         public Rectangle Collision
         {
@@ -27,8 +29,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             name = "FrankBalls";
             Width = 40;
             Height = 40;
-            monster_speed = 2;
-            monster_health = 13;
+            monster_speed = 3;
+            velocity = new Vector2(3,-3);
             acceleration = Vector2.Zero;
             velocity = new Vector2(monster_speed, monster_speed);
         }
@@ -37,57 +39,24 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
-            collision = new Rectangle((int)_pos.X, (int)_pos.Y, 40, 40);
-
-            if (!isAttacking)
-            {
-                Move(gameTime);
-            }
-
-            if(GraphicsComponent.GetCurrentAnimation == "FrankMoveRight")
-            {
-                isFlyRight = true;
-            }
-            else if(GraphicsComponent.GetCurrentAnimation == "FrankMoveLeft")
-            {
-                isFlyRight = false;
-            }
-
-            var foundObj = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)_pos.X-1, (int)_pos.Y-1, Width+2, Height+2), typeof(StopTile));
-
-            if (foundObj != null && foundObj.Count > 0)
-            {
-
-                float av = foundObj.Sum(x => x.Rectangle.X)/foundObj.Count;
-                float avy = foundObj.Sum(x => x.Rectangle.Y)/foundObj.Count;
-
-                if (avy <= _pos.Y)
-                    velocity.Y = monster_speed;
-                else if (avy >= _pos.Y)
-                    velocity.Y = -monster_speed;
-                if (av <= _pos.X)
-                    velocity.X = -monster_speed;
-                else if (av >= _pos.X)
-                    velocity.X = monster_speed;
-                monster_health--;
-            }
-
+            Move(gameTime);
+            AppManager.Instance.DebugHUD.Set(name, velocity.ToString());
             base.Update(gameTime);
         }
-
         public override void Attack()
         {
-            isAttacking = true;
 
-            if(isFlyRight)
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
             {
-                AppManager.Instance.GameManager.players[0].Death(name);
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    AppManager.Instance.GameManager.players[0].Death(name);
+                }
             }
-            else if(!isFlyRight)
-            {
-                AppManager.Instance.GameManager.players[0].Death(name);
-            }
-
+            base.OnCollision(gameObject);
         }
 
         public override void Death()
@@ -97,7 +66,57 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            
+            var getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            var getColsVer= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); ;
+            if (isFlyRight)
+            {
+                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y , 42, 40));
+                if(getColsHor.Count > 0)
+                {
+                    isFlyRight = false;
+                    velocity.X = -velocity.X;
+                }
+            }
+            else
+            {
+                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-2, (int)Pos.Y, 42, 40));
+                if (getColsHor.Count > 0)
+                {
+                    isFlyRight = true;
+                    velocity.X = -velocity.X;
+                }
+            }
+            if (isFlyUp)
+            {
+                
+                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X , (int)Pos.Y-3, 40, 43));
+                if (getColsVer.Count > 0)
+                {
+                    isFlyUp = false;
+                    velocity.Y = -velocity.Y;
+                }
+            }
+            else
+            {
+                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 40, 43));
+                if (getColsVer.Count > 0)
+                {
+                    isFlyUp = true;
+                    velocity.Y = -velocity.Y;
+                }
+            }
+
+           
+        }
+
+        public void Target()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
         }
     }
 }

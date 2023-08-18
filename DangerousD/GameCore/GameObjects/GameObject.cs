@@ -14,11 +14,12 @@ namespace DangerousD.GameCore
     {
         protected Vector2 _pos;
         public Vector2 Pos => _pos;
+        public int id;
+        public bool isChildEntity = false;
+        public bool isIdFromHost = false;
         public int Width { get; set; }
         public int Height { get; set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
-        public Vector2 velocity;
-        public Vector2 acceleration;
         protected abstract GraphicsComponent GraphicsComponent { get; }
         public GameObject(Vector2 pos)
         {
@@ -30,6 +31,7 @@ namespace DangerousD.GameCore
             
             LoadContent();
             AppManager.Instance.GameManager.Register(this);
+            GraphicsComponent.parentId = id;
         }
 
         public virtual void OnCollision(GameObject gameObject)
@@ -46,9 +48,13 @@ namespace DangerousD.GameCore
         {
         }
 
-        public void LoadContent()
+        public void PlayAnimation()
         {
             GraphicsComponent.LoadContent();
+        }
+        public void LoadContent()
+        {
+            PlayAnimation();
         }
 
         public virtual void Update(GameTime gameTime)
@@ -62,7 +68,18 @@ namespace DangerousD.GameCore
         {
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
-           // spriteBatch.Draw(debugTexture, Rectangle, Color.White);
+            if (AppManager.Instance.InputManager.CollisionsCheat)
+            {
+                spriteBatch.Draw(debugTexture,
+                    new Rectangle(Rectangle.X - GraphicsComponent.CameraPosition.X,
+                        Rectangle.Y - GraphicsComponent.CameraPosition.Y, Rectangle.Width, Rectangle.Height),
+                    Color.White);
+            }
+
+        }
+        public GraphicsComponent GetGraphicsComponent()
+        {
+            return this.GraphicsComponent;
         }
     }
 }

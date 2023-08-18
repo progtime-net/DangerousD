@@ -10,17 +10,31 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Ghost : CoreEnemy
     {
+        private bool isAttack;
+
         public Ghost(Vector2 position) : base(position)
         {
-            monster_speed = 1;
+            isGoRight = true;
+            monster_speed = 3;
             name = "Ghost";
             Width = 48;
             Height = 62;
             GraphicsComponent.StartAnimation("GhostSpawn");
+            acceleration = Vector2.Zero;
 
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "GhostMoveRight", "GhostMoveLeft", "GhostSpawn", "GhostAttack" }, "GhostMoveRight");
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!isAttack)
+            {
+                Move(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
 
         public override void Attack()
         {
@@ -34,7 +48,44 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
+            if (isGoRight)
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "GhostMoveRight")
+                {
+                    GraphicsComponent.StartAnimation("GhostMoveRight");
+                }
+                velocity.X = monster_speed;
+            }
+            else
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "GhostMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("GhostMoveLeft");
+                }
+                velocity.X = -monster_speed;
+            }
+            if (Pos.X >= rightBoarder)
+            {
+                isGoRight = false;
+            }
+            else if (Pos.X <= leftBoarder)
+            {
+                isGoRight = true;
+            }
+            if (true)
+            {
 
+            }
+        }
+
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
+        public void Target()
+        {
+            throw new NotImplementedException();
         }
     }
 }

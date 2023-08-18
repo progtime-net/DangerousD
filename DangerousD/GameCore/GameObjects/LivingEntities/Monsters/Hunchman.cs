@@ -47,13 +47,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Move(gameTime);
             }
             base.Update(gameTime);
+
         }
 
         public override void Attack()
         {
             var animation = GraphicsComponent.GetCurrentAnimation;
             isAttaking = true;
-
             if (isGoRight)
             {
                 if (animation != "HunchmanDaggerRight")
@@ -70,8 +70,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
+        public override void Attack(GameTime gameTime)
+        {}
+
         public override void Death()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+
             if (monster_health <= 0)
             {
                 isVisible = false;
@@ -142,6 +150,5 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
             }
         }
-
     }
 }

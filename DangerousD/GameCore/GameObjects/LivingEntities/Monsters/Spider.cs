@@ -1,4 +1,6 @@
-﻿using DangerousD.GameCore.Graphics;
+﻿using DangerousD.GameCore.GameObjects.MapObjects;
+using DangerousD.GameCore.Graphics;
+using DangerousD.GameCore.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,37 +14,71 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Spider : CoreEnemy
     {
+        private bool isAttack;
+
         protected SpiderWeb web;
         protected float delay;
         protected int webLength;
         protected bool isDown;
         protected bool isDownUp;
+        protected PhysicsManager physicsManager;
+        protected Player player;
+
         public Spider(Vector2 position) : base(position)
         {
+            player = AppManager.Instance.GameManager.players[0];
             isDownUp = true;
             isDown = true;
-            web = new SpiderWeb(Pos);
+            physicsManager = AppManager.Instance.GameManager.physicsManager;
             name = "Spider";
             Width = 112;
             Height = 24;
             delay = 0;
+            web = new SpiderWeb(new Vector2(Pos.X-Width/2,Pos.Y));
             webLength = 0;
-            monster_speed = 1;
-            acceleration = Vector2.Zero;
+            monster_speed = 3;
+            acceleration = new Vector2(0, -50);
+            isGoRight = true;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "SpiderMoveRight", "SpiderMoveLeft", "SpiderOnWeb" }, "SpiderMoveRight");
 
         public override void Update(GameTime gameTime)
         {
-            if (isDownUp)
+            if (!isAttack)
             {
-                Width = 48;
-                Height = 72;
-                delay += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Move(gameTime);
+            }
+            else
+            {
+                Attack(gameTime);
+            }
+            Target();
+
+            base.Update(gameTime);
+        }
+        /// <summary>
+        /// НИЧЕГО НЕ ДЕЛАЕТ! НУЖЕН ДЛЯ ПЕРЕОПРЕДЕЛЕНИЯ 
+        /// </summary>
+        public override void Attack()
+        {
+        }
+        /// <summary>
+        /// Атака паука РАБОЧАЯ
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Attack(GameTime gameTime)
+        { //48 72
+            velocity.X = 0;
+            delay += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (isAttack)
+            {
                 if (delay > 0.5 && webLength <= 4 && isDown)
                 {
+                    Width = 48;
+                    Height = 72;
                     StartCicycleAnimation("SpiderOnWeb");
+                    acceleration = Vector2.Zero;
                     webLength++;
                     _pos.Y += 25;
                     web.Height = webLength * 25;
@@ -55,6 +91,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 else if (delay > 0.5 && webLength != 0 && !isDown)
                 {
+                    Width = 48;
+                    Height = 72;
                     StartCicycleAnimation("SpiderOnWeb");
                     webLength--;
                     _pos.Y -= 25;
@@ -66,18 +104,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                         isDown = true;
                     }
                 }
-                else
+                var entitiesInter = physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 200, 600));
+                if (entitiesInter.Count > 0)
                 {
-                    Width = 112;
-                    Height = 24;
+                    foreach (var entity in entitiesInter)
+                    {
+                        if (entity.GetType() == typeof(Player))
+                        {
+                            player.Death(name);
+                        }
+                    }
                 }
             }
-
-            base.Update(gameTime);
-        }
-        public override void Attack()
-        { //48 72
-           
+            if (webLength == 0)
+            {
+                isAttack = false;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -100,7 +142,39 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
+            Width = 112;
+            Height = 24;
+            foreach (var entity in physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 7, (int)Pos.Y, 126, 10)))
+            {
+                if (entity.GetType() == typeof(StopTile))
+                {
+                    isGoRight = !isGoRight;
+                }
+            }
+            if (isGoRight)
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "SpiderMoveRight")
+                {
+                    GraphicsComponent.StartAnimation("SpiderMoveRight");
+                }
+                velocity.X = monster_speed;
+            }
+            else
+            {
+                if (GraphicsComponent.GetCurrentAnimation != "SpiderMoveLeft")
+                {
+                    GraphicsComponent.StartAnimation("SpiderMoveLeft");
+                }
+                velocity.X = -monster_speed;
+            }
+        }
 
+        public void Target()
+        {
+            if (player.Pos.X >= Pos.X && player.Pos.X <= Pos.X+Width)
+            {
+                isAttack = true;
+            }
         }
     }
 }

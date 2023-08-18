@@ -16,7 +16,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private int attackTime = 60;
         private int moveTime = 360;
         private int currentTime = 0;
-        private bool isGoRight = true;
         int leftBorder;
         int rightBorder;
         List<SilasHands> hands = new List<SilasHands>();
@@ -24,21 +23,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public SilasMaster(Vector2 position) : base(position)
         {
             name = "SilasMaster";
-            Width = 144;
-            Height = 160;
+            Width = 48;
+            Height = 53;
             monster_health = 15;
-            monster_speed = 4;
+            monster_speed = 2;
             acceleration = Vector2.Zero;
             leftBorder = (int)position.X - 60;
             rightBorder = (int)position.X + 120;
             acceleration = Vector2.Zero;
-            hands.Add(new SilasHands(new Vector2(Pos.X+60,Pos.Y+120)));
-            hands.Add(new SilasHands(new Vector2(Pos.X + 90, Pos.Y + 120)));
-            for (int i = 0; i < 4; i++)
-            {
-                SilasBall silasball = new SilasBall(new Vector2(Pos.X + i * 40, Pos.Y + 120), new Vector2((i - 2) * 4, 6));
-                balls.Add(silasball);
-            }
+            hands.Add(new SilasHands(new Vector2(Pos.X+0,Pos.Y+53)));
+            hands.Add(new SilasHands(new Vector2(Pos.X + 24, Pos.Y + 53)));
+            
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new GraphicsComponent(new List<string>() { "SilasMove", "SilasAttack" }, "SilasMove");
         public override void Attack()
@@ -61,18 +56,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             currentTime++;
         }
+
         private void SpawnAttackBall()
         {
-            for (int i = 0; i < balls.Count; i++)
+            balls.Clear();
+            for (int i = 0; i < 4; i++)
             {
-                balls[i].SetPosition(new Vector2(Pos.X + i * 40, Pos.Y + 120));
+                SilasBall silasball = new SilasBall(new Vector2(Pos.X + i * 12, Pos.Y + 53), new Vector2((i - 2) * 2, 2));
+
+                balls.Add(silasball);
             }
-                
-            
+
+
         }
+
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
         public override void Death()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Move(GameTime gameTime)
@@ -105,6 +110,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 isGoRight = true;
             }
         }
+
+        public void Target()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

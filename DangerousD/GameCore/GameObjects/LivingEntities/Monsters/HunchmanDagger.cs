@@ -29,6 +29,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
+        public override void Attack(GameTime gameTime)
+        {
+
+        }
+
         public override void Death()
         {
 
@@ -61,6 +66,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
 
             base.OnCollision(gameObject);
+        }
+
+        public void Target()
+        {
+            throw new NotImplementedException();
         }
     }
 }

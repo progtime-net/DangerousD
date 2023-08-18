@@ -26,9 +26,13 @@ namespace MonogameLibrary.UI.Elements
         public event OnTextChange? StopChanging;
         public event OnTextChange? OnEnter;
 
-        protected HoverState hoverState = HoverState.None;
+        public HoverState hoverState = HoverState.None;
         protected IsSelected isSelected = IsSelected.NotSelected;
         public bool shouldEndOnEnter;
+        public void SelectIt()
+        {
+            isSelected = IsSelected.Selected;
+        }
 
         public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
@@ -93,7 +97,7 @@ namespace MonogameLibrary.UI.Elements
                 _spriteBatch.Draw(texture, rectangle, new Color(211, 211, 211));
             else
                 _spriteBatch.Draw(texture, rectangle, new Color(112, 128, 144));
-            DrawText(_spriteBatch);
+            DrawText(_spriteBatch); 
         }
     }
 

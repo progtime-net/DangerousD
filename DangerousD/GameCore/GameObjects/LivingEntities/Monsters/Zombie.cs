@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
-        private bool isGoRight = true;
+        private bool isAttack;
+
         float leftBorder;
         float rightBorder;
         bool isAttaking = false;
@@ -23,11 +25,29 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 2;
             name = "Zombie";
+            monster_health = 2;
             leftBorder = (int)position.X - 100;
             rightBorder = (int)position.X + 100;
             physicsManager = new PhysicsManager();
+            Random random = new Random();
+            if(random.Next(0, 2) == 0)
+            {
+                isGoRight = true;
+            }
+            else
+            {
+                isGoRight = false;
+            }
+
+            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            {
+                if (a == "ZombieRightAttack" || a == "ZombieLeftAttack")
+                {
+                    isAttaking = false;
+                }
+            };
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
@@ -38,11 +58,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Target();
                 Move(gameTime);
             }
-
+            fixBorder();
             base.Update(gameTime);
         }
 
         public override void Attack()
+        {
+            AppManager.Instance.GameManager.GetPlayer1.Death(name);
+        }
+        public void PlayAttackAnimation()
         {
             velocity.X = 0;
             isAttaking = true;
@@ -50,9 +74,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieRightAttack")
                 {
-                    GraphicsComponent.StartAnimation("ZombieAttackRight");
+                    GraphicsComponent.StartAnimation("ZombieRightAttack");
                 }
-                AppManager.Instance.GameManager.players[0].Death(name);
             }
             else if (!isGoRight)
             {
@@ -60,33 +83,31 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     GraphicsComponent.StartAnimation("ZombieLeftAttack");
                 }
-                AppManager.Instance.GameManager.players[0].Death(name);
             }
         }
 
         public override void Death()
         {
-
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+            
+            AppManager.Instance.GameManager.Remove(this);
+            
         }
 
         public override void Move(GameTime gameTime)
         {
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveRight");
-                }
+                StartCicycleAnimation("ZombieMoveRight");
                 velocity.X = monster_speed;
             }
 
             else if (!isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                }
+                StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
 
@@ -102,11 +123,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if(gameObject is Player)
+            if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
             {
-                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
                     Attack();
+                }
+            }
+            else if (gameObject is Player)
+            {
+                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
+                {
+                    NetworkTask task = new NetworkTask();
+                    AppManager.Instance.NetworkTasks.Add(task.KillPlayer(gameObject.id, name));
                 }
             }
             base.OnCollision(gameObject);
@@ -114,22 +143,55 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public void Target()
         {
-            if(physicsManager.RayCast(this, AppManager.Instance.GameManager.players[0]) == null)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 200, Height), typeof(Player)).Count > 0)
             {
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    leftBorder = Pos.X - 10;
+                    leftBorder = Pos.X - 100;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
                 else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    rightBorder = Pos.X + 10;
+                    rightBorder = Pos.X + 100;
                     leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }
         }
+        public void fixBorder()
+        {
+            if(leftBorder <= 0)
+            {
+                leftBorder = 0;
+            }
+            if(rightBorder >= 800)
+            {
+                rightBorder = 760;
+            }
+        }
+        public void SwitchToRight()
+        {
+            isGoRight = true;
+        }
+
+        public void SwitchToLeft()
+        {
+            isGoRight = false;
+        }
+        public override void Attack(GameTime gameTime)
+        {}
+
+        public void TakeDamage()
+        {
+            monster_health--;
+            GraphicsComponent.StartAnimation("ZombieRightAttack");
+            Particle particle = new Particle(Pos);
+            if (monster_health <= 0)
+            {
+                Death();
+            }
+        }
+        }
     }
-}

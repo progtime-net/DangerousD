@@ -5,8 +5,8 @@ namespace DangerousD.GameCore.GameObjects.MapObjects;
 
 public class Tile : MapObject
 {
+    public override bool IsColliderOn { get; protected set; } = false;
     public Tile(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position, size, sourceRectangle)
-    {
-        IsColliderOn = false;
+    { 
     }
 }
