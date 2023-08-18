@@ -18,8 +18,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             name = "Wolf";
             monster_speed = 4;
-            Width = 78;
-            Height = 96;
+            Width = 39;
+            Height = 48;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "WolfMoveRight", "WolfMoveLeft", "WolfJumpRight", "WolfJumpLeft" }, "WolfMoveRight");
