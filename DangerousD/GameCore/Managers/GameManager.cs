@@ -139,7 +139,7 @@ namespace DangerousD.GameCore
                     AppManager.Instance.DebugHUD.Log("sending");
                     AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
                     AppManager.Instance.NetworkTasks.Clear();
-                    _lastUpdate = gameTime.ElapsedGameTime.Milliseconds;
+                    _lastUpdate = gameTime.TotalGameTime.Milliseconds;
                 }
             }
             foreach (var item in BackgroundObjects)
