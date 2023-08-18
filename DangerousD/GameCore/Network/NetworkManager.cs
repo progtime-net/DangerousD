@@ -44,9 +44,16 @@ namespace DangerousD.GameCore.Network
             {
                 byte[] bytesCount = new byte[4];
                 clientSocket.Receive(bytesCount);
-                byte[] Data = new byte[BitConverter.ToInt32(bytesCount)];
+                int length = BitConverter.ToInt32(bytesCount);
+                byte[] Data = new byte[length];
                 StateObject so = new StateObject(clientSocket, Data);
-                IAsyncResult count = clientSocket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, AsyncReceiveCallback, so);
+                while (so.UploadedBytesCount < length)
+                {
+                    int count = socket.Receive(so.buffer, so.UploadedBytesCount, length - so.UploadedBytesCount, SocketFlags.None);
+                    so.UploadedBytesCount += count;
+                }
+                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
+                GetReceivingMessages(tasks);
             }
         }
         public void HostInit(string IpAddress)
@@ -98,9 +105,16 @@ namespace DangerousD.GameCore.Network
             {
                 byte[] bytesCount = new byte[4];
                 socket.Receive(bytesCount);
-                byte[] Data = new byte[BitConverter.ToInt32(bytesCount)];
+                int length = BitConverter.ToInt32(bytesCount);
+                byte[] Data = new byte[length];
                 StateObject so = new StateObject(socket, Data);
-                IAsyncResult count = socket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, AsyncReceiveCallback, so);
+                while (so.UploadedBytesCount < length)
+                {
+                    int count = socket.Receive(so.buffer, so.UploadedBytesCount, length-so.UploadedBytesCount, SocketFlags.None);
+                    so.UploadedBytesCount += count;
+                }
+                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
+                GetReceivingMessages(tasks);
             }
         }
 
