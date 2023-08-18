@@ -99,8 +99,6 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
-            Player p = players.Find(x => x.id == 16);
-            if (p != null) AppManager.Instance.DebugHUD.Set("NextPlayerVelocity: ", p.velocity.ToString());
             if (AppManager.Instance.NetworkTasks.Count > 0)
             {
                 AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());

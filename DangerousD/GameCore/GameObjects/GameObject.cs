@@ -15,6 +15,7 @@ namespace DangerousD.GameCore
         protected Vector2 _pos;
         public Vector2 Pos => _pos;
         public int id;
+        public bool isIdFromHost = false;
         public int Width { get; set; }
         public int Height { get; set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);

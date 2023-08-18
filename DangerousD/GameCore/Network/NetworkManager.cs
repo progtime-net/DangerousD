@@ -152,7 +152,6 @@ namespace DangerousD.GameCore.Network
                 else
                 {
                     List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
-                    //SendMsg(tasks, clientSocket);
                     GetReceivingMessages(tasks);
                 }
             }
