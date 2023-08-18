@@ -11,7 +11,6 @@ namespace DangerousD.GameCore.GUI
 {
     public class HUD : AbstractGui
     {
-        int ammout = 0;
         List<Rect> rects = new List<Rect> { };
         int wigth = AppManager.Instance.inGameResolution.X;
         int height = AppManager.Instance.inGameResolution.Y;
@@ -27,9 +26,8 @@ namespace DangerousD.GameCore.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            
             rects.Clear();
-            for (int i = 0; i < ammout; i++)
+            for (int i = 0; i < AppManager.Instance.GameManager.GetPlayer1.Bullets; i++)
             {
                 rects.Add(new Rect(Manager) { rectangle = new Rectangle(wigth / 29 + i * 13, height / 17, 5, 20), mainColor = Color.Yellow });
                 rects[i].LoadTexture(AppManager.Instance.Content);

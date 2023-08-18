@@ -13,6 +13,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Spider : CoreEnemy
     {
+        private bool isGoRight;
+        private bool isAttack;
+
         protected SpiderWeb web;
         protected float delay;
         protected int webLength;
@@ -63,7 +66,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         /// Атака паука РАБОЧАЯ
         /// </summary>
         /// <param name="gameTime"></param>
-        public override void Attack(GameTime gameTime)
+        public void Attack(GameTime gameTime)
         { //48 72
             velocity.X = 0;
             Width = 48;
@@ -156,7 +159,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public override void Target()
+        public void Target()
         {
             if (physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 300, 600), typeof(Player)) != null)
             {

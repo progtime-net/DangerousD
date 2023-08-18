@@ -13,6 +13,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
+        private bool isGoRight;
+        private bool isAttack;
+
         float leftBorder;
         float rightBorder;
         bool isAttaking = false;
@@ -24,8 +27,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Height = 40;
             monster_speed = 3;
             name = "Zombie";
-            leftBorder = (int)position.X - 50;
-            rightBorder = (int)position.X + 50;
+            monster_health = 2;
+            leftBorder = (int)position.X - 100;
+            rightBorder = (int)position.X + 100;
             physicsManager = new PhysicsManager();
             Random random = new Random();
             if(random.Next(0, 2) == 0)
@@ -74,7 +78,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
-
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+            
+            AppManager.Instance.GameManager.Remove(this);
+            
         }
 
         public override void Move(GameTime gameTime)
@@ -118,8 +128,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
+<<<<<<< HEAD
 
         public override void Target()
+=======
+        public void Target()
+>>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
             {
@@ -150,6 +164,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
+<<<<<<< HEAD
         public override void Attack(GameTime gameTime) { }
+=======
+        public  void Attack(GameTime gameTime)
+        {}
+
+        public void TakeDamage()
+        {
+            monster_health--;
+            GraphicsComponent.StartAnimation("ZombieRightAttack");
+            Particle particle = new Particle(Pos);
+            if (monster_health <= 0)
+            {
+                Death();
+            }
+        }
+>>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
     }
 }

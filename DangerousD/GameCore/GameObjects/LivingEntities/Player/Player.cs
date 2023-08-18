@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
@@ -25,28 +26,52 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int leftBorder;
         public bool isVisible = true;
         private bool isAttacked = false;
+        private bool isShooting = false;
         public GameObject objectAttack;
+        public bool isInvincible;
+        private int bullets;
+        public bool FallingThroughPlatform = false;
 
-        public Player(Vector2 position) : base(position)
+
+        
+
+        public int Bullets { get { return bullets; } }
+
+        public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
+
         {
             Width = 16;
             Height = 32;
 
-            AppManager.Instance.InputManager.ShootEvent += Shoot;
-
-            AppManager.Instance.InputManager.MovEventJump += Jump;
-            AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            if (!isNetworkPlayer)
+            {
+                AppManager.Instance.InputManager.ShootEvent += Shoot;
+                AppManager.Instance.InputManager.MovEventJump += Jump;
+                AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            }
 
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
+            bullets = 5;
 
+            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            {
+                if (a == "playerShootLeft" || a == "playerShootRight")
+                {
+                    isShooting = false;
+                }
+                if (a == "playerReload")
+                {
+                    bullets++;
+                }
+            };
         }
 
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
-            "playerJumpRight" , "playerJumpLeft"}, "playerStayLeft");
+            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload"}, "playerReload");
 
         public void Attack()
         {
@@ -54,6 +79,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             {
                 isVisible = false;
             }
+
         }
         public override void OnCollision(GameObject gameObject)
         {
@@ -68,6 +94,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
+            return; //godmode
             isAttacked = true;
             if(monsterName == "Zombie")
             {
@@ -92,13 +119,56 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Shoot()
         {
-
+            if (bullets > 0)
+            {
+                if (!isShooting)
+                {
+                    isShooting = true;
+                    bullets--;
+                    if (isRight)
+                    {
+                        if (GraphicsComponent.GetCurrentAnimation != "playerShootRight")
+                        {
+                            GraphicsComponent.StartAnimation("playerShootRight");
+                        }
+                        var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), 100, 10), typeof(Zombie));
+                        if (targets != null)
+                        {
+                            foreach (var target in targets)
+                            {
+                                Zombie targetZombie = (Zombie)target;
+                                targetZombie.TakeDamage();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (GraphicsComponent.GetCurrentAnimation != "playerShootRight")
+                        {
+                            GraphicsComponent.StartAnimation("playerShootRight");
+                        }
+                        var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), -100, 10), typeof(Zombie));
+                        if (targets != null)
+                        {
+                            foreach (var target in targets)
+                            {
+                                Zombie targetZombie = (Zombie)target;
+                                targetZombie.TakeDamage();
+                            }
+                        }
+                    }
+                }
+            }
         }
-
         public override void Update(GameTime gameTime)
         {
-            GraphicsComponent.CameraPosition = (_pos-new Vector2(200, 350)).ToPoint();
-            if (!isAttacked)
+            if (isOnGround && FallingThroughPlatform)
+            {
+                FallingThroughPlatform = false;
+                AppManager.Instance.DebugHUD.Log("not falling");
+            }
+            GraphicsComponent.SetCameraPosition(Pos);
+            if (!isAttacked || isInvincible)
             {
                 Move(gameTime);
             }
@@ -113,25 +183,41 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             velocity.X = 5 * AppManager.Instance.InputManager.VectorMovementDirection.X;
-            if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
+            if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight")
             {
-                if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
+                if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
                 {
-                    GraphicsComponent.StartAnimation("playerMoveRight");
+                    isRight = true;
+                    if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
+                    {
+                        GraphicsComponent.StartAnimation("playerMoveRight");
+                    }
                 }
-            }
-            else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
-            {
-                if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
+                else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
                 {
-                    GraphicsComponent.StartAnimation("playerMoveLeft");
+                    isRight = false;
+                    if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
+                    {
+                        GraphicsComponent.StartAnimation("playerMoveLeft");
+                    }
                 }
-            }
-            else if(AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
-            {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
+                else if (AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
                 {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
+                    if(bullets < 5)
+                    {
+                        if (GraphicsComponent.GetCurrentAnimation != "playerReload")
+                        {
+                            GraphicsComponent.StartAnimation("playerReload");
+                        }
+                    }
+                    else if (isRight)
+                    {
+                        GraphicsComponent.StartAnimation("playerRightStay");
+                    }
+                    else if (!isRight)
+                    {
+                        GraphicsComponent.StartAnimation("playerStayLeft");
+                    }
                 }
             }
             if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
@@ -142,8 +228,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void MoveDown()
         {
-            // ПОЧЕМУ
-            velocity.Y = -11;
+            FallingThroughPlatform = true;
+            isOnGround = false;
+            AppManager.Instance.DebugHUD.Log("FallingThroughPlatform");
         }
 
     }

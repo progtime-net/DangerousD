@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DangerousD.GameCore.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -16,6 +17,7 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
+        static private int scaling = 4;
         public AnimationContainer CurrentAnimation
         {
             get
@@ -128,12 +130,12 @@ namespace DangerousD.GameCore.Graphics
                 {
                     if (!currentAnimation.IsCycle)
                     {
-			            if(actionOfAnimationEnd != null)
+                        if (actionOfAnimationEnd != null)
                         {
                             actionOfAnimationEnd(currentAnimation.Id);
-			            }
+                        }
                         currentAnimation = neitralAnimation;
-                       
+
                     }
 
                     currentFrame = 0;
@@ -151,12 +153,12 @@ namespace DangerousD.GameCore.Graphics
         {
             Texture2D texture = textures[texturesNames.FindIndex(x => x == currentAnimation.TextureName)];
             float scale;
-            if (currentAnimation.Offset.X!=0)
+            if (currentAnimation.Offset.X != 0)
             {
                 destinationRectangle.X -= (int)currentAnimation.Offset.X;
-                scale=destinationRectangle.Height/sourceRectangle.Height;
+                scale = destinationRectangle.Height / sourceRectangle.Height;
                 destinationRectangle.Width = (int)(sourceRectangle.Width * scale);
-                
+
             }
             else if (currentAnimation.Offset.Y != 0)
             {
@@ -167,6 +169,8 @@ namespace DangerousD.GameCore.Graphics
 
             destinationRectangle.X -= CameraPosition.X;
             destinationRectangle.Y -= CameraPosition.Y;
+
+            destinationRectangle = Scaling(destinationRectangle);
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }
@@ -191,10 +195,18 @@ namespace DangerousD.GameCore.Graphics
             destinationRectangle.X -= CameraPosition.X;
             destinationRectangle.Y -= CameraPosition.Y;
 
+            destinationRectangle = Scaling(destinationRectangle);
             _spriteBatch.Draw(texture,
                 destinationRectangle, sourceRectangle, Color.White);
         }
-
+        private Rectangle Scaling(Rectangle destinationRectangle)
+        {
+            destinationRectangle.X *= scaling;
+            destinationRectangle.Y *= scaling;
+            destinationRectangle.Width *= scaling;
+            destinationRectangle.Height *= scaling;
+            return destinationRectangle;
+        }
         private void buildSourceRectangle()
         {
             sourceRectangle = new Rectangle();
@@ -222,6 +234,29 @@ namespace DangerousD.GameCore.Graphics
                 interval = lastInterval;
             }
         }
-        public static Point CameraPosition = new Point(0, 0);
+        public static void SetCameraPosition(Vector2 playerPosition)
+        {
+            CameraPosition = (playerPosition).ToPoint();
+            CameraPosition.X -= 300;
+            CameraPosition.Y -= 200;
+            if (CameraPosition.X < AppManager.Instance.GameManager.CameraBorder.X)
+            {
+                CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.X;
+            }
+            if (CameraPosition.X > AppManager.Instance.GameManager.CameraBorder.Y - 460)
+            {
+                CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.Y - 460;
+            }
+            if (CameraPosition.Y < AppManager.Instance.GameManager.CameraBorder.Z)
+            {
+                CameraPosition.Y = (int)AppManager.Instance.GameManager.CameraBorder.Z;
+            }
+            if (CameraPosition.Y > AppManager.Instance.GameManager.CameraBorder.W - 470)
+            {
+                CameraPosition.Y = (int)AppManager.Instance.GameManager.CameraBorder.W - 470;
+            }
+            AppManager.Instance.DebugHUD.Set("CameraPosition", $"{CameraPosition.X}, {CameraPosition.Y}");
+        }
+        public static Point CameraPosition = new Point(-700, 300);
     }
 }
