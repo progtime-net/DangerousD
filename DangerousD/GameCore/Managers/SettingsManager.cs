@@ -13,7 +13,7 @@ namespace DangerousD.GameCore.Managers
 {
     public class SettingsManager
     {
-        private SettingsContainer settingsContainer= new SettingsContainer(); 
+        private SettingsContainer settingsContainer = new SettingsContainer(); 
         public bool IsFullScreen { get => settingsContainer.IsFullScreen; } 
         public float MainVolume { get => settingsContainer.MainVolume; }
         public float MusicVolume { get => settingsContainer.MusicVolume; }
@@ -57,6 +57,7 @@ namespace DangerousD.GameCore.Managers
             }
 
             settingsContainer = JsonConvert.DeserializeObject<SettingsContainer>(File.ReadAllText("GameSettings.txt"));
+            if (settingsContainer == null) { settingsContainer = new SettingsContainer(); }
             SetIsFullScreen(settingsContainer.IsFullScreen);
             SetMainVolume(settingsContainer.MainVolume);
             SetMusicVolume(settingsContainer.MusicVolume);

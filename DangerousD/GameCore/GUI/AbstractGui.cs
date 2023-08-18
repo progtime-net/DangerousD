@@ -83,12 +83,7 @@ public abstract class AbstractGui : IDrawableObject
             }
             if (SelectedElement is TextBox)
             {
-                TextBox box = (TextBox)SelectedElement;
-                box.hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
-                if (isStartedPrint)
-                {
-                    box.SelectIt();
-                }
+                (SelectedElement as TextBox).hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
             }
         }
     }
@@ -118,11 +113,6 @@ public abstract class AbstractGui : IDrawableObject
                 Button button = SelectedElement as Button;
                 button.CallLeftBtnEvent();
             }
-            else if (SelectedElement is TextBox)
-            {
-                TextBox textBox = SelectedElement as TextBox;
-                isStartedPrint = true;
-            }
         }
         else if (isPressed && (gamePadState.Buttons.A == ButtonState.Released && 
                         gamePadState.DPad.Down == ButtonState.Released && 
@@ -136,13 +126,11 @@ public abstract class AbstractGui : IDrawableObject
         if (keyboardState.IsKeyDown(Keys.Up) && !isPressed)
         {
             isPressed = true;
-            isStartedPrint = false;
             ChangeSelectedElement(-1);
         }
         else if (keyboardState.IsKeyDown(Keys.Down) && !isPressed)
         {
             isPressed = true;
-            isStartedPrint = false;
             ChangeSelectedElement(1);
         }
         else if (keyboardState.IsKeyDown(Keys.Enter) && !isPressed)
@@ -152,11 +140,6 @@ public abstract class AbstractGui : IDrawableObject
             {
                 Button button = SelectedElement as Button;
                 button.CallLeftBtnEvent();
-            }
-            else if (SelectedElement is TextBox)
-            {
-                TextBox textBox = SelectedElement as TextBox;
-                isStartedPrint = true;
             }
         }
         else if (isPressed && (keyboardState.IsKeyUp(Keys.Enter) &&
