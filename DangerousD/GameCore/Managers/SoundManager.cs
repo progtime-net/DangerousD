@@ -40,7 +40,6 @@ namespace DangerousD.GameCore
 
         public void StartAmbientSound(string soundName) // запустить звук у которого нет позиции
         {
-            return;
             var sound = new Sound(Sounds[soundName]);
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Play();

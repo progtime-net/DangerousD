@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
-    public class SilasHands : CoreEnemy
+    public class 
+        SilasHands : CoreEnemy
     {
         public SilasHands(Vector2 position) : base(position)
         {
@@ -30,9 +31,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public  void Attack(GameTime gameTime)
+        public override void Attack(GameTime gameTime)
         {
-
+            throw new NotImplementedException();
         }
 
         public override void Death()

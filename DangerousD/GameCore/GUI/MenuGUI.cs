@@ -31,8 +31,9 @@ internal class MenuGUI : AbstractGui
 
         for (int i = 0; i < colors.Length; i++)
         {
-            Elements.Add(new Label(Manager) { rectangle = new Rectangle((wigth - 50) / 2 - 60, 200, 50, 50), text = "Dangerous", mainColor = Color.Transparent, scale = 1.35f - 0.05f * i * i / 10, fontName = "Font2", fontColor = colors[i] });
+            Elements.Add(new Label(Manager) { rectangle = new Rectangle((wigth - 50) / 2 - 60, 220, 50, 50), text = "Dangerous", mainColor = Color.Transparent, scale = 1.35f - 0.05f * i * i / 10, fontName = "Font2", fontColor = colors[i] });
             MainLetterLabels.Add(Elements.Last() as Label);
+            MainLetterPositions.Add(new Vector2(Elements.Last().rectangle.X, Elements.Last().rectangle.Y));
         }
 
         int dx = 50;
@@ -40,6 +41,7 @@ internal class MenuGUI : AbstractGui
         {
             Elements.Add(new Label(Manager) { rectangle = new Rectangle((wigth - 50) / 2 + 480 + dx - i * i, 260 - i * i / 5, 50, 50), text = "D", mainColor = Color.Transparent, scale = 2.15f - 0.05f * i * i / 5, fontName = "Font2", fontColor = colors[i] });
             BigLetterLabels.Add(Elements.Last() as Label);
+            BigLetterPositions.Add(new Vector2(Elements.Last().rectangle.X, Elements.Last().rectangle.Y));
         }
 
         var butSingle = new ButtonText(Manager) { rectangle = new Rectangle((wigth - (int)(300 * 2.4)) / 2, 350, (int)(300 * 2.4), (int)(50 * 2.4)), text = "Singleplayer", scale = 1.2f, fontName = "ButtonFont" };
@@ -77,10 +79,21 @@ internal class MenuGUI : AbstractGui
     {
         for (int i = 0; i < MainLetterLabels.Count; i++)
         {
-            MainLetterLabels[i].fontColor = Color.FromNonPremultiplied(colors[i].ToVector4() * (float)((Math.Sin(gameTime.TotalGameTime.TotalSeconds*2) + 1) / 2f + 0.5f)
+            MainLetterLabels[i].fontColor = Color.FromNonPremultiplied(colors[i].ToVector4() *
+                (float)(((Math.Sin(gameTime.TotalGameTime.TotalSeconds * 4) + 1) / 2f) * 0.3 + 0.8f)
                 );
-            BigLetterLabels[i].fontColor = Color.FromNonPremultiplied(colors[i].ToVector4() * (float)((Math.Sin(gameTime.TotalGameTime.TotalSeconds * 2) + 1) / 2f + 0.5f)
+            BigLetterLabels[i].fontColor = Color.FromNonPremultiplied(colors[i].ToVector4()
+                * (float)(((Math.Sin(gameTime.TotalGameTime.TotalSeconds * 4 - Math.PI) + 1) / 2f) * 0.3 + 0.8f)
                 );
+            MainLetterLabels[i].fontColor.A = 255;
+            BigLetterLabels[i].fontColor.A = 255;
+            MainLetterLabels[i].rectangle.Y = (int)(MainLetterPositions[i].Y +
+                 (20 * (Math.Sin(gameTime.TotalGameTime.TotalSeconds * 4) + 1) / 2f * 0.25) * (i - MainLetterLabels.Count / 2)
+                );
+            BigLetterLabels[i].rectangle.Y = (int)(BigLetterPositions[i].Y +
+                 (20 * (Math.Sin(gameTime.TotalGameTime.TotalSeconds * 4 - Math.PI) + 1) / 2f * 0.25) * (i - MainLetterLabels.Count / 2)
+                );
+             
         }
         base.Update(gameTime);
     }

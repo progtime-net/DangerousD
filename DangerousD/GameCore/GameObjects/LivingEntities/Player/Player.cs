@@ -94,9 +94,20 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
-            return;
+            return; //godmode
             isAttacked = true;
             if(monsterName == "Zombie")
+            {
+                DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if(monsterName == "Spider")
             {
                 DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>

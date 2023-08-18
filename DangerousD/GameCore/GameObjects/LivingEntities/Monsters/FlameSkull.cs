@@ -12,7 +12,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class FlameSkull : CoreEnemy
     {
-        private bool isGoRight;
         private bool isAttack;
 
         public FlameSkull(Vector2 position) : base(position)
@@ -74,6 +73,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-
+        public override void Attack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

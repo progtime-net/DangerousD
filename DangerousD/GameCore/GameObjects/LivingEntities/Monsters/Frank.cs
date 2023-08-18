@@ -12,12 +12,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     internal class Frank : CoreEnemy
     {
-        private bool isGoRight;
-
         public Frank(Vector2 position) : base(position)
         {
             isGoRight = false;
-
             Width = 112;
             Height = 160;
             leftBoarder = 50;
@@ -72,7 +69,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public void Attack(GameTime gameTime)
+        public override void Attack(GameTime gameTime)
         {
 
         }

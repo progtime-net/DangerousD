@@ -27,7 +27,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public void Attack(GameTime gameTime)
+        public override void Attack(GameTime gameTime)
         {
 
         }
