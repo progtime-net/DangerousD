@@ -147,7 +147,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             StartCicycleAnimation("playerShootRight");
                             var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                            if (targets != null)
+                            if (targets.Count() > 0)
                             {
                                 Zombie targetZombie = (Zombie)targets.First();
                                 targetZombie.TakeDamage();
