@@ -62,14 +62,17 @@
   </object>
  </objectgroup>
 <objectgroup id="5" name="Zombies" class="LivingEntities.Monsters.Spider">
- <object id="4" x="1" y="100">
+ <object id="4" x="-80" y="100">
    <point/>
   </object>
  </objectgroup>
+<<<<<<< HEAD
+=======
 <objectgroup id="2" name="Слой объектов 1" class="LivingEntities.Monsters.Slime">
   <object id="5" x="1" y="100">
    <point/>
   </object>
  </objectgroup>
+>>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
 
 </map>

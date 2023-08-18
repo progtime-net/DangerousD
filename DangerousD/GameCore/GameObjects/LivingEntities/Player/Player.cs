@@ -107,6 +107,17 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
+            else if(monsterName == "Spider")
+            {
+                DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
             isAlive = false;
         }
         public void Jump()

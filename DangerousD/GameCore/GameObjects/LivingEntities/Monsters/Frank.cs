@@ -17,7 +17,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public Frank(Vector2 position) : base(position)
         {
             isGoRight = false;
-
             Width = 112;
             Height = 160;
             leftBoarder = 50;

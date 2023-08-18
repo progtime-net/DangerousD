@@ -16,7 +16,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private int attackTime = 60;
         private int moveTime = 360;
         private int currentTime = 0;
-        private bool isGoRight = true;
         int leftBorder;
         int rightBorder;
         List<SilasHands> hands = new List<SilasHands>();

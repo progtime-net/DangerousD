@@ -17,7 +17,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         protected string name;
         protected bool isAlive = true;
         protected int leftBoarder = 0;
-        protected int rightBoarder = 700;
+        protected int rightBoarder = 800;
 
         public CoreEnemy(Vector2 position) : base(position)
         {

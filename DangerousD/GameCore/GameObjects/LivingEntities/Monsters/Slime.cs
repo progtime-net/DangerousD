@@ -12,7 +12,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Slime : CoreEnemy
     {
-        private bool isGoRight = true;
         private bool isDown = false;
         int leftBorder;
         int rightBorder;

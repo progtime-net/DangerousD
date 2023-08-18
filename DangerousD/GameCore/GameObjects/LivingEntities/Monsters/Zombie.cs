@@ -128,22 +128,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
+<<<<<<< HEAD
+
+        public override void Target()
+=======
         public void Target()
+>>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
             {
-                if (isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
+                if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     leftBorder = Pos.X - 10;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
-                else if (!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
+                else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     rightBorder = Pos.X + 10;
-                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X;
+                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }
         }
@@ -159,6 +164,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
+<<<<<<< HEAD
+        public override void Attack(GameTime gameTime) { }
+=======
         public  void Attack(GameTime gameTime)
         {}
 
@@ -172,5 +180,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Death();
             }
         }
+>>>>>>> ea55e2b4f2b2b9af627579f3c4b82bdf0171d80b
     }
 }
