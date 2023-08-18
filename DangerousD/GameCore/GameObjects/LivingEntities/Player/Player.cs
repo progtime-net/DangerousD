@@ -29,17 +29,25 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private bool isShooting = false;
         public GameObject objectAttack;
         private int bullets;
+        public bool FallingThroughPlatform = false;
+        public bool isUping = false;
 
-        public Player(Vector2 position) : base(position)
+        
+
+        public int Bullets { get { return bullets; } }
+
+        public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
+
         {
             Width = 16;
             Height = 32;
 
-            AppManager.Instance.InputManager.ShootEvent += Shoot;
-
-            AppManager.Instance.InputManager.MovEventJump += Jump;
-            AppManager.Instance.InputManager.MovEventDown += MoveDown;
-            AppManager.Instance.InputManager.ShootEvent += Shoot;
+            if (!isNetworkPlayer)
+            {
+                AppManager.Instance.InputManager.ShootEvent += Shoot;
+                AppManager.Instance.InputManager.MovEventJump += Jump;
+                AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            }
 
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
@@ -85,8 +93,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
+            if (AppManager.Instance.InputManager.InvincibilityCheat)
+            {
+                return;
+            }
             isAttacked = true;
             if(monsterName == "Zombie")
+            {
+                DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if(monsterName == "Spider")
             {
                 DeathRectangle deathRectangle = new DeathRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -113,6 +136,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             {
                 if (!isShooting)
                 {
+                    AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
                     isShooting = true;
                     bullets--;
                     if (isRight)
@@ -152,8 +176,20 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public override void Update(GameTime gameTime)
         {
+            if (AppManager.Instance.InputManager.ScopeState==ScopeState.Up)
+            {
+                isUping = true;
+            }
+            else
+            {
+                isUping = false;
+            }
+            if (isOnGround && FallingThroughPlatform)
+            {
+                FallingThroughPlatform = false;
+            }
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked)
+            if (!isAttacked || AppManager.Instance.InputManager.InvincibilityCheat)
             {
                 Move(gameTime);
             }
@@ -213,8 +249,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void MoveDown()
         {
-            // ПОЧЕМУ
-            velocity.Y = -11;
+            FallingThroughPlatform = true;
+            isOnGround = false;
         }
 
     }

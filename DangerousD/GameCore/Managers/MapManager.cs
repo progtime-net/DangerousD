@@ -9,15 +9,18 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Serialization;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
+using System.IO;
+using DangerousD.GameCore.GameObjects.Entities;
 using DangerousD.GameCore.GameObjects.LivingEntities;
 
 namespace DangerousD.GameCore.Managers
 {
     public class MapManager
     {
-        private int _columns;
+
         private int _scale;
-        
+        private int _columns;
+
         public MapManager(int scale)
         {
             _scale = scale;
@@ -78,6 +81,7 @@ namespace DangerousD.GameCore.Managers
 
         private void LoadTilesData()
         {
+            
             XmlDocument xml = new();
             xml.Load($"../../../Content/map.tsx");
             XmlNode root = xml.DocumentElement;
@@ -98,9 +102,14 @@ namespace DangerousD.GameCore.Managers
                     new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
                         float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
                 Entity inst;
-                if (type.Equals(typeof(Player)) &&  entity.Attributes["name"] is not null && entity.Attributes["name"].Value == "DEBUGUS")
+                if (type.Equals(typeof(Player)))
                 {
-                    inst = (Entity)Activator.CreateInstance(type, pos, true);
+                    inst = (Entity)Activator.CreateInstance(type, pos, false);
+                }
+                else if (type.Equals(typeof(Door)))
+                {
+                    int gid =  entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
+                    inst = (Entity)Activator.CreateInstance(type, pos, new Vector2(32, 48), new Rectangle((gid - 872)*32, 0, 32, 48));
                 }
                 else
                 {

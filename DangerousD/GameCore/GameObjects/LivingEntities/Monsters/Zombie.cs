@@ -13,7 +13,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
-        private bool isGoRight;
         private bool isAttack;
 
         float leftBorder;
@@ -78,7 +77,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+            
             AppManager.Instance.GameManager.Remove(this);
+            
         }
 
         public override void Move(GameTime gameTime)
@@ -118,26 +123,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
                     Attack();
+                    
                 }
             }
             base.OnCollision(gameObject);
         }
+
         public void Target()
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
             {
-                if (isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
+                if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     leftBorder = Pos.X - 10;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
-                else if (!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
+                else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
                     rightBorder = Pos.X + 10;
-                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X;
+                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }
         }
@@ -152,14 +159,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 rightBorder = 760;
             }
         }
-
-        public  void Attack(GameTime gameTime)
+        public override void Attack(GameTime gameTime)
         {}
 
         public void TakeDamage()
         {
             monster_health--;
             GraphicsComponent.StartAnimation("ZombieRightAttack");
+            Particle particle = new Particle(Pos);
             if (monster_health <= 0)
             {
                 Death();

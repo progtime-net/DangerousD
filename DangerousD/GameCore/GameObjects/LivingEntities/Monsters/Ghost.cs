@@ -10,7 +10,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Ghost : CoreEnemy
     {
-        private bool isGoRight;
         private bool isAttack;
 
         public Ghost(Vector2 position) : base(position)
@@ -79,7 +78,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public void Attack(GameTime gameTime)
+        public override void Attack(GameTime gameTime)
         {
 
         }

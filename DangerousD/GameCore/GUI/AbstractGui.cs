@@ -30,7 +30,6 @@ public abstract class AbstractGui : IDrawableObject
     public virtual void Initialize()
     {
         Manager.Initialize(AppManager.Instance.GraphicsDevice);
-        this.graphicsDevice = graphicsDevice;
         CreateUI();
         ActiveElements = new List<DrawableUIElement>();
         foreach (var element in Elements)
@@ -70,7 +69,7 @@ public abstract class AbstractGui : IDrawableObject
             
         }
 
-        Manager.Update();
+        Manager.Update(gameTime);
 
         if (SelectedElement is not null)
         {
