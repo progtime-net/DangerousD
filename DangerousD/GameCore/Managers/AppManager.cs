@@ -210,6 +210,7 @@ namespace DangerousD.GameCore
                 case GameState.Game:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     GameManager.mapManager.LoadLevel("map");
 =======
 
@@ -220,6 +221,9 @@ namespace DangerousD.GameCore
 =======
                     GameManager.mapManager.LoadLevel("lvl");
 >>>>>>> 211eac278c07f06a177b7be1fc84dd05cbf5c449
+=======
+                    GameManager.mapManager.LoadLevel(currentMap);
+>>>>>>> f415b47fc4b84d2c5aaa94f02641c9b075f9f3f8
                     GameManager.FindBorders();
                     break;
                 case GameState.Death:
@@ -337,7 +341,9 @@ namespace DangerousD.GameCore
         }
         public void Restart(string map)
         {
-
+            GameManager = new();
+            ChangeGameState(GameState.Menu);
+            currentMap = map;
         }
     }
 }

@@ -49,6 +49,7 @@ namespace DangerousD.GameCore
         internal void Register(GameObject gameObject)
         {
             GetAllGameObjects.Add(gameObject);
+
             if (gameObject is Entity)
             {
                 gameObject.id = currentEntityId;
@@ -191,6 +192,11 @@ namespace DangerousD.GameCore
                     CameraBorder.W = item.Pos.Y;
                 }
             }
+        }
+
+        public Player GetClosestPlayer(Vector2 position)
+        {
+            return players.OrderBy(x => (x.Pos - position).Length()).First();
         }
     }
 }

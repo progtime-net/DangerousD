@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -17,21 +18,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private bool isFlyRight = true;
         private bool isFlyUp = true;
         private bool isAttacking = false;
+        private int hp;
 
         public Rectangle Collision
         {
             get { return collision; }
         }
 
-        public FrankBalls(Vector2 position) : base(position)
+        public FrankBalls(Vector2 position) : base(new Vector2(300, 200))
         {
-            this.position = position;
+            
             name = "FrankBalls";
             Width = 40;
             Height = 40;
             monster_speed = 3;
             velocity = new Vector2(3,-3);
             acceleration = Vector2.Zero;
+            velocity = new Vector2(monster_speed, monster_speed);
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
@@ -39,7 +42,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Update(GameTime gameTime)
         {
             Move(gameTime);
-            AppManager.Instance.DebugHUD.Set(name, velocity.ToString());
+            
+            Death();
+            
             base.Update(gameTime);
         }
         public override void Attack()
@@ -60,12 +65,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
-
+            if (hp <= 0)
+            {
+                AppManager.Instance.GameManager.Remove(this);
+            }
         }
 
         public override void Move(GameTime gameTime)
         {
-            
             var getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
             var getColsVer= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); ;
             if (isFlyRight)
@@ -75,6 +82,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyRight = false;
                     velocity.X = -velocity.X;
+                    hp--;
                 }
             }
             else
@@ -84,6 +92,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyRight = true;
                     velocity.X = -velocity.X;
+                    hp--;
                 }
             }
             if (isFlyUp)
@@ -94,6 +103,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyUp = false;
                     velocity.Y = -velocity.Y;
+                    hp--;
                 }
             }
             else
@@ -103,6 +113,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isFlyUp = true;
                     velocity.Y = -velocity.Y;
+                    hp--;
                 }
             }
 
