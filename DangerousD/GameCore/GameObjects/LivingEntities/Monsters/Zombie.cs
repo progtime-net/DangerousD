@@ -14,7 +14,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
-        private bool isAttack;
 
         float leftBorder;
         float rightBorder;
@@ -32,6 +31,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             rightBorder = (int)position.X + 100;
             physicsManager = new PhysicsManager();
             Random random = new Random();
+            monster_health = 2;
             if(random.Next(0, 2) == 0)
             {
                 isGoRight = true;
@@ -58,18 +58,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Target();
                 Move(gameTime);
             }
-            fixBorder();
+            //fixBorder();
             base.Update(gameTime);
         }
 
         public override void Attack()
         {
-            AppManager.Instance.GameManager.GetPlayer1.Death(name);
+            isAttaking = true;
+            PlayAttackAnimation();
+            AppManager.Instance.GameManager.GetClosestPlayer(Pos).Death(name);
         }
         public void PlayAttackAnimation()
         {
             velocity.X = 0;
-            isAttaking = true;
             if (isGoRight)
             {
                 if (GraphicsComponent.GetCurrentAnimation != "ZombieRightAttack")
@@ -123,7 +124,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
+            if (gameObject.id == AppManager.Instance.GameManager.GetClosestPlayer(Pos).id && AppManager.Instance.GameManager.GetClosestPlayer(Pos).IsAlive)
             {
                 if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
@@ -183,7 +184,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Attack(GameTime gameTime)
         {}
 
-        public void TakeDamage()
+        public override void TakeDamage()
         {
             if (monster_health == 3)
                 AppManager.Instance.SoundManager.StartSound("z3", Pos, Pos);
@@ -192,7 +193,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             if (monster_health == 1)
                 AppManager.Instance.SoundManager.StartSound("z3", Pos, Pos);
             monster_health--;
-            GraphicsComponent.StartAnimation("ZombieRightAttack");
             Particle particle = new Particle(Pos);
             if (monster_health <= 0)
             {
