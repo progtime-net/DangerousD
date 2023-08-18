@@ -91,7 +91,7 @@ namespace DangerousD.GameCore.Network
             }
             catch { }
         }
-        public void SendMsg(List<NetworkTask> networkTask)
+        public void SendMsg(List<NetworkTask> networkTask, Socket ignoreSocket = null)
         {
             byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
@@ -101,8 +101,11 @@ namespace DangerousD.GameCore.Network
                 {
                     foreach (Socket socket in clientSockets)
                     {
-                        socket.Send(BitConverter.GetBytes(count));
-                        socket.Send(Data);
+                        if (!(socket == ignoreSocket))
+                        {
+                            socket.Send(BitConverter.GetBytes(count));
+                            socket.Send(Data);
+                        }
                     }
                 }
                 catch { }
@@ -148,7 +151,8 @@ namespace DangerousD.GameCore.Network
                 }
                 else
                 {
-                    GetReceivingMessages(JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString()));
+                    List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
+                    GetReceivingMessages(tasks);
                 }
             }
             catch { }

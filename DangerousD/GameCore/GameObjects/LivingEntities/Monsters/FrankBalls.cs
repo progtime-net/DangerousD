@@ -14,7 +14,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     {
         private Rectangle collision;
         private Vector2 position;
-        private int healthBall;
         private bool isFlyRight = true;
         private bool isAttacking = false;
 
@@ -81,13 +80,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.Y -= monster_speed;
             }
         }
-
-        public void Attack(GameTime gameTime)
+        public void Target()
         {
-
+            throw new NotImplementedException();
         }
 
-        public void Target()
+        public override void Attack(GameTime gameTime)
         {
             throw new NotImplementedException();
         }
