@@ -38,11 +38,12 @@ namespace DangerousD.GameCore.Network
         /// <param name="EntityType"></param>
         /// <param name="EntityPosition"></param>
         /// <param name="ParentId"></param>
-        public NetworkTask(Type EntityType, Vector2 EntityPosition, int ParentId)
+        public NetworkTask(Type EntityType, Vector2 EntityPosition, int ParentId, Vector2 velocity)
         {
             operation = NetworkTaskOperationEnum.CreateEntity;
             type = EntityType;
             position = EntityPosition;
+            this.velocity = velocity;
             objId = ParentId;
         }
 
