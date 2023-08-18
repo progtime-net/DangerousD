@@ -222,7 +222,12 @@ namespace DangerousD.GameCore
             {
                 switch (networkTask.operation)
                 {
-                    case NetworkTaskOperationEnum.TakeDamage:
+                    case NetworkTaskOperationEnum.DeleteObject:
+                        GameObject gameObject = GameManager.GetAllGameObjects.Find(x => x.id == networkTask.objId);
+                        if (gameObject != null)
+                        {
+                            GameManager.Remove(gameObject);
+                        }
                         break;
                     case NetworkTaskOperationEnum.SendSound:
                         SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
@@ -283,7 +288,13 @@ namespace DangerousD.GameCore
                         remoteConnectedPlayer.id = networkTask.objId;
                         remoteConnectedPlayer.GetGraphicsComponent().parentId = networkTask.objId;
                         break;
-                    default:    
+                    case NetworkTaskOperationEnum.KillPlayer:
+                        Player player1 = GameManager.players.Find(x => x.id==networkTask.objId);
+                        player1.Death(networkTask.name);
+                        NetworkTask task1 = new NetworkTask();
+                        NetworkTasks.Add(task1.DeleteObject(player1.id));
+                        break;
+                    default:
                         break;
                 }
             }
