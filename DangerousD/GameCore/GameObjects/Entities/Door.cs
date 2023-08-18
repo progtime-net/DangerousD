@@ -29,7 +29,8 @@ namespace DangerousD.GameCore.GameObjects.Entities
                 Player player = (Player)gameObject;
                 if (player.isUping)
                 {
-
+                    AppManager.Instance.GameManager.Remove(this);
+                    //тут спавн лута
                 }
             }
         }
