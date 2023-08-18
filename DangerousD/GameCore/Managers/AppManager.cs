@@ -241,6 +241,7 @@ namespace DangerousD.GameCore
                             Player.Bullet bullet = new Player.Bullet(networkTask.position);
                             bullet.id = networkTask.objId;
                             bullet.velocity = networkTask.velocity;
+                            bullet.maindirection = bullet.velocity;
                         }
                         break;
                     case NetworkTaskOperationEnum.SendPosition:

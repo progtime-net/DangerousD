@@ -33,6 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isUping = false;
         public bool isNetworkPlayer;
         private int shootLength = 160;
+        public int score = 0;
 
 
 
@@ -186,6 +187,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (!isShooting)
                     {
+                        AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
                         isShooting = true;
                         bullets--;
                         if (isRight)
@@ -195,14 +197,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 StartCicycleAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y));
                             }
                             else
                             {
                                 StartCicycleAnimation("playerShootBoomUpRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootUpRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y));
                             }
                         }
                         else if(!isRight)
@@ -212,14 +214,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 StartCicycleAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y));
                             }
                             else
                             {
                                 StartCicycleAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootUpLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y));
                             }
                         }
                     }
@@ -344,7 +346,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft" }, "playerMoveLeft");
             Vector2 direction;
-            Vector2 maindirection;
+            public Vector2 maindirection;
             public void ShootUpRight()
             {
                 direction = new Vector2(1, -1);
@@ -412,10 +414,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
-                if (maindirection != velocity)
-                {
-                    AppManager.Instance.GameManager.Remove(this);
-                }
                 base.Update(gameTime);
             }
         }
