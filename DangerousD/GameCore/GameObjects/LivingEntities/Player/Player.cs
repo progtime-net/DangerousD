@@ -89,10 +89,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public Rectangle GetShootRectangle(bool isRight)
         {
-            if (isRight) 
+            if (isRight)
                 return new Rectangle((int)Pos.X, (int)(Pos.Y) + 10, shootLength + Width, Height / 2);
             else
-                return new Rectangle((int)Pos.X-shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
+                return new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -108,9 +108,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                      (attackRect.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling,
                                      attackRect.Width * GraphicsComponent.scaling,
                                      attackRect.Height * GraphicsComponent.scaling), Color.White);
-
             }
+
+
         }
+
         public void Death(string monsterName)
         {
             if (AppManager.Instance.InputManager.InvincibilityCheat)
@@ -118,7 +120,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 return;
             }
             isAttacked = true;
-            if(monsterName == "Zombie")
+            if (monsterName == "Zombie")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -129,7 +131,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
-            else if(monsterName == "Spider")
+            else if (monsterName == "Spider")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -190,73 +192,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             {
                                 Zombie targetZombie = (Zombie)targets.First();
                                 targetZombie.TakeDamage();
+                            }
 
-                            }
-                            targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                            if (targets.Count() > 0)
-                            {
-                                SilasHands targetHand = (SilasHands)targets.First();
-                                targetHand.TakeDamage();
-                            }
-                            SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
-                        }
-                        else
-                        {
-                            StartCicycleAnimation("playerShootLeft");
-                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(Zombie));
-                            if (targets != null)
-                            {
-                                foreach (var target in targets)
-                                {
-                                    Zombie targetZombie = (Zombie)target;
-                                    targetZombie.TakeDamage();
-                                }
-                            }
-                            targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands));
-                            if (targets.Count() > 0)
-                            {
-                                SilasHands targetHand = (SilasHands)targets.First();
-                                targetHand.TakeDamage();   
-                            }
-                            SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                         }
                     }
                 }
             }
         }
-        public override void Update(GameTime gameTime)
-        {
-            if (AppManager.Instance.InputManager.ScopeState == ScopeState.Up)
-            {
-                isUping = true;
-            }
-            else
-            {
-                isUping = false;
-            }
-            if (isOnGround && FallingThroughPlatform)
-            {
-                FallingThroughPlatform = false;
-            }
-            GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked  || AppManager.Instance.InputManager.InvincibilityCheat)
-            {
-                if (!isShooting)
-                {
-                    Move(gameTime);
-                }
-                else
-                {
-                    velocity.X = 0;
-                }
-            }
-            else
-            {
-                velocity.X = 0;
-            }
 
-            base.Update(gameTime);
-        }
 
         public void Move(GameTime gameTime)
         {
@@ -282,7 +225,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 }
                 else if (AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
                 {
-                    if(bullets < 5)
+                    if (bullets < 5)
                     {
                         if (GraphicsComponent.GetCurrentAnimation != "playerReload")
                         {
@@ -309,6 +252,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             FallingThroughPlatform = true;
             isOnGround = false;
-        } 
+        }
+    }
+}
     }
 }

@@ -17,6 +17,7 @@
 #begin ButtonFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+<<<<<<< HEAD
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:ButtonFont.spritefont
@@ -56,6 +57,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:checkboxs_on.png
+=======
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:ButtonFont.spritefont
+>>>>>>> Diamond
 
 #begin deathAnimation.png
 /importer:TextureImporter
@@ -69,6 +75,7 @@
 /processorParam:TextureFormat=Color
 /build:deathAnimation.png
 
+<<<<<<< HEAD
 #begin deathBackground.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -82,6 +89,8 @@
 /build:deathBackground.jpg
 
 
+=======
+>>>>>>> Diamond
 #begin DoomTestSong.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -141,6 +150,7 @@
 /build:menuFon.jpg
 
 #begin MenuFon2.jpg
+<<<<<<< HEAD
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -165,6 +175,8 @@
 /build:menuFon3.jpg
 
 #begin MonstersAnimations.png
+=======
+>>>>>>> Diamond
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -174,9 +186,15 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+<<<<<<< HEAD
 /build:MonstersAnimations.png
 
 #begin optionsBackground.jpg
+=======
+/build:MenuFon2.jpg
+
+#begin menuFon3.jpg
+>>>>>>> Diamond
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -186,9 +204,15 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+<<<<<<< HEAD
 /build:optionsBackground.jpg
 
 #begin PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
+=======
+/build:menuFon3.jpg
+
+#begin MonstersAnimations.png
+>>>>>>> Diamond
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -198,9 +222,15 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+<<<<<<< HEAD
 /build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 
 #begin playerAnimation.png
+=======
+/build:MonstersAnimations.png
+
+#begin spriteDiamond.png
+>>>>>>> Diamond
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -210,6 +240,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+<<<<<<< HEAD
 /build:playerAnimation.png
 
 #begin slider.png
@@ -307,6 +338,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textboxbackground6-1.png
+=======
+/build:spriteDiamond.png
+>>>>>>> Diamond
 
 #begin tiles.png
 /importer:TextureImporter
