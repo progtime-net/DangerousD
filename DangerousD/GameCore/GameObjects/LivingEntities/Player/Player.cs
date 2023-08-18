@@ -197,14 +197,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 StartCicycleAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
                             }
                             else
                             {
                                 StartCicycleAnimation("playerShootBoomUpRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootUpRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
                             }
                         }
                         else if(!isRight)
@@ -214,14 +214,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 StartCicycleAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                             }
                             else
                             {
                                 StartCicycleAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootUpLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
                             }
                         }
                     }
@@ -414,6 +414,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
+                if (maindirection != velocity)
+                {
+                    AppManager.Instance.GameManager.Remove(this);
+                }
                 base.Update(gameTime);
             }
         }
