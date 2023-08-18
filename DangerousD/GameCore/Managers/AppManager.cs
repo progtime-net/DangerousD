@@ -202,7 +202,8 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("boss");
+                    GameManager.mapManager.LoadLevel("lvl");
+                    GameManager.FindBorders();
                     break;
                 case GameState.Death:
                     break;

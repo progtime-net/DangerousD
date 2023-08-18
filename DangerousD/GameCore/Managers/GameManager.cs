@@ -28,7 +28,7 @@ namespace DangerousD.GameCore
         public PhysicsManager physicsManager;
         public List<Player> players;
         public List<GameObject> otherObjects = new();
-        
+        public Vector4 CameraBorder;
         public Player GetPlayer1 { get; private set; }
         public GameManager()
         {
@@ -42,6 +42,7 @@ namespace DangerousD.GameCore
             players = new List<Player>();
             mapManager = new MapManager(1);
             physicsManager = new PhysicsManager();
+            CameraBorder = Vector4.Zero;
 
         }
 
@@ -150,6 +151,8 @@ namespace DangerousD.GameCore
                 GetPlayer1.Update(gameTime);
             }
             else
+
+
             {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
                 {
@@ -162,6 +165,28 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
 
             physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, players, gameTime);
+        }
+        public void FindBorders()
+        {
+            foreach (var item in GetAllGameObjects)
+            {
+                if (item.Pos.X<CameraBorder.X)
+                {
+                    CameraBorder.X = item.Pos.X;
+                }
+                if (item.Pos.X > CameraBorder.Y)
+                {
+                    CameraBorder.Y = item.Pos.X;
+                }
+                if (item.Pos.Y < CameraBorder.Z)
+                {
+                    CameraBorder.Z = item.Pos.X;
+                }
+                if (item.Pos.Y > CameraBorder.W)
+                {
+                    CameraBorder.W = item.Pos.X;
+                }
+            }
         }
     }
 }
