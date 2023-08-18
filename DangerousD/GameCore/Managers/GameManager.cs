@@ -149,17 +149,24 @@ namespace DangerousD.GameCore
                 }
             }
             else
-
-
             {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
                 {
                     livingEntitiesWithoutPlayers[i].PlayAnimation();
                 }
             }
+            foreach (Player player in players)
+            {
+                if (player.id != GetPlayer1.id)
+                {
+                    player.PlayAnimation();
+                }
+            }
             GetPlayer1.Update(gameTime);
-            foreach (var item in otherObjects)
-                item.Update(gameTime);
+            for(int i = 0; i < otherObjects.Count; i++)
+            {
+                otherObjects[i].Update(gameTime);
+            }
 
             physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, players, gameTime);
         }

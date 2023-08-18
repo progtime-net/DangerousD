@@ -1,4 +1,7 @@
-﻿using DangerousD.GameCore.Managers;
+﻿using DangerousD.GameCore.GameObjects;
+using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +21,7 @@ namespace DangerousD.GameCore.Graphics
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
         static private int scaling = 4;
+        public int parentId;
         public AnimationContainer CurrentAnimation
         {
             get
@@ -105,6 +109,14 @@ namespace DangerousD.GameCore.Graphics
 
         public void StartAnimation(string startedanimationId)
         {
+            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
+            {
+                LivingEntity entity = AppManager.Instance.GameManager.livingEntities.Find(x => x.id == parentId);
+                if (((entity is Player) || AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) && startedanimationId != GetCurrentAnimation)
+                {
+                    AppManager.Instance.NetworkTasks.Add(new NetworkTask(parentId, startedanimationId, Vector2.Zero));
+                }
+            }
             currentFrame = 0;
             currentAnimation = animations.Find(x => x.Id == startedanimationId);
 

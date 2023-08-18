@@ -38,6 +38,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             widthS = Width;
             web = new SpiderWeb(new Vector2(Pos.X+Width/2,Pos.Y));
             delay = 0;
+            web = new SpiderWeb(new Vector2(Pos.X-Width/2,Pos.Y));
             webLength = 0;
             monster_speed = 3;
             acceleration = new Vector2(0, -50);

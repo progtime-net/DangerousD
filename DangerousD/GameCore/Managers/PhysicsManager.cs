@@ -142,14 +142,18 @@ namespace DangerousD.GameCore.Managers
         }
         private void CheckCollisionsE_LE(List<Entity> entities, List<LivingEntity> livingEntities)
         {
-            foreach (var entity in entities)
+            for (int i = 0; i < entities.Count; i++)
             {
-                foreach (var livingEntity in livingEntities)
+
+
+                for (int j = 0; j < livingEntities.Count; j++)
                 {
-                    if (livingEntity.Rectangle.Intersects(entity.Rectangle))
+
+                
+                    if (livingEntities[j].Rectangle.Intersects(entities[i].Rectangle))
                     {
-                        livingEntity.OnCollision(entity);
-                        entity.OnCollision(livingEntity);
+                        livingEntities[j].OnCollision(entities[i]);
+                        entities[i].OnCollision(livingEntities[j]);
                     }
                 }
             }
@@ -271,6 +275,21 @@ namespace DangerousD.GameCore.Managers
                     }
                 }
             }
+            return intersected;
+        }
+        public List<GameObject> CheckRectangle(Rectangle rectangle, bool player)
+        {
+            var gameObjects = AppManager.Instance.GameManager.GetPlayer1;
+            List<GameObject> intersected = new List<GameObject>();
+            
+                
+                
+            if (gameObjects.Rectangle.Intersects(rectangle))
+            {
+                intersected.Add(gameObjects);
+            }
+                
+            
             return intersected;
         }
         public List<GameObject> CheckRectangle(Rectangle rectangle)

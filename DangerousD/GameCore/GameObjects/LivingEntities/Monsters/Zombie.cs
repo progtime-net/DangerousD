@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.GameObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -24,7 +25,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 2;
             name = "Zombie";
             monster_health = 2;
             leftBorder = (int)position.X - 100;
@@ -39,6 +40,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = false;
             }
+
+            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            {
+                if (a == "ZombieRightAttack" || a == "ZombieLeftAttack")
+                {
+                    isAttaking = false;
+                }
+            };
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
@@ -90,19 +99,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveRight");
-                }
+                StartCicycleAnimation("ZombieMoveRight");
                 velocity.X = monster_speed;
             }
 
             else if (!isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                }
+                StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
 
@@ -123,6 +126,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
                     Attack();
+                    
                 }
             }
             base.OnCollision(gameObject);
@@ -130,19 +134,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Target()
         {
-            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 200, Height), typeof(Player)).Count > 0)
             {
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    leftBorder = Pos.X - 10;
+                    leftBorder = Pos.X - 100;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
                 else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    rightBorder = Pos.X + 10;
+                    rightBorder = Pos.X + 100;
                     leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }
@@ -158,6 +162,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 rightBorder = 760;
             }
         }
+        public void SwitchToRight()
+        {
+            isGoRight = true;
+        }
+
+        public void SwitchToLeft()
+        {
+            isGoRight = false;
+        }
         public override void Attack(GameTime gameTime)
         {}
 
@@ -171,5 +184,5 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Death();
             }
         }
+        }
     }
-}

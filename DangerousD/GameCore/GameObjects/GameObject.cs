@@ -30,6 +30,7 @@ namespace DangerousD.GameCore
             
             LoadContent();
             AppManager.Instance.GameManager.Register(this);
+            GraphicsComponent.parentId = id;
         }
 
         public virtual void OnCollision(GameObject gameObject)
@@ -67,6 +68,10 @@ namespace DangerousD.GameCore
                     Color.White);
             }
 
+        }
+        public GraphicsComponent GetGraphicsComponent()
+        {
+            return this.GraphicsComponent;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace DangerousD.GameCore.GUI
         {
             int screenWidth = AppManager.Instance.inGameResolution.X;
             int screenHeight = AppManager.Instance.inGameResolution.Y;
+            float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
 
             var lobbyBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "menuFon3" };
             Elements.Add(lobbyBackground);
@@ -51,6 +52,7 @@ namespace DangerousD.GameCore.GUI
                     textureName = "textboxbackground6-1"
 
                 };
+                Elements.Add(searchBarTextBox);
                 searchBarTextBox.TextChanged += input => {
                     if (searchBarTextBox.fontColor == Color.Gray)
                     {
@@ -73,6 +75,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "font2",
                     textureName = "textboxbackground1-1"
                 };
+                Elements.Add(backButton);
                 backButton.LeftButtonPressed += () => {
                     AppManager.Instance.ChangeGameState(GameState.Menu);
                 };
@@ -86,6 +89,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "buttonFont",
                     textureName = "textboxbackground2-1"
                 };
+                Elements.Add(hostButton);
                 hostButton.LeftButtonPressed += () => {
                     AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.HostInit(AppManager.Instance.IpAddress);
@@ -101,6 +105,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "buttonFont",
                     textureName = "textboxbackground2-1"
                 };
+                Elements.Add(refreshButton);
                 refreshButton.LeftButtonPressed += () => {
                     
                 };
@@ -114,6 +119,7 @@ namespace DangerousD.GameCore.GUI
                     fontName = "buttonFont",
                     textureName = "textboxbackground2-1"
                 };
+                Elements.Add(joinSelectedButton);
                 joinSelectedButton.LeftButtonPressed += () => {
                     AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.ClientInit(AppManager.Instance.IpAddress);
@@ -127,9 +133,24 @@ namespace DangerousD.GameCore.GUI
                     fontName = "buttonFont",
                     textureName = "textboxbackground2-1"
                 };
+                Elements.Add(joinByIpButton);
                 joinByIpButton.LeftButtonPressed += () => {
                     AppManager.Instance.NetworkManager.ClientInit(searchBarTextBox.text);
                 };
+            }
+
+
+
+            foreach (var item in Elements)
+            {
+                item.rectangle.X = (int)(scaler * item.rectangle.X);
+                item.rectangle.Y = (int)(scaler * item.rectangle.Y);
+                item.rectangle.Width = (int)(scaler * item.rectangle.Width);
+                item.rectangle.Height = (int)(scaler * item.rectangle.Height);
+                if (item is DrawableTextedUiElement)
+                {
+                    (item as DrawableTextedUiElement).scale *= scaler;
+                }
             }
         }
     }

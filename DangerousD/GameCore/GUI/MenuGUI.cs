@@ -22,9 +22,10 @@ internal class MenuGUI : AbstractGui
     List<Vector2> BigLetterPositions = new List<Vector2>();
     protected override void CreateUI()
     {
-        int wigth = AppManager.Instance.inGameResolution.X;
-        int height = AppManager.Instance.inGameResolution.Y;
-        
+        int wigth = AppManager.Instance.inGameHUDHelperResolution.X;
+        int height = AppManager.Instance.inGameHUDHelperResolution.Y;
+        float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
+
         var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "menuFon" };
         Elements.Add(menuBackground);
         menuBackground.LoadTexture(AppManager.Instance.Content);
@@ -50,6 +51,7 @@ internal class MenuGUI : AbstractGui
         {
             AppManager.Instance.ChangeGameState(GameState.Game);
             AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.SinglePlayer);
+            
         };
 
         var butMulti = new ButtonText(Manager) { rectangle = new Rectangle((wigth - (int)(300 * 2.4)) / 2, 470, (int)(300 * 2.4), (int)(50 * 2.4)), text = "Multiplayer", scale = 1.2f, fontName = "ButtonFont" };
@@ -57,7 +59,7 @@ internal class MenuGUI : AbstractGui
         Elements.Add(butMulti);
         butMulti.LeftButtonPressed += () =>
         {
-            AppManager.Instance.ChangeGameState(GameState.Login); 
+            AppManager.Instance.ChangeGameState(GameState.Login);
         };
         var butOption = new ButtonText(Manager) { rectangle = new Rectangle((wigth - (int)(160 * 2.4)) / 2, 590, (int)(160 * 2.4), (int)(50 * 2.4)), text = "Option", scale = 1.2f, fontName = "ButtonFont" };
         Elements.Add(butOption);
@@ -72,6 +74,18 @@ internal class MenuGUI : AbstractGui
         {
             AppManager.Instance.Exit();
         };
+
+        foreach ( var item in Elements)
+        {
+            item.rectangle.X = (int)(scaler * item.rectangle.X);
+            item.rectangle.Y = (int)(scaler * item.rectangle.Y);
+            item.rectangle.Width = (int)(scaler * item.rectangle.Width);
+            item.rectangle.Height = (int)(scaler * item.rectangle.Height);
+            if (item is DrawableTextedUiElement)
+            {
+                (item as DrawableTextedUiElement).scale *= scaler;
+            }
+        }
     }
 
 
