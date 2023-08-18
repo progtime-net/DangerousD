@@ -13,7 +13,7 @@ namespace DangerousD.GameCore
 {
     public class SoundManager
     {
-        public Dictionary<string, SoundEffectInstance> Sounds = new Dictionary<string, SoundEffectInstance>(); // словарь со звуками где строка - название файла
+        public Dictionary<string, SoundEffect> Sounds = new Dictionary<string, SoundEffect>(); // словарь со звуками где строка - название файла
         public List<Sound> PlayingSounds = new List<Sound>(); // список со всеми звуками, которые проигрываются
         public float MaxSoundDistance = 1500; // максимальная дальность звука
 
@@ -27,7 +27,7 @@ namespace DangerousD.GameCore
                 string[] soundFiles = k.Select(x => x.Split("\\").Last().Split("/").Last().Replace(".mp3", "")).ToArray();// папка со звуками там где exe 
                 foreach (var soundFile in soundFiles)
                 {
-                    Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>("sounds//" + soundFile).CreateInstance());
+                    Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>("sounds//" + soundFile));
                 }
 
             }
@@ -40,7 +40,7 @@ namespace DangerousD.GameCore
 
         public void StartAmbientSound(string soundName) // запустить звук у которого нет позиции
         {
-            var sound = new Sound(Sounds[soundName]);
+            var sound = new Sound(Sounds[soundName].CreateInstance());
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
@@ -51,7 +51,7 @@ namespace DangerousD.GameCore
         }
         public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos) // запустить звук у которого есть позиция
         {
-            var sound = new Sound(Sounds[soundName], soundPos);
+            var sound = new Sound(Sounds[soundName].CreateInstance(), soundPos);
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Volume = (float)(MaxSoundDistance-sound.GetDistance(playerPos)) / MaxSoundDistance;
             sound.SoundEffect.Play();
@@ -71,7 +71,7 @@ namespace DangerousD.GameCore
 
         public void Update() // апдейт, тут происходит изменение громкости
         {
-
+            return;
             
             var player = AppManager.Instance.GameManager.GetPlayer1;
             if (player != null)

@@ -33,6 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isUping = false;
         public bool isNetworkPlayer;
         private int shootLength = 160;
+        public int score = 0;
 
 
 
@@ -186,6 +187,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (!isShooting)
                     {
+                        AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
                         isShooting = true;
                         bullets--;
                         if (isRight)
