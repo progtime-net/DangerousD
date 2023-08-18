@@ -415,14 +415,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
-                if (time >= 10)
-                {
-                    AppManager.Instance.GameManager.Remove(this);
-                }
-                if (gameTime.TotalGameTime.Milliseconds > 800)
-                {
-                    time += 1;
-                }
                 base.Update(gameTime);
             }
         }
