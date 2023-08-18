@@ -134,43 +134,37 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             if (bullets > 0)
             {
-                if (!isShooting)
+                if (!isAttacked)
                 {
-                    isShooting = true;
-                    bullets--;
-                    if (isRight)
+                    if (!isShooting)
                     {
-                        if (GraphicsComponent.GetCurrentAnimation != "playerShootRight")
+                        isShooting = true;
+                        bullets--;
+                        if (isRight)
                         {
-                            GraphicsComponent.StartAnimation("playerShootRight");
-                        }
-                        var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie));
-                        if (targets != null)
-                        {
-                            foreach (var target in targets)
+                            StartCicycleAnimation("playerShootRight");
+                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
+                            if (targets != null)
                             {
-                                Zombie targetZombie = (Zombie)target;
+                                Zombie targetZombie = (Zombie)targets.First();
                                 targetZombie.TakeDamage();
                             }
+                            SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
                         }
-                        SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
-                    }
-                    else
-                    {
-                        if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft")
+                        else
                         {
-                            GraphicsComponent.StartAnimation("playerShootLeft");
-                        }
-                        var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y - 10f), shootLength, 10), typeof(Zombie));
-                        if (targets != null)
-                        {
-                            foreach (var target in targets)
+                            StartCicycleAnimation("playerShootLeft");
+                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y - 10f), shootLength, 10), typeof(Zombie));
+                            if (targets != null)
                             {
-                                Zombie targetZombie = (Zombie)target;
-                                targetZombie.TakeDamage();
+                                foreach (var target in targets)
+                                {
+                                    Zombie targetZombie = (Zombie)target;
+                                    targetZombie.TakeDamage();
+                                }
                             }
+                            SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                         }
-                        SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                     }
                 }
             }
@@ -190,7 +184,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 FallingThroughPlatform = false;
             }
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked || AppManager.Instance.InputManager.InvincibilityCheat)
+            if (!isAttacked  || AppManager.Instance.InputManager.InvincibilityCheat)
             {
                 if (!isShooting)
                 {
@@ -200,6 +194,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     velocity.X = 0;
                 }
+            }
+            else
+            {
+                velocity.X = 0;
             }
 
             base.Update(gameTime);

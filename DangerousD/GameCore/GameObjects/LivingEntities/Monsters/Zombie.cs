@@ -98,19 +98,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveRight");
-                }
+                StartCicycleAnimation("ZombieMoveRight");
                 velocity.X = monster_speed;
             }
 
             else if (!isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                }
+                StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
 
@@ -166,6 +160,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 rightBorder = 760;
             }
+        }
+        public void SwitchToRight()
+        {
+            isGoRight = true;
+        }
+
+        public void SwitchToLeft()
+        {
+            isGoRight = false;
         }
         public override void Attack(GameTime gameTime)
         {}
