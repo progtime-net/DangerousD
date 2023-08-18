@@ -173,7 +173,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void Death()
         {
+            
+            Particle particle = new Particle(Pos);
+            
 
+            AppManager.Instance.GameManager.Remove(this);
         }
 
         public override void Move(GameTime gameTime)
@@ -220,7 +224,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.X = -monster_speed;
 
             }
-            var getCols= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); ;
+            var getCols= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); 
             if (isGoRight)
             {
                 getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 51, 2));
@@ -347,6 +351,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
             }
             base.OnCollision(gameObject);
+        }
+        public void TakeDamage()
+        {
+            monster_health--;
+
+            Particle particle = new Particle(Pos);
+            if (monster_health <= 0)
+            {
+                Death();
+            }
         }
     }
 }

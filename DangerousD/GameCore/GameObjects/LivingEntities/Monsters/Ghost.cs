@@ -17,11 +17,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isGoRight = true;
             monster_speed = 3;
             name = "Ghost";
-            Width = 48;
-            Height = 62;
+            Width = 24;
+            Height = 30;
             GraphicsComponent.StartAnimation("GhostSpawn");
-            acceleration = Vector2.Zero;
-
+            acceleration = new Vector2(0,1);
+            monster_health = 1;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "GhostMoveRight", "GhostMoveLeft", "GhostSpawn", "GhostAttack" }, "GhostMoveRight");
@@ -38,12 +38,31 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
-
+            velocity.X = 0;
+            isAttack = true;
+            if (GraphicsComponent.GetCurrentAnimation != "GhostAttack")
+            {
+                GraphicsComponent.StartAnimation("GhostAttack");
+            }
+            
+            AppManager.Instance.GameManager.players[0].Death(name);
         }
 
         public override void Death()
         {
 
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
+            {
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    Attack();
+
+                }
+            }
+            base.OnCollision(gameObject);
         }
 
         public override void Move(GameTime gameTime)
@@ -64,17 +83,24 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 velocity.X = -monster_speed;
             }
-            if (Pos.X >= rightBoarder)
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            if (isGoRight)
             {
-                isGoRight = false;
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width + 4, 2));
             }
-            else if (Pos.X <= leftBoarder)
+            else
             {
-                isGoRight = true;
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width + 3, 2));
             }
-            if (true)
-            {
 
+
+            foreach (var item in getCols)
+            {
+                if (item is MapObject)
+                {
+                    isGoRight = !isGoRight;
+                    break;
+                }
             }
         }
 
@@ -82,7 +108,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
 
         }
+        public void TakeDamage()
+        {
+            monster_health--;
 
+            
+            if (monster_health <= 0)
+            {
+                Death();
+            }
+        }
         public void Target()
         {
             throw new NotImplementedException();
