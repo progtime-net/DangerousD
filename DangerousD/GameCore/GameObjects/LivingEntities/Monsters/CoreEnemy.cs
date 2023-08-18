@@ -36,9 +36,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public abstract void Move(GameTime gameTime);
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage()
         {
-            monster_health -= damage;
+            monster_health--;
             if (monster_health <= 0)
             {
                 Death();
