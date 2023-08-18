@@ -39,6 +39,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = false;
             }
+
+            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            {
+                if (a == "ZombieRightAttack" || a == "ZombieLeftAttack")
+                {
+                    isAttaking = false;
+                }
+            };
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
@@ -123,7 +131,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
                     Attack();
-                    isAttack = false;
                 }
             }
             base.OnCollision(gameObject);
@@ -136,14 +143,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    leftBorder = Pos.X - 10;
+                    leftBorder = Pos.X - 100;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
                 else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    rightBorder = Pos.X + 10;
+                    rightBorder = Pos.X + 100;
                     leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }

@@ -158,8 +158,10 @@ namespace DangerousD.GameCore
                 }
             }
             GetPlayer1.Update(gameTime);
-            foreach (var item in otherObjects)
-                item.Update(gameTime);
+            for(int i = 0; i < otherObjects.Count; i++)
+            {
+                otherObjects[i].Update(gameTime);
+            }
 
             physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, players, gameTime);
         }
