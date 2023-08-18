@@ -40,6 +40,20 @@ namespace DangerousD.GameCore.GUI
                 fontName = "ButtonFont"
             });
 
+            Button backButton = new Button(Manager)
+            {
+                rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)),
+                text = "<-",
+                scale = 0.72f,
+                fontColor = Color.Black,
+                fontName = "font2",
+                textureName = "textboxbackground1-1"
+            };
+            backButton.LeftButtonPressed += () => {
+                AppManager.Instance.ChangeGameState(GameState.Menu);
+            };
+            Elements.Add(backButton);
+
             // TextBox-ы
             {
                 TextBox loginTextBox = new TextBox(Manager)
@@ -67,6 +81,7 @@ namespace DangerousD.GameCore.GUI
                         loginTextBox.fontColor = Color.Gray;
                     }
                 };
+                Elements.Add(loginTextBox);
 
                 TextBox passwordTextBox = new TextBox(Manager)
                 {
@@ -92,6 +107,7 @@ namespace DangerousD.GameCore.GUI
                         passwordTextBox.fontColor = Color.Gray;
                     }
                 };
+                Elements.Add(passwordTextBox);
             }
 
             // Кнопки
@@ -110,6 +126,7 @@ namespace DangerousD.GameCore.GUI
                         AppManager.Instance.ChangeGameState(GameState.Lobby);
                     }
                 };
+                Elements.Add(logButton);
 
                 Button regButton = new Button(Manager)
                 {
@@ -121,19 +138,9 @@ namespace DangerousD.GameCore.GUI
                     textureName = "textboxbackground2-1"
                 };
                 regButton.LeftButtonPressed += GoToRegWebServer;
+                Elements.Add(regButton);
 
-                Button backButton = new Button(Manager)
-                {
-                    rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)),
-                    text = "<-",
-                    scale = 0.72f,
-                    fontColor = Color.Black,
-                    fontName = "font2",
-                    textureName = "textboxbackground1-1"
-                };
-                backButton.LeftButtonPressed += () => {
-                    AppManager.Instance.ChangeGameState(GameState.Menu);
-                };
+
             }
         }
 

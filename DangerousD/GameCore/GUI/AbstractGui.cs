@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -17,6 +18,7 @@ public abstract class AbstractGui : IDrawableObject
     protected List<DrawableUIElement> Elements = new();
     private List<DrawableUIElement> ActiveElements;
     protected DrawableUIElement SelectedElement;
+    private bool isStartedPrint = false;
     private bool isPressed = false;
 
     public AbstractGui()
@@ -65,11 +67,31 @@ public abstract class AbstractGui : IDrawableObject
                 KeyboardState keyBoardState = Keyboard.GetState();
                 KeyBoardInput(keyBoardState);
             }
+            
         }
 
         Manager.Update();
 
-        (SelectedElement as Button).hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
+        if (SelectedElement is not null)
+        {
+            if (SelectedElement is Button)
+            {
+                (SelectedElement as Button).hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
+            }
+            if (SelectedElement is ButtonText)
+            {
+                (SelectedElement as ButtonText).hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
+            }
+            if (SelectedElement is TextBox)
+            {
+                TextBox box = (TextBox)SelectedElement;
+                box.hoverState = MonogameLibrary.UI.Enums.HoverState.Hovering;
+                if (isStartedPrint)
+                {
+                    box.SelectIt();
+                }
+            }
+        }
     }
         
     public virtual void Draw(SpriteBatch spriteBatch)
@@ -92,10 +114,15 @@ public abstract class AbstractGui : IDrawableObject
         else if (gamePadState.Buttons.A == ButtonState.Pressed && !isPressed)
         {
             isPressed = true;
-            if (SelectedElement is ButtonText)
+            if (SelectedElement is Button)
             {
-                Button button = SelectedElement as ButtonText;
+                Button button = SelectedElement as Button;
                 button.CallLeftBtnEvent();
+            }
+            else if (SelectedElement is TextBox)
+            {
+                TextBox textBox = SelectedElement as TextBox;
+                isStartedPrint = true;
             }
         }
         else if (isPressed && (gamePadState.Buttons.A == ButtonState.Released && 
@@ -110,11 +137,13 @@ public abstract class AbstractGui : IDrawableObject
         if (keyboardState.IsKeyDown(Keys.Up) && !isPressed)
         {
             isPressed = true;
+            isStartedPrint = false;
             ChangeSelectedElement(-1);
         }
         else if (keyboardState.IsKeyDown(Keys.Down) && !isPressed)
         {
             isPressed = true;
+            isStartedPrint = false;
             ChangeSelectedElement(1);
         }
         else if (keyboardState.IsKeyDown(Keys.Enter) && !isPressed)
@@ -124,6 +153,11 @@ public abstract class AbstractGui : IDrawableObject
             {
                 Button button = SelectedElement as Button;
                 button.CallLeftBtnEvent();
+            }
+            else if (SelectedElement is TextBox)
+            {
+                TextBox textBox = SelectedElement as TextBox;
+                isStartedPrint = true;
             }
         }
         else if (isPressed && (keyboardState.IsKeyUp(Keys.Enter) &&
@@ -167,6 +201,10 @@ public abstract class AbstractGui : IDrawableObject
             return true;
         }
         else if (element is ButtonText)
+        {
+            return true;
+        }
+        else if (element is TextBox)
         {
             return true;
         }
