@@ -1,0 +1,24 @@
+{
+  "id": "playerShootBoomUpRight",
+  "textureName": "playerAnimation",
+  "startSpriteRectangle": {
+    "X": 267,
+    "Y": 1,
+    "Width": 24,
+    "Height": 32
+  },
+  "frameSecond": [
+    {
+      "Item1": 0,
+      "Item2": 3
+    },
+    {
+      "Item1": 1,
+      "Item2": 20
+    }
+  ],
+  "textureFrameInterval": 1,
+  "framesCount": 2,
+  "isCycle": false,
+  "offset": "0, 0"
+}

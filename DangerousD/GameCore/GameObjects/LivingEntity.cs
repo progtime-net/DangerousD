@@ -10,6 +10,8 @@ public abstract class LivingEntity : Entity
     public Vector2 velocity;
     public Vector2 acceleration;
 
+    public Vector2 Acceleration { get; private set; }
+
     public LivingEntity(Vector2 position) : base(position)
     {
         acceleration = new Vector2(0, 30);
