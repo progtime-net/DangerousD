@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -17,21 +18,21 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private bool isFlyRight = true;
         private bool isFlyUp = true;
         private bool isAttacking = false;
-
         public Rectangle Collision
         {
             get { return collision; }
         }
 
-        public FrankBalls(Vector2 position) : base(position)
+        public FrankBalls(Vector2 position) : base(new Vector2(300, 200))
         {
-            this.position = position;
+            
             name = "FrankBalls";
             Width = 40;
             Height = 40;
             monster_speed = 3;
             velocity = new Vector2(3,-3);
             acceleration = Vector2.Zero;
+            velocity = new Vector2(monster_speed, monster_speed);
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "BallMoveRight" }, "BallMoveRight");
@@ -65,7 +66,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            
             var getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
             var getColsVer= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); ;
             if (isFlyRight)

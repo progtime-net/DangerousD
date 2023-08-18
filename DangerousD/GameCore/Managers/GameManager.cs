@@ -49,6 +49,7 @@ namespace DangerousD.GameCore
         internal void Register(GameObject gameObject)
         {
             GetAllGameObjects.Add(gameObject);
+
             if (gameObject is Entity)
             {
                 gameObject.id = currentEntityId;

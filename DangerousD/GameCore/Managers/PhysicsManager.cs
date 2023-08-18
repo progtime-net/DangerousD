@@ -135,7 +135,6 @@ namespace DangerousD.GameCore.Managers
                     player.isOnGround = true;
                     player.velocity.Y = 0;
                 }
-
                 player.SetPosition(new Vector2(newRect.X, newRect.Y));
             }
 

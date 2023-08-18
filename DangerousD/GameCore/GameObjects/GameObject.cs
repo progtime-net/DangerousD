@@ -38,6 +38,12 @@ namespace DangerousD.GameCore
         {
         }
 
+        protected int obsticles = 0;
+        public virtual void OnCollisionWithObsticle(GameObject gameObject)
+        {
+            obsticles++;//SD
+        }
+
         public virtual void Initialize()
         {
         }
@@ -53,6 +59,7 @@ namespace DangerousD.GameCore
 
         public virtual void Update(GameTime gameTime)
         {
+            obsticles = 0;
             GraphicsComponent.Update();
         }
 

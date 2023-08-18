@@ -9,129 +9,126 @@ using System.Linq;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.Managers;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Hunchman : CoreEnemy
     {
-        GameManager gameManager;
-        bool isAttacking;
+        private bool isGoRight = false;
+        private bool isAttaking = false;
+        private bool isTarget = false;
+        private bool isVisible = true;
+        float leftBoarder;
+        float rightBoarder;
+
+        PhysicsManager physicsManager;
         public Hunchman(Vector2 position) : base(position)
         {
-            Width = 48;
-            Height = 48;
-            monster_speed = -2;
-            monster_health = 1;
-            name = "HunchMan";
-            velocity = new Vector2(monster_speed, 0);
-            gameManager = AppManager.Instance.GameManager;
-            isAttacking = false;
-            isAlive = true;
+            Width = 20;
+            Height = 30;
+            leftBoarder = (int)position.X - 100;
+            rightBoarder = (int)position.X + 100;
+            name = "Hunchman";
+            GraphicsComponent.StartAnimation("HunchmanMoveLeft");
+            monster_speed = 3;
+            physicsManager = new PhysicsManager();
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> 
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string>
             { "HunchmanMoveLeft", "HunchmanMoveRight", "HunchmanAttackLeft", "HunchmanAttackRight" }, "HunchmanMoveLeft");
+
 
         public override void Update(GameTime gameTime)
         {
-            // P.S. Всё в классе можешь смело удалять и переписывать с нуля.
-            gameManager = AppManager.Instance.GameManager;
-           
-            if (!isAttacking)
+            if (!isAttaking)
             {
-                Attack();
+                Target();
                 Move(gameTime);
             }
-            else
-            {
-                velocity.X = 0;
-            }
-            Death();
+            base.Update(gameTime);
 
         }
 
         public override void Attack()
         {
-            GameObject gameObject;
-            foreach (var player in gameManager.players)
+            var animation = GraphicsComponent.GetCurrentAnimation;
+            isAttaking = true;
+            if (isGoRight)
             {
-                if (player.Pos.Y + player.Height >= Pos.Y && player.Pos.Y <= Pos.Y + Height)
+                if (animation != "HunchmanAttackRight")
                 {
-                    gameObject = gameManager.physicsManager.RayCast(this, player);
-                    if (gameObject is null)
-                    {
-                        isAttacking = true;
-                        GraphicsComponent.StopAnimation();
-                        if (velocity.X > 0)
-                        {
-                            if (GraphicsComponent.GetCurrentAnimation != "HunchmanAttackRight")
-                            {
-                                GraphicsComponent.StartAnimation("HunchmanAttackRight");
-                            }
-                        }
-                        else if (velocity.X < 0)
-                        {
-                            if (GraphicsComponent.GetCurrentAnimation != "HunchmanAttackLeft")
-                            {
-                                GraphicsComponent.StartAnimation("HunchmanAttackLeft");
-                            }
-                        }
-                    }
+                    GraphicsComponent.StartAnimation("HunchmanAttackRight");
                 }
+                HunchmanDagger hunchmanDagger = new HunchmanDagger(Pos,isGoRight);
+            }
+            else
+            {
+                if (animation != "HunchmanAttackLeft")
+                {
+                    GraphicsComponent.StartAnimation("HunchmanAttackLeft");
+                }
+                HunchmanDagger hunchmanDagger = new HunchmanDagger(Pos, isGoRight);
             }
         }
 
         public override void Attack(GameTime gameTime)
-        {
-
-        }
+        {}
 
         public override void Death()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+
             if (monster_health <= 0)
             {
-
+                isVisible = false;
             }
         }
 
         public override void Move(GameTime gameTime)
         {
-            if (gameManager.physicsManager.RayCast(this, new Vector2(Pos.X + Width + 10, Pos.Y + Height)) is not null)
+            velocity.X = 0;
+            var animation = GraphicsComponent.GetCurrentAnimation;
+            if (isGoRight)
             {
-                monster_speed *= -1;
-            }
-            
-            velocity.X = monster_speed;
-
-            if (velocity.X > 0)
-            {
-                if (GraphicsComponent.GetCurrentAnimation != "HunchmanMoveRight")
+                if (animation != "HunchmanMoveRight")
                 {
                     GraphicsComponent.StartAnimation("HunchmanMoveRight");
                 }
-
+                velocity.X = monster_speed;
             }
-
-            else if (velocity.X < 0)
+            else
             {
-                if (GraphicsComponent.GetCurrentAnimation != "HunchmanMoveLeft")
+                if (animation != "HunchmanMoveLeft")
                 {
                     GraphicsComponent.StartAnimation("HunchmanMoveLeft");
                 }
+                velocity.X = -monster_speed;
             }
 
+            if (_pos.X >= rightBoarder)
+            {
+                isGoRight = false;
+            }
+            else if (_pos.X <= leftBoarder)
+            {
+                isGoRight = true;
+            }
         }
 
-        public override void OnCollision(GameObject gameObject)
-        { 
-            monster_speed *= -1;
-            _pos.X += 5 * monster_speed;
-            Debug.WriteLine("Collision");
-        }
+        
 
         public void Target()
         {
-            throw new NotImplementedException();
+            var player = AppManager.Instance.GameManager.players[0];
+
+            if (physicsManager.RayCast(this, player) == null)
+            {
+                Attack();
+            }
         }
     }
 }
