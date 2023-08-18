@@ -25,14 +25,15 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
 
         private void PlayDeath(string deathName)
         {
-            if (GraphicsComponent.GetCurrentAnimation != "DeathFromZombie")
-            {
-                GraphicsComponent.StartAnimation("DeathFromZombie");
-            }
-            if (GraphicsComponent.GetCurrentAnimation != "DeathFromSilasHand")
-            {
-                GraphicsComponent.StartAnimation("DeathFromSilasHand");
-            }
+            //if (GraphicsComponent.GetCurrentAnimation != "DeathFromZombie")
+            //{
+            //    GraphicsComponent.StartAnimation("DeathFromZombie");
+            //}
+            //if (GraphicsComponent.GetCurrentAnimation != "DeathFromSilasHand")
+            //{
+            //    GraphicsComponent.StartAnimation("DeathFromSilasHand");
+            //}
+            GraphicsComponent.StartAnimation(deathName);
         }
 
     }

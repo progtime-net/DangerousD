@@ -41,7 +41,7 @@ namespace DangerousD.GameCore.Managers
             {
                 InstantiateTiles(layer, tileSize);
             }
-
+            
             foreach (XmlNode layer in xml.DocumentElement.SelectNodes("objectgroup"))
             {
                 InstantiateEntities(layer);
@@ -91,16 +91,20 @@ namespace DangerousD.GameCore.Managers
 
         private void InstantiateEntities(XmlNode group)
         {
-            string entityGroup = group.Attributes["class"] is not null ? group.Attributes["class"].Value : "";
+            string entityGroup = group.Attributes["class"] is not null ? "." + group.Attributes["class"].Value : "";
+            Debug.Write(entityGroup);
             float offsetX = group.Attributes["offsetx"] is not null ? float.Parse(group.Attributes["offsetx"].Value) : 0;
             float offsetY = group.Attributes["offsety"] is not null ? float.Parse(group.Attributes["offsety"].Value) : 0;
+            
             foreach (XmlNode entity in group.ChildNodes)
             {
                 string entityType = entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "";
-                Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{entityGroup}{entityType}");
+                Type type = Type.GetType($"DangerousD.GameCore.GameObjects{entityGroup}{entityType}");
+                
                 Vector2 pos =
                     new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
                         float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
+                
                 Entity inst;
                 if (type.Equals(typeof(Player)))
                 {
@@ -110,6 +114,30 @@ namespace DangerousD.GameCore.Managers
                 {
                     int gid =  entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
                     inst = (Entity)Activator.CreateInstance(type, pos, new Vector2(32, 48), new Rectangle((gid - 872)*32, 0, 32, 48));
+                }
+                else if (type.Equals(typeof(TeleportingDoor)))
+                {
+                    int gid =  entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
+                    XmlNode node = entity.SelectSingleNode("properties/property[@name = 'nextLevel']");
+
+                    bool resetLevel = node is not null ? bool.Parse(node.Attributes["value"].Value) : false;
+                    if (resetLevel)
+                    {
+                        inst = (Entity)Activator.CreateInstance(type, pos, new Vector2(32, 48), new Rectangle((gid - 872) * 32, 0, 32, 48),
+                            new Vector2(0,0),
+                            () => { });
+                    }
+                    else
+                    {
+                        node = entity.SelectSingleNode("properties/property[@name = 'destination']");
+                        string target = node is not null ? node.Attributes["value"].Value : "0";
+                        XmlNode dest = group.SelectSingleNode($"object[@id = '{target}']");
+                    
+                        inst = (Entity)Activator.CreateInstance(type, pos, new Vector2(32, 48), new Rectangle((gid - 872) * 32, 0, 32, 48),
+                            new Vector2(float.Parse(dest.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
+                                float.Parse(dest.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale,
+                            () => { });
+                    }
                 }
                 else
                 {

@@ -23,7 +23,7 @@ namespace DangerousD.GameCore
     public class AppManager : Game
     {
         public static AppManager Instance { get; private set; }
-        public string IpAddress { get; private set; } = "127.0.0.1";
+        public string IpAddress { get; private set; } = "0.0.0.0";
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public GameState gameState { get; private set; }
@@ -208,7 +208,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("lvl");
+                    GameManager.mapManager.LoadLevel(currentMap);
                     GameManager.FindBorders();
                     break;
                 case GameState.Death:
@@ -220,6 +220,7 @@ namespace DangerousD.GameCore
 
         public void NetworkSync(List<NetworkTask> networkTasks)
         {
+            DebugHUD.Log("networksync");
             foreach (NetworkTask networkTask in networkTasks)
             {
                 switch (networkTask.operation)
@@ -235,6 +236,12 @@ namespace DangerousD.GameCore
                         SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
                         break;
                     case NetworkTaskOperationEnum.CreateEntity:
+                        if (networkTask.type == typeof(Player.Bullet))
+                        {
+                            Player.Bullet bullet = new Player.Bullet(networkTask.position);
+                            bullet.id = networkTask.objId;
+                            bullet.velocity = networkTask.velocity;
+                        }
                         break;
                     case NetworkTaskOperationEnum.SendPosition:
                         if (networkTask.objId != GameManager.GetPlayer1.id )
@@ -326,7 +333,9 @@ namespace DangerousD.GameCore
         }
         public void Restart(string map)
         {
-
+            GameManager = new();
+            ChangeGameState(GameState.Menu);
+            currentMap = map;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             rightBorder = (int)position.X + 100;
             physicsManager = new PhysicsManager();
             Random random = new Random();
+            monster_health = 2;
             if(random.Next(0, 2) == 0)
             {
                 isGoRight = true;
@@ -183,10 +184,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Attack(GameTime gameTime)
         {}
 
-        public void TakeDamage()
+        public override void TakeDamage()
         {
             monster_health--;
-            GraphicsComponent.StartAnimation("ZombieRightAttack");
             Particle particle = new Particle(Pos);
             if (monster_health <= 0)
             {
