@@ -46,7 +46,7 @@ namespace DangerousD.GameCore.GUI
                 rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)), 
                 fontColor = Color.Black,
                 fontName = "font2",
-                textureName = "textboxbackground1-1"
+                text = "<-"
             };
             backButton.LeftButtonPressed += () => {
                 AppManager.Instance.ChangeGameState(GameState.Menu);
@@ -67,7 +67,6 @@ namespace DangerousD.GameCore.GUI
                     textureName = "textboxbackground6-1"
 
                 };
-                Elements.Add(loginTextBox);
                 loginTextBox.LoadTexture(AppManager.Instance.Content);
                 loginTextBox.TextChanged += input => {
                     if (loginTextBox.fontColor == Color.Gray)
@@ -94,7 +93,6 @@ namespace DangerousD.GameCore.GUI
                     textAligment = TextAligment.Left,
                     textureName = "textboxbackground6-1"
                 };
-                Elements.Add(passwordTextBox);
                 passwordTextBox.LoadTexture(AppManager.Instance.Content);
                 passwordTextBox.TextChanged += input => {
                     if (passwordTextBox.fontColor == Color.Gray)
@@ -122,7 +120,6 @@ namespace DangerousD.GameCore.GUI
                     fontName = "ButtonFont",
                     textureName = "textboxbackground2-1"
                 };
-                Elements.Add(logButton);
                 logButton.LeftButtonPressed += () => {
                     if (CheckUser())
                     {
@@ -140,7 +137,6 @@ namespace DangerousD.GameCore.GUI
                     fontName = "ButtonFont",
                     textureName = "textboxbackground2-1"
                 };
-                Elements.Add(regButton);
                 regButton.LeftButtonPressed += GoToRegWebServer;
                 Elements.Add(regButton);
 
