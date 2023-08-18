@@ -192,5 +192,10 @@ namespace DangerousD.GameCore
                 }
             }
         }
+
+        public Player GetClosestPlayer(Vector2 position)
+        {
+            return players.OrderBy(x => (x.Pos - position).Length()).First();
+        }
     }
 }
