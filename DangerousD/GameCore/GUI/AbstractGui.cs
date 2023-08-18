@@ -19,8 +19,7 @@ public abstract class AbstractGui : IDrawableObject
     private GraphicsDevice graphicsDevice;
     public virtual void Initialize()
     {
-        Manager.Initialize(AppManager.Instance.GraphicsDevice);
-        this.graphicsDevice = graphicsDevice;
+        Manager.Initialize(AppManager.Instance.GraphicsDevice); 
         CreateUI();
     }
 
@@ -31,7 +30,7 @@ public abstract class AbstractGui : IDrawableObject
 
     public virtual void Update(GameTime gameTime)
     {
-        Manager.Update();
+        Manager.Update(gameTime);
     }
         
     public virtual void Draw(SpriteBatch spriteBatch)
