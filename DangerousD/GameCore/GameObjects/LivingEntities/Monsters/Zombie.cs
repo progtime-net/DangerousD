@@ -39,6 +39,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = false;
             }
+
+            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            {
+                if (a == "ZombieRightAttack" || a == "ZombieLeftAttack")
+                {
+                    isAttaking = false;
+                }
+            };
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "ZombieMoveRight", "ZombieMoveLeft", "ZombieRightAttack", "ZombieLeftAttack" }, "ZombieMoveLeft");
 
@@ -90,19 +98,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveRight")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveRight");
-                }
+                StartCicycleAnimation("ZombieMoveRight");
                 velocity.X = monster_speed;
             }
 
             else if (!isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "ZombieMoveLeft")
-                {
-                    GraphicsComponent.StartAnimation("ZombieMoveLeft");
-                }
+                StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
 
@@ -136,14 +138,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    leftBorder = Pos.X - 10;
+                    leftBorder = Pos.X - 100;
                     rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
                 }
 
                 else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
                     isTarget = true;
-                    rightBorder = Pos.X + 10;
+                    rightBorder = Pos.X + 100;
                     leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
                 }
             }
@@ -158,6 +160,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 rightBorder = 760;
             }
+        }
+        public void SwitchToRight()
+        {
+            isGoRight = true;
+        }
+
+        public void SwitchToLeft()
+        {
+            isGoRight = false;
         }
         public override void Attack(GameTime gameTime)
         {}

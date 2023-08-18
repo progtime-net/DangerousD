@@ -15,8 +15,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         private bool isGoRight = true;
         private bool isDown = true;
-     
-      
 
         int leftBorder;
         int rightBorder;
