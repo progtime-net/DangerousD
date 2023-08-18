@@ -21,7 +21,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
             Height = (int)size.Y;
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new("doors");
+        protected override GraphicsComponent GraphicsComponent { get; } = new("door");
 
         public override void Update(GameTime gameTime)
         {

@@ -612,7 +612,7 @@
   <object id="46" type="LivingEntities.Monsters.Zombie" x="559" y="107">
    <point/>
   </object>
-  <object id="47" type="LivingEntities.Monsters.Slime" x="131" y="56">
+  <object id="47" type="LivingEntities.Monsters.Slime" x="131" y="41">
    <point/>
   </object>
   <object id="48" type="LivingEntities.Monsters.Zombie" x="90" y="113">
