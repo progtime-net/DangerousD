@@ -16,7 +16,7 @@ using DangerousD.GameCore.GameObjects;
 namespace DangerousD.GameCore
 {
     public enum MultiPlayerStatus { SinglePlayer, Host, Client }
-    public enum GameState { Menu, Options, Lobby, Game, Login, Death, HUD,
+    public enum GameState { Menu, Options, Lobby, Game, Login, Death,
         GameOver
     }
     public class AppManager : Game
@@ -35,8 +35,9 @@ namespace DangerousD.GameCore
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
         IDrawableObject DeathGUI;
-        IDrawableObject HUD;
+        //IDrawableObject HUD;
         public DebugHUD DebugHUD;
+        public HUD HUD;
         public List<NetworkTask> NetworkTasks = new List<NetworkTask>();
 
         public GameManager GameManager { get; private set; } = new();
@@ -130,9 +131,6 @@ namespace DangerousD.GameCore
                 case GameState.Death:
                     DeathGUI.Update(gameTime);
                     break;
-                case GameState.HUD:
-                    HUD.Update(gameTime);
-                    break;
                 case GameState.Game:
                     GameManager.Update(gameTime);
                     break;
@@ -140,6 +138,7 @@ namespace DangerousD.GameCore
                     break;
             }
             DebugHUD.Update(gameTime);
+            HUD.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -166,9 +165,6 @@ namespace DangerousD.GameCore
                 case GameState.Death:
                     DeathGUI.Draw(_spriteBatch);
                     break;
-                case GameState.HUD:
-                    HUD.Draw(_spriteBatch);
-                    break;
                 case GameState.Game:
                     _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
                     GameManager.Draw(_spriteBatch);
@@ -184,6 +180,7 @@ namespace DangerousD.GameCore
 
 
             DebugHUD.Draw(_spriteBatch);
+            HUD.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
 

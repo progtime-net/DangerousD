@@ -17,7 +17,7 @@ namespace DangerousD.GameCore.GUI
             int height = AppManager.Instance.inGameHUDHelperResolution.Y;
             float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
             var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "optionsBackground" };
-            Elements.Add(menuBackground);
+            //Elements.Add(menuBackground);
             menuBackground.LoadTexture(AppManager.Instance.Content);
 
             var slider = new Slider(Manager)
@@ -28,7 +28,7 @@ namespace DangerousD.GameCore.GUI
                 indentation = 5,
                 textureName = "sliderBackground"
             };
-            Elements.Add(slider);
+            //Elements.Add(slider);
             //AppManager.Instance.SettingsManager.SetMainVolume(slider.GetSliderValue);
 
             var cB = new CheckBox(Manager);
@@ -83,6 +83,14 @@ namespace DangerousD.GameCore.GUI
                 {
                     (item as DrawableTextedUiElement).scale *= scaler;
                 }
+            }
+            slider.rectangle.X = (int)(scaler * slider.rectangle.X);
+            slider.rectangle.Y = (int)(scaler * slider.rectangle.Y);
+            //slider.rectangle.Width = (int)(scaler * slider.rectangle.Width);
+            //slider.rectangle.Height = (int)(scaler * slider.rectangle.Height);
+            if (slider is DrawableTextedUiElement)
+            {
+                (slider as DrawableTextedUiElement).scale *= scaler;
             }
         }
         public override void Update(GameTime gameTime)
