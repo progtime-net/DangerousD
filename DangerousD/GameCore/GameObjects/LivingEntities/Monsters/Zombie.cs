@@ -78,7 +78,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+            
             AppManager.Instance.GameManager.Remove(this);
+            
         }
 
         public override void Move(GameTime gameTime)
@@ -161,6 +167,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             monster_health--;
             GraphicsComponent.StartAnimation("ZombieRightAttack");
+            Particle particle = new Particle(Pos);
             if (monster_health <= 0)
             {
                 Death();
