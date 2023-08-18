@@ -15,7 +15,7 @@ namespace DangerousD.GameCore.GUI
         {
             int wigth = AppManager.Instance.inGameHUDHelperResolution.X;
             int height = AppManager.Instance.inGameHUDHelperResolution.Y;
-            float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
+            float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
             var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "optionsBackground" };
             //Elements.Add(menuBackground);
             menuBackground.LoadTexture(AppManager.Instance.Content);
