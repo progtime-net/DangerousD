@@ -49,7 +49,7 @@ namespace DangerousD.GameCore.Network
                 StateObject so = new StateObject(clientSocket, Data);
                 while (so.UploadedBytesCount < length)
                 {
-                    int count = socket.Receive(so.buffer, so.UploadedBytesCount, length - so.UploadedBytesCount, SocketFlags.None);
+                    int count = clientSocket.Receive(so.buffer, so.UploadedBytesCount, length - so.UploadedBytesCount, SocketFlags.None);
                     so.UploadedBytesCount += count;
                 }
                 List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
