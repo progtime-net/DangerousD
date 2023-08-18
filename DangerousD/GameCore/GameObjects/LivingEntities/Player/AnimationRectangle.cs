@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework;
 
 namespace DangerousD.GameCore.GameObjects.PlayerDeath
 {
-    public class DeathRectangle : GameObject
+    public class AnimationRectangle : GameObject
     {
-        public DeathRectangle(Vector2 pos, string DeathType) : base(pos)
+        public AnimationRectangle(Vector2 pos, string DeathType) : base(pos)
         {
             Height = 48;
             Width = 48;

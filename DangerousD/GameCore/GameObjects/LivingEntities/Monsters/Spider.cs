@@ -30,11 +30,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isDownUp = true;
             isDown = true;
             physicsManager = AppManager.Instance.GameManager.physicsManager;
-            web = new SpiderWeb(Pos);
             name = "Spider";
             Width = 112;
             Height = 24;
             delay = 0;
+            web = new SpiderWeb(new Vector2(Pos.X-Width/2,Pos.Y));
             webLength = 0;
             monster_speed = 3;
             acceleration = new Vector2(0, -50);
