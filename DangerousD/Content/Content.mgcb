@@ -20,6 +20,9 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:ButtonFont.spritefont
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:ButtonFont.spritefont
 
 #begin checkboxs_off.png
 /importer:TextureImporter
@@ -56,9 +59,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:checkboxs_on.png
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:ButtonFont.spritefont
 
 #begin deathAnimation.png
 /importer:TextureImporter

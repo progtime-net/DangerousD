@@ -255,5 +255,3 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
     }
 }
-    }
-}
