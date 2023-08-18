@@ -111,9 +111,8 @@ namespace DangerousD.GameCore
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            if (GameManager.GetPlayer1 != null) 
-                DebugHUD.Set("Objid: ", GameManager.GetPlayer1.id.ToString());
+            if (GameManager.GetPlayer1 != null)
+                DebugHUD.Set("id: ", GameManager.GetPlayer1.id.ToString());
             InputManager.Update();
             SoundManager.Update();
 
@@ -229,10 +228,11 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.CreateEntity:
                         break;
                     case NetworkTaskOperationEnum.SendPosition:
-                        if (networkTask.objId != GameManager.GetPlayer1.id)
+                        if (networkTask.objId != GameManager.GetPlayer1.id )
                         {
                             LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
-                            entity.SetPosition(networkTask.position);
+                            if (entity != null)
+                                entity.SetPosition(networkTask.position);
                             if (multiPlayerStatus == MultiPlayerStatus.Host)
                             {
                                 NetworkTasks.Add(networkTask);  
@@ -240,6 +240,20 @@ namespace DangerousD.GameCore
                         }
                         break;
                     case NetworkTaskOperationEnum.ChangeState:
+                        if (networkTask.objId != GameManager.GetPlayer1.id)
+                        {
+                            List<GraphicsComponent> gcs = new List<GraphicsComponent>();
+                            foreach (var player in GameManager.players)
+                            {
+                                gcs.Add(player.GetGraphicsComponent());
+                            }
+                            LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
+                            if (entity != null)
+                            {
+                                GraphicsComponent gc = entity.GetGraphicsComponent();
+                                gc.StartAnimation(networkTask.name);
+                            }
+                        }
                         break;
                     case NetworkTaskOperationEnum.ConnectToHost:
                         Player connectedPlayer = new Player(Vector2.Zero, true);
@@ -257,13 +271,15 @@ namespace DangerousD.GameCore
                         if (!GameManager.GetPlayer1.isIdFromHost)
                         {
                             GameManager.GetPlayer1.id = networkTask.objId;
+                            GraphicsComponent gcsd = GameManager.GetPlayer1.GetGraphicsComponent();
+                            gcsd.parentId = networkTask.objId;
                             GameManager.GetPlayer1.isIdFromHost = true;
                         }
                         break;
                     case NetworkTaskOperationEnum.AddConnectedPlayer:
                         Player remoteConnectedPlayer = new Player(networkTask.position, true);
                         remoteConnectedPlayer.id = networkTask.objId;
-                        
+                        remoteConnectedPlayer.GetGraphicsComponent().parentId = networkTask.objId;
                         break;
                     default:
                         break;
