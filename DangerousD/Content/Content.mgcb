@@ -237,7 +237,7 @@
 /build:sliderBackground.png
 
 
-#begin SmokeAnimation2.png
+#begin smokeAnimation2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255

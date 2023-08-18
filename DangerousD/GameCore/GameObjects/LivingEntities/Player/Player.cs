@@ -95,10 +95,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public Rectangle GetShootRectangle(bool isRight)
         {
-            if (isRight) 
+            if (isRight)
                 return new Rectangle((int)Pos.X, (int)(Pos.Y) + 10, shootLength + Width, Height / 2);
             else
-                return new Rectangle((int)Pos.X-shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
+                return new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -124,7 +124,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 return;
             }
             isAttacked = true;
-            if(monsterName == "Zombie")
+            if (monsterName == "Zombie")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -135,7 +135,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
-            else if(monsterName == "Spider")
+            else if (monsterName == "Spider")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -261,7 +261,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 FallingThroughPlatform = false;
             }
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked  || AppManager.Instance.InputManager.InvincibilityCheat)
+            if (!isAttacked || AppManager.Instance.InputManager.InvincibilityCheat)
             {
                 if (!isShooting)
                 {
@@ -348,11 +348,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 }
             }
-            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
-            {
-                NetworkTask task = new NetworkTask(id, Pos);
-                AppManager.Instance.NetworkTasks.Add(task);
-            }
         }
         public void MoveDown()
         {
@@ -367,7 +362,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 Height = 5;
                 Width = 5;
             }
-            protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft"}, "playerMoveLeft");
+            protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft" }, "playerMoveLeft");
             Vector2 direction;
             Vector2 maindirection;
             public void ShootUpRight()
@@ -376,13 +371,51 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 acceleration = Vector2.Zero;
                 velocity = new Vector2(10, 10) * direction;
                 maindirection = velocity;
+                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
+                {
+                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
+                    AppManager.Instance.NetworkTasks.Add(task);
+                    AppManager.Instance.GameManager.Remove(this);
+                }
+            }
+            public void ShootRight()
+            {
+                direction = new Vector2(1, 0);
+                acceleration = Vector2.Zero;
+                velocity = new Vector2(10, 10) * direction;
+                maindirection = velocity;
+                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
+                {
+                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
+                    AppManager.Instance.NetworkTasks.Add(task);
+                    AppManager.Instance.GameManager.Remove(this);
+                }
+            }
+            public void ShootLeft()
+            {
+                direction = new Vector2(-1, 0);
+                acceleration = Vector2.Zero;
+                velocity = new Vector2(10, 10) * direction;
+                maindirection = velocity;
+                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
+                {
+                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
+                    AppManager.Instance.NetworkTasks.Add(task);
+                    AppManager.Instance.GameManager.Remove(this);
+                }
             }
             public void ShootUpLeft()
             {
                 direction = new Vector2(-1, -1);
                 acceleration = Vector2.Zero;
                 velocity = new Vector2(10, 10) * direction;
-                                maindirection = velocity;
+                maindirection = velocity;
+                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
+                {
+                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
+                    AppManager.Instance.NetworkTasks.Add(task);
+                    AppManager.Instance.GameManager.Remove(this);
+                }
             }
             public override void OnCollision(GameObject gameObject)
             {
@@ -391,7 +424,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     if (gameObject is CoreEnemy)
                     {
                         CoreEnemy enemy = (CoreEnemy)gameObject;
-                        enemy.TakeDamage();
+                        enemy.TakeDamage(1);
                         AppManager.Instance.GameManager.Remove(this);
                     }
                     base.OnCollision(gameObject);
@@ -399,7 +432,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
-                if (maindirection!=velocity)
+                if (maindirection != velocity)
                 {
                     AppManager.Instance.GameManager.Remove(this);
                 }
