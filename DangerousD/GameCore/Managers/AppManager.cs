@@ -206,6 +206,7 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Game:
                     GameManager.mapManager.LoadLevel("lvl");
+                    GameManager.FindBorders();
                     break;
                 case GameState.Death:
                     break;
@@ -262,6 +263,7 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.AddConnectedPlayer:
                         Player remoteConnectedPlayer = new Player(networkTask.position, true);
                         remoteConnectedPlayer.id = networkTask.objId;
+                        
                         break;
                     default:
                         break;
