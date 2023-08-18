@@ -136,6 +136,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             {
                 if (!isShooting)
                 {
+                    AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
                     isShooting = true;
                     bullets--;
                     if (isRight)
