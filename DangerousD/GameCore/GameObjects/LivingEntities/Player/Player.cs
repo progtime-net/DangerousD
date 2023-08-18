@@ -73,7 +73,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
-            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot"}, "playerReload");
+            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot", "playerShootUpRight", "playerShootUpLeft"}, "playerReload");
 
         public void Attack()
         {
@@ -185,7 +185,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         if (isRight)
                         {
                             StartCicycleAnimation("playerShootRight");
-                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
+                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
                             if (targets.Count() > 0)
                             {
                                 Zombie targetZombie = (Zombie)targets.First();
@@ -203,7 +203,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         else
                         {
                             StartCicycleAnimation("playerShootLeft");
-                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(Zombie));
+                            var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y - 10f), shootLength, 10), typeof(Zombie));
                             if (targets != null)
                             {
                                 foreach (var target in targets)
@@ -291,11 +291,31 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                     else if (isRight)
                     {
-                        GraphicsComponent.StartAnimation("playerRightStay");
+                        if (isUping)
+                        {
+                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpRight")
+                            {
+                                GraphicsComponent.StartAnimation("playerShootUpRight");
+                            }
+                        }
+                        else
+                        {
+                            GraphicsComponent.StartAnimation("playerRightStay");
+                        }
                     }
                     else if (!isRight)
                     {
-                        GraphicsComponent.StartAnimation("playerStayLeft");
+                        if (isUping)
+                        {
+                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpLeft")
+                            {
+                                GraphicsComponent.StartAnimation("playerShootUpLeft");
+                            }
+                        }
+                        else
+                        {
+                            GraphicsComponent.StartAnimation("playerStayLeft");
+                        }
                     }
                 }
             }
@@ -309,6 +329,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             FallingThroughPlatform = true;
             isOnGround = false;
-        } 
+        }
+
+        public class Bullet : GameObjects.LivingEntity
+        {
+            public Bullet(Vector2 position) : base(position)
+            {
+            }
+            protected override GraphicsComponent GraphicsComponent { get; } = new("ZombieMoveLeft");
+
+        }
     }
 }

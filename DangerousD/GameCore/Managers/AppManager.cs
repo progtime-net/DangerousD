@@ -28,8 +28,9 @@ namespace DangerousD.GameCore
         private SpriteBatch _spriteBatch;
         public GameState gameState { get; private set; }
         public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
-        public Point resolution = new Point(1920, 1080);
+        public Point resolution;
         public Point inGameResolution = new Point(1920, 1080);
+        public Point inGameHUDHelperResolution= new Point(1920, 1080);
         IDrawableObject MenuGUI;
         IDrawableObject OptionsGUI;
         IDrawableObject LoginGUI;
@@ -61,6 +62,8 @@ namespace DangerousD.GameCore
             NetworkManager.GetReceivingMessages += NetworkSync;
 
             resolution = SettingsManager.Resolution;
+            SetIsFullScreen(!SettingsManager.IsFullScreen);
+            SetIsFullScreen(SettingsManager.IsFullScreen);
             _graphics.PreferredBackBufferWidth = resolution.X;
             _graphics.PreferredBackBufferHeight = resolution.Y;
             _graphics.IsFullScreen = false;
@@ -133,10 +136,8 @@ namespace DangerousD.GameCore
                 case GameState.Death:
                     DeathGUI.Update(gameTime);
                     break;
-                case GameState.HUD:
-                    HUD.Update(gameTime);
-                    break;
                 case GameState.Game:
+                    HUD.Update(gameTime);
                     GameManager.Update(gameTime);
                     break;
                 default:
@@ -176,6 +177,7 @@ namespace DangerousD.GameCore
                     _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
                     GameManager.Draw(_spriteBatch);
                     _spriteBatch.End();
+                    HUD.Draw(_spriteBatch);
                     break;
                 default:
                     break;
@@ -204,7 +206,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel("LastLvl");
+                    GameManager.mapManager.LoadLevel("lvl");
                     GameManager.FindBorders();
                     break;
                 case GameState.Death:
@@ -289,6 +291,25 @@ namespace DangerousD.GameCore
         public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
         {
             this.multiPlayerStatus = multiPlayerStatus;
+        }
+        public void SetIsFullScreen(bool fullscrin)
+        {
+            DebugHUD?.Set("resX:", SettingsManager.Resolution.X.ToString());
+            DebugHUD?.Set("resY:", SettingsManager.Resolution.Y.ToString());
+            DebugHUD?.Set("FullScreen:", _graphics.IsFullScreen.ToString());
+            if (fullscrin)
+            {
+                _graphics.PreferredBackBufferWidth = 1920;
+                _graphics.PreferredBackBufferHeight = 1080;
+            }
+            else
+            {
+                _graphics.PreferredBackBufferWidth = SettingsManager.Resolution.X;
+                _graphics.PreferredBackBufferHeight = SettingsManager.Resolution.Y;
+            }
+            UIManager.resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _graphics.IsFullScreen = fullscrin;
+            _graphics.ApplyChanges();
         }
     }
 }
