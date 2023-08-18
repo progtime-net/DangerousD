@@ -23,7 +23,7 @@ internal class DeathGUI : AbstractGui
         Elements.Add(butMenu);
         butMenu.LeftButtonPressed += () =>
         {
-            AppManager.Instance.ChangeGameState(GameState.Menu);
+            AppManager.Instance.Restart("lvl");
         };
         foreach (var item in Elements)
         {
