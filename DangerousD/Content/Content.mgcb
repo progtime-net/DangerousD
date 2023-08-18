@@ -81,6 +81,25 @@
 /processorParam:TextureFormat=Color
 /build:deathBackground.jpg
 
+
+#begin DoomTestSong.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/DoomTestSong.mp3
+
+#begin doors.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:doors.png
+
 #begin Font_12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

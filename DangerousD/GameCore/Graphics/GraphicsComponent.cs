@@ -237,23 +237,25 @@ namespace DangerousD.GameCore.Graphics
         public static void SetCameraPosition(Vector2 playerPosition)
         {
             CameraPosition = (playerPosition).ToPoint();
-            CameraPosition.X -= 300;
-            CameraPosition.Y -= 200;
-            if (CameraPosition.X < AppManager.Instance.GameManager.CameraBorder.X)
-            {
-                CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.X;
-            }
+            CameraPosition.X -= 200;
+            CameraPosition.Y -= 120;
+            
             if (CameraPosition.X > AppManager.Instance.GameManager.CameraBorder.Y - 460)
             {
                 CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.Y - 460;
             }
+            
             if (CameraPosition.Y < AppManager.Instance.GameManager.CameraBorder.Z)
             {
                 CameraPosition.Y = (int)AppManager.Instance.GameManager.CameraBorder.Z;
             }
-            if (CameraPosition.Y > AppManager.Instance.GameManager.CameraBorder.W - 470)
+            if (CameraPosition.X < AppManager.Instance.GameManager.CameraBorder.X)
             {
-                CameraPosition.Y = (int)AppManager.Instance.GameManager.CameraBorder.W - 470;
+                CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.X;
+            }
+            if (CameraPosition.Y > AppManager.Instance.GameManager.CameraBorder.W - 240)
+            {
+                CameraPosition.Y = (int)AppManager.Instance.GameManager.CameraBorder.W - 240;
             }
             AppManager.Instance.DebugHUD.Set("CameraPosition", $"{CameraPosition.X}, {CameraPosition.Y}");
         }
