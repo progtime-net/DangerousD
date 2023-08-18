@@ -15,7 +15,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public SpiderWeb(Vector2 position) : base(position)
         {
             name = "Web";
-            monster_speed = 1;
             Width = 16;
             Height = 0;
             acceleration = Vector2.Zero;
@@ -43,9 +42,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public  void Target()
+        public override void Target()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

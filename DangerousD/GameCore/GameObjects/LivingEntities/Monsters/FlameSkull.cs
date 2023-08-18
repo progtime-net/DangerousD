@@ -18,7 +18,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 62;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 0.25f;
             name = "Skull";
             acceleration = Vector2.Zero;
         }
@@ -63,19 +63,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 velocity.X = -monster_speed;
             }
-            if (Pos.X >= rightBoarder)
-            {
-                isGoRight = false;
-            }
-            else if (Pos.X <= leftBoarder)
-            {
-                isGoRight = true;
-            }
         }
 
         public override void Attack(GameTime gameTime)
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override void Target()
+        {
+            if (true)
+            {
+
+            }
         }
     }
 }

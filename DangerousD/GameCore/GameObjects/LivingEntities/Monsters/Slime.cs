@@ -232,7 +232,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public void Target()
+        public override void Target()
         {
 
         }

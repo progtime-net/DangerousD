@@ -83,7 +83,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public void Target()
+        public override void Target()
         {
             throw new NotImplementedException();
         }

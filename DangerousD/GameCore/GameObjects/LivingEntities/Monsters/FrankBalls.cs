@@ -80,7 +80,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.Y -= monster_speed;
             }
         }
-        public void Target()
+        public override void Target()
         {
             throw new NotImplementedException();
         }
