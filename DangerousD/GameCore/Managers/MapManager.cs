@@ -108,8 +108,8 @@ namespace DangerousD.GameCore.Managers
                 }
                 else if (type.Equals(typeof(Door)))
                 {
-                    int gid =  entity.Attributes["type"] is not null ? int.Parse(entity.Attributes["type"].Value) : 0;
-                    inst = (Entity)Activator.CreateInstance(type, pos, new Vector2(32, 48), new Rectangle(0, 0, 32, 48));
+                    int gid =  entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
+                    inst = (Entity)Activator.CreateInstance(type, pos, new Vector2(32, 48), new Rectangle((gid - 872)*32, 0, 32, 48));
                 }
                 else
                 {
