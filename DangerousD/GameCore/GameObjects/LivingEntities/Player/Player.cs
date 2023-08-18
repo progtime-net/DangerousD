@@ -32,7 +32,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private int bullets;
         public bool FallingThroughPlatform = false;
 
+
+        
+
+        public int Bullets { get { return bullets; } }
+
         public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
+
         {
             Width = 16;
             Height = 32;
