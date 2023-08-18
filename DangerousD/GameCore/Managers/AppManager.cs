@@ -39,7 +39,7 @@ namespace DangerousD.GameCore
         IDrawableObject HUD;
         public DebugHUD DebugHUD;
         public List<NetworkTask> NetworkTasks = new List<NetworkTask>();
-
+        public string currentMap;
         public GameManager GameManager { get; private set; } = new();
         public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
         public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
@@ -77,6 +77,7 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
+            currentMap = "lvl";
         }
 
         protected override void Initialize()
@@ -139,6 +140,7 @@ namespace DangerousD.GameCore
                 case GameState.Game:
                     HUD.Update(gameTime);
                     GameManager.Update(gameTime);
+                    
                     break;
                 default:
                     break;
@@ -321,6 +323,10 @@ namespace DangerousD.GameCore
             UIManager.resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             _graphics.IsFullScreen = fullscrin;
             _graphics.ApplyChanges();
+        }
+        public void Restart(string map)
+        {
+
         }
     }
 }
