@@ -220,6 +220,7 @@ namespace DangerousD.GameCore
 
         public void NetworkSync(List<NetworkTask> networkTasks)
         {
+            DebugHUD.Log("networksync");
             foreach (NetworkTask networkTask in networkTasks)
             {
                 switch (networkTask.operation)
