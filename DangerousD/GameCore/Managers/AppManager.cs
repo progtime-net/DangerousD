@@ -208,14 +208,12 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-<<<<<<< HEAD
 
-                    GameManager.mapManager.LoadLevel("map");
 
                     
-=======
+
                     GameManager.mapManager.LoadLevel(currentMap);
->>>>>>> main
+
                     GameManager.FindBorders();
                     break;
                 case GameState.Death:
