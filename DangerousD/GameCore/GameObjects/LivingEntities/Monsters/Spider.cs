@@ -33,8 +33,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isDown = true;
             physicsManager = AppManager.Instance.GameManager.physicsManager;
             name = "Spider";
-            Width = 112;
-            Height = 24;
+            Width = 28;
+            Height = 6;
             widthS = Width;
             web = new SpiderWeb(new Vector2(Pos.X+Width/2,Pos.Y));
             delay = 0;
@@ -80,8 +80,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
                 if (delay > 0.25 && webLength <= 4 && isDown)
                 {
-                    Width = 48;
-                    Height = 72;
+                    Width = 12;
+                    Height = 18;
                     StartCicycleAnimation("SpiderOnWeb");
                     acceleration = Vector2.Zero;
                     webLength++;
@@ -96,8 +96,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 else if (delay > 0.5 && webLength != 0 && !isDown)
                 {
-                    Width = 48;
-                    Height = 72;
+                    Width = 12;
+                    Height = 18;
                     StartCicycleAnimation("SpiderOnWeb");
                     webLength--;
                     _pos.Y -= 25;
@@ -144,8 +144,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            Width = 112;
-            Height = 24;
+            Width = 28;
+            Height = 6;
             foreach (var entity in physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 7, (int)Pos.Y, 126, 10)))
             {
                 if (entity.GetType() == typeof(StopTile))

@@ -14,25 +14,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
     {
         private bool isAttack;
         protected Vector2 startPosition;
-        protected Vector2[] positions = { new Vector2(-25, 242), new Vector2(-25, 332), new Vector2(582, 332), new Vector2(-25, 332), 
-            new Vector2(-25, 444), new Vector2(581, 444), new Vector2(-25, 444), new Vector2(-25, 242), new Vector2(-25, 242), 
-            new Vector2(-25, 242), new Vector2(-25, 149), new Vector2(-25, 149) };
+        /*protected Vector2[] positions = { new Vector2(0, 242), new Vector2(0, 332), new Vector2(582, 332), new Vector2(0, 332), 
+            new Vector2(0, 444), new Vector2(582, 444), new Vector2(0, 444), new Vector2(0, 242), new Vector2(582, 242), 
+            new Vector2(0, 242), new Vector2(0, 149), new Vector2(582, 149), new Vector2(0,149)};*/
+        protected Vector2[] positions = { new Vector2(0,246), new Vector2(0, 344), new Vector2(550,344), new Vector2(520, 246)};
         protected int i;
-
     public FlameSkull(Vector2 position) : base(position)
-        {
-            //581 149 stairs 4 [7]
-            //-25 149 verv 4 [6]
-            //-25 242 spawn 3 [5]
-            //-25 242 verv 3 [4]
-            //-25 332 verv 2 [3] 
+        {   // v3 -> v2 -> s2 -> v2 -> v1 -> s1 -> v1 -> v3 -> s3 -> v3 -> v4 -> s4 -> v4 
+            //0 149 verv 4 [7]
+            //582 108 stairs 4 [6]
+            //0 242 verv 3 [5]
+            //582 220 stairs 3 [4]
+            //0 332 verv 2 [3] 
             //582 332 stairs 2 [2]
-            //-25 444 verv 1 [1] 
-            //581 444 stairs 1 [0]
+            //0 444 verv 1 [1] 
+            //582 444 stairs 1 [0]
+            startPosition = new Vector2(500, 242);
+            _pos = startPosition;
             i = 0;
-            Width = 62;
-            Height = 40;
-            monster_speed = 1;
+            Width = 31;
+            Height = 20;
+            monster_speed = 2;
             name = "Skull";
             acceleration = Vector2.Zero;
             startPosition = new Vector2();
@@ -42,6 +44,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
+            AppManager.Instance.DebugHUD.Set("number i: ", i.ToString());
             if (!isAttack)
             {
                 Move(gameTime);
@@ -109,6 +112,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     i++;
                 }
+            }
+            if (i == positions.Length)
+            {
+                i = 0;
             }
         }
 
