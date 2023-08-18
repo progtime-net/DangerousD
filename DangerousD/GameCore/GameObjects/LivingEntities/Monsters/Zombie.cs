@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.Network;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -63,6 +64,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack()
         {
+            AppManager.Instance.GameManager.GetPlayer1.Death(name);
+        }
+        public void PlayAttackAnimation()
+        {
             velocity.X = 0;
             isAttaking = true;
             if (isGoRight)
@@ -71,7 +76,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     GraphicsComponent.StartAnimation("ZombieRightAttack");
                 }
-                AppManager.Instance.GameManager.players[0].Death(name);
             }
             else if (!isGoRight)
             {
@@ -79,7 +83,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     GraphicsComponent.StartAnimation("ZombieLeftAttack");
                 }
-                AppManager.Instance.GameManager.players[0].Death(name);
             }
         }
 
@@ -120,12 +123,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if(gameObject is Player)
+            if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
             {
-                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
                     Attack();
-                    
+                }
+            }
+            else if (gameObject is Player)
+            {
+                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
+                {
+                    NetworkTask task = new NetworkTask();
+                    AppManager.Instance.NetworkTasks.Add(task.KillPlayer(gameObject.id, name));
                 }
             }
             base.OnCollision(gameObject);
