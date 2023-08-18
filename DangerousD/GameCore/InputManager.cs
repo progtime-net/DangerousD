@@ -32,6 +32,7 @@ namespace DangerousD.GameCore
 
         public Vector2 VectorMovementDirection { get => vectorMovementDirection; }
         public ScopeState ScopeState { get => scopeState; }
+        public string currentControlsState;
 
         public InputManager()
         {
@@ -205,7 +206,12 @@ namespace DangerousD.GameCore
                 {
                     isShoot = false;
                 }
+                SetState(ControlsState.Keyboard);
             }
+        }
+        public void SetState(ControlsState controlsState)
+        {
+            currentControlsState = controlsState.ToString();
         }
     }
 }
