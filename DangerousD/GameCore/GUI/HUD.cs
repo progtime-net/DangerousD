@@ -26,7 +26,7 @@ namespace DangerousD.GameCore.GUI
             spriteBatch.Draw(texture, new Rectangle(wigth / 35 - 2, height / 35 - 2, 120 + 2, 70 + 2), Color.DarkRed);
             spriteBatch.DrawString(spriteFont, "AMMO", new Vector2(wigth / 34 + 4, height / 30 - 6), Color.Gray, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
             spriteBatch.DrawString(spriteFont, "AMMO", new Vector2(wigth / 34 + 1, height / 30 - 6), Color.White, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
-            for (int i = 0; i < 5; i++)
+            for (int i = 1; i < 6; i++)
             {
                 if (i <= AppManager.Instance.GameManager.players[0].Bullets)
                 {
