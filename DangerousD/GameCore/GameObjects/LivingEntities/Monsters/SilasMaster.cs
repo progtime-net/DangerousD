@@ -16,6 +16,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private int attackTime = 60;
         private int moveTime = 360;
         private int currentTime = 0;
+        private int interval = 0;
         int leftBorder;
         int rightBorder;
         List<SilasHands> hands = new List<SilasHands>();
@@ -119,9 +120,18 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            for (int i = 0; i < hands.Count; i++)
+            {
+                if (!AppManager.Instance.GameManager.GetAllGameObjects.Contains(hands[i]))
+                {
+                    hands.RemoveAt(i);
+                }
+            } 
+
+            
             if (hands.Count<2)
             {
-                hands.Add(new SilasHands(new Vector2(Pos.X + 60, Pos.Y + 120)));
+                hands.Add(new SilasHands(new Vector2(Pos.X + 30, Pos.Y + 30)));
             }
             if (GraphicsComponent.CurrentAnimation.Id == "SilasMove")
             {
