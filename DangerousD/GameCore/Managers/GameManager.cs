@@ -179,11 +179,11 @@ namespace DangerousD.GameCore
                 }
                 if (item.Pos.Y < CameraBorder.Z)
                 {
-                    CameraBorder.Z = item.Pos.X;
+                    CameraBorder.Z = item.Pos.Y;
                 }
                 if (item.Pos.Y > CameraBorder.W)
                 {
-                    CameraBorder.W = item.Pos.X;
+                    CameraBorder.W = item.Pos.Y;
                 }
             }
         }

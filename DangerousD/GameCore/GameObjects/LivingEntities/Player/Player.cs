@@ -27,7 +27,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private bool isAttacked = false;
         private bool isShooting = false;
         public GameObject objectAttack;
-        public bool isInvincible;
         private int bullets;
         public bool FallingThroughPlatform = false;
         public bool isUping = false;
@@ -94,6 +93,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Death(string monsterName)
         {
+            if (AppManager.Instance.InputManager.InvincibilityCheat)
+            {
+                return;
+            }
             isAttacked = true;
             if(monsterName == "Zombie")
             {
@@ -185,10 +188,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             if (isOnGround && FallingThroughPlatform)
             {
                 FallingThroughPlatform = false;
-                AppManager.Instance.DebugHUD.Log("not falling");
             }
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked || isInvincible)
+            if (!isAttacked || AppManager.Instance.InputManager.InvincibilityCheat)
             {
                 if (!isShooting)
                 {
@@ -254,7 +256,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         {
             FallingThroughPlatform = true;
             isOnGround = false;
-            AppManager.Instance.DebugHUD.Log("FallingThroughPlatform");
         }
 
     }
