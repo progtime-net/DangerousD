@@ -226,7 +226,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                     Zombie targetZombie = (Zombie)targets.First();
                                     targetZombie.TakeDamage();
                                 }
-                                targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands));
+                                targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands)).OrderBy(x => (x.Pos - Pos).LengthSquared());
                                 if (targets.Count() > 0)
                                 {
                                     SilasHands targetHand = (SilasHands)targets.First();
