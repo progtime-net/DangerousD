@@ -32,7 +32,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isUping = false;
         private int shootLength = 160;
 
-        
+
 
         public int Bullets { get { return bullets; } }
 
@@ -49,7 +49,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 AppManager.Instance.InputManager.MovEventDown += MoveDown;
             }
 
-           velocity = new Vector2(0, 0);
+            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
             leftBorder = (int)position.X - 100;
             bullets = 5;
@@ -70,7 +70,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool IsAlive { get { return isAlive; } }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
-            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot"}, "playerReload");
+            "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot", "playerShootUpRight", "playerShootUpLeft"}, "playerReload");
 
         public void Attack()
         {
@@ -98,7 +98,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 return;
             }
             isAttacked = true;
-            if(monsterName == "Zombie")
+            if (monsterName == "Zombie")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -109,7 +109,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
-            else if(monsterName == "Spider")
+            else if (monsterName == "Spider")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
@@ -144,7 +144,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             StartCicycleAnimation("playerShootRight");
                             var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                            if (targets != null)
+                            if (targets.Count() > 0)
                             {
                                 Zombie targetZombie = (Zombie)targets.First();
                                 targetZombie.TakeDamage();
@@ -184,7 +184,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 FallingThroughPlatform = false;
             }
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked  || AppManager.Instance.InputManager.InvincibilityCheat)
+            if (!isAttacked || AppManager.Instance.InputManager.InvincibilityCheat)
             {
                 if (!isShooting)
                 {
@@ -227,7 +227,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 }
                 else if (AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
                 {
-                    if(bullets < 5)
+                    if (bullets < 5)
                     {
                         if (GraphicsComponent.GetCurrentAnimation != "playerReload")
                         {
@@ -236,11 +236,31 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                     else if (isRight)
                     {
-                        GraphicsComponent.StartAnimation("playerRightStay");
+                        if (isUping)
+                        {
+                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpRight")
+                            {
+                                GraphicsComponent.StartAnimation("playerShootUpRight");
+                            }
+                        }
+                        else
+                        {
+                            GraphicsComponent.StartAnimation("playerRightStay");
+                        }
                     }
                     else if (!isRight)
                     {
-                        GraphicsComponent.StartAnimation("playerStayLeft");
+                        if (isUping)
+                        {
+                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpLeft")
+                            {
+                                GraphicsComponent.StartAnimation("playerShootUpLeft");
+                            }
+                        }
+                        else
+                        {
+                            GraphicsComponent.StartAnimation("playerStayLeft");
+                        }
                     }
                 }
             }
@@ -256,5 +276,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             isOnGround = false;
         }
 
+        public class Bullet : GameObjects.LivingEntity
+        {
+            public Bullet(Vector2 position) : base(position)
+            {
+            }
+            protected override GraphicsComponent GraphicsComponent { get; } = new("ZombieMoveLeft");
+
+        }
     }
 }

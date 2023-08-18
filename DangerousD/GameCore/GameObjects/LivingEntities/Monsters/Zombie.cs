@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.GameObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -24,7 +25,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 3;
+            monster_speed = 2;
             name = "Zombie";
             monster_health = 2;
             leftBorder = (int)position.X - 100;
@@ -133,7 +134,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public void Target()
         {
-            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 100, Height), typeof(Player)).Count > 0)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 200, Height), typeof(Player)).Count > 0)
             {
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
@@ -183,5 +184,5 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Death();
             }
         }
+        }
     }
-}
