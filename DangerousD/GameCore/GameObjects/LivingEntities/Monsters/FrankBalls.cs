@@ -15,6 +15,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         private Rectangle collision;
         private Vector2 position;
         private bool isFlyRight = true;
+        private bool isFlyUp = true;
         private bool isAttacking = false;
 
         public Rectangle Collision
@@ -29,6 +30,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Width = 40;
             Height = 40;
             monster_speed = 3;
+            velocity = new Vector2(3,-3);
             acceleration = Vector2.Zero;
         }
 
@@ -36,27 +38,24 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
-            if(!isAttacking)
-            {
-                Move(gameTime);
-            }
-
+            Move(gameTime);
+            AppManager.Instance.DebugHUD.Set(name, velocity.ToString());
             base.Update(gameTime);
         }
         public override void Attack()
         {
-            collision = new Rectangle((int)position.X, (int)position.Y, 40, 40);
-            isAttacking = true;
 
-            if(isFlyRight)
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
             {
-                AppManager.Instance.GameManager.players[0].Death(name);
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    AppManager.Instance.GameManager.players[0].Death(name);
+                }
             }
-            else if(!isFlyRight)
-            {
-                AppManager.Instance.GameManager.players[0].Death(name);
-            }
-
+            base.OnCollision(gameObject);
         }
 
         public override void Death()
@@ -66,20 +65,50 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            velocity.X = 0;
-            velocity.Y = 0;
+            
+            var getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            var getColsVer= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); ;
+            if (isFlyRight)
+            {
+                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y , 42, 40));
+                if(getColsHor.Count > 0)
+                {
+                    isFlyRight = false;
+                    velocity.X = -velocity.X;
+                }
+            }
+            else
+            {
+                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-2, (int)Pos.Y, 42, 40));
+                if (getColsHor.Count > 0)
+                {
+                    isFlyRight = true;
+                    velocity.X = -velocity.X;
+                }
+            }
+            if (isFlyUp)
+            {
+                
+                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X , (int)Pos.Y-3, 40, 43));
+                if (getColsVer.Count > 0)
+                {
+                    isFlyUp = false;
+                    velocity.Y = -velocity.Y;
+                }
+            }
+            else
+            {
+                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 40, 43));
+                if (getColsVer.Count > 0)
+                {
+                    isFlyUp = true;
+                    velocity.Y = -velocity.Y;
+                }
+            }
 
-            if(isFlyRight)
-            {
-                velocity.X += monster_speed;
-                velocity.Y += monster_speed;
-            }
-            else if(!isFlyRight)
-            {
-                velocity.X -= monster_speed;
-                velocity.Y -= monster_speed;
-            }
+           
         }
+
         public void Target()
         {
             throw new NotImplementedException();

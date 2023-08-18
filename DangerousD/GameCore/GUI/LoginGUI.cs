@@ -26,6 +26,7 @@ namespace DangerousD.GameCore.GUI
         {
             int screenWidth = AppManager.Instance.inGameResolution.X;
             int screenHeight = AppManager.Instance.inGameResolution.Y;
+            float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
 
             var loginBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "menuFon2" };
             Elements.Add(loginBackground);
@@ -40,6 +41,19 @@ namespace DangerousD.GameCore.GUI
                 fontName = "ButtonFont"
             });
 
+            Button backButton = new Button(Manager)
+            {
+                rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)), 
+                fontColor = Color.Black,
+                fontName = "font2",
+                textureName = "textboxbackground1-1"
+            };
+            backButton.LeftButtonPressed += () => {
+                AppManager.Instance.ChangeGameState(GameState.Menu);
+            };
+            Elements.Add(backButton);
+             
+
             // TextBox-ы
             {
                 TextBox loginTextBox = new TextBox(Manager)
@@ -53,6 +67,7 @@ namespace DangerousD.GameCore.GUI
                     textureName = "textboxbackground6-1"
 
                 };
+                Elements.Add(loginTextBox);
                 loginTextBox.LoadTexture(AppManager.Instance.Content);
                 loginTextBox.TextChanged += input => {
                     if (loginTextBox.fontColor == Color.Gray)
@@ -67,6 +82,7 @@ namespace DangerousD.GameCore.GUI
                         loginTextBox.fontColor = Color.Gray;
                     }
                 };
+                Elements.Add(loginTextBox);
 
                 TextBox passwordTextBox = new TextBox(Manager)
                 {
@@ -78,6 +94,7 @@ namespace DangerousD.GameCore.GUI
                     textAligment = TextAligment.Left,
                     textureName = "textboxbackground6-1"
                 };
+                Elements.Add(passwordTextBox);
                 passwordTextBox.LoadTexture(AppManager.Instance.Content);
                 passwordTextBox.TextChanged += input => {
                     if (passwordTextBox.fontColor == Color.Gray)
@@ -92,6 +109,7 @@ namespace DangerousD.GameCore.GUI
                         passwordTextBox.fontColor = Color.Gray;
                     }
                 };
+                Elements.Add(passwordTextBox);
             }
 
             // Кнопки
@@ -104,12 +122,14 @@ namespace DangerousD.GameCore.GUI
                     fontName = "ButtonFont",
                     textureName = "textboxbackground2-1"
                 };
+                Elements.Add(logButton);
                 logButton.LeftButtonPressed += () => {
                     if (CheckUser())
                     {
                         AppManager.Instance.ChangeGameState(GameState.Lobby);
                     }
                 };
+                Elements.Add(logButton);
 
                 Button regButton = new Button(Manager)
                 {
@@ -120,20 +140,22 @@ namespace DangerousD.GameCore.GUI
                     fontName = "ButtonFont",
                     textureName = "textboxbackground2-1"
                 };
+                Elements.Add(regButton);
                 regButton.LeftButtonPressed += GoToRegWebServer;
+                Elements.Add(regButton);
 
-                Button backButton = new Button(Manager)
+
+            }
+            foreach (var item in Elements)
+            {
+                item.rectangle.X = (int)(scaler * item.rectangle.X);
+                item.rectangle.Y = (int)(scaler * item.rectangle.Y);
+                item.rectangle.Width = (int)(scaler * item.rectangle.Width);
+                item.rectangle.Height = (int)(scaler * item.rectangle.Height);
+                if (item is DrawableTextedUiElement)
                 {
-                    rectangle = new Rectangle(screenWidth / 20, screenHeight / 15, (int)(40 * 2.4), (int)(40 * 2.4)),
-                    text = "<-",
-                    scale = 0.72f,
-                    fontColor = Color.Black,
-                    fontName = "font2",
-                    textureName = "textboxbackground1-1"
-                };
-                backButton.LeftButtonPressed += () => {
-                    AppManager.Instance.ChangeGameState(GameState.Menu);
-                };
+                    (item as DrawableTextedUiElement).scale *= scaler;
+                }
             }
         }
 

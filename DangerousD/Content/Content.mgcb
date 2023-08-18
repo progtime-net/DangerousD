@@ -140,7 +140,7 @@
 /processorParam:TextureFormat=Color
 /build:menuFon.jpg
 
-#begin MenuFon2.jpg
+#begin menuFon2.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -150,7 +150,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuFon2.jpg
+/build:menuFon2.jpg
 
 #begin menuFon3.jpg
 /importer:TextureImporter
@@ -200,6 +200,13 @@
 /processorParam:TextureFormat=Color
 /build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 
+#begin PixelFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:PixelFont.spritefont
+
 #begin playerAnimation.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -248,7 +255,7 @@
 /processorParam:Quality=Best
 /build:sounds/shotgun_shot.mp3
 
-#begin SmokeAnimation2.png
+#begin smokeAnimation2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -258,7 +265,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:SmokeAnimation2.png
+/build:smokeAnimation2.png
 
 #begin textboxbackground1-1.png
 /importer:TextureImporter

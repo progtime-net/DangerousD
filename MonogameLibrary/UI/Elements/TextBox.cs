@@ -26,9 +26,13 @@ namespace MonogameLibrary.UI.Elements
         public event OnTextChange? StopChanging;
         public event OnTextChange? OnEnter;
 
-        protected HoverState hoverState = HoverState.None;
+        public HoverState hoverState = HoverState.None;
         protected IsSelected isSelected = IsSelected.NotSelected;
         public bool shouldEndOnEnter;
+        public void SelectIt()
+        {
+            isSelected = IsSelected.Selected;
+        }
 
         public virtual bool InteractUpdate(MouseState mouseState, MouseState prevmouseState)
         {
