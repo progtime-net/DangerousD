@@ -25,7 +25,7 @@ namespace DangerousD.GameCore.GUI
         {
             int screenWidth = AppManager.Instance.inGameResolution.X;
             int screenHeight = AppManager.Instance.inGameResolution.Y;
-            float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
+            float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
 
             var lobbyBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "menuFon3" };
             Elements.Add(lobbyBackground);

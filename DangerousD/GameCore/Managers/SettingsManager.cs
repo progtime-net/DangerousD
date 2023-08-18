@@ -87,6 +87,6 @@ namespace DangerousD.GameCore.Managers
         [JsonProperty("SoundEffectsVolume")]
         public float SoundEffectsVolume { get; set; } = 1;
         [JsonProperty("Resolution")]
-        public Point Resolution { get; set; } = new Point(1920,1080);
+        public Point Resolution { get; set; } = new Point(1366,768);
     }
 }
