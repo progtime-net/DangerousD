@@ -51,8 +51,10 @@ namespace MonogameLibrary.UI.Base
                 }
             }
         }
-        public void Update()
-        { 
+        public GameTime gameTime;
+        public void Update(GameTime gameTime)
+        {
+            this.gameTime = gameTime;
             try
             {
                 keyboardState = Keyboard.GetState();

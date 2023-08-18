@@ -12,6 +12,7 @@ using MonogameLibrary.UI.Base;
 using DangerousD.GameCore.Managers;
 using DangerousD.GameCore.GameObjects.LivingEntities;
 using DangerousD.GameCore.GameObjects;
+using System.Threading.Tasks;
 
 namespace DangerousD.GameCore
 {
@@ -111,6 +112,8 @@ namespace DangerousD.GameCore
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (GameManager.GetPlayer1 != null) 
+                DebugHUD.Set("Objid: ", GameManager.GetPlayer1.id.ToString());
             InputManager.Update();
             SoundManager.Update();
 
@@ -202,7 +205,12 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
+<<<<<<< HEAD
                     GameManager.mapManager.LoadLevel("map");
+=======
+                    GameManager.mapManager.LoadLevel("lvl");
+                    GameManager.FindBorders();
+>>>>>>> main
                     break;
                 case GameState.Death:
                     break;
@@ -225,24 +233,41 @@ namespace DangerousD.GameCore
                     case NetworkTaskOperationEnum.CreateEntity:
                         break;
                     case NetworkTaskOperationEnum.SendPosition:
-                        LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
-                        entity.SetPosition(networkTask.position);
+                        if (networkTask.objId != GameManager.GetPlayer1.id)
+                        {
+                            LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
+                            entity.SetPosition(networkTask.position);
+                            if (multiPlayerStatus == MultiPlayerStatus.Host)
+                            {
+                                NetworkTasks.Add(networkTask);  
+                            }
+                        }
                         break;
                     case NetworkTaskOperationEnum.ChangeState:
                         break;
                     case NetworkTaskOperationEnum.ConnectToHost:
-                        Player connectedPlayer = new Player(Vector2.Zero);
+                        Player connectedPlayer = new Player(Vector2.Zero, true);
                         NetworkTasks.Add(new NetworkTask(connectedPlayer.id));
                         NetworkTask task = new NetworkTask();
-                        NetworkTasks.Add(task.AddConnectedPlayer(GameManager.GetPlayer1.id, GameManager.GetPlayer1.Pos));
+                        foreach (Player player in GameManager.players)
+                        {
+                            if (player.id != connectedPlayer.id)
+                            {
+                                NetworkTasks.Add(task.AddConnectedPlayer(player.id, player.Pos));
+                            }
+                        }
                         break;
                     case NetworkTaskOperationEnum.GetClientPlayerId:
-                        GameManager.GetPlayer1.id = networkTask.objId;
+                        if (!GameManager.GetPlayer1.isIdFromHost)
+                        {
+                            GameManager.GetPlayer1.id = networkTask.objId;
+                            GameManager.GetPlayer1.isIdFromHost = true;
+                        }
                         break;
                     case NetworkTaskOperationEnum.AddConnectedPlayer:
-                        Player remoteConnectedPlayer = new Player(networkTask.position);
+                        Player remoteConnectedPlayer = new Player(networkTask.position, true);
                         remoteConnectedPlayer.id = networkTask.objId;
-                        GameManager.players.Add(remoteConnectedPlayer);
+                        
                         break;
                     default:
                         break;

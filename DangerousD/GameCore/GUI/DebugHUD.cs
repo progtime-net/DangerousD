@@ -11,6 +11,7 @@ namespace DangerousD.GameCore.GUI
     {
         private SpriteFont _spriteFont;
         private Dictionary<string, string> _text = new();
+        private List<string> _log = new();
 
         public void Initialize()
         {
@@ -27,12 +28,24 @@ namespace DangerousD.GameCore.GUI
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            var keysString = Join("\n", _text.Select(el => el.Key + ": " + el.Value).ToList());
             spriteBatch.Begin();
             spriteBatch.DrawString(
                 _spriteFont,
-                Join("\n", _text.Select(el => el.Key + ": " + el.Value).ToList()),
+                keysString,
                 new Vector2(10, 10),
                 Color.Cyan,
+                0,
+                Vector2.Zero,
+                1,
+                SpriteEffects.None,
+                0
+            );
+            spriteBatch.DrawString(
+                _spriteFont,
+                Join("\n", _log),
+                new Vector2(10, 10 + _spriteFont.MeasureString(keysString).Y),
+                Color.Green,
                 0,
                 Vector2.Zero,
                 1,
@@ -45,6 +58,15 @@ namespace DangerousD.GameCore.GUI
         public void Set(string key, string value)
         {
             _text[key] = value;
+        }
+
+        public void Log(string value)
+        {
+            _log.Add(value);
+            if (_log.Count > 30)
+            {
+                _log.RemoveAt(0);
+            }
         }
     }
 }
