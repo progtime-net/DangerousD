@@ -30,6 +30,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public GameObject objectAttack;
         private int bullets;
 
+        public int Bullets { get { return bullets; } }
+
         public Player(Vector2 position) : base(position)
         {
             Width = 16;
