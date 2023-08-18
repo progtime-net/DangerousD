@@ -1,4 +1,4 @@
-﻿using DangerousD.GameCore.Graphics;
+﻿        using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
-    public class SilasHands : CoreEnemy
+    public class 
+        SilasHands : CoreEnemy
     {
         public SilasHands(Vector2 position) : base(position)
         {
             name = "SilasHand";
-            Width = 48;
-            Height = 48;
+            Width = 16;
+            Height = 16;
             monster_health = 2;
             monster_speed = 2;
             acceleration = Vector2.Zero;
@@ -32,7 +33,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Attack(GameTime gameTime)
         {
-
+            throw new NotImplementedException();
         }
 
         public override void Death()
@@ -61,7 +62,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public override void Target()
+        public void Target()
         {
             throw new NotImplementedException();
         }

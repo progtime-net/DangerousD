@@ -15,6 +15,7 @@ namespace DangerousD.GameCore
         protected Vector2 _pos;
         public Vector2 Pos => _pos;
         public int id;
+        public bool isIdFromHost = false;
         public int Width { get; set; }
         public int Height { get; set; }
         public Rectangle Rectangle => new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
@@ -58,7 +59,13 @@ namespace DangerousD.GameCore
         {
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
-           //wdaspriteBatch.Draw(debugTexture,new Rectangle(Rectangle.X-GraphicsComponent.CameraPosition.X,Rectangle.Y-GraphicsComponent.CameraPosition.Y,Rectangle.Width,Rectangle.Height), Color.White);
+            if (AppManager.Instance.InputManager.CollisionsCheat)
+            {
+                spriteBatch.Draw(debugTexture,
+                    new Rectangle(Rectangle.X - GraphicsComponent.CameraPosition.X,
+                        Rectangle.Y - GraphicsComponent.CameraPosition.Y, Rectangle.Width, Rectangle.Height),
+                    Color.White);
+            }
 
         }
     }

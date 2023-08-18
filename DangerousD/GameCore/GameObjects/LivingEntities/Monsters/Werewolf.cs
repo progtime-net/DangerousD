@@ -12,6 +12,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Werewolf : CoreEnemy
     {
+        private bool isAttack;
+
         public Werewolf(Vector2 position) : base(position)
         {
             name = "Wolf";
@@ -74,7 +76,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
         }
 
-        public override void Target()
+        public void Target()
         {
             throw new NotImplementedException();
         }

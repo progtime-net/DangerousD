@@ -13,8 +13,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace DangerousD.GameCore.GUI
 {
     public class HUD : IDrawableObject
-    {
-        public int ammout = 8;
+    {  
         int wigth = AppManager.Instance.inGameResolution.X;
         int height = AppManager.Instance.inGameResolution.Y;
         float scaler = AppManager.Instance.resolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
@@ -22,14 +21,22 @@ namespace DangerousD.GameCore.GUI
         SpriteFont spriteFont;
 
         public void Draw(SpriteBatch spriteBatch)
-        {
+        { 
             spriteBatch.Begin();
             spriteBatch.Draw(texture, new Rectangle(wigth / 35 - 2, height / 35 - 2, 120 + 2, 70 + 2), Color.DarkRed);
             spriteBatch.DrawString(spriteFont, "AMMO", new Vector2(wigth / 34 + 4, height / 30 - 6), Color.Gray, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
             spriteBatch.DrawString(spriteFont, "AMMO", new Vector2(wigth / 34 + 1, height / 30 - 6), Color.White, 0, Vector2.Zero, 1.8f, SpriteEffects.None, 0);
-            for (int i = 0; i < ammout; i++)
+            for (int i = 0; i < 5; i++)
             {
-                spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13, height / 17 + 4, 5, 20), Color.Yellow);
+                if (i <= AppManager.Instance.GameManager.players[0].Bullets)
+                {
+                    spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13 + 2, height / 17 + 4, 5, 20), new Color(0.8f, 0.8f, 0, 1f));
+                    spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13, height / 17 + 4, 5, 20), Color.Yellow);
+                }
+                else
+                { 
+                    spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13, height / 17 + 4, 7, 20), new Color(0.2f, 0.2f, 0, 1f));
+                }
             }
             spriteBatch.End();
         }

@@ -16,7 +16,7 @@ namespace MonogameLibrary.UI.Elements
         public delegate void OnButtonPressed();
         public event OnButtonPressed? RightButtonPressed;
         public event OnButtonPressed? LeftButtonPressed;
-        protected HoverState hoverState = HoverState.None;
+        public HoverState hoverState = HoverState.None;
 
         public Button(UIManager manager, int layerIndex = 0) : base(manager, layerIndex)
         {
@@ -40,7 +40,7 @@ namespace MonogameLibrary.UI.Elements
                     if (mouseState.LeftButton != prevmouseState.LeftButton)
                     {
                         hoverState = HoverState.Pressing;
-                        LeftButtonPressed?.Invoke();
+                        CallLeftBtnEvent();
                         return true;
                     }
                 }
@@ -76,6 +76,10 @@ namespace MonogameLibrary.UI.Elements
             }
 
             DrawText(_spriteBatch);
+        }
+        public void CallLeftBtnEvent()
+        {
+            LeftButtonPressed?.Invoke();
         }
     }
 }

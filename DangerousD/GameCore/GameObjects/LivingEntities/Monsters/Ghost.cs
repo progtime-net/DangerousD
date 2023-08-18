@@ -10,6 +10,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Ghost : CoreEnemy
     {
+        private bool isAttack;
+
         public Ghost(Vector2 position) : base(position)
         {
             isGoRight = true;
@@ -81,7 +83,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Target()
+        public void Target()
         {
             throw new NotImplementedException();
         }
