@@ -30,6 +30,9 @@ namespace DangerousD.GameCore
         public List<GameObject> otherObjects = new();
         public Vector4 CameraBorder;
         public Player GetPlayer1 { get; private set; }
+        private int _lastUpdate = 0;
+        private int _currTime = 0;
+
         public GameManager()
         {
             others = new List<GameObject>();
@@ -131,10 +134,16 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
+            _currTime += gameTime.ElapsedGameTime.Milliseconds;
             if (AppManager.Instance.NetworkTasks.Count > 0)
             {
-                AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
-                AppManager.Instance.NetworkTasks.Clear();
+                if (_currTime - _lastUpdate > 50)
+                {
+                    AppManager.Instance.DebugHUD.Log("sending");
+                    AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
+                    AppManager.Instance.NetworkTasks.Clear();
+                    _lastUpdate = _currTime;
+                }
             }
             foreach (var item in BackgroundObjects)
                 item.Update(gameTime);
