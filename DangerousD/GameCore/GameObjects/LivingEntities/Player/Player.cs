@@ -193,19 +193,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             if (!isUping)
                             {
                                 StartCicycleAnimation("playerShootRight");
-                                var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                                if (targets.Count() > 0)
-                                {
-                                    Zombie targetZombie = (Zombie)targets.First();
-                                    targetZombie.TakeDamage();
-                                }
-                                targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                                if (targets.Count() > 0)
-                                {
-                                    SilasHands targetHand = (SilasHands)targets.First();
-                                    targetHand.TakeDamage();
-                                }
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
+                                Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
+                                bullet.ShootRight();
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
                             }
                             else
                             {
@@ -219,20 +209,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
-                                StartCicycleAnimation("playerShootLeft");
-                                var targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)(Pos.Y - 10f), shootLength + 24, 10), typeof(Zombie)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                                if (targets.Count() > 0)
-                                {
-                                    Zombie targetZombie = (Zombie)targets.First();
-                                    targetZombie.TakeDamage();
-                                }
-                                targets = AppManager.Instance.GameManager.physicsManager.CheckRectangle(GetShootRectangle(isRight), typeof(SilasHands)).OrderBy(x => (x.Pos - Pos).LengthSquared());
-                                if (targets.Count() > 0)
-                                {
-                                    SilasHands targetHand = (SilasHands)targets.First();
-                                    targetHand.TakeDamage();   
-                                }
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
+                                StartCicycleAnimation("playerShootBoomUpLeft");
+                                Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
+                                bullet.ShootLeft();
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
                             }
                             else
                             {
