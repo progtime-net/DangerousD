@@ -28,6 +28,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private bool isAttacked = false;
         private bool isShooting = false;
         public GameObject objectAttack;
+        public bool isInvincible;
         private int bullets;
         public bool FallingThroughPlatform = false;
 
@@ -58,6 +59,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     bullets++;
                 }
             };
+        }
+
+        public Player(Vector2 position, bool isInvincible) : this(position)
+        {
+            this.isInvincible = isInvincible;
         }
 
         public bool IsAlive { get { return isAlive; } }
@@ -160,7 +166,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 AppManager.Instance.DebugHUD.Log("not falling");
             }
             GraphicsComponent.SetCameraPosition(Pos);
-            if (!isAttacked)
+            if (!isAttacked || isInvincible)
             {
                 Move(gameTime);
             }

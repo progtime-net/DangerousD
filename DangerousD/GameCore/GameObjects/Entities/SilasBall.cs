@@ -12,20 +12,22 @@ namespace DangerousD.GameCore.GameObjects.Entities
 {
     public class SilasBall : LivingEntity
     {
-        private bool IsVisibility=true;
+        
+        private Vector2 v;
         public SilasBall(Vector2 position) : base(position)
         {
-            Height = 60;
-            Width = 60;
+            Height = 24;
+            Width = 24;
             acceleration = Vector2.Zero;
             
         }
         public SilasBall(Vector2 position, Vector2 velosity) : base(position)
         {
-            Height = 60;
-            Width = 60;
+            Height = 24;
+            Width = 24;
             acceleration = Vector2.Zero;
             velocity = velosity;
+            v = velosity;
             
         }
 
@@ -33,17 +35,17 @@ namespace DangerousD.GameCore.GameObjects.Entities
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(Rectangle).Count>0)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle( new Rectangle(Rectangle.X-2,Rectangle.Y-2,Rectangle.Width+8,Rectangle.Height+8)).Count>0)
             {
-                IsVisibility = false;
+                AppManager.Instance.GameManager.Remove(this);
             }
+            velocity = v;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (IsVisibility)
-            {
-                base.Draw(spriteBatch);
-            }
+            
+            base.Draw(spriteBatch);
+            
             
         }
     }
