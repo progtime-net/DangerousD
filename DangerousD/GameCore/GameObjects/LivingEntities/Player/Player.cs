@@ -32,16 +32,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private int bullets;
         public bool FallingThroughPlatform = false;
 
-        public Player(Vector2 position) : base(position)
+
+        
+
+        public int Bullets { get { return bullets; } }
+
+        public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
+
         {
             Width = 16;
             Height = 32;
 
-            AppManager.Instance.InputManager.ShootEvent += Shoot;
-
-            AppManager.Instance.InputManager.MovEventJump += Jump;
-            AppManager.Instance.InputManager.MovEventDown += MoveDown;
-            AppManager.Instance.InputManager.ShootEvent += Shoot;
+            if (!isNetworkPlayer)
+            {
+                AppManager.Instance.InputManager.ShootEvent += Shoot;
+                AppManager.Instance.InputManager.MovEventJump += Jump;
+                AppManager.Instance.InputManager.MovEventDown += MoveDown;
+            }
 
            velocity = new Vector2(0, 0);
             rightBorder = (int)position.X + 100;
@@ -59,11 +66,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     bullets++;
                 }
             };
-        }
-
-        public Player(Vector2 position, bool isInvincible) : this(position)
-        {
-            this.isInvincible = isInvincible;
         }
 
         public bool IsAlive { get { return isAlive; } }

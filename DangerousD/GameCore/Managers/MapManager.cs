@@ -98,9 +98,9 @@ namespace DangerousD.GameCore.Managers
                     new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
                         float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
                 Entity inst;
-                if (type.Equals(typeof(Player)) &&  entity.Attributes["name"] is not null && entity.Attributes["name"].Value == "DEBUGUS")
+                if (type.Equals(typeof(Player)))
                 {
-                    inst = (Entity)Activator.CreateInstance(type, pos, true);
+                    inst = (Entity)Activator.CreateInstance(type, pos, false);
                 }
                 else
                 {
