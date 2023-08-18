@@ -414,6 +414,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
+                if (maindirection != velocity)
+                {
+                    AppManager.Instance.GameManager.Remove(this);
+                }
                 base.Update(gameTime);
             }
         }
