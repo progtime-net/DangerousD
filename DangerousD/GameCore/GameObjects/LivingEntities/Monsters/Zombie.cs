@@ -118,6 +118,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
                     Attack();
+                    isAttack = false;
                 }
             }
             base.OnCollision(gameObject);
