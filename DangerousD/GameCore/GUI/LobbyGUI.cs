@@ -135,6 +135,7 @@ namespace DangerousD.GameCore.GUI
                 };
                 Elements.Add(joinByIpButton);
                 joinByIpButton.LeftButtonPressed += () => {
+                    AppManager.Instance.ChangeGameState(GameState.Game);
                     AppManager.Instance.NetworkManager.ClientInit(searchBarTextBox.text);
                 };
             }
