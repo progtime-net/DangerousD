@@ -120,14 +120,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
            
         }
 
-        public void Target()
+        public override void Target()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Attack(GameTime gameTime)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

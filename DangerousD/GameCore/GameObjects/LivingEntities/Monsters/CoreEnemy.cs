@@ -13,7 +13,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     public abstract class CoreEnemy : LivingEntity
     {
         protected int monster_health;
-        protected int monster_speed;
+        protected float monster_speed;
         protected string name;
         protected bool isAlive = true;
         protected int leftBoarder = 0;
@@ -45,5 +45,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 isAlive = false;
             }
         }
+
+        public abstract void Target();
     }
 }

@@ -197,7 +197,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 StartCicycleAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
                             }
                             else
                             {
@@ -214,7 +214,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 StartCicycleAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                             }
                             else
                             {
@@ -345,9 +345,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 Height = 5;
                 Width = 5;
             }
+            int time = 0;   
             protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft" }, "playerMoveLeft");
             Vector2 direction;
-            Vector2 maindirection;
+            public Vector2 maindirection;
             public void ShootUpRight()
             {
                 direction = new Vector2(1, -1);
@@ -415,10 +416,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
-                if (maindirection != velocity)
-                {
-                    AppManager.Instance.GameManager.Remove(this);
-                }
                 base.Update(gameTime);
             }
         }

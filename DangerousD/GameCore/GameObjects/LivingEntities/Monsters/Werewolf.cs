@@ -102,6 +102,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Attack(GameTime gameTime)
         {
         }
+
         public void Jump()
         {
             var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
@@ -148,10 +149,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);/*/
         }
-        public void Target()
-        {
-            throw new NotImplementedException();
-        }
         public void TakeDamage()
         {
             monster_health--;
@@ -161,6 +158,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 Death();
             }
+        }
+
+        public override void Target()
+        {
         }
     }
 }

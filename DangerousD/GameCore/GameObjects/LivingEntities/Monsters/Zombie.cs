@@ -142,7 +142,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.OnCollision(gameObject);
         }
 
-        public void Target()
+        public override void Target()
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 200, Height), typeof(Player)).Count > 0)
             {

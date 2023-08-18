@@ -19,10 +19,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         protected SpiderWeb web;
         protected float delay;
         protected int webLength;
+        protected int widthS;
         protected bool isDown;
         protected bool isDownUp;
         protected PhysicsManager physicsManager;
         protected Player player;
+        protected Vector2 oldPosition;
 
         public Spider(Vector2 position) : base(position)
         {
@@ -31,8 +33,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isDown = true;
             physicsManager = AppManager.Instance.GameManager.physicsManager;
             name = "Spider";
-            Width = 112;
-            Height = 24;
+            Width = 28;
+            Height = 6;
+            widthS = Width;
+            web = new SpiderWeb(new Vector2(Pos.X+Width/2,Pos.Y));
             delay = 0;
             web = new SpiderWeb(new Vector2(Pos.X-Width/2,Pos.Y));
             webLength = 0;
@@ -45,7 +49,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Update(GameTime gameTime)
         {
-            if (!isAttack)
+            if (isAttack == false)
             {
                 Move(gameTime);
             }
@@ -68,15 +72,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Attack(GameTime gameTime)
-        { //48 72
-            velocity.X = 0;
-            delay += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        { 
             if (isAttack)
             {
-                if (delay > 0.5 && webLength <= 4 && isDown)
+                velocity.X = 0;
+                delay += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (delay > 0.25 && webLength <= 4 && isDown)
                 {
-                    Width = 48;
-                    Height = 72;
+                    Width = 12;
+                    Height = 18;
                     StartCicycleAnimation("SpiderOnWeb");
                     acceleration = Vector2.Zero;
                     webLength++;
@@ -91,8 +96,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 else if (delay > 0.5 && webLength != 0 && !isDown)
                 {
-                    Width = 48;
-                    Height = 72;
+                    Width = 12;
+                    Height = 18;
                     StartCicycleAnimation("SpiderOnWeb");
                     webLength--;
                     _pos.Y -= 25;
@@ -104,21 +109,18 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                         isDown = true;
                     }
                 }
-                var entitiesInter = physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 200, 600));
-                if (entitiesInter.Count > 0)
+                if (webLength == 0)
                 {
-                    foreach (var entity in entitiesInter)
+                    isAttack = false;
+                }
+                var entities = physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height + 200));
+                foreach (var entity in entities)
+                {
+                    if (webLength == 4 && entity is Player)
                     {
-                        if (entity.GetType() == typeof(Player))
-                        {
-                            player.Death(name);
-                        }
+                        AppManager.Instance.GameManager.players[0].Death(name);
                     }
                 }
-            }
-            if (webLength == 0)
-            {
-                isAttack = false;
             }
         }
 
@@ -142,8 +144,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            Width = 112;
-            Height = 24;
+            Width = 28;
+            Height = 6;
             foreach (var entity in physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 7, (int)Pos.Y, 126, 10)))
             {
                 if (entity.GetType() == typeof(StopTile))
@@ -169,12 +171,24 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
         }
 
-        public void Target()
+        public override void Target()
         {
             if (player.Pos.X >= Pos.X && player.Pos.X <= Pos.X+Width)
             {
                 isAttack = true;
             }
+        }
+
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
+            {
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    Attack();
+                }
+            }
+            base.OnCollision(gameObject);
         }
     }
 }

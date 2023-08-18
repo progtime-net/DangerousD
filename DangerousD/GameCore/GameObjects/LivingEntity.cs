@@ -40,7 +40,10 @@ public abstract class LivingEntity : Entity
         //}
         base.Update(gameTime);
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="animationName"></param>
     public virtual void StartCicycleAnimation(string animationName)
     {
         if (GraphicsComponent.GetCurrentAnimation != animationName)

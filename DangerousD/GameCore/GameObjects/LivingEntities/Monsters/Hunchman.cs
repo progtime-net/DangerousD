@@ -129,9 +129,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Debug.WriteLine("Collision");
         }
 
-        public void Target()
+        public override void Target()
         {
-            throw new NotImplementedException();
+
         }
     }
 }
