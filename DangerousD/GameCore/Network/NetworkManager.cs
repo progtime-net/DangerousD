@@ -52,7 +52,7 @@ namespace DangerousD.GameCore.Network
                     int count = clientSocket.Receive(so.buffer, so.UploadedBytesCount, length - so.UploadedBytesCount, SocketFlags.None);
                     so.UploadedBytesCount += count;
                 }
-                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
+                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(Encoding.Unicode.GetString(so.buffer, 0, length));
                 GetReceivingMessages(tasks);
             }
         }
@@ -113,25 +113,7 @@ namespace DangerousD.GameCore.Network
                     int count = socket.Receive(so.buffer, so.UploadedBytesCount, length-so.UploadedBytesCount, SocketFlags.None);
                     so.UploadedBytesCount += count;
                 }
-                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
-                GetReceivingMessages(tasks);
-            }
-        }
-
-        private void AsyncReceiveCallback(IAsyncResult ar)
-        {
-            StateObject so = ar.AsyncState as StateObject;
-            Socket clientSocket = so.workSocket;
-            int readCount = clientSocket.EndReceive(ar);
-            so.UploadedBytesCount += readCount;
-            so.sb.Append(Encoding.Unicode.GetString(so.buffer, 0, readCount));
-            if (so.UploadedBytesCount < so.bufferSize)
-            {
-                clientSocket.BeginReceive(so.buffer, 0, so.bufferSize, SocketFlags.None, new AsyncCallback(AsyncReceiveCallback), so);
-            }
-            else
-            {
-                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(so.sb.ToString());
+                List<NetworkTask> tasks = JsonConvert.DeserializeObject<List<NetworkTask>>(Encoding.Unicode.GetString(so.buffer, 0, length));
                 GetReceivingMessages(tasks);
             }
         }

@@ -12,7 +12,6 @@ namespace DangerousD.GameCore.Network
         public Socket workSocket;
         public int bufferSize;
         public byte[] buffer;
-        public StringBuilder sb = new StringBuilder();
         public int UploadedBytesCount;
 
         public StateObject(Socket socket, byte[] buffer)
