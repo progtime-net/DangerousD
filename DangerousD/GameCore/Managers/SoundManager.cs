@@ -19,7 +19,7 @@ namespace DangerousD.GameCore
 
         public void LoadSounds() // метод для загрузки звуков из папки
         {
-            var k = Directory.GetFiles("../../..//Content").Where(x => x.EndsWith("mp3"));
+            var k = Directory.GetFiles("../../..//Content//sounds").Where(x => x.EndsWith("mp3"));
 
             if (k.Count() > 0)
             {
@@ -27,7 +27,7 @@ namespace DangerousD.GameCore
                 string[] soundFiles = k.Select(x => x.Split("\\").Last().Split("/").Last().Replace(".mp3", "")).ToArray();// папка со звуками там где exe 
                 foreach (var soundFile in soundFiles)
                 {
-                    Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>(soundFile).CreateInstance());
+                    Sounds.Add(soundFile, AppManager.Instance.Content.Load<SoundEffect>("sounds//" + soundFile).CreateInstance());
                 }
 
             }
@@ -53,7 +53,7 @@ namespace DangerousD.GameCore
         {
             var sound = new Sound(Sounds[soundName], soundPos);
             sound.SoundEffect.IsLooped = false;
-            sound.SoundEffect.Volume = (float)sound.GetDistance(playerPos) / MaxSoundDistance;
+            sound.SoundEffect.Volume = (float)(MaxSoundDistance-sound.GetDistance(playerPos)) / MaxSoundDistance;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
@@ -79,7 +79,7 @@ namespace DangerousD.GameCore
                 for (int i = 0; i < PlayingSounds.Count; i++)
                 { 
                     if (!PlayingSounds[i].isAmbient)
-                        PlayingSounds[i].SoundEffect.Volume = (float)PlayingSounds[i].GetDistance(player.Pos) / MaxSoundDistance;
+                        PlayingSounds[i].SoundEffect.Volume = (float)(MaxSoundDistance - PlayingSounds[i].GetDistance(player.Pos)) / MaxSoundDistance;
                     if (PlayingSounds[i].SoundEffect.State == SoundState.Stopped)
                         PlayingSounds.Remove(PlayingSounds[i]);
                 }

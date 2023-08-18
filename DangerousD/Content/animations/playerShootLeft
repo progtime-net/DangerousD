@@ -1,1 +1,24 @@
-{"id":"playerShootLeft","textureName":"playerAnimation","startSpriteRectangle":{"X":201,"Y":34,"Width":32,"Height":32},"frameSecond":[{"Item1":0,"Item2":12}],"textureFrameInterval":1,"framesCount":2,"isCycle":false,"offset":"4, 0"}
+{
+  "id": "playerShootLeft",
+  "textureName": "playerAnimation",
+  "startSpriteRectangle": {
+    "X": 201,
+    "Y": 34,
+    "Width": 32,
+    "Height": 32
+  },
+  "frameSecond": [
+    {
+      "Item1": 0,
+      "Item2": 3
+    },
+    {
+      "Item1": 1,
+      "Item2": 20
+    }
+  ],
+  "textureFrameInterval": 1,
+  "framesCount": 2,
+  "isCycle": false,
+  "offset": "4, 0"
+}
