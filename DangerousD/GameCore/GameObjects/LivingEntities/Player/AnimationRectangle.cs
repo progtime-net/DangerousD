@@ -18,7 +18,7 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
             PlayDeath(DeathType);
         }
 
-        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> {"DeathFromZombie", "DeathFromSilasHand" },
+        protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> {"DeathFromZombie", "DeathFromSilasHand", "DeathFromWerewolf" },
             "DeathFromZombie");
 
         public GraphicsComponent Gr => GraphicsComponent;

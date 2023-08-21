@@ -147,6 +147,28 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
+            else if (monsterName == "FlameSkull")
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFromSilasHand");
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFromSilasHand")
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
+            else if (monsterName == "Werewolf")
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                {
+                    if (a == "DeathFrom" + monsterName)
+                    {
+                        AppManager.Instance.ChangeGameState(GameState.Death);
+                    }
+                };
+            }
             else if (monsterName == "SilasHand")
             {
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);

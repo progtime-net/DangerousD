@@ -17,7 +17,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public Werewolf(Vector2 position) : base(position)
         {
-            name = "Wolf";
+            name = "Werewolf";
             monster_speed = 3;
             Width = 39;
             Height = 48;
@@ -140,20 +140,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            /*/if (gameObject is Player)
+            if (gameObject is Player)
             {
+                velocity.Y = 0;
+                velocity.X = 0;
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
                     AppManager.Instance.GameManager.players[0].Death(name);
                 }
             }
-            base.OnCollision(gameObject);/*/
+            base.OnCollision(gameObject);
         }
-        public void TakeDamage()
+        public override void TakeDamage()
         {
             monster_health--;
             
             Particle particle = new Particle(Pos);
+            Particle particle1 = new Particle(Pos);
             if (monster_health <= 0)
             {
                 Death();
