@@ -121,6 +121,25 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = true;
             }
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            if (isGoRight)
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width + 4, 2));
+            }
+            else
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width + 3, 2));
+            }
+
+
+            foreach (var item in getCols)
+            {
+                if (item is MapObject)
+                {
+                    isGoRight = !isGoRight;
+                    break;
+                }
+            }
         }
         public override void OnCollision(GameObject gameObject)
         {
@@ -144,7 +163,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Target()
         {
-            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 200, Height), typeof(Player)).Count > 0)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 150, (int)Pos.Y, Width + 300, Height), typeof(Player)).Count > 0)
             {
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
