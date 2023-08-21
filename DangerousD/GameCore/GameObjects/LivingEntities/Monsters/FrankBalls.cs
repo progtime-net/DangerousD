@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -73,11 +74,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Move(GameTime gameTime)
         {
             
-            var getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
-            var getColsVer= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); ;
+            var getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2),typeof(CollisionMapObject));
+            var getColsVer= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2),typeof(CollisionMapObject)); ;
             if (isFlyRight)
             {
-                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y , 42, 40));
+                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y , 42, 40),typeof(CollisionMapObject));
                 if(getColsHor.Count > 0)
                 {
                     isFlyRight = false;
@@ -87,7 +88,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             else
             {
-                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-2, (int)Pos.Y, 42, 40));
+                getColsHor = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-2, (int)Pos.Y, 42, 40),typeof(CollisionMapObject));
                 if (getColsHor.Count > 0)
                 {
                     isFlyRight = true;
@@ -98,7 +99,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             if (isFlyUp)
             {
                 
-                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X , (int)Pos.Y-3, 40, 43));
+                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X , (int)Pos.Y-3, 40, 43),typeof(CollisionMapObject));
                 if (getColsVer.Count > 0)
                 {
                     isFlyUp = false;
@@ -108,7 +109,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             else
             {
-                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 40, 43));
+                getColsVer = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 40, 43),typeof(CollisionMapObject));
                 if (getColsVer.Count > 0)
                 {
                     isFlyUp = true;

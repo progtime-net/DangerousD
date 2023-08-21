@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.Entities
 {
@@ -40,7 +41,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle( new Rectangle(Rectangle.X-2,Rectangle.Y-2,Rectangle.Width+8,Rectangle.Height+8)).Count>0)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle( new Rectangle(Rectangle.X-2,Rectangle.Y-2,Rectangle.Width+8,Rectangle.Height+8),typeof(CollisionMapObject)).Count>0)
             {
                 AppManager.Instance.GameManager.Remove(this);
             }
