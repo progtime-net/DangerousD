@@ -26,6 +26,10 @@ public abstract class MapObject : GameObject
     {
         GraphicsComponent.DrawAnimation(Rectangle, spriteBatch, _sourceRectangle);
         //spriteBatch.Draw(debugTexture, new Rectangle(Rectangle.X - GraphicsComponent.CameraPosition.X, Rectangle.Y - GraphicsComponent.CameraPosition.Y, Rectangle.Width, Rectangle.Height), Color.White);
-
+        if (AppManager.Instance.InputManager.CollisionsCheat&& IsColliderOn)
+        {
+            spriteBatch.Draw(debugTexture,
+                new Rectangle((Rectangle.X - GraphicsComponent.CameraPosition.X) * GraphicsComponent.scaling, (Rectangle.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling, Rectangle.Width * GraphicsComponent.scaling, Rectangle.Height * GraphicsComponent.scaling),Color.White);
+        }
     }
 }
