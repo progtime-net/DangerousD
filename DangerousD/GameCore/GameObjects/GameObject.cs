@@ -44,16 +44,16 @@ namespace DangerousD.GameCore
 
         public void PlayAnimation()
         {
-            GraphicsComponent.LoadContent();
+            GraphicsComponent.Update();
         }
         public void LoadContent()
         {
-            PlayAnimation();
+            GraphicsComponent.LoadContent();
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            GraphicsComponent.Update();
+            PlayAnimation();
         }
 
         public static Texture2D debugTexture;

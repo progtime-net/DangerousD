@@ -139,6 +139,7 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
+
             _currTime += gameTime.ElapsedGameTime.Milliseconds;
             if (_currTime - _lastUpdate > 50 && AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
             {

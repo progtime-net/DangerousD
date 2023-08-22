@@ -116,7 +116,10 @@ namespace DangerousD.GameCore
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (GameManager.GetPlayer1 != null)
+            {
+                DebugHUD?.Set("isShooting:", GameManager.GetPlayer1.isShooting.ToString());
                 DebugHUD.Set("id: ", GameManager.GetPlayer1.id.ToString());
+            }
             InputManager.Update();
             SoundManager.Update();
 
@@ -321,9 +324,6 @@ namespace DangerousD.GameCore
         }
         public void SetIsFullScreen(bool fullscrin)
         {
-            DebugHUD?.Set("resX:", SettingsManager.Resolution.X.ToString());
-            DebugHUD?.Set("resY:", SettingsManager.Resolution.Y.ToString());
-            DebugHUD?.Set("FullScreen:", _graphics.IsFullScreen.ToString());
             if (fullscrin)
             {
                 _graphics.PreferredBackBufferWidth = 1920;

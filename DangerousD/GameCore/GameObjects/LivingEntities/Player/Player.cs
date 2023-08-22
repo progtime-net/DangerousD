@@ -26,7 +26,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int leftBorder;
         public bool isVisible = true;
         private bool isAttacked = false;
-        private bool isShooting = false;
+        public bool isShooting = false;
         public GameObject objectAttack;
         private int bullets;
         public bool FallingThroughPlatform = false;
