@@ -21,18 +21,6 @@
 /processorParam:TextureFormat=Compressed
 /build:ButtonFont.spritefont
 
-#begin checkboxs_off.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:checkboxs_off.png
-
 #begin checkboxs_off-on.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -44,6 +32,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:checkboxs_off-on.png
+
+#begin checkboxs_off.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:checkboxs_off.png
 
 #begin checkboxs_on.png
 /importer:TextureImporter
@@ -157,7 +157,7 @@
 /processorParam:TextureFormat=Color
 /build:menuFon.jpg
 
-#begin MenuFon2.jpg
+#begin menuFon2.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,7 +167,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuFon2.jpg
+/build:menuFon2.jpg
 
 #begin menuFon3.jpg
 /importer:TextureImporter
@@ -260,7 +260,7 @@
 /processorParam:TextureFormat=Color
 /build:sliderBackground.png
 
-#begin SmokeAnimation2.png
+#begin smokeAnimation2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -270,7 +270,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:SmokeAnimation2.png
+/build:smokeAnimation2.png
 
 #begin sounds/collected_coins.mp3
 /importer:Mp3Importer
@@ -326,18 +326,6 @@
 /processorParam:TextureFormat=Color
 /build:textboxbackground1-1.png
 
-#begin textboxbackground2,5-1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textboxbackground2,5-1.png
-
 #begin textboxbackground2-1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -349,6 +337,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textboxbackground2-1.png
+
+#begin textboxbackground2,5-1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textboxbackground2,5-1.png
 
 #begin textboxbackground6-1.png
 /importer:TextureImporter

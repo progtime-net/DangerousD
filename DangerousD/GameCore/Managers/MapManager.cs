@@ -12,13 +12,14 @@ using System.Globalization;
 using System.IO;
 using DangerousD.GameCore.GameObjects.Entities;
 using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 
 namespace DangerousD.GameCore.Managers
 {
     public class MapManager
     {
         private int _scale;
-        private List<TileSet> _tileSets;
+        private List<TileSet> _tileSets = new List<TileSet>();
 
         public MapManager(int scale)
         {
@@ -30,16 +31,17 @@ namespace DangerousD.GameCore.Managers
             foreach (XmlNode tileSet in tileSets)
             {
                 XmlDocument tsx = new();
-                tsx.Load($"../../../Content/{tileSet.Attributes["source"]}.tmx");
+                tsx.Load($"../../../Content/{tileSet.Attributes["source"].Value}");
+                XmlNode root = tsx.DocumentElement;
 
-                Point tileSize = new Point(int.Parse(tsx.Attributes["tilewidth"].Value),
-                    int.Parse(tsx.Attributes["tileheight"].Value));
+                Point tileSize = new Point(int.Parse(root.Attributes["tilewidth"].Value),
+                    int.Parse(root.Attributes["tileheight"].Value));
 
-                int columns = int.Parse(tsx.Attributes["columns"].Value);
-                _tileSets.Add(new TileSet(tsx.FirstChild.Attributes["source"].Value,
-                    int.Parse(tsx.Attributes["firstgid"].Value),
+                int columns = int.Parse(root.Attributes["columns"].Value);
+                _tileSets.Add(new TileSet(root.FirstChild.Attributes["source"].Value,
+                    int.Parse(tileSet.Attributes["firstgid"].Value),
                     tileSize,
-                    int.Parse(tsx.Attributes["tilescount"].Value) / columns,
+                    int.Parse(root.Attributes["tilecount"].Value) / columns,
                     columns));
             }
         }
@@ -160,7 +162,7 @@ namespace DangerousD.GameCore.Managers
                     
                     if (level is not null)  // Teleport to level
                     {
-                        
+                        inst = new Zombie(Vector2.Zero);
                         // BRUH LOAD LEVEL AGAIN
                         /*inst = (Entity)Activator.CreateInstance(type, pos, tileSet.TileSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize,
                             new Ve);*/
