@@ -110,14 +110,6 @@ namespace DangerousD.GameCore.Graphics
 
         public void StartAnimation(string startedanimationId)
         {
-            if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
-            {
-                LivingEntity entity = AppManager.Instance.GameManager.livingEntities.Find(x => x.id == parentId);
-                if (((entity is Player) || AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) && startedanimationId != GetCurrentAnimation)
-                {
-                    AppManager.Instance.NetworkTasks.Add(new NetworkTask(parentId, startedanimationId, Vector2.Zero));
-                }
-            }
             currentFrame = 0;
             currentAnimation = animations.Find(x => x.Id == startedanimationId);
 

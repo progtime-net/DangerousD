@@ -78,19 +78,23 @@ namespace DangerousD.GameCore.Network
             AppManager.Instance.NetworkTasks.Add(connectionTask);
             AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.Client);
         }
-        public void SendMsg(List<NetworkTask> networkTask, Socket ignoreSocket = null)
+        public void SendMsg(List<NetworkTask> networkTasks, Socket ignoreSocket = null)
         {
-            byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
+            Thread optThread = new Thread(SendMsgOpt);
+            optThread.Start(networkTasks);
+
+        }
+        public void SendMsgOpt(object objList)
+        {
+            List<NetworkTask> networkTasks = (List<NetworkTask>)objList;
+            byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTasks));
             int count = Data.Length;
-            if (state == "Host")
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
             {
                 foreach (Socket socket in clientSockets)
                 {
-                    if (!(socket == ignoreSocket))
-                    {
-                        socket.Send(BitConverter.GetBytes(count));
-                        socket.Send(Data);
-                    }
+                    socket.Send(BitConverter.GetBytes(count));
+                    socket.Send(Data);
                 }
             }
             else
