@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
 using DangerousD.GameCore.Network;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -121,25 +122,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = true;
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width + 4, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y , Width + 4, Height));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width + 3, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y, Width + 3, Height));
             }
 
 
             foreach (var item in getCols)
             {
-                if (item is MapObject)
+                if (item is StopTile)
                 {
                     isGoRight = !isGoRight;
                     break;
                 }
             }
+
+
         }
         public override void OnCollision(GameObject gameObject)
         {

@@ -1,4 +1,5 @@
-﻿using DangerousD.GameCore.Graphics;
+﻿using DangerousD.GameCore.GameObjects.MapObjects;
+using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,20 +79,20 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 velocity.X = -monster_speed;
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width+4, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width +3, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y, Width + 3, Height));
             }
 
 
             foreach (var item in getCols)
             {
-                if (item is MapObject)
+                if (item is StopTile)
                 {
                     isGoRight = !isGoRight;
                     break;
