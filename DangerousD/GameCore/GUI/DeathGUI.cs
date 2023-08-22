@@ -25,7 +25,7 @@ internal class DeathGUI : AbstractGui
         butMenu.LeftButtonPressed += () =>
         {
             AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
-            AppManager.Instance.Restart("lvl");
+            AppManager.Instance.Restart("lvl1");
         };
         foreach (var item in Elements)
         {

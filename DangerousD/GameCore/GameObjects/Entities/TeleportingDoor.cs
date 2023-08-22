@@ -13,16 +13,15 @@ namespace DangerousD.GameCore.GameObjects.Entities
         public Vector2 Target;
         public bool IsVisible = true;
         public Action action;
-        public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Vector2 target, Action action) : base(position, size, sourceRectangle)
+        public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Action action) : base(position, size, sourceRectangle)
         {
-            Target = target;
             this.action = action;
         }
         
         public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Vector2 target) : base(position, size, sourceRectangle)
         {
             Target = target;
-            action = () => { };
+            
         }
         public override void OnCollision(GameObject gameObject)
         {
@@ -31,10 +30,13 @@ namespace DangerousD.GameCore.GameObjects.Entities
                 Player player = (Player)gameObject;
                 if (player.isUping && !isUppingPrev)
                 {
-                    player.SetPosition(new Vector2(Target.X, Target.Y - player.Height - 5));
                     if (action!=null)
                     {
                         action();
+                    }
+                    else
+                    {
+                        player.SetPosition(new Vector2(Target.X, Target.Y - player.Height - 5));
                     }
                 }
             }
