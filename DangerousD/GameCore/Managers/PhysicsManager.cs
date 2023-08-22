@@ -148,7 +148,7 @@ namespace DangerousD.GameCore.Managers
                 
                 var collidedY = false;
                 var tryingRectY = currentRect;
-                tryingRectY.Offset(0, (int)Math.Ceiling(player.velocity.Y));
+                tryingRectY.Offset(0, (int)Math.Floor(player.velocity.Y)); //tried to fix vertical gaps with boxes
                 AppManager.Instance.DebugHUD.Set("intersects platform", "false");
                 foreach (var platform in platforms)
                 {
