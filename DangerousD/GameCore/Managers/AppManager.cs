@@ -243,6 +243,12 @@ namespace DangerousD.GameCore
                             bullet.velocity = networkTask.velocity;
                             bullet.maindirection = bullet.velocity;
                         }
+                        else if (networkTask.type == typeof(Particle))
+                        {
+                                Particle particle = new Particle(networkTask.position);
+                                particle.id = networkTask.objId;    
+                                particle.velocity = networkTask.velocity;
+                        }
                         break;
                     case NetworkTaskOperationEnum.SendPosition:
                         if (networkTask.objId != GameManager.GetPlayer1.id )
