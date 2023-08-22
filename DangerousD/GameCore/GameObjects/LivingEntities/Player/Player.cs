@@ -410,6 +410,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         CoreEnemy enemy = (CoreEnemy)gameObject;
                         enemy.TakeDamage();
                         AppManager.Instance.GameManager.Remove(this);
+                       
+                    }
+
+                    if (gameObject is StopTile)
+                    {
+                        AppManager.Instance.GameManager.Remove(this);
+                        
                     }
                     base.OnCollision(gameObject);
                 }
@@ -421,6 +428,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     AppManager.Instance.GameManager.Remove(this);
                 }
                 base.Update(gameTime);
+                
             }
         }
     }
