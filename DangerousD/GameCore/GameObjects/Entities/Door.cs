@@ -15,6 +15,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
     {
         private Rectangle _sourceRectangle;
         Random random = new Random();
+        protected bool isUppingPrev = true;
         public Door(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position)
         {
             _sourceRectangle = sourceRectangle;
@@ -38,24 +39,23 @@ namespace DangerousD.GameCore.GameObjects.Entities
         public override void OnCollision(GameObject gameObject)
         {
             base.OnCollision(gameObject);
-            if (this is not TeleportingDoor)
+            
+            if (gameObject is Player)
             {
-                if (gameObject is Player)
+                Player player = (Player)gameObject;
+                if (this is not TeleportingDoor && player.isUping && !isUppingPrev)
                 {
-                    Player player = (Player)gameObject;
-                    if (player.isUping)
+                    AppManager.Instance.GameManager.Remove(this);
+                    //тут спавн лута
+                    for (int i = 0; i < random.Next(0, 15); i++)
                     {
-                        AppManager.Instance.GameManager.Remove(this);
-                        //тут спавн лута
-                        for (int i = 0; i < random.Next(0,15); i++)
-                        {
-                            var d = new Diamond(Vector2.Zero);
-                            d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
-                        }
+                        var d = new Diamond(Vector2.Zero);
+                        d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
                     }
                 }
+
+                isUppingPrev = player.isUping;
             }
-            
         }
     }
 }

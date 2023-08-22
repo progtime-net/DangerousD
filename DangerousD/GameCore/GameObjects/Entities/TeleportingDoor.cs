@@ -26,34 +26,19 @@ namespace DangerousD.GameCore.GameObjects.Entities
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (IsVisible)
+            if (gameObject is Player)
             {
-                if (gameObject is Player)
+                Player player = (Player)gameObject;
+                if (player.isUping && !isUppingPrev)
                 {
-                    Player player = (Player)gameObject;
-                    if (player.isUping)
+                    player.SetPosition(new Vector2(Target.X, Target.Y - player.Height - 5));
+                    if (action!=null)
                     {
-                        IsVisible = false;
-                        
+                        action();
                     }
                 }
             }
-            else
-            {
-                if (gameObject is Player)
-                {
-                    Player player = (Player)gameObject;
-                    if (player.isUping)
-                    {
-                        player.SetPosition(Target);
-                        if (action!=null)
-                        {
-                            action();
-                        }
-                        
-                    }
-                }
-            }
+            base.OnCollision(gameObject);
         }
 
     }
