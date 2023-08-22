@@ -98,7 +98,7 @@ namespace DangerousD.GameCore.Managers
                 }
                 foreach (var mapObject in mapObjects)
                 {
-                    if (livingEntities[i] is Player&& mapObject is Platform)
+                    if ((livingEntities[i] is Player||livingEntities[i] is Bullet)&& mapObject is Platform)
                     {
                         continue;
                     }
@@ -330,7 +330,12 @@ namespace DangerousD.GameCore.Managers
             List<GameObject> intersected = new List<GameObject>();
             for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (gameObjects[i].GetType() == type)
+                Type objectType = gameObjects[i].GetType();
+                while (objectType!=type&&objectType!=typeof(object))
+                {
+                    objectType = objectType.BaseType;
+                }
+                if ( objectType== type)
                 {
                     if (gameObjects[i].Rectangle.Intersects(rectangle))
                     {
@@ -340,35 +345,7 @@ namespace DangerousD.GameCore.Managers
             }
             return intersected;
         }
-        public List<GameObject> CheckRectangle(Rectangle rectangle, bool player)
-        {
-            var gameObjects = AppManager.Instance.GameManager.GetPlayer1;
-            List<GameObject> intersected = new List<GameObject>();
-            
-                
-                
-            if (gameObjects.Rectangle.Intersects(rectangle))
-            {
-                intersected.Add(gameObjects);
-            }
-                
-            
-            return intersected;
-        }
-        public List<GameObject> CheckRectangle(Rectangle rectangle)
-        {
-            var gameObjects = AppManager.Instance.GameManager.mapObjects;
-            List<GameObject> intersected = new List<GameObject>();
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                
-                    if (gameObjects[i].Rectangle.Intersects(rectangle) && gameObjects[i].IsColliderOn)
-                    {
-                        intersected.Add(gameObjects[i]);
-                    }
-                
-            }
-            return intersected;
-        }
+        
+        
     }
 }
