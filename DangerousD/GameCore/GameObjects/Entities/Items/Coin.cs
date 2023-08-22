@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace DangerousD.GameCore.GameObjects.Entities.Items;
 
-public class Coin : Entity
+public class    Coin : Entity
 {
     public Coin(Vector2 position) : base(position)
     {
