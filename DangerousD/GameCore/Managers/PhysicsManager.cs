@@ -21,9 +21,10 @@ namespace DangerousD.GameCore.Managers
             {
                 item.velocity = item.velocity + item.acceleration * delta;
             }
-
-            CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile).ToList());
+            
+            CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile or Platform).ToList());
             CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList());
+            
             CheckCollisionsE_LE(entities, livingEntities);
             CheckCollisionsLE_LE(livingEntities);
 
@@ -39,30 +40,45 @@ namespace DangerousD.GameCore.Managers
         private void CheckCollisionsLE_MO(List<LivingEntity> livingEntities,
             List<MapObject> mapObjects)
         {
-            foreach (var currentEntity in livingEntities)
+            for (int i = 0; i < livingEntities.Count; i++)
             {
-                var currentRect = currentEntity.Rectangle;
+                var currentRect = livingEntities[i].Rectangle;
                 var newRect = currentRect;
-
+                bool flagRemovedObject = false;
+                
                 #region x collision
                 var collidedX = false;
                 var tryingRectX = currentRect;
-                tryingRectX.Offset((int)Math.Ceiling(currentEntity.velocity.X), 0);
-                foreach (var mapObject in mapObjects)
+                tryingRectX.Offset((int)Math.Ceiling(livingEntities[i].velocity.X), 0);
+                foreach (var mapObject in mapObjects.OfType<StopTile>())
                 {
                     if (
-                        Math.Abs(mapObject.Pos.X - currentEntity.Pos.X) < 550 
-                        && Math.Abs(mapObject.Pos.Y - currentEntity.Pos.Y) < 550
+                        Math.Abs(mapObject.Pos.X - livingEntities[i].Pos.X) < 550 
+                        && Math.Abs(mapObject.Pos.Y - livingEntities[i].Pos.Y) < 550
                         && tryingRectX.Intersects(mapObject.Rectangle)
                     )
                     {
                         collidedX = true;
+                        int prevL = livingEntities.Count;
+                        livingEntities[i].OnCollision(mapObject);
+                        if (livingEntities.Count<prevL)
+                        {
+                            i -= (prevL - livingEntities.Count);
+                            flagRemovedObject = true;
+                        }
+                        
+                        
                         break;
                     }
                 }
+
+                if (flagRemovedObject)
+                {
+                    continue;
+                }
                 if (collidedX)
                 {
-                    currentEntity.velocity.X = 0;
+                    livingEntities[i].velocity.X = 0;
                 }
                 else
                 {
@@ -73,26 +89,42 @@ namespace DangerousD.GameCore.Managers
                 #region y collision
                 var collidedY = false;
                 var tryingRectY = currentRect;
-                tryingRectY.Offset(0, (int)Math.Ceiling(currentEntity.velocity.Y));
-                if (currentEntity is Player)
+                tryingRectY.Offset(0, (int)Math.Ceiling(livingEntities[i].velocity.Y));
+                if (livingEntities[i] is Player)
                 {
-                    AppManager.Instance.DebugHUD.Set("velocity", currentEntity.velocity.ToString());
-                    AppManager.Instance.DebugHUD.Set("falling", (currentEntity as Player).FallingThroughPlatform.ToString());
+                    AppManager.Instance.DebugHUD.Set("velocity", livingEntities[i].velocity.ToString());
+                    AppManager.Instance.DebugHUD.Set("falling", (livingEntities[i] as Player).FallingThroughPlatform.ToString());
                     AppManager.Instance.DebugHUD.Set("intersects y", "");
                 }
                 foreach (var mapObject in mapObjects)
                 {
+                    if (livingEntities[i] is Player&& mapObject is Platform)
+                    {
+                        continue;
+                    }
                     if (tryingRectY.Intersects(mapObject.Rectangle))
                     {
-                        if (currentEntity is Player) AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
+                        if (livingEntities[i] is Player) AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
                         collidedY = true;
+                        int prevL = livingEntities.Count;
+                        livingEntities[i].OnCollision(mapObject);
+                        if (livingEntities.Count<prevL)
+                        {
+                            i -= (prevL - livingEntities.Count);
+                            flagRemovedObject = true;
+                        }
+                        
                         break;
                     }
                 }
-                currentEntity.isOnGround = collidedY && currentEntity.velocity.Y > 0;
+                if (flagRemovedObject)
+                {
+                    continue;
+                }
+                livingEntities[i].isOnGround = collidedY && livingEntities[i].velocity.Y > 0;
                 if (collidedY)
                 {
-                    currentEntity.velocity.Y = 0;
+                    livingEntities[i].velocity.Y = 0;
                 }
                 else
                 {
@@ -100,9 +132,8 @@ namespace DangerousD.GameCore.Managers
                 }
                 #endregion
 
-                currentEntity.SetPosition(new Vector2(newRect.X, newRect.Y));
+                livingEntities[i].SetPosition(new Vector2(newRect.X, newRect.Y));
             }
-
         }
         private void CheckCollisionsPlayer_Platform(List<Player> players, List<Platform> platforms)
         {
@@ -170,6 +201,38 @@ namespace DangerousD.GameCore.Managers
                         livingEntities[j].OnCollision(livingEntities[i]);
                     }
                 }
+            }
+        }
+
+        private void CheckCollisionsLE_Platforms(List<LivingEntity> livingEntities, List<Platform> platforms)
+        {
+            foreach (var livingEntity in livingEntities)
+            {
+                var currentRect = livingEntity.Rectangle;
+                var newRect = currentRect;
+                var collidedY = false;
+                var tryingRectY = currentRect;
+                tryingRectY.Offset(0, (int)Math.Ceiling(livingEntity.velocity.Y));
+                foreach (var platform in platforms)
+                {
+                    if (tryingRectY.Intersects(platform.Rectangle))
+                    {
+                        collidedY = true;
+                        livingEntity.OnCollision(platform);
+
+                        break;
+                    }
+                }
+                //livingEntity.isOnGround = collidedY && livingEntity.velocity.Y > 0;
+                if (collidedY)
+                {
+                    livingEntity.velocity.Y = 0;
+                }
+                else
+                {
+                    newRect.Y = tryingRectY.Y;
+                }
+                livingEntity.SetPosition(new Vector2(newRect.X, newRect.Y));
             }
         }
 
@@ -267,7 +330,12 @@ namespace DangerousD.GameCore.Managers
             List<GameObject> intersected = new List<GameObject>();
             for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (gameObjects[i].GetType() == type)
+                Type objectType = gameObjects[i].GetType();
+                while (objectType!=type&&objectType!=typeof(object))
+                {
+                    objectType = objectType.BaseType;
+                }
+                if ( objectType== type)
                 {
                     if (gameObjects[i].Rectangle.Intersects(rectangle))
                     {
@@ -277,35 +345,7 @@ namespace DangerousD.GameCore.Managers
             }
             return intersected;
         }
-        public List<GameObject> CheckRectangle(Rectangle rectangle, bool player)
-        {
-            var gameObjects = AppManager.Instance.GameManager.GetPlayer1;
-            List<GameObject> intersected = new List<GameObject>();
-            
-                
-                
-            if (gameObjects.Rectangle.Intersects(rectangle))
-            {
-                intersected.Add(gameObjects);
-            }
-                
-            
-            return intersected;
-        }
-        public List<GameObject> CheckRectangle(Rectangle rectangle)
-        {
-            var gameObjects = AppManager.Instance.GameManager.mapObjects;
-            List<GameObject> intersected = new List<GameObject>();
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                
-                    if (gameObjects[i].Rectangle.Intersects(rectangle) && gameObjects[i].IsColliderOn)
-                    {
-                        intersected.Add(gameObjects[i]);
-                    }
-                
-            }
-            return intersected;
-        }
+        
+        
     }
 }

@@ -113,7 +113,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 {
                     isAttack = false;
                 }
-                var entities = physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height + 200));
+                var entities = physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height + 200),typeof(CollisionMapObject));
                 foreach (var entity in entities)
                 {
                     if (webLength == 4 && entity is Player)
@@ -146,7 +146,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 28;
             Height = 6;
-            foreach (var entity in physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 7, (int)Pos.Y, 126, 10)))
+            foreach (var entity in physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 7, (int)Pos.Y, 126, 10),typeof(CollisionMapObject)))
             {
                 if (entity.GetType() == typeof(StopTile))
                 {

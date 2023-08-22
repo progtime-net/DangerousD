@@ -1,4 +1,5 @@
 ﻿using DangerousD.GameCore.Graphics;
+using DangerousD.GameCore.Network;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DangerousD.GameCore.GameObjects.LivingEntities.Player;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -23,6 +25,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             delay = 100;
             isFall = false;
             isOnGround = false;
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
+            {
+                NetworkTask task = new NetworkTask(typeof(Particle), Pos, id, velocity);
+                AppManager.Instance.NetworkTasks.Add(task);
+            }
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "GibsMoveLeftBottom", "GibsMoveLeftTop", "GibsMoveRightBottom", "GibsMoveRightTop", "GibsNotMove" }, "GibsMoveRightTop");

@@ -26,7 +26,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int leftBorder;
         public bool isVisible = true;
         private bool isAttacked = false;
-        private bool isShooting = false;
+        public bool isShooting = false;
         public GameObject objectAttack;
         private int bullets;
         public bool FallingThroughPlatform = false;
@@ -233,7 +233,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
-                                StartCicycleAnimation("playerShootBoomUpLeft");
+                                StartCicycleAnimation("playerShootLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
                                 SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
@@ -432,6 +432,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         CoreEnemy enemy = (CoreEnemy)gameObject;
                         enemy.TakeDamage();
                         AppManager.Instance.GameManager.Remove(this);
+                       
+                    }
+
+                    if (gameObject is StopTile)
+                    {
+                        AppManager.Instance.GameManager.Remove(this);
+                        
                     }
                     base.OnCollision(gameObject);
                 }
@@ -439,6 +446,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             public override void Update(GameTime gameTime)
             {
                 base.Update(gameTime);
+                
             }
         }
     }

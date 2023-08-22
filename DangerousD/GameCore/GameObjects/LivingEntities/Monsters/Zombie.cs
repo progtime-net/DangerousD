@@ -112,24 +112,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
-
-            if(Pos.X >= rightBorder)
-            {
-                isGoRight = false;
-            }
-
-            else if(Pos.X <= leftBorder)
-            {
-                isGoRight = true;
-            }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1));
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y , Width + 4, Height));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y, Width + 3, Height));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y , Width + 3, Height), typeof(CollisionMapObject));
+
             }
 
 
@@ -141,6 +132,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     break;
                 }
             }
+            if (Pos.X >= rightBorder)
+            {
+                isGoRight = false;
+            }
+
+            else if(Pos.X <= leftBorder)
+            {
+                isGoRight = true;
+            }
+            
 
 
         }

@@ -33,18 +33,18 @@ namespace DangerousD.GameCore.Network
         }
 
         /// <summary>
-        /// Создать сущность на позиции с заданной скоростью и присвоить её родительской сущности
+        /// Создать сущность на позиции с заданной скоростью и присвоить ей id
         /// </summary>
         /// <param name="EntityType"></param>
         /// <param name="EntityPosition"></param>
         /// <param name="ParentId"></param>
-        public NetworkTask(Type EntityType, Vector2 EntityPosition, int ParentId, Vector2 velocity)
+        public NetworkTask(Type EntityType, Vector2 EntityPosition, int Id, Vector2 velocity)
         {
             operation = NetworkTaskOperationEnum.CreateEntity;
             type = EntityType;
             position = EntityPosition;
             this.velocity = velocity;
-            objId = ParentId;
+            objId = Id;
         }
 
         /// <summary>

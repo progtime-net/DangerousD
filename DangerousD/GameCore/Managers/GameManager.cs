@@ -11,6 +11,7 @@ using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 using System.Linq;
 using DangerousD.GameCore.GUI;
 using DangerousD.GameCore.Network;
+using DangerousD.GameCore.GameObjects.Entities;
 
 namespace DangerousD.GameCore
 {
@@ -90,6 +91,11 @@ namespace DangerousD.GameCore
 
         public void Remove(GameObject gameObject)
         {
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host || gameObject is Door)
+            {
+                NetworkTask task = new NetworkTask();
+                AppManager.Instance.NetworkTasks.Add(task.DeleteObject(gameObject.id));
+            }
             GetAllGameObjects.Remove(gameObject);
             if (gameObject is Player objPl)
             {
@@ -99,6 +105,7 @@ namespace DangerousD.GameCore
             else if (gameObject is LivingEntity objLE)
             {
                 livingEntities.Remove(objLE);
+                livingEntitiesWithoutPlayers.Remove(objLE);
             }
             else if (gameObject is Entity objE)
             {
@@ -133,16 +140,23 @@ namespace DangerousD.GameCore
 
         public void Update(GameTime gameTime)
         {
+
             _currTime += gameTime.ElapsedGameTime.Milliseconds;
-            if (AppManager.Instance.NetworkTasks.Count > 0)
+            if (_currTime - _lastUpdate > 50 && AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
             {
-                if (_currTime - _lastUpdate > 50)
+                foreach (Entity entity in livingEntities)
                 {
-                    AppManager.Instance.DebugHUD.Log("sending");
-                    AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
-                    AppManager.Instance.NetworkTasks.Clear();
-                    _lastUpdate = _currTime;
+                    if (entity is Player || AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
+                    {
+                        NetworkTask task = new NetworkTask(entity.id, entity.Pos);
+                        AppManager.Instance.NetworkTasks.Add(task);
+                        AppManager.Instance.NetworkTasks.Add(new NetworkTask(entity.id, entity.GetGraphicsComponent().GetCurrentAnimation, Vector2.Zero));
+                    }
                 }
+                AppManager.Instance.DebugHUD.Log("sending");
+                AppManager.Instance.NetworkManager.SendMsg(AppManager.Instance.NetworkTasks.ToList());
+                AppManager.Instance.NetworkTasks.Clear();
+                _lastUpdate = _currTime;
             }
             foreach (var item in BackgroundObjects)
                 item.Update(gameTime);

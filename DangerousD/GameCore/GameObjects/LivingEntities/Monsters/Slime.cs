@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -45,7 +46,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public void Jump(GameTime gameTime)
         {
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle(0, 0, 100, 100));
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle(0, 0, 100, 100),typeof(CollisionMapObject));
             velocity.X = 0;
             Height = 32;
 
@@ -66,7 +67,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpLeftBottom");
                     }
-                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y - 5, 48, 5));
+                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y - 5, 48, 5),typeof(CollisionMapObject));
                     if (getCols.Count > 0 )
                     {
                         isJumping = false;
@@ -92,7 +93,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpRightBottom");
                     }
-                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y - 5, 48, 5));
+                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y - 5, 48, 5),typeof(CollisionMapObject));
                     if (getCols.Count > 0)
                     {
                         isJumping = false;
@@ -119,7 +120,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpLeftTop");
                     }
-                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X+1, (int)Pos.Y + Height, 46, 5));
+                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X+1, (int)Pos.Y + Height, 46, 5),typeof(CollisionMapObject));
                     
                     if (getCols.Count > 0 )
                     {
@@ -148,7 +149,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     {
                         GraphicsComponent.StartAnimation("SlimeJumpRightTop");
                     }
-                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X+1, (int)Pos.Y + Height, 46, 5));
+                    getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X+1, (int)Pos.Y + Height, 46, 5),typeof(CollisionMapObject));
                     if (getCols.Count > 0 )
                     {
                         isJumping = false;
@@ -224,14 +225,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 velocity.X = -monster_speed;
 
             }
-            var getCols= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2)); 
+            var getCols= AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2),typeof(CollisionMapObject)); 
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 51, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 51, 2),typeof(CollisionMapObject));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-3, (int)Pos.Y + Height / 2 - 2, 51, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X-3, (int)Pos.Y + Height / 2 - 2, 51, 2),typeof(CollisionMapObject));
             }
             
             
@@ -294,12 +295,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public bool IsInAim()
         {
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height, 48, 5));
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height, 48, 5),typeof(CollisionMapObject));
             
 
             if (isGoRight && !isDown)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X + Width, (int)Pos.Y + Height, 200, 500), false);
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X + Width, (int)Pos.Y + Height, 200, 500), typeof(Player));
                 if (getCols.Count > 0)
                 {
                     
@@ -308,7 +309,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             else if (!isGoRight && !isDown)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 200, (int)Pos.Y + Height, 200, 500), false);
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 200, (int)Pos.Y + Height, 200, 500), typeof(Player));
                 if (getCols.Count > 0)
                 {
                     

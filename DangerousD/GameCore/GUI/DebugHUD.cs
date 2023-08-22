@@ -28,7 +28,7 @@ namespace DangerousD.GameCore.GUI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            /*var keysString = Join("\n", _text.Select(el => el.Key + ": " + el.Value).ToList());
+            var keysString = Join("\n", _text.Select(el => el.Key + ": " + el.Value).ToList());
             spriteBatch.Begin();
             spriteBatch.DrawString(
                 _spriteFont,
@@ -52,7 +52,7 @@ namespace DangerousD.GameCore.GUI
                 SpriteEffects.None,
                 0
             );
-            spriteBatch.End();*/
+            spriteBatch.End();
         }
 
         public void Set(string key, string value)
