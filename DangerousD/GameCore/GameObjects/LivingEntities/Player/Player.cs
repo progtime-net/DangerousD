@@ -40,10 +40,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public int Bullets { get { return bullets; } }
 
-        public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
+        /// <summary>
+        /// Don't delete this constructor. Used in MapManager!!!!
+        /// </summary>
+        /// <param name="position"></param>
+        public Player(Vector2 position) : base(position)
+        {
+           Initialize(position);
+        }
 
+        public Player(Vector2 position, bool isNetworkPlayer) : base(position)
         {
             this.isNetworkPlayer = isNetworkPlayer;
+            Initialize(position);
+        }
+
+        public void Initialize(Vector2 position)
+        {
             Width = 16;
             Height = 32;
 
@@ -57,7 +70,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 leftBorder = (int)position.X - 100;
                 bullets = 5;
 
-                this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+                GraphicsComponent.actionOfAnimationEnd += (a) =>
                 {
                     if (a == "playerShootLeft" || a == "playerShootRight")
                     {
@@ -73,7 +86,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     }
                 };
             }
-
         }
 
         public bool IsAlive { get { return isAlive; } }

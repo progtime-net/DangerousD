@@ -18,6 +18,12 @@ namespace DangerousD.GameCore.GameObjects.Entities
             Target = target;
             this.action = action;
         }
+        
+        public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Vector2 target) : base(position, size, sourceRectangle)
+        {
+            Target = target;
+            action = () => { };
+        }
         public override void OnCollision(GameObject gameObject)
         {
             if (IsVisible)
