@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DangerousD.GameCore.GameObjects.MapObjects;
 
-public class StopTile : MapObject
+public class StopTile :  CollisionMapObject
 {
     public override bool IsColliderOn { get; protected set; } = true;
     public StopTile(Vector2 position, Vector2 size, Rectangle sourceRectangle) : base(position, size, sourceRectangle)
