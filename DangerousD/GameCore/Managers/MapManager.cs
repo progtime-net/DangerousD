@@ -75,10 +75,10 @@ namespace DangerousD.GameCore.Managers
         }
         
         //Level
-        public void LoadLevel(string level)
+        public void LoadLevel(string map)
         {
             XmlDocument xml = new();
-            xml.Load($"../../../Content/{level}.tmx");
+            xml.Load($"../../../Content/{map}.tmx");
             
             LoadTileSets(xml.DocumentElement.SelectNodes("tileset"));
             
@@ -143,7 +143,7 @@ namespace DangerousD.GameCore.Managers
                 Vector2 pos =
                     new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
                         float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
-                
+
                 Entity inst;
                 if (type.Equals(typeof(Door)))
                 {
@@ -153,20 +153,21 @@ namespace DangerousD.GameCore.Managers
                     
                     /// TODO: wtf is tileSize   
                     inst = (Entity)Activator.CreateInstance(type, pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
+                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 }
                 else if (type.Equals(typeof(TeleportingDoor)))
                 {
                     int gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
+                    Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
                     TileSet tileSet = GetTileSet(gid);
                     
                     XmlNode level = entity.SelectSingleNode("properties/property[@name = 'level']");
                     
                     if (level is not null)  // Teleport to level
                     {
-                        inst = new Zombie(Vector2.Zero);
-                        // BRUH LOAD LEVEL AGAIN
-                        /*inst = (Entity)Activator.CreateInstance(type, pos, tileSet.TileSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize,
-                            new Ve);*/
+                        inst = (Entity)Activator.CreateInstance(type, pos, objectSize,
+                            new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
+                                tileSet.TileSize), () => {AppManager.Instance.ChangeMap(level.Attributes["value"].Value, GetStartCoordinates(level.Attributes["value"].Value));});
                     }
                     else  // Teleport to location
                     {
@@ -178,21 +179,30 @@ namespace DangerousD.GameCore.Managers
                         {
                             throw new ArgumentNullException($"Door with id: {entity.Attributes["id"]} has invalid destination set");
                         }
-                        Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
-                    
+                        
                         inst = (Entity)Activator.CreateInstance(type,pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
                             new Vector2(float.Parse(dest.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
                                 float.Parse(dest.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
                     }
+                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 }
-                else
+                else if (!type.Equals(typeof(Player)) || (type.Equals(typeof(Player)) && AppManager.Instance.GameManager.players.Count == 0))
                 {
                     inst = (Entity)Activator.CreateInstance(type, pos);
+                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 }
-                inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
-                inst.Height *= _scale;
-                inst.Width *= _scale;
             }   
+        }
+
+        private Vector2 GetStartCoordinates(string map)
+        {
+            XmlDocument xml = new();
+            xml.Load($"../../../Content/{map}.tmx");
+
+            XmlNode player = xml.DocumentElement.SelectSingleNode("//objectgroup[@class = 'LivingEntities.Player']").FirstChild;
+
+            return new Vector2(float.Parse(player.Attributes["x"].Value, CultureInfo.InvariantCulture),
+                float.Parse(player.Attributes["y"].Value, CultureInfo.InvariantCulture));
         }
     }
 

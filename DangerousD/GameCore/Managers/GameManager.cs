@@ -17,38 +17,31 @@ namespace DangerousD.GameCore
 {
     public class GameManager
     {
-        public List<GameObject> GetAllGameObjects { get; private set; }
+        public List<GameObject> GetAllGameObjects { get; private set; } = new();
         private int currentEntityId = 0;
-        public List<LivingEntity> livingEntities;
-        public List<LivingEntity> livingEntitiesWithoutPlayers;
-        public List<Entity> entities;
-        public List<MapObject> mapObjects;
-        public List<MapObject> BackgroundObjects;
-        public List<GameObject> others;
-        public MapManager mapManager;
-        public PhysicsManager physicsManager;
-        public List<Player> players;
+        public List<LivingEntity> livingEntities = new();
+        public List<LivingEntity> livingEntitiesWithoutPlayers = new();
+        public List<Entity> entities = new();
+        public List<MapObject> mapObjects = new();
+        public List<MapObject> BackgroundObjects = new();
+        public List<GameObject> others = new();
+        public MapManager mapManager = new(1);
+        public PhysicsManager physicsManager = new();
+        public List<Player> players = new();
         public List<GameObject> otherObjects = new();
-        public Vector4 CameraBorder;
+        public Vector4 CameraBorder = Vector4.Zero;
+        
         public Player GetPlayer1 { get; private set; }
         private int _lastUpdate = 0;
         private int _currTime = 0;
-
-        public GameManager()
+        
+        public GameManager(List<Player> players, Player player1)
         {
-            others = new List<GameObject>();
-            GetAllGameObjects = new List<GameObject>();
-            livingEntities = new List<LivingEntity>();
-            livingEntitiesWithoutPlayers = new List<LivingEntity>();
-            mapObjects = new List<MapObject>();
-            BackgroundObjects = new List<MapObject>();
-            entities = new List<Entity>();
-            players = new List<Player>();
-            mapManager = new MapManager(1);
-            physicsManager = new PhysicsManager();
-            CameraBorder = Vector4.Zero;
-
+            this.players = players;
+            GetPlayer1 = player1;
         }
+        
+        public GameManager() {}
 
         internal void Register(GameObject gameObject)
         {

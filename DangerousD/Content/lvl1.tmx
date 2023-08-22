@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="18" nextobjectid="105">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="19" nextobjectid="105">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="872" source="Door.tsx"/>
  <layer id="1" name="Collidable" class="StopTile" width="30" height="20" offsetx="-352.033" offsety="192.098">
@@ -720,8 +720,7 @@
   </object>
  </objectgroup>
  <objectgroup id="12" name="Doors" class="Entities.Door">
-  <object id="69" gid="873" x="640" y="64" width="32" height="48"/>
-  <object id="70" gid="872" x="672" y="192" width="32" height="48"/>
+  <object id="70" gid="872" x="672" y="191" width="32" height="48"/>
   <object id="71" gid="872" x="672" y="288" width="32" height="48"/>
   <object id="72" gid="872" x="672" y="480" width="32" height="48"/>
   <object id="73" gid="872" x="672" y="384" width="32" height="48"/>
@@ -730,5 +729,12 @@
   <object id="76" gid="872" x="112" y="96" width="32" height="48"/>
   <object id="77" gid="872" x="16" y="480" width="32" height="48"/>
   <object id="78" gid="872" x="-112" y="384" width="32" height="48"/>
+ </objectgroup>
+ <objectgroup id="18" name="Teleporting door" class="Entities.TeleportingDoor">
+  <object id="69" gid="873" x="640" y="64" width="32" height="48">
+   <properties>
+    <property name="level" value="lvl2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

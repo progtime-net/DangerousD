@@ -345,5 +345,20 @@ namespace DangerousD.GameCore
             ChangeGameState(GameState.Menu);
             currentMap = map;
         }
+
+        
+        public void ChangeMap(string map, Vector2 startPos)
+        {
+            List<Player> players = GameManager.players;
+            GameManager = new();
+            foreach (var player in players)
+            {
+                player.SetPosition(new Vector2(startPos.X, startPos.Y - player.Height));
+                GameManager.Register(player);
+            }
+            
+            currentMap = map;
+            ChangeGameState(GameState.Game);
+        }
     }
 }
