@@ -98,7 +98,7 @@ namespace DangerousD.GameCore.Managers
                 }
                 foreach (var mapObject in mapObjects)
                 {
-                    if ((livingEntities[i] is Player||livingEntities[i] is Player.Bullet)&& mapObject is Platform)
+                    if ((livingEntities[i] is Player||livingEntities[i] is Bullet)&& mapObject is Platform)
                     {
                         continue;
                     }

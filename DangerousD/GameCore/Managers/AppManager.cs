@@ -239,9 +239,9 @@ namespace DangerousD.GameCore
                         SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
                         break;
                     case NetworkTaskOperationEnum.CreateEntity:
-                        if (networkTask.type == typeof(Player.Bullet))
+                        if (networkTask.type == typeof(Bullet))
                         {
-                            Player.Bullet bullet = new Player.Bullet(networkTask.position);
+                            Bullet bullet = new Bullet(networkTask.position);
                             bullet.id = networkTask.objId;
                             bullet.velocity = networkTask.velocity;
                             bullet.acceleration = Vector2.Zero;

@@ -338,7 +338,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             isOnGround = false;
         }
 
-        public class Bullet : LivingEntity
+        
+    }
+    public class Bullet : LivingEntity
         {
             public Bullet(Vector2 position) : base(position)
             {
@@ -427,5 +429,4 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 
             }
         }
-    }
 }
