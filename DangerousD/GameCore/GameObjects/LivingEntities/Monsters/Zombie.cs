@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
 using DangerousD.GameCore.Network;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -111,8 +112,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
+            if (isGoRight)
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
+            }
+            else
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y , Width + 3, Height), typeof(CollisionMapObject));
 
-            if(Pos.X >= rightBorder)
+            }
+
+
+            foreach (var item in getCols)
+            {
+                if (item is StopTile)
+                {
+                    isGoRight = !isGoRight;
+                    break;
+                }
+            }
+            if (Pos.X >= rightBorder)
             {
                 isGoRight = false;
             }
@@ -121,25 +141,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = true;
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2), typeof(Player));
-            if (isGoRight)
-            {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width + 4, 2), typeof(Player));
-            }
-            else
-            {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width + 3, 2), typeof(Player));
-            }
 
-
-            foreach (var item in getCols)
-            {
-                if (item is MapObject)
-                {
-                    isGoRight = !isGoRight;
-                    break;
-                }
-            }
         }
         public override void OnCollision(GameObject gameObject)
         {

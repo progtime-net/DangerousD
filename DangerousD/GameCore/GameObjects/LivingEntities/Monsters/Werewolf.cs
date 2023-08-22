@@ -1,4 +1,5 @@
-﻿using DangerousD.GameCore.Graphics;
+﻿using DangerousD.GameCore.GameObjects.MapObjects;
+using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -79,20 +80,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 velocity.X = -monster_speed;
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2),typeof(CollisionMapObject));
+
+
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width+4, 2),typeof(CollisionMapObject));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width +3, 2),typeof(CollisionMapObject));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y, Width + 3, Height), typeof(CollisionMapObject));
+
             }
 
 
             foreach (var item in getCols)
             {
-                if (item is MapObject)
+                if (item is StopTile)
                 {
                     isGoRight = !isGoRight;
                     break;
@@ -143,7 +147,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (gameObject is Player)
             {
-                velocity.Y = 0;
+                
                 velocity.X = 0;
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
