@@ -11,6 +11,7 @@ using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 using System.Linq;
 using DangerousD.GameCore.GUI;
 using DangerousD.GameCore.Network;
+using DangerousD.GameCore.GameObjects.Entities;
 
 namespace DangerousD.GameCore
 {
@@ -90,7 +91,7 @@ namespace DangerousD.GameCore
 
         public void Remove(GameObject gameObject)
         {
-            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host || gameObject is Door)
             {
                 NetworkTask task = new NetworkTask();
                 AppManager.Instance.NetworkTasks.Add(task.DeleteObject(gameObject.id));
