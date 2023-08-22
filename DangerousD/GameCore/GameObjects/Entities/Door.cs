@@ -52,6 +52,8 @@ namespace DangerousD.GameCore.GameObjects.Entities
                             var d = new Diamond(Vector2.Zero);
                             d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
                         }
+                        var a = new Ammo(Vector2.Zero);
+                        a.SetPosition(Pos + new Vector2(random.Next(-30,30), Height - a.Height));
                     }
                 }
             }

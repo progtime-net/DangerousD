@@ -38,7 +38,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
 
 
-        public int Bullets { get { return bullets; } }
+        public int Bullets { get { return bullets; } set { bullets = value; }  }
 
         public Player(Vector2 position, bool isNetworkPlayer = false) : base(position)
 
