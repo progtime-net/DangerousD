@@ -244,6 +244,7 @@ namespace DangerousD.GameCore
                             Player.Bullet bullet = new Player.Bullet(networkTask.position);
                             bullet.id = networkTask.objId;
                             bullet.velocity = networkTask.velocity;
+                            bullet.acceleration = Vector2.Zero;
                             bullet.maindirection = bullet.velocity;
                         }
                         else if (networkTask.type == typeof(Particle))
