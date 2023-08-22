@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="18" nextobjectid="105">
- <tileset firstgid="1" name="map" tilewidth="16" tileheight="16" tilecount="871" columns="13">
-  <image source="tiles.BMP" width="208" height="1072"/>
- </tileset>
- <tileset firstgid="872" name="Door" tilewidth="32" tileheight="48" tilecount="0" columns="2">
-  <image source="doors.png" width="64" height="48"/>
- </tileset>
- <layer id="1" name="Collidable" class="StopTile" width="30" height="20" visible="0" offsetx="-352.033" offsety="192.098">
+ <tileset firstgid="1" source="map.tsx"/>
+ <tileset firstgid="872" source="Door.tsx"/>
+ <layer id="1" name="Collidable" class="StopTile" width="30" height="20" offsetx="-352.033" offsety="192.098">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -316,7 +312,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="6" name="Ladders" class="Platform" width="30" height="20" visible="0" offsetx="-1" offsety="0">
+ <layer id="6" name="Ladders" class="Platform" width="30" height="20" offsetx="-1" offsety="0">
   <data encoding="csv">
    <chunk x="-16" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -718,12 +714,12 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="10" name="Player" class="LivingEntities.Player">
+ <objectgroup id="10" name="Player" class="LivingEntities.Player" visible="0">
   <object id="47" x="-500" y="461.333">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="12" name="Doors" class="Entities.Door" visible="0">
+ <objectgroup id="12" name="Doors" class="Entities.Door">
   <object id="69" gid="873" x="640" y="64" width="32" height="48"/>
   <object id="70" gid="872" x="672" y="192" width="32" height="48"/>
   <object id="71" gid="872" x="672" y="288" width="32" height="48"/>
