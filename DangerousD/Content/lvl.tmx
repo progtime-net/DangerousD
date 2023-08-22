@@ -3,10 +3,9 @@
  <tileset firstgid="1" name="map" tilewidth="16" tileheight="16" tilecount="871" columns="13">
   <image source="tiles.BMP" width="208" height="1072"/>
  </tileset>
- <tileset firstgid="872" name="Door" tilewidth="32" tileheight="48" tilecount="2" columns="2">
+ <tileset firstgid="872" name="Door" tilewidth="32" tileheight="48" tilecount="0" columns="2">
   <image source="doors.png" width="64" height="48"/>
  </tileset>
- <tileset firstgid="874" source="../../../../../Desktop/deathAnimation.tsx"/>
  <layer id="1" name="Collidable" class="StopTile" width="30" height="20" visible="0" offsetx="-352.033" offsety="192.098">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">

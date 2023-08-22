@@ -77,7 +77,7 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
-            currentMap = "lvl";
+            currentMap = "map";
         }
 
         protected override void Initialize()
