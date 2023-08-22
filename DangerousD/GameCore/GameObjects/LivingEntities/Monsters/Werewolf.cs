@@ -1,4 +1,5 @@
-﻿using DangerousD.GameCore.Graphics;
+﻿using DangerousD.GameCore.GameObjects.MapObjects;
+using DangerousD.GameCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public Werewolf(Vector2 position) : base(position)
         {
-            name = "Wolf";
+            name = "Werewolf";
             monster_speed = 3;
             Width = 39;
             Height = 48;
@@ -79,20 +80,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
                 velocity.X = -monster_speed;
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2),typeof(CollisionMapObject));
+
+
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width+4, 2),typeof(CollisionMapObject));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width +3, 2),typeof(CollisionMapObject));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y, Width + 3, Height), typeof(CollisionMapObject));
+
             }
 
 
             foreach (var item in getCols)
             {
-                if (item is MapObject)
+                if (item is StopTile)
                 {
                     isGoRight = !isGoRight;
                     break;
@@ -141,20 +145,23 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            /*/if (gameObject is Player)
+            if (gameObject is Player)
             {
+                
+                velocity.X = 0;
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
                     AppManager.Instance.GameManager.players[0].Death(name);
                 }
             }
-            base.OnCollision(gameObject);/*/
+            base.OnCollision(gameObject);
         }
-        public void TakeDamage()
+        public override void TakeDamage()
         {
             monster_health--;
             
             Particle particle = new Particle(Pos);
+            Particle particle1 = new Particle(Pos);
             if (monster_health <= 0)
             {
                 Death();

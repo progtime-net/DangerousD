@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.Managers;
 using DangerousD.GameCore.Network;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
@@ -111,8 +112,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 StartCicycleAnimation("ZombieMoveLeft");
                 velocity.X = -monster_speed;
             }
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
+            if (isGoRight)
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
+            }
+            else
+            {
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y , Width + 3, Height), typeof(CollisionMapObject));
 
-            if(Pos.X >= rightBorder)
+            }
+
+
+            foreach (var item in getCols)
+            {
+                if (item is StopTile)
+                {
+                    isGoRight = !isGoRight;
+                    break;
+                }
+            }
+            if (Pos.X >= rightBorder)
             {
                 isGoRight = false;
             }
@@ -121,6 +141,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = true;
             }
+            
+
+
         }
         public override void OnCollision(GameObject gameObject)
         {
@@ -144,7 +167,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Target()
         {
-            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 50, (int)Pos.Y, Width + 200, Height), typeof(Player)).Count > 0)
+            if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 150, (int)Pos.Y, Width + 300, Height), typeof(Player)).Count > 0)
             {
                 if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {

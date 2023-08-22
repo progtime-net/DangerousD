@@ -35,7 +35,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Width = 31;
             Height = 20;
             monster_speed = 2;
-            name = "Skull";
+            name = "FlameSkull";
             acceleration = Vector2.Zero;
             startPosition = new Vector2();
         }
@@ -117,6 +117,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 i = 0;
             }
+        }
+        public override void OnCollision(GameObject gameObject)
+        {
+            if (gameObject is Player)
+            {
+                velocity.Y = 0;
+                velocity.X = 0;
+                if (AppManager.Instance.GameManager.players[0].IsAlive)
+                {
+                    AppManager.Instance.GameManager.players[0].Death(name);
+                }
+            }
+            base.OnCollision(gameObject);
         }
 
         public override void Attack(GameTime gameTime)
