@@ -19,14 +19,6 @@ public abstract class LivingEntity : Entity
     public override void SetPosition(Vector2 position)
     {
         _pos = position;
-        if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
-        {
-            NetworkTask task = new NetworkTask(id, _pos);
-            if (this is Player || AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
-            {
-                AppManager.Instance.NetworkTasks.Add(task);
-            }
-        }
         
     } //TODO befrend targetpos and physics engine
 

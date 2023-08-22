@@ -268,7 +268,7 @@ namespace DangerousD.GameCore
                             if (entity != null)
                             {
                                 GraphicsComponent gc = entity.GetGraphicsComponent();
-                                gc.StartAnimation(networkTask.name);
+                                if (gc.GetCurrentAnimation != networkTask.name) gc.StartAnimation(networkTask.name);
                             }
                         }
                         break;

@@ -39,7 +39,7 @@ namespace DangerousD.GameCore.Managers
         private void CheckCollisionsLE_MO(List<LivingEntity> livingEntities,
             List<MapObject> mapObjects)
         {
-            foreach (var currentEntity in livingEntities)
+            foreach (var currentEntity in livingEntities.ToList())
             {
                 var currentRect = currentEntity.Rectangle;
                 var newRect = currentRect;

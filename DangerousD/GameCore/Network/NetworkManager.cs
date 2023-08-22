@@ -82,7 +82,7 @@ namespace DangerousD.GameCore.Network
         {
             byte[] Data = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(networkTask));
             int count = Data.Length;
-            if (state == "Host")
+            if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
             {
                 foreach (Socket socket in clientSockets)
                 {

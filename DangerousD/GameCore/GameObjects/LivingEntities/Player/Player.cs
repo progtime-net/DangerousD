@@ -211,7 +211,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
-                                StartCicycleAnimation("playerShootBoomUpLeft");
+                                StartCicycleAnimation("playerShootBoomLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
                                 SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
@@ -416,6 +416,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             public override void Update(GameTime gameTime)
             {
+                if (maindirection != velocity)
+                {
+                    AppManager.Instance.GameManager.Remove(this);
+                }
                 base.Update(gameTime);
             }
         }
