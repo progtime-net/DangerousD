@@ -1,4 +1,5 @@
-﻿using DangerousD.GameCore.Managers;
+﻿using DangerousD.GameCore.GameObjects.PlayerDeath;
+using DangerousD.GameCore.Managers;
 using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using MonogameLibrary.UI.Base;
@@ -20,15 +21,22 @@ internal class MenuGUI : AbstractGui
     List<Label> BigLetterLabels = new List<Label>();
     List<Vector2> MainLetterPositions = new List<Vector2>();
     List<Vector2> BigLetterPositions = new List<Vector2>();
+
+    #region Вынес задний фон для обработки в апдейте
+    DrawableUIElement menuBackground;
+    Color mainBackgroundColor = Color.White;
+    Rectangle backgrRect;
+    #endregion
     protected override void CreateUI()
     {
         int wigth = AppManager.Instance.inGameHUDHelperResolution.X;
         int height = AppManager.Instance.inGameHUDHelperResolution.Y;
         float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
 
-        var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "menuFon" };
+        menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "menuFon" };
         Elements.Add(menuBackground);
         menuBackground.LoadTexture(AppManager.Instance.Content);
+        backgrRect = menuBackground.rectangle;
 
         for (int i = 0; i < colors.Length; i++)
         {
@@ -52,7 +60,7 @@ internal class MenuGUI : AbstractGui
             AppManager.Instance.SoundManager.StartSound("StartGame", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.ChangeGameState(GameState.Game);
             AppManager.Instance.SetMultiplayerState(MultiPlayerStatus.SinglePlayer);
-            
+
         };
 
         var butMulti = new ButtonText(Manager) { rectangle = new Rectangle((wigth - (int)(300 * 2.4)) / 2, 470, (int)(300 * 2.4), (int)(50 * 2.4)), text = "Multiplayer", scale = 1.2f, fontName = "ButtonFont" };
@@ -79,7 +87,7 @@ internal class MenuGUI : AbstractGui
             AppManager.Instance.Exit();
         };
 
-        foreach ( var item in Elements)
+        foreach (var item in Elements)
         {
             item.rectangle.X = (int)(scaler * item.rectangle.X);
             item.rectangle.Y = (int)(scaler * item.rectangle.Y);
@@ -111,8 +119,21 @@ internal class MenuGUI : AbstractGui
             BigLetterLabels[i].rectangle.Y = (int)(BigLetterPositions[i].Y +
                  (20 * (Math.Sin(gameTime.TotalGameTime.TotalSeconds * 4 - Math.PI) + 1) / 2f * 0.25) * (i - MainLetterLabels.Count / 2)
                 );
-             
+
         }
+        menuBackground.mainColor = Color.FromNonPremultiplied(mainBackgroundColor.ToVector4()
+                * (float)(((Math.Sin(gameTime.TotalGameTime.TotalSeconds * 1 - 2 * Math.PI) + 1) / 2f) * 0.2 + 0.6f)
+                );
+        double backgrSpeed = 0.25;
+        double procent = 0.1f;
+        menuBackground.rectangle.X = backgrRect.X - (int)((Math.Sin(gameTime.TotalGameTime.TotalSeconds * backgrSpeed - 2 * Math.PI) + 1
+            ) * backgrRect.Width * procent);
+        menuBackground.rectangle.Y = backgrRect.Y - (int)((Math.Sin(gameTime.TotalGameTime.TotalSeconds * backgrSpeed - 2 * Math.PI) + 1
+            ) * backgrRect.Height * procent);
+        menuBackground.rectangle.Width = backgrRect.Width + 2 * (int)((Math.Sin(gameTime.TotalGameTime.TotalSeconds * backgrSpeed - 2 * Math.PI) + 1
+            ) * backgrRect.Width * procent);
+        menuBackground.rectangle.Height = backgrRect.Height + 2 * (int)((Math.Sin(gameTime.TotalGameTime.TotalSeconds * backgrSpeed - 2 * Math.PI) + 1
+            ) * backgrRect.Height * procent);
         base.Update(gameTime);
     }
-}   
+}
