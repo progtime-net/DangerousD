@@ -177,7 +177,7 @@ namespace DangerousD.GameCore.Managers
             {
 
 
-                for (int j = 0; j < livingEntities.Count; j++)
+                for (int j = 0; j < livingEntities.Count && i < entities.Count; j++)
                 {
 
                 

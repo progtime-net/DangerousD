@@ -121,14 +121,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 isGoRight = true;
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2));
+            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, 50, 2), typeof(Player));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width + 4, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y + Height / 2 - 2, Width + 4, 2), typeof(Player));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width + 3, 2));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y + Height / 2 - 2, Width + 3, 2), typeof(Player));
             }
 
 
