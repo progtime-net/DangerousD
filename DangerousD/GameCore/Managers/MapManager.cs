@@ -137,8 +137,8 @@ namespace DangerousD.GameCore.Managers
             
             foreach (XmlNode entity in layer.ChildNodes)
             {
-                entityType += entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "";
-                Type type = Type.GetType($"DangerousD.GameCore.GameObjects{entityType}");
+                string finalEntityType = entityType + (entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "");
+                Type type = Type.GetType($"DangerousD.GameCore.GameObjects{finalEntityType}");
                 
                 Vector2 pos =
                     new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
@@ -149,9 +149,10 @@ namespace DangerousD.GameCore.Managers
                 {
                     int gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
                     TileSet tileSet = GetTileSet(gid);
+                    Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
                     
-                    /// TODO: wtf is tileSize
-                    inst = (Entity)Activator.CreateInstance(type, pos, tileSet.TileSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
+                    /// TODO: wtf is tileSize   
+                    inst = (Entity)Activator.CreateInstance(type, pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
                 }
                 else if (type.Equals(typeof(TeleportingDoor)))
                 {
@@ -177,8 +178,9 @@ namespace DangerousD.GameCore.Managers
                         {
                             throw new ArgumentNullException($"Door with id: {entity.Attributes["id"]} has invalid destination set");
                         }
+                        Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
                     
-                        inst = (Entity)Activator.CreateInstance(type,pos, tileSet.TileSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
+                        inst = (Entity)Activator.CreateInstance(type,pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
                             new Vector2(float.Parse(dest.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
                                 float.Parse(dest.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
                     }
