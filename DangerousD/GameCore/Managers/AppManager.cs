@@ -50,7 +50,7 @@ namespace DangerousD.GameCore
         public SettingsManager SettingsManager { get; private set; } = new SettingsManager();
 
         private RenderTarget2D renderTarget;
-        Effect spriteEffect;
+        public Effect spriteEffect;
         public AppManager()
         {
             Content.RootDirectory = "Content";
@@ -82,7 +82,7 @@ namespace DangerousD.GameCore
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
             currentMap = "lvl";
-             
+
         }
 
         protected override void Initialize()
@@ -186,39 +186,53 @@ namespace DangerousD.GameCore
                     HUD.Draw(_spriteBatch);
                     break;
                 case GameState.Game:
-                    _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
                     GameManager.Draw(_spriteBatch);
-                    _spriteBatch.End();
                     HUD.Draw(_spriteBatch);
                     break;
                 default:
                     break;
             }
             GraphicsDevice.SetRenderTarget(null);
-            
-            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur"];
 
-            _spriteBatch.Begin(effect:spriteEffect);
-
-            //_spriteBatch.Draw(renderTarget, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
-            GraphicsDevice.BlendState = BlendState.Additive;
-            foreach (EffectPass pass in spriteEffect.CurrentTechnique.Passes)
-            {
-                _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
-                pass.Apply(); 
-            }
-            _spriteBatch.End();
-
-
-
-
-            #region test 
-            #endregion
-
-
+            DrawTheScreenWithEffects(); //DrawScreen
 
             DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);
+        }
+        public void DrawTheScreenWithNoEffects()
+        {
+            DrawScreenByParts(0,1);
+        }
+        public void DrawTheScreenWithEffects()
+        {
+            #region test 
+
+            //GraphicsDevice.BlendState = BlendState.Additive;//отвечает за способ нанесения новый текстур (AlphaBlend - обычный случай)
+             
+            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur"]; //настройка шейдера (выбор техники), при _spriteBatch.End() будет выполнена обработка шейдером последней настроййки
+                                                                             //TODO: Понять что за Pass[0].Apply() 
+            DrawScreenByParts(0, 0.2, spriteEffect);
+
+            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur2"];
+            DrawScreenByParts(0.2, 0.4, spriteEffect);
+
+
+            DrawScreenByParts(0.6, 0.8); 
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur3"];
+            DrawScreenByParts(0.4, 0.7, spriteEffect);
+
+
+            DrawScreenByParts(0.8, 1);
+            #endregion 
+        }
+        public void DrawScreenByParts(double startProc, double endProc, Effect effect = null) //for shader tests
+        {
+            _spriteBatch.Begin(effect: effect);
+            _spriteBatch.Draw(renderTarget, new Rectangle((int)(_graphics.PreferredBackBufferWidth * startProc), 0
+                , (int)(_graphics.PreferredBackBufferWidth * (endProc - startProc)), _graphics.PreferredBackBufferHeight),
+                 new Rectangle((int)(renderTarget.Width * startProc), 0, (int)(renderTarget.Width * (endProc - startProc)), renderTarget.Height), Color.White);
+            _spriteBatch.End();
         }
 
         public void ChangeGameState(GameState gameState)

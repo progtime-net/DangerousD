@@ -126,16 +126,22 @@ namespace DangerousD.GameCore
 
         public void Draw(SpriteBatch _spriteBatch)
         {
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
             foreach (var item in BackgroundObjects)
                 item.Draw(_spriteBatch);
             foreach (var item in mapObjects)
                 item.Draw(_spriteBatch);
+            _spriteBatch.End();
+            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Blur"];
+            AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
             foreach (var item in entities)
                 item.Draw(_spriteBatch);
             foreach (var item in livingEntities)
                 item.Draw(_spriteBatch);
             foreach (var item in otherObjects)
                 item.Draw(_spriteBatch);
+            _spriteBatch.End();
         }
 
         public void Update(GameTime gameTime)
