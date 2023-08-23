@@ -30,6 +30,10 @@ namespace DangerousD.GameCore
         private bool isJumpDown;      // Блокирует физическое нажатие прыжка и спуска
         private bool isShoot;
 
+        private KeyboardState lastKeyboardState;
+        private GamePadState lastGamePadState;
+
+
         public Vector2 VectorMovementDirection { get => vectorMovementDirection; }
         public ScopeState ScopeState { get => scopeState; }
         public string currentControlsState;
@@ -44,58 +48,36 @@ namespace DangerousD.GameCore
         }
         public void Update()
         {
-            if (GamePad.GetState(0).IsConnected)
-            {
-                GamePadState gamepadState = GamePad.GetState(0);
-                if (gamepadState.Triggers.Left >= 0.9 && gamepadState.Triggers.Right >= 0.9)
-                {
-                    _cheatsEnabled = true;
-                }
-                if (_cheatsEnabled)
-                {
-                    if (gamepadState.Buttons.Y == ButtonState.Pressed)
-                    {
-                        InvincibilityCheat = true;
-                    }
-                    if (gamepadState.Buttons.B == ButtonState.Pressed)
-                    {
-                        CollisionsCheat = true;
-                    }
-                }
-            }
-
-            {
-                var keyboardState = Keyboard.GetState();
-                if (keyboardState.IsKeyDown(Keys.LeftShift) && keyboardState.IsKeyDown(Keys.RightShift))
-                {
-                    _cheatsEnabled = true;
-                }
-                if (_cheatsEnabled)
-                {
-                    if (keyboardState.IsKeyDown(Keys.I))
-                    {
-                        InvincibilityCheat = true;
-                    }
-                    if (keyboardState.IsKeyDown(Keys.C))
-                    {
-                        CollisionsCheat = true;
-                    }
-                }
-            }
-
             if (_cheatsEnabled)
             {
                 AppManager.Instance.DebugHUD.Set("cheats", _cheatsEnabled.ToString());
                 AppManager.Instance.DebugHUD.Set("invincible", InvincibilityCheat.ToString());
             }
 
-            // Работа с GamePad
-            if (_overrideControls ? controlsState == ControlsState.Gamepad : GamePad.GetState(0).IsConnected)
+
+            if (_overrideControls ? controlsState == ControlsState.Gamepad : GamePad.GetState(0).IsConnected)  // Работа с GamePad
             {
                 controlsState = ControlsState.Gamepad;
                 
                 // Обработка гейм-пада. Задает Vector2 vectorMovementDirection являющийся вектором отклонения левого стика.
                 GamePadState gamePadState = GamePad.GetState(0);
+                
+                if (gamePadState.Triggers.Left >= 0.9 && gamePadState.Triggers.Right >= 0.9)
+                {
+                    _cheatsEnabled = true;
+                }
+                if (_cheatsEnabled)
+                {
+                    if (gamePadState.Buttons.Y == ButtonState.Pressed && lastGamePadState.Buttons.Y == ButtonState.Released)
+                    {
+                        InvincibilityCheat = !InvincibilityCheat;
+                    }
+                    if (gamePadState.Buttons.B == ButtonState.Pressed && lastGamePadState.Buttons.B == ButtonState.Released)
+                    {
+                        CollisionsCheat = !CollisionsCheat;
+                    }
+                }
+                
                 vectorMovementDirection = gamePadState.ThumbSticks.Left;
 
                 // Обработка нажатия прыжка и спуска. Вызывает события MovEvent.
@@ -105,15 +87,10 @@ namespace DangerousD.GameCore
                     MovEventDown?.Invoke();
                     Debug.WriteLine("Спуск");
                 }
-                else if (gamePadState.Buttons.A == ButtonState.Pressed && !isJumpDown)
+                else if (gamePadState.Buttons.A == ButtonState.Pressed && lastGamePadState.Buttons.A == ButtonState.Released)
                 {
-                    isJumpDown = true;
                     MovEventJump?.Invoke();
                     Debug.WriteLine("Прыжок");
-                }
-                else if (gamePadState.Buttons.A == ButtonState.Released)
-                {
-                    isJumpDown = false;
                 }
 
                 // Обработка положения оружия. Задает значение полю scopeState.
@@ -141,13 +118,29 @@ namespace DangerousD.GameCore
                 {
                     isShoot = false;
                 }
-            }
 
-            // Работа с KeyBoard
-            else
+                lastGamePadState = gamePadState;
+            }
+            else  // Работа с KeyBoard
             {
                 controlsState = ControlsState.Keyboard;
                 KeyboardState keyBoardState = Keyboard.GetState();  // Состояние клавиатуры
+                
+                if (keyBoardState.IsKeyDown(Keys.LeftShift) && keyBoardState.IsKeyDown(Keys.RightShift))
+                {
+                    _cheatsEnabled = true;
+                }
+                if (_cheatsEnabled)
+                {
+                    if (keyBoardState.IsKeyDown(Keys.I) && lastKeyboardState.IsKeyUp(Keys.I))
+                    {
+                        InvincibilityCheat = !InvincibilityCheat;
+                    }
+                    if (keyBoardState.IsKeyDown(Keys.C) && lastKeyboardState.IsKeyUp(Keys.C))
+                    {
+                        CollisionsCheat = !CollisionsCheat;
+                    }
+                }
 
                 // Обработка движения вправо-влево. Меняет у вектора vectorMovementDirection значение X на -1/0/1.
                 if (keyBoardState.IsKeyDown(Keys.Left))
@@ -207,6 +200,7 @@ namespace DangerousD.GameCore
                     isShoot = false;
                 }
                 SetState(ControlsState.Keyboard);
+                lastKeyboardState = keyBoardState;
             }
         }
         public void SetState(ControlsState controlsState)
