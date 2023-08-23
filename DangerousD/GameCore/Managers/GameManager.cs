@@ -18,7 +18,7 @@ namespace DangerousD.GameCore
     public class GameManager
     {
         public List<GameObject> GetAllGameObjects { get; private set; } = new();
-        private int currentEntityId = 0;
+        private int currentEntityId = 1;
         public List<LivingEntity> livingEntities = new();
         public List<LivingEntity> livingEntitiesWithoutPlayers = new();
         public List<Entity> entities = new();
@@ -209,11 +209,6 @@ namespace DangerousD.GameCore
                     CameraBorder.W = item.Pos.Y;
                 }
             }
-        }
-
-        public Player GetClosestPlayer(Vector2 position)
-        {
-            return players.OrderBy(x => (x.Pos - position).Length()).First();
         }
     }
 }

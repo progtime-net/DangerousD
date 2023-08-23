@@ -67,7 +67,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             isAttaking = true;
             PlayAttackAnimation();
-            AppManager.Instance.GameManager.GetClosestPlayer(Pos).Death(name);
+            AppManager.Instance.GameManager.GetPlayer1.Death(name);
         }
         public void PlayAttackAnimation()
         {
@@ -145,7 +145,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (gameObject.id == AppManager.Instance.GameManager.GetClosestPlayer(Pos).id && AppManager.Instance.GameManager.GetClosestPlayer(Pos).IsAlive)
+            if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
             {
                 if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
