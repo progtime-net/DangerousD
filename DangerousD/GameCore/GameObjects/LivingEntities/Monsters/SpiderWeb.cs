@@ -15,7 +15,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public SpiderWeb(Vector2 position) : base(position)
         {
             name = "Web";
-            Width = 16;
+            Width = 4;
             Height = 0;
             acceleration = Vector2.Zero;
         }

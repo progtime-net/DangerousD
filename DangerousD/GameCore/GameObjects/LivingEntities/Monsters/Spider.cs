@@ -25,6 +25,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         protected PhysicsManager physicsManager;
         protected Player player;
         protected Vector2 oldPosition;
+        int spiderSectionLength = 16; //длина сегмента паутины
 
         public Spider(Vector2 position) : base(position)
         {
@@ -38,7 +39,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             widthS = Width;
             web = new SpiderWeb(new Vector2(Pos.X+Width/2,Pos.Y));
             delay = 0;
-            web = new SpiderWeb(new Vector2(Pos.X-Width/2,Pos.Y));
             webLength = 0;
             monster_speed = 3;
             acceleration = new Vector2(0, -50);
@@ -72,7 +72,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Attack(GameTime gameTime)
-        { 
+        {
             if (isAttack)
             {
                 velocity.X = 0;
@@ -85,9 +85,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     StartCicycleAnimation("SpiderOnWeb");
                     acceleration = Vector2.Zero;
                     webLength++;
-                    _pos.Y += 25;
-                    web.Height = webLength * 25;
-                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2, Pos.Y - 25 * webLength));
+                    _pos.Y += spiderSectionLength;
+                    web.Height = webLength * spiderSectionLength; //подгон
+                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2, Pos.Y - spiderSectionLength * webLength));
                     delay = 0;
                     if (webLength == 4)
                     {
@@ -100,9 +100,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     Height = 18;
                     StartCicycleAnimation("SpiderOnWeb");
                     webLength--;
-                    _pos.Y -= 25;
-                    web.Height = webLength * 25;
-                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2, Pos.Y - 25 * webLength));
+                    _pos.Y -= spiderSectionLength;
+                    web.Height = webLength * spiderSectionLength;
+                    web.SetPosition(new Vector2(_pos.X + Width / 2 - web.Width / 2, Pos.Y - spiderSectionLength * webLength));
                     delay = 0;
                     if (webLength == 0)
                     {
@@ -128,7 +128,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             if (GraphicsComponent.GetCurrentAnimation == "SpiderOnWeb")
             {     
-                GraphicsComponent.DrawAnimation(new Rectangle((int)Pos.X, (int)Pos.Y, 48, 72), spriteBatch);
+                GraphicsComponent.DrawAnimation(new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height), spriteBatch);
                 
             }
             else
