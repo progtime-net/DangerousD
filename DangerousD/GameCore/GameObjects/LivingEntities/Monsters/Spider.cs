@@ -127,6 +127,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Death()
         {
 
+            for (int i = 0; i < 1; i++)
+            {
+                Particle particle = new Particle(Pos);
+            }
+
+            AppManager.Instance.GameManager.Remove(this);
+            AppManager.Instance.GameManager.Remove(web);
         }
 
         public override void Move(GameTime gameTime)

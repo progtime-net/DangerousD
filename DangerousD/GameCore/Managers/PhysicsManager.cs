@@ -20,9 +20,8 @@ namespace DangerousD.GameCore.Managers
             foreach (var item in livingEntities)
             {
                 item.velocity = item.velocity + item.acceleration * delta;
-            }
-            
-            CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile or Platform).ToList());
+            } 
+            CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile or Platform).ToList(), delta / 0.033f); //delta / 0.033 is normal to degengine
             CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList());
             
             CheckCollisionsE_LE(entities, livingEntities);
@@ -38,7 +37,7 @@ namespace DangerousD.GameCore.Managers
 
         }
         private void CheckCollisionsLE_MO(List<LivingEntity> livingEntities,
-            List<MapObject> mapObjects)
+            List<MapObject> mapObjects, float delta)
         {
             for (int i = 0; i < livingEntities.Count; i++)
             {
@@ -49,7 +48,7 @@ namespace DangerousD.GameCore.Managers
                 #region x collision
                 var collidedX = false;
                 var tryingRectX = currentRect;
-                tryingRectX.Offset((int)Math.Ceiling(livingEntities[i].velocity.X), 0);
+                tryingRectX.Offset((int)Math.Ceiling(livingEntities[i].velocity.X * delta), 0);
                 foreach (var mapObject in mapObjects.OfType<StopTile>())
                 {
                     if (
@@ -89,7 +88,7 @@ namespace DangerousD.GameCore.Managers
                 #region y collision
                 var collidedY = false;
                 var tryingRectY = currentRect;
-                tryingRectY.Offset(0, (int)Math.Ceiling(livingEntities[i].velocity.Y));
+                tryingRectY.Offset(0, (int)Math.Ceiling(livingEntities[i].velocity.Y * delta));
                 if (livingEntities[i] is Player)
                 {
                     AppManager.Instance.DebugHUD.Set("velocity", livingEntities[i].velocity.ToString());

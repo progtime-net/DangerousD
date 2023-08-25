@@ -171,8 +171,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (a == "DeathFrom" + monsterName)
                     {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
                     }
+                    AppManager.Instance.ChangeGameState(GameState.Death);
                 };
             }
             else if (monsterName == "SilasHand")
@@ -182,8 +182,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (a == "DeathFrom" + monsterName)
                     {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
                     }
+                    AppManager.Instance.ChangeGameState(GameState.Death);
                 };
             }
             else if (monsterName == "SilasBall")
@@ -193,8 +193,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (a == "DeathFrom" + monsterName)
                     {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
                     }
+                    AppManager.Instance.ChangeGameState(GameState.Death);
+                };
+            }
+            else
+            {
+                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + "Zombie");//если монстра не нашли, чтоб игра все равно закончилась
+                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
+                { 
+                    AppManager.Instance.ChangeGameState(GameState.Death);
                 };
             }
             isAlive = false;

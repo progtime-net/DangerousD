@@ -134,6 +134,7 @@ namespace DangerousD.GameCore
         public void Update(GameTime gameTime)
         {
 
+            #region Network Update
             _currTime += gameTime.ElapsedGameTime.Milliseconds;
             if (_currTime - _lastUpdate > 50 && AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.SinglePlayer)
             {
@@ -151,40 +152,36 @@ namespace DangerousD.GameCore
                 AppManager.Instance.NetworkTasks.Clear();
                 _lastUpdate = _currTime;
             }
+            #endregion
+
+
+            gameTime = new GameTime(gameTime.TotalGameTime, gameTime.ElapsedGameTime );//* (Math.Sin(gameTime.TotalGameTime.TotalSeconds)+1)
             foreach (var item in BackgroundObjects)
                 item.Update(gameTime);
+
             foreach (var item in mapObjects)
-                item.Update(gameTime);
+                item.Update(gameTime); 
+
             for (int i = 0; i < entities.Count; i++)
-            {
                 entities[i].Update(gameTime);
-            }
+
+            #region living entities update
             if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
-            {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
-                {
                     livingEntitiesWithoutPlayers[i].Update(gameTime);
-                }
-            }
             else
-            {
                 for (int i = 0; i < livingEntitiesWithoutPlayers.Count; i++)
-                {
                     livingEntitiesWithoutPlayers[i].PlayAnimation();
-                }
-            }
+            #endregion
+
             foreach (Player player in players)
-            {
                 if (player.id != GetPlayer1.id)
-                {
                     player.PlayAnimation();
-                }
-            }
+
             GetPlayer1.Update(gameTime);
+
             for (int i = 0; i < otherObjects.Count; i++)
-            {
                 otherObjects[i].Update(gameTime);
-            }
 
             physicsManager.UpdateCollisions(entities, livingEntities, mapObjects, players, gameTime);
         }
@@ -193,21 +190,13 @@ namespace DangerousD.GameCore
             foreach (var item in GetAllGameObjects)
             {
                 if (item.Pos.X < CameraBorder.X)
-                {
                     CameraBorder.X = item.Pos.X;
-                }
                 if (item.Pos.X > CameraBorder.Y)
-                {
                     CameraBorder.Y = item.Pos.X;
-                }
                 if (item.Pos.Y < CameraBorder.Z)
-                {
                     CameraBorder.Z = item.Pos.Y;
-                }
                 if (item.Pos.Y > CameraBorder.W)
-                {
                     CameraBorder.W = item.Pos.Y;
-                }
             }
         }
     }
