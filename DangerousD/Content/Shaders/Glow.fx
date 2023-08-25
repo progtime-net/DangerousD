@@ -87,7 +87,7 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
 {
     float blurDistanceX = 0.0005; //1 / 1366.0;
     float blurDistanceY = blurDistanceX; //1 / 768.0;
-    float3 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb; 
+    float3 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb;
     int k = 15;
     for (int i = -k; i < k + 1; i++)
     {
@@ -96,7 +96,7 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
             color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + i * blurDistanceX, input.TextureCoordinates.y + j * blurDistanceY));
         }
     }
-    color = color / ((2 * k + 1) * (2 * k + 1) + 1); 
+    color = color / ((2 * k + 1) * (2 * k + 1) + 1);
     //color -= 1*tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.xy));
     int pw = 15;
     color = pow(color, float3(pw, pw, pw));
@@ -109,6 +109,27 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
         color.b = 0;
     return float4(color, 0.21);
 }
+
+float4 MainPS4(VertexShaderOutput input) : COLOR
+{
+    float blurDistanceX = 0.005; //1 / 1366.0;
+    float blurDistanceY = blurDistanceX; //1 / 768.0;
+    float3 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb;
+    int k = 30;
+    for (int i = -k; i < k + 1; i++)
+    {
+        for (int j = -k; j < k + 1; j++)
+        {
+            color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + i * blurDistanceX, input.TextureCoordinates.y + j * blurDistanceY));
+        }
+    }
+    color = color / ((2 * k + 1) * (2 * k + 1) + 0);
+    color -= 1*tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.xy));
+    int pw = 2;
+    color = pow(color, float3(pw, pw, pw)); 
+    return float4(color, 1);
+}
+
 technique Blur
 {
     pass P0
@@ -128,5 +149,12 @@ technique Blur3
     pass P0                                 
     {                                        
         PixelShader = compile PS_SHADERMODEL MainPS3();
+    }
+};                                       
+technique Dark
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL MainPS4();
     }
 };

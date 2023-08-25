@@ -21,45 +21,7 @@
 /processorParam:TextureFormat=Compressed
 /build:ButtonFont.spritefont
 
-<<<<<<< HEAD
-#begin checkboxs_off-on.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:checkboxs_off-on.png
 
-#begin checkboxs_off.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:checkboxs_off.png
-
-#begin checkboxs_on.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:checkboxs_on.png
-
-=======
->>>>>>> черешня
 #begin deathAnimation.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -179,17 +141,12 @@
 /processorParam:TextureFormat=Color
 /build:playerAnimation.png
 
-<<<<<<< HEAD
 #begin Shaders/Glow.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/Glow.fx
 
-#begin slider.png
-=======
-#begin smokeAnimation2.png
->>>>>>> черешня
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -255,23 +212,7 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/background_death.jpg
 
-<<<<<<< HEAD
-#begin textboxbackground2-1.png
-=======
-#begin textures/ui/background_menu_2.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/ui/background_menu_2.jpg
 
-#begin textures/ui/background_menu_3.jpg
->>>>>>> черешня
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -283,23 +224,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/background_menu_3.jpg
 
-<<<<<<< HEAD
-#begin textboxbackground2,5-1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textboxbackground2,5-1.png
-
-#begin textboxbackground6-1.png
-=======
-#begin textures/ui/background_menu.jpg
->>>>>>> черешня
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255

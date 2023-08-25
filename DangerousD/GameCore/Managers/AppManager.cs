@@ -193,7 +193,7 @@ namespace DangerousD.GameCore
             }
             GraphicsDevice.SetRenderTarget(null);
 
-            DrawTheScreenWithEffects(); //DrawScreen
+            DrawTheScreenWithShootEffects(); //DrawScreen
 
             DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);
@@ -201,6 +201,24 @@ namespace DangerousD.GameCore
         public void DrawTheScreenWithNoEffects()
         {
             DrawScreenByParts(0,1);
+        }
+        public void DrawTheScreenWithShootEffects()
+        {
+            #region test 
+
+            if (gameState == GameState.Game)
+            {
+                if (GameManager.GetPlayer1.isShooting)
+                {
+                    spriteEffect.CurrentTechnique = spriteEffect.Techniques["Dark"];
+                    DrawScreenByParts(0, 1, spriteEffect);
+                }
+                else
+                    DrawScreenByParts(0, 1);
+            }
+            else
+                DrawScreenByParts(0, 1);
+            #endregion 
         }
         public void DrawTheScreenWithEffects()
         {
