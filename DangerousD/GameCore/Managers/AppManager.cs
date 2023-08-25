@@ -80,9 +80,8 @@ namespace DangerousD.GameCore
             HUD = new HUD();
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
-            UIManager.resolutionInGame = inGameResolution;
-            currentMap = "lvl";
-
+            UIManager.resolutionInGame = inGameResolution; 
+            currentMap = "lvl2"; 
         }
 
         protected override void Initialize()
@@ -110,7 +109,7 @@ namespace DangerousD.GameCore
             DeathGUI.LoadContent();
             HUD.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
-            GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0, 0, 0.25f) });
+            GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
             SoundManager.LoadSounds();
             SoundManager.StartAmbientSound("DoomTestSong");
             renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
@@ -382,6 +381,21 @@ namespace DangerousD.GameCore
             GameManager = new();
             ChangeGameState(GameState.Menu);
             currentMap = map;
+        }
+
+        
+        public void ChangeMap(string map, Vector2 startPos)
+        {
+            List<Player> players = GameManager.players;
+            GameManager = new();
+            foreach (var player in players)
+            {
+                player.SetPosition(new Vector2(startPos.X, startPos.Y - player.Height));
+                GameManager.Register(player);
+            }
+            
+            currentMap = map;
+            ChangeGameState(GameState.Game);
         }
     }
 }

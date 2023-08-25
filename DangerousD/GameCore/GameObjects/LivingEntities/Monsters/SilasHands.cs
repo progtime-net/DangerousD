@@ -26,16 +26,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         protected override GraphicsComponent GraphicsComponent { get; }=new GraphicsComponent(new List<string>() { "SilasHandMove" }, "SilasHandMove");
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
             AppManager.Instance.GameManager.GetPlayer1.Death(name);
         }
-
-        public override void Attack(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
-
+         
         public override void Death()
         {
             for (int i = 0; i < 3; i++)
@@ -96,7 +91,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
-                    Attack();
+                    Attack(null);
 
                 }
             }

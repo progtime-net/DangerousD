@@ -62,11 +62,18 @@ namespace DangerousD.GameCore
             GraphicsComponent.DrawAnimation(Rectangle, spriteBatch);
             //debug
             if (AppManager.Instance.InputManager.CollisionsCheat)
-            {
-                spriteBatch.Draw(debugTexture,
-                                     new Rectangle((Rectangle.X - GraphicsComponent.CameraPosition.X) * GraphicsComponent.scaling, (Rectangle.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling, Rectangle.Width * GraphicsComponent.scaling, Rectangle.Height * GraphicsComponent.scaling),Color.White);
-            }
+                DrawDebugRectangle(spriteBatch, Rectangle);
 
+        } 
+        public void DrawDebugRectangle(SpriteBatch spriteBatch, Rectangle _rectangle, Nullable<Color> color = null)
+        {
+            if (color is null) color = new Color(1, 0, 0, 0.25f);
+            if (color.Value.A == 255) color = new Color(color.Value, 0.25f) ;
+            spriteBatch.Draw(debugTexture,
+                                 new Rectangle((_rectangle.X - GraphicsComponent.CameraPosition.X) * GraphicsComponent.scaling, 
+                                 (_rectangle.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling,
+                                 _rectangle.Width * GraphicsComponent.scaling,
+                                 _rectangle.Height * GraphicsComponent.scaling), color.Value);
         }
         public GraphicsComponent GetGraphicsComponent()
         {

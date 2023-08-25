@@ -25,6 +25,12 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
 
         private void PlayDeath(string deathName)
         {
+            if (GraphicsComponent.animations.Where(x=>x.Id == deathName).Count()>0)
+            {
+                GraphicsComponent.StartAnimation(deathName);
+            }
+            else
+                GraphicsComponent.StartAnimation("DeathFromZombie");
             //if (GraphicsComponent.GetCurrentAnimation != "DeathFromZombie")
             //{
             //    GraphicsComponent.StartAnimation("DeathFromZombie");
@@ -33,7 +39,6 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
             //{
             //    GraphicsComponent.StartAnimation("DeathFromSilasHand");
             //}
-            GraphicsComponent.StartAnimation(deathName);
         }
 
     }

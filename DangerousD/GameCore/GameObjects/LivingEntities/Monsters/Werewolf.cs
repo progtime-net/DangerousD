@@ -44,15 +44,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
             base.Update(gameTime);
         }
-
-        public override void Attack()
-        {
-
-        }
+         
 
         public override void Death()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 9; i++)
             {
                 Particle particle = new Particle(Pos);
             }

@@ -26,19 +26,19 @@ namespace DangerousD.GameCore.Managers
         }
         public void SetMainVolume(float volume)
         {
-            settingsContainer.MainVolume = MainVolume;
-            //AppManager.Instance.SoundManager.
-
+            settingsContainer.MainVolume = volume;
+            AppManager.Instance.SoundManager.Update();
+            SaveSettings(); 
         }
         public void SetMusicVolume(float volume)
         {
-            settingsContainer.MusicVolume = MainVolume;
+            settingsContainer.MusicVolume = volume;
             SaveSettings();
 
         }
         public void SetSoundEffectsVolume(float volume)
         {
-            settingsContainer.SoundEffectsVolume = MainVolume;
+            settingsContainer.SoundEffectsVolume = volume;
             SaveSettings();
 
         }

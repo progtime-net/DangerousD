@@ -37,7 +37,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             
         }
         protected override GraphicsComponent GraphicsComponent { get; } = new GraphicsComponent(new List<string>() { "SilasMove", "SilasAttack" }, "SilasMove");
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
 
             if (currentTime == 0)
@@ -70,11 +70,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
 
         }
-
-        public override void Attack(GameTime gameTime)
-        {
-
-        }
+         
 
         public override void Death()
         {
@@ -140,7 +136,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             else
             {
                 velocity = Vector2.Zero;
-                Attack();
+                Attack(gameTime);
             }
         }
     }

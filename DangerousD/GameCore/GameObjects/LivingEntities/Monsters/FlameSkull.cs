@@ -53,7 +53,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
 
         }
@@ -131,12 +131,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             base.OnCollision(gameObject);
         }
-
-        public override void Attack(GameTime gameTime)
-        {
-
-        }
-
+         
         public override void Target()
         {
 

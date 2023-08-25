@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using DangerousD.GameCore.Graphics;
 using Newtonsoft.Json;
+using Microsoft.Xna.Framework.Media;
+using DangerousD.GameCore.GameObjects.LivingEntities;
 
 namespace DangerousD.GameCore
 {
@@ -15,7 +17,7 @@ namespace DangerousD.GameCore
     {
         public Dictionary<string, SoundEffect> Sounds = new Dictionary<string, SoundEffect>(); // словарь со звуками где строка - название файла
         public List<Sound> PlayingSounds = new List<Sound>(); // список со всеми звуками, которые проигрываются
-        public float MaxSoundDistance = 1500; // максимальная дальность звука
+        public static float MaxSoundDistance = 100; // максимальная дальность звука
 
         public void LoadSounds() // метод для загрузки звуков из папки
         {
@@ -40,22 +42,27 @@ namespace DangerousD.GameCore
 
         public void StartAmbientSound(string soundName) // запустить звук у которого нет позиции
         {
-            var sound = new Sound(Sounds[soundName].CreateInstance());
+            var sound = new Sound(Sounds[soundName].CreateInstance(), Vector2.One, true);
+            sound.SoundEffect.Volume = sound.baseVolume * AppManager.Instance.SettingsManager.MusicVolume * AppManager.Instance.SettingsManager.MainVolume;
             sound.SoundEffect.IsLooped = false;
+
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
+
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host)
             {
                 AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(Vector2.Zero, soundName));
             }
         }
-        public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos) // запустить звук у которого есть позиция
+        public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos, float baseVolume = 1, float pitch = 0) // запустить звук у которого есть позиция
         {
-            var sound = new Sound(Sounds[soundName].CreateInstance(), soundPos);
+            var sound = new Sound(Sounds[soundName].CreateInstance(), soundPos, false) { baseVolume = baseVolume, basePich = pitch };
             sound.SoundEffect.IsLooped = false;
-            sound.SoundEffect.Volume = (float)(MaxSoundDistance-sound.GetDistance(playerPos)) / MaxSoundDistance;
+            sound.SoundEffect.Volume = sound.baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume;
+            sound.SoundEffect.Pitch = pitch;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
+
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
             {
                 AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(soundPos, soundName));
@@ -67,10 +74,18 @@ namespace DangerousD.GameCore
                 sound.SoundEffect.Stop();
             PlayingSounds.Clear();
         }
-
-
+         
         public void Update() // апдейт, тут происходит изменение громкости
         {
+            for (int i = 0; i < PlayingSounds.Count; i++)
+            {
+                PlayingSounds[i].UpdateVolume(Vector2.Zero);
+                if (PlayingSounds[i].SoundEffect.State == SoundState.Stopped)
+                {
+                    PlayingSounds.Remove(PlayingSounds[i]);
+                    i--;
+                }
+            }
             return;
             
             var player = AppManager.Instance.GameManager.GetPlayer1;
@@ -79,7 +94,7 @@ namespace DangerousD.GameCore
                 for (int i = 0; i < PlayingSounds.Count; i++)
                 { 
                     if (!PlayingSounds[i].isAmbient)
-                        PlayingSounds[i].SoundEffect.Volume = (float)(MaxSoundDistance - PlayingSounds[i].GetDistance(player.Pos)) / MaxSoundDistance;
+                        PlayingSounds[i].SoundEffect.Volume = (float)(MaxSoundDistance - PlayingSounds[i].GetDistanceVol(player.Pos)) / MaxSoundDistance;
                     if (PlayingSounds[i].SoundEffect.State == SoundState.Stopped)
                         PlayingSounds.Remove(PlayingSounds[i]);
                 }
@@ -92,23 +107,26 @@ namespace DangerousD.GameCore
         public SoundEffectInstance SoundEffect { get; set; }
         public Vector2 Position { get; set; } // позиция для эффекта
         public bool isAmbient { get; }
-
-        public Sound(SoundEffectInstance soundEffect) // конструктор для музыки и эмбиента
+        public float baseVolume { get; set; } = 1;
+        public float basePich { get; set; } = 0;
+        public Sound(SoundEffectInstance soundEffect, Vector2 position, bool isAmbient) // конструктор для эффектов по типу криков зомби
         {
-            SoundEffect = soundEffect;
-            isAmbient = true;
-        }
-
-        public Sound(SoundEffectInstance soundEffect, Vector2 position) // конструктор для эффектов по типу криков зомби
-        {
-            isAmbient = false;
+            this.isAmbient = isAmbient; 
             SoundEffect = soundEffect;
             Position = position;
         }
-
-        public double GetDistance(Vector2 playerPos) // получение дистанции до объедка от игрока
+        public void UpdateVolume(Vector2 playerPos)
         {
-            return Math.Sqrt(Math.Pow(Position.X - playerPos.X, 2) + Math.Pow(Position.Y - playerPos.Y, 2));
+            if (isAmbient)
+                SoundEffect.Volume = baseVolume * AppManager.Instance.SettingsManager.MusicVolume * AppManager.Instance.SettingsManager.MainVolume;
+            else
+                SoundEffect.Volume = baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume;// * (float)Math.Clamp(1 - GetDistanceVol(playerPos),0,1);
+
         }
+
+        public double GetDistanceVol(Vector2 playerPos) // получение дистанции до объедка от игрока
+        {
+            return Math.Sqrt(Math.Pow(Position.X - playerPos.X, 2) + Math.Pow(Position.Y - playerPos.Y, 2))-SoundManager.MaxSoundDistance;
+        } 
     }
 }

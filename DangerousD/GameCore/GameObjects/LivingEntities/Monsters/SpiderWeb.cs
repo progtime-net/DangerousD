@@ -15,18 +15,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public SpiderWeb(Vector2 position) : base(position)
         {
             name = "Web";
-            Width = 16;
+            Width = 4;
             Height = 0;
             acceleration = Vector2.Zero;
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "SpiderWeb" }, "SpiderWeb");
-
-        public override void Attack()
-        {
-
-        }
-
+ 
         public override void Attack(GameTime gameTime)
         {
 

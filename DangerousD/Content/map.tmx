@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="200" height="200" tilewidth="16" tileheight="16" infinite="1" nextlayerid="5" nextobjectid="5">
- <tileset firstgid="1" source="../Desktop/DangerousD map/map.tsx"/>
+ <tileset firstgid="1" source="map.tsx"/>
  <layer id="1" name="Слой тайлов 1" class="StopTile" width="200" height="200">
   <data encoding="csv">
    <chunk x="-16" y="0" width="16" height="16">

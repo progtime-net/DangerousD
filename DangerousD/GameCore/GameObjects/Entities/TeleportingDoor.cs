@@ -13,41 +13,34 @@ namespace DangerousD.GameCore.GameObjects.Entities
         public Vector2 Target;
         public bool IsVisible = true;
         public Action action;
-        public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Vector2 target, Action action) : base(position, size, sourceRectangle)
+        public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Action action) : base(position, size, sourceRectangle)
+        {
+            this.action = action;
+        }
+        
+        public TeleportingDoor(Vector2 position, Vector2 size, Rectangle sourceRectangle, Vector2 target) : base(position, size, sourceRectangle)
         {
             Target = target;
-            this.action = action;
+            
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (IsVisible)
+            if (gameObject is Player)
             {
-                if (gameObject is Player)
+                Player player = (Player)gameObject;
+                if (player.isUping && !isUppingPrev)
                 {
-                    Player player = (Player)gameObject;
-                    if (player.isUping)
+                    if (action!=null)
                     {
-                        IsVisible = false;
-                        
+                        action();
+                    }
+                    else
+                    {
+                        player.SetPosition(new Vector2(Target.X, Target.Y - player.Height - 5));
                     }
                 }
             }
-            else
-            {
-                if (gameObject is Player)
-                {
-                    Player player = (Player)gameObject;
-                    if (player.isUping)
-                    {
-                        player.SetPosition(Target);
-                        if (action!=null)
-                        {
-                            action();
-                        }
-                        
-                    }
-                }
-            }
+            base.OnCollision(gameObject);
         }
 
     }

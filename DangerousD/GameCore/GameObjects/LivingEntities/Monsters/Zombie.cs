@@ -63,11 +63,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
             isAttaking = true;
             PlayAttackAnimation();
-            AppManager.Instance.GameManager.GetClosestPlayer(Pos).Death(name);
+            AppManager.Instance.GameManager.GetPlayer1.Death(name);
         }
         public void PlayAttackAnimation()
         {
@@ -145,11 +145,11 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
         public override void OnCollision(GameObject gameObject)
         {
-            if (gameObject.id == AppManager.Instance.GameManager.GetClosestPlayer(Pos).id && AppManager.Instance.GameManager.GetClosestPlayer(Pos).IsAlive)
+            if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
             {
                 if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
-                    Attack();
+                    Attack(null);
                 }
             }
             else if (gameObject is Player)
@@ -201,10 +201,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public void SwitchToLeft()
         {
             isGoRight = false;
-        }
-        public override void Attack(GameTime gameTime)
-        {}
-
+        } 
         public override void TakeDamage()
         {
             if (monster_health == 3)

@@ -27,13 +27,14 @@ namespace DangerousD.GameCore.GUI
             int screenHeight = AppManager.Instance.inGameResolution.Y;
             float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
 
-            var lobbyBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "menuFon3" };
+            var lobbyBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, screenWidth, screenHeight), textureName = "textures\\ui\\background_menu_3" };
             Elements.Add(lobbyBackground);
             lobbyBackground.LoadTexture(AppManager.Instance.Content);
 
             // CheckBoxs
             var lobby = new Label(Manager) { rectangle = new Rectangle(screenWidth / 30 * 2, screenHeight / 30 * 5,
-                screenWidth / 30 * 26, screenHeight / 15 * 10), textureName = "textboxbackground2,5-1" };
+                screenWidth / 30 * 26, screenHeight / 15 * 10), textureName = "textures\\ui\\textbox_background2,5-1"
+            };
             Elements.Add(lobby);
             lobby.LoadTexture(AppManager.Instance.Content);
 
@@ -49,7 +50,7 @@ namespace DangerousD.GameCore.GUI
                     fontColor = Color.Black,
                     fontName = "font2",
                     textAligment = TextAligment.Left,
-                    textureName = "textboxbackground6-1"
+                    textureName = "textures\\ui\\textbox_background6-1"
 
                 };
                 Elements.Add(searchBarTextBox);
@@ -73,7 +74,7 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.72f,
                     fontColor = Color.Black,
                     fontName = "font2",
-                    textureName = "textboxbackground1-1"
+                    textureName = "textures\\ui\\textbox_background1-1"
                 };
                 Elements.Add(backButton);
                 backButton.LeftButtonPressed += () => {
@@ -87,7 +88,7 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.48f,
                     fontColor = Color.DarkBlue,
                     fontName = "buttonFont",
-                    textureName = "textboxbackground2-1"
+                    textureName = "textures\\ui\\textbox_background2-1"
                 };
                 Elements.Add(hostButton);
                 hostButton.LeftButtonPressed += () => {
@@ -103,7 +104,7 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.48f,
                     fontColor = Color.DarkBlue,
                     fontName = "buttonFont",
-                    textureName = "textboxbackground2-1"
+                    textureName = "textures\\ui\\textbox_background2-1"
                 };
                 Elements.Add(refreshButton);
                 refreshButton.LeftButtonPressed += () => {
@@ -117,7 +118,7 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.48f,
                     fontColor = Color.DarkBlue,
                     fontName = "buttonFont",
-                    textureName = "textboxbackground2-1"
+                    textureName = "textures\\ui\\textbox_background2-1"
                 };
                 Elements.Add(joinSelectedButton);
                 joinSelectedButton.LeftButtonPressed += () => {
@@ -131,7 +132,7 @@ namespace DangerousD.GameCore.GUI
                     scale = 0.48f,
                     fontColor = Color.DarkBlue,
                     fontName = "buttonFont",
-                    textureName = "textboxbackground2-1"
+                    textureName = "textures\\ui\\textbox_background2-1"
                 };
                 Elements.Add(joinByIpButton);
                 joinByIpButton.LeftButtonPressed += () => {

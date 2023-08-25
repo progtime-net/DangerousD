@@ -39,7 +39,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
            
             if (!isAttacking)
             {
-                Attack();
+                Attack(null);
                 Move(gameTime);
             }
             else
@@ -50,7 +50,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         }
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
             GameObject gameObject;
             foreach (var player in gameManager.players)
@@ -80,12 +80,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
             }
         }
-
-        public override void Attack(GameTime gameTime)
-        {
-
-        }
-
+         
         public override void Death()
         {
             if (monster_health <= 0)
