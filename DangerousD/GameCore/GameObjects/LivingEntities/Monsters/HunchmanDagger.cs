@@ -21,11 +21,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new (new List<string> { "HunchmanDaggerRight", "HunchmanDaggerLeft" }, "HunchmanDaggerLeft");
-
-        public override void Attack()
-        {
-
-        }
+         
 
         public override void Attack(GameTime gameTime)
         {

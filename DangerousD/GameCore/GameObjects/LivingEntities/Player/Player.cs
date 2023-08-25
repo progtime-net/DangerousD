@@ -142,10 +142,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
                 {
-                    if (a == "DeathFrom" + monsterName)
-                    {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
-                    }
+                    AppManager.Instance.ChangeGameState(GameState.Death);
                 };
             }
             else if (monsterName == "Spider")
@@ -153,10 +150,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
                 deathRectangle.Gr.actionOfAnimationEnd += (a) =>
                 {
-                    if (a == "DeathFrom" + monsterName)
-                    {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
-                    }
+                    AppManager.Instance.ChangeGameState(GameState.Death);
                 };
             }
             else if (monsterName == "FlameSkull")
@@ -166,8 +160,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 {
                     if (a == "DeathFromSilasHand")
                     {
-                        AppManager.Instance.ChangeGameState(GameState.Death);
                     }
+                    AppManager.Instance.ChangeGameState(GameState.Death);
                 };
             }
             else if (monsterName == "Werewolf")
@@ -223,7 +217,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     {
                         AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
                         isShooting = true;
-                        bullets--;
+                        if (!AppManager.Instance.InputManager.InfiniteAmmoCheat)
+                            bullets--;
                         if (isRight)
                         {
                             if (!isUping)

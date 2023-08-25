@@ -21,12 +21,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "SpiderWeb" }, "SpiderWeb");
-
-        public override void Attack()
-        {
-
-        }
-
+ 
         public override void Attack(GameTime gameTime)
         {
 

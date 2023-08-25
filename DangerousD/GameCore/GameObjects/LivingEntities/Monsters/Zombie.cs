@@ -63,7 +63,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
             isAttaking = true;
             PlayAttackAnimation();
@@ -149,7 +149,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
                 {
-                    Attack();
+                    Attack(null);
                 }
             }
             else if (gameObject is Player)
@@ -201,10 +201,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public void SwitchToLeft()
         {
             isGoRight = false;
-        }
-        public override void Attack(GameTime gameTime)
-        {}
-
+        } 
         public override void TakeDamage()
         {
             if (monster_health == 3)

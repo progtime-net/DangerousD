@@ -26,7 +26,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         protected Player player;
         protected Vector2 oldPosition;
         int spiderSectionLength = 16; //длина сегмента паутины
-
+        int movingWidth = 28;
+        int movingHeight = 6;
         public Spider(Vector2 position) : base(position)
         {
             player = AppManager.Instance.GameManager.players[0];
@@ -34,8 +35,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             isDown = true;
             physicsManager = AppManager.Instance.GameManager.physicsManager;
             name = "Spider";
-            Width = 28;
-            Height = 6;
+            Width = movingWidth;
+            Height = movingHeight;
             widthS = Width;
             web = new SpiderWeb(new Vector2(Pos.X+Width/2,Pos.Y));
             delay = 0;
@@ -60,13 +61,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Target();
 
             base.Update(gameTime);
-        }
-        /// <summary>
-        /// НИЧЕГО НЕ ДЕЛАЕТ! НУЖЕН ДЛЯ ПЕРЕОПРЕДЕЛЕНИЯ 
-        /// </summary>
-        public override void Attack()
-        {
-        }
+        } 
         /// <summary>
         /// Атака паука РАБОЧАЯ
         /// </summary>
@@ -126,15 +121,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (GraphicsComponent.GetCurrentAnimation == "SpiderOnWeb")
-            {     
-                GraphicsComponent.DrawAnimation(new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height), spriteBatch);
-                
-            }
-            else
-            {
-                base.Draw(spriteBatch);
-            }
+            base.Draw(spriteBatch); 
         }
 
         public override void Death()
@@ -155,25 +142,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "SpiderMoveRight")
-                {
-                    GraphicsComponent.StartAnimation("SpiderMoveRight");
-                }
+                StartCicycleAnimation("SpiderMoveRight"); 
                 velocity.X = monster_speed;
             }
             else
             {
-                if (GraphicsComponent.GetCurrentAnimation != "SpiderMoveLeft")
-                {
-                    GraphicsComponent.StartAnimation("SpiderMoveLeft");
-                }
+                StartCicycleAnimation("SpiderMoveLeft"); 
                 velocity.X = -monster_speed;
             }
         }
 
         public override void Target()
         {
-            if (player.Pos.X >= Pos.X && player.Pos.X <= Pos.X+Width)
+            if (player.Pos.X + player.Width *2/3.0 >= Pos.X && player.Pos.X + player.Width * 1 / 3.0 <= Pos.X+Width)
             {
                 isAttack = true;
             }
@@ -185,7 +166,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
-                    Attack();
+                    AppManager.Instance.GameManager.players[0].Death(name);
                 }
             }
             base.OnCollision(gameObject);

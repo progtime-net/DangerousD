@@ -46,11 +46,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             Death();
             
             base.Update(gameTime);
-        }
-        public override void Attack()
-        {
-
-        }
+        } 
         public override void OnCollision(GameObject gameObject)
         {
             if (gameObject is Player)

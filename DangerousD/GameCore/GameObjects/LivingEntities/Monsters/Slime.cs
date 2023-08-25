@@ -40,7 +40,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             "SlimeMoveRightBottom", "SlimeReadyJumpRightBottom", "SlimeReadyJumpRightTop", "SlimeReadyJumpLeftBottom", "SlimeReadyJumpLeftTop", "SlimeJumpRightBottom",
             "SlimeJumpRightTop", "SlimeJumpLeftBottom", "SlimeJumpLeftTop" }, "SlimeMoveRightTop");
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
             
         }
@@ -337,11 +337,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
             return false;
             
-        }
-        public override void Attack(GameTime gameTime)
-        {
-
-        }
+        } 
         public override void OnCollision(GameObject gameObject)
         {
             if (gameObject is Player)

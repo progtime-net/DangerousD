@@ -37,7 +37,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             base.Update(gameTime);
         }
 
-        public override void Attack()
+        public override void Attack(GameTime gameTime)
         {
             velocity.X = 0;
             isAttack = true;
@@ -59,7 +59,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             {
                 if (AppManager.Instance.GameManager.players[0].IsAlive)
                 {
-                    Attack();
+                    Attack(null);
 
                 }
             }
@@ -104,11 +104,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 }
             }
         }
-
-        public override void Attack(GameTime gameTime)
-        {
-
-        }
+         
         public void TakeDamage()
         {
             monster_health--;

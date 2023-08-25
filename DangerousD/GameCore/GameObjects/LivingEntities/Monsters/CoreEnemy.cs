@@ -30,8 +30,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             base.Update(gameTime);
         }
         public abstract void Death();
-
-        public abstract void Attack();
+         
         public abstract void Attack(GameTime gameTime);
 
         public abstract void Move(GameTime gameTime);

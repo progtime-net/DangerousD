@@ -26,6 +26,7 @@ namespace DangerousD.GameCore
         private bool _cheatsEnabled = false;
         public bool InvincibilityCheat { get; private set; } = false;
         public bool CollisionsCheat { get; private set; } = false;
+        public bool InfiniteAmmoCheat { get; private set; } = false;
 
         private bool isJumpDown;      // Блокирует физическое нажатие прыжка и спуска
         private bool isShoot;
@@ -75,7 +76,7 @@ namespace DangerousD.GameCore
                     if (gamePadState.Buttons.B == ButtonState.Pressed && lastGamePadState.Buttons.B == ButtonState.Released)
                     {
                         CollisionsCheat = !CollisionsCheat;
-                    }
+                    } 
                 }
                 
                 vectorMovementDirection = gamePadState.ThumbSticks.Left;
@@ -133,13 +134,11 @@ namespace DangerousD.GameCore
                 if (_cheatsEnabled)
                 {
                     if (keyBoardState.IsKeyDown(Keys.I) && lastKeyboardState.IsKeyUp(Keys.I))
-                    {
                         InvincibilityCheat = !InvincibilityCheat;
-                    }
                     if (keyBoardState.IsKeyDown(Keys.C) && lastKeyboardState.IsKeyUp(Keys.C))
-                    {
                         CollisionsCheat = !CollisionsCheat;
-                    }
+                    if (keyBoardState.IsKeyDown(Keys.A) && lastKeyboardState.IsKeyUp(Keys.A))
+                        InfiniteAmmoCheat = !InfiniteAmmoCheat;
                 }
 
                 // Обработка движения вправо-влево. Меняет у вектора vectorMovementDirection значение X на -1/0/1.

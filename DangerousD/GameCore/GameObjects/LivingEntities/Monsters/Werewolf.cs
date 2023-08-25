@@ -44,11 +44,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
             base.Update(gameTime);
         }
-
-        public override void Attack()
-        {
-
-        }
+         
 
         public override void Death()
         {
