@@ -122,12 +122,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             if (AppManager.Instance.InputManager.CollisionsCheat)
             {
                 Rectangle attackRect = GetShootRectangle(isRight);
-                spriteBatch.Draw(debugTexture,
-                                     new Rectangle((attackRect.X - GraphicsComponent.CameraPosition.X) * GraphicsComponent.scaling,
-                                     (attackRect.Y - GraphicsComponent.CameraPosition.Y) * GraphicsComponent.scaling,
-                                     attackRect.Width * GraphicsComponent.scaling,
-                                     attackRect.Height * GraphicsComponent.scaling), Color.White);
-
+                DrawDebugRectangle(spriteBatch, attackRect);  
             }
         }
         public void Death(string monsterName)

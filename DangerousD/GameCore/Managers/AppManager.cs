@@ -105,7 +105,7 @@ namespace DangerousD.GameCore
             DeathGUI.LoadContent();
             HUD.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
-            GameObject.debugTexture.SetData<Color>(new Color[] { new Color(1, 0,0,0.25f) });
+            GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
             SoundManager.LoadSounds();
             SoundManager.StartAmbientSound("DoomTestSong"); 
             renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);

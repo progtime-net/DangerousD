@@ -155,7 +155,8 @@ namespace DangerousD.GameCore
             #endregion
 
 
-            gameTime = new GameTime(gameTime.TotalGameTime, gameTime.ElapsedGameTime );//* (Math.Sin(gameTime.TotalGameTime.TotalSeconds)+1)
+            //gameTime = new GameTime(gameTime.TotalGameTime, gameTime.ElapsedGameTime); //normal
+            gameTime = new GameTime(gameTime.TotalGameTime, gameTime.ElapsedGameTime * 1);
             foreach (var item in BackgroundObjects)
                 item.Update(gameTime);
 

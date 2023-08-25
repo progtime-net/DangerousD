@@ -44,8 +44,7 @@ namespace MonogameLibrary.UI.Elements
             }
 
             if (hoverState == HoverState.Hovering)
-            { 
-                int kk = 50;
+            {  
                 scale += 0.005f;
                 var d = (float)(((Math.Sin(gameTime * 1 - Math.PI) + 1) / 2f) * 0.1 + 1f);
                 Color oldColor = fontColor;

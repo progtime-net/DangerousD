@@ -19,14 +19,19 @@ namespace DangerousD.GameCore.Managers
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (var item in livingEntities)
             {
-                item.velocity = item.velocity + item.acceleration * delta;
-            } 
+                item.velocity = item.velocity + item.acceleration * delta/2; 
+            }
+            
             CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile or Platform).ToList(), delta / 0.033f); //delta / 0.033 is normal to degengine
             CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList());
             
             CheckCollisionsE_LE(entities, livingEntities);
             CheckCollisionsLE_LE(livingEntities);
 
+            foreach (var item in livingEntities)
+            {
+                item.velocity = item.velocity + item.acceleration * delta / 2; //right way to add accelaration
+            }
             //entities dont move
             //Living entities dont move
             //mapObjects dont move

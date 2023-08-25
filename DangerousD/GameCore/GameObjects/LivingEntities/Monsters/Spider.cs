@@ -19,7 +19,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         protected SpiderWeb web;
         protected float delay;
         protected int webLength;
-        protected int widthS;
+        protected int widthS;//del
         protected bool isDown;
         protected bool isDownUp;
         protected PhysicsManager physicsManager;
@@ -36,8 +36,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             physicsManager = AppManager.Instance.GameManager.physicsManager;
             name = "Spider";
             Width = movingWidth;
-            Height = movingHeight;
-            widthS = Width;
+            Height = movingHeight; 
             web = new SpiderWeb(new Vector2(Pos.X+Width/2,Pos.Y));
             delay = 0;
             webLength = 0;
@@ -121,6 +120,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (AppManager.Instance.InputManager.CollisionsCheat)
+                DrawDebugRectangle(spriteBatch, new Rectangle((int)Pos.X + Width, (int)Pos.Y, 30, 10), color: Color.Blue);
+            if (AppManager.Instance.InputManager.CollisionsCheat)
+                DrawDebugRectangle(spriteBatch, new Rectangle((int)Pos.X - 30, (int)Pos.Y, 30, 10), color: Color.Blue);
             base.Draw(spriteBatch); 
         }
 
@@ -138,13 +141,22 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Move(GameTime gameTime)
         {
-            Width = 28;
-            Height = 6;
-            foreach (var entity in physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 7, (int)Pos.Y, 126, 10),typeof(CollisionMapObject)))
+            Width = movingWidth;
+            Height = movingHeight;
+            if (isGoRight)
             {
-                if (entity.GetType() == typeof(StopTile))
+                if (physicsManager.CheckRectangle(new Rectangle((int)Pos.X + Width, (int)Pos.Y, 30, 10), typeof(CollisionMapObject)).Where(entity =>
+                entity.GetType() == typeof(StopTile)).Count() > 0)
                 {
-                    isGoRight = !isGoRight;
+                    isGoRight = false;
+                }
+            }
+            else if (!isGoRight)
+            {
+                if (physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 30, (int)Pos.Y, 30, 10), typeof(CollisionMapObject)).Where(entity =>
+                entity.GetType() == typeof(StopTile)).Count() > 0)
+                {
+                    isGoRight = true;
                 }
             }
             if (isGoRight)
