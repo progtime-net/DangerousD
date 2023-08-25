@@ -49,9 +49,9 @@ namespace MonogameLibrary.UI.Elements
 
         public override void LoadTexture(ContentManager content)
         {
-            texture1 = content.Load<Texture2D>("checkboxs_off");
-            texture2 = content.Load<Texture2D>("checkboxs_off-on");
-            texture3 = content.Load<Texture2D>("checkboxs_on");
+            texture1 = content.Load<Texture2D>("textures\\ui\\checkboxs_off");
+            texture2 = content.Load<Texture2D>("textures\\ui\\checkboxs_off-on");
+            texture3 = content.Load<Texture2D>("textures\\ui\\checkboxs_on");
             base.LoadTexture(content);
         }
         public override void Draw(SpriteBatch _spriteBatch)

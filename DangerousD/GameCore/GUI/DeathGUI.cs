@@ -15,7 +15,7 @@ internal class DeathGUI : AbstractGui
         int wigth = AppManager.Instance.inGameResolution.X;
         int height = AppManager.Instance.inGameResolution.Y;
         float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
-        var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "deathBackground" };
+        var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "textures\\ui\\background_death" };
         Elements.Add(menuBackground);
         menuBackground.LoadTexture(AppManager.Instance.Content);
         Elements.Add(new Label(Manager) { rectangle = new Rectangle((wigth - 50) / 2, (height - 50) / 2 - 80, 50, 50), text = "You died", mainColor = Color.Transparent, scale = 0.7f, fontName = "ButtonFont", fontColor = Color.White });

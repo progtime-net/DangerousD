@@ -16,7 +16,7 @@ namespace DangerousD.GameCore.GUI
             int wigth = AppManager.Instance.inGameHUDHelperResolution.X;
             int height = AppManager.Instance.inGameHUDHelperResolution.Y;
             float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
-            var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "optionsBackground" };
+            var menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "textures\\ui\\background_options" };
             //Elements.Add(menuBackground);
             menuBackground.LoadTexture(AppManager.Instance.Content);
 
@@ -26,7 +26,7 @@ namespace DangerousD.GameCore.GUI
                 MaxValue = 1,
                 rectangle = new Rectangle(wigth / 2 + 220, 275, (int)(100 * 2.4), 40),
                 indentation = 5,
-                textureName = "sliderBackground"
+                textureName = "textures\\ui\\slider_background"
             };
             //Elements.Add(slider);
             //AppManager.Instance.SettingsManager.SetMainVolume(slider.GetSliderValue);
@@ -66,7 +66,7 @@ namespace DangerousD.GameCore.GUI
             Elements.Add(lblSwitchMode);
 
             Button bTExit = new Button(Manager) 
-            { fontName = "Font2", text = "<-", rectangle = new Rectangle(wigth / 30, height / 30, (int)(40 * 2.4), (int)(40 * 2.4)), textureName = "textboxbackground1-1" };
+            { fontName = "Font2", text = "<-", rectangle = new Rectangle(wigth / 30, height / 30, (int)(40 * 2.4), (int)(40 * 2.4)), textureName = "textures\\ui\\textbox_background1-1" };
             Elements.Add(bTExit);
             bTExit.LeftButtonPressed += () => 
             {

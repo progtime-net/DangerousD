@@ -33,7 +33,7 @@ internal class MenuGUI : AbstractGui
         int height = AppManager.Instance.inGameHUDHelperResolution.Y;
         float scaler = AppManager.Instance.inGameResolution.Y / (float)AppManager.Instance.inGameHUDHelperResolution.Y;
 
-        menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "menuFon" };
+        menuBackground = new DrawableUIElement(Manager) { rectangle = new Rectangle(0, 0, wigth, height), textureName = "textures\\ui\\background_menu" };
         Elements.Add(menuBackground);
         menuBackground.LoadTexture(AppManager.Instance.Content);
         backgrRect = menuBackground.rectangle;

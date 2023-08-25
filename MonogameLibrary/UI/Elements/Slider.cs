@@ -56,7 +56,7 @@ namespace MonogameLibrary.UI.Elements
 
         public override void LoadTexture(ContentManager content)
         {
-            texture2 = content.Load<Texture2D>("slider");
+            texture2 = content.Load<Texture2D>("textures\\ui\\slider");
             base.LoadTexture(content);
         }
 
