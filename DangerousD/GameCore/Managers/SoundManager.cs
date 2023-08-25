@@ -54,12 +54,12 @@ namespace DangerousD.GameCore
                 AppManager.Instance.NetworkTasks.Add(new Network.NetworkTask(Vector2.Zero, soundName));
             }
         }
-        public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos, float baseVolume = 1) // запустить звук у которого есть позиция
+        public void StartSound(string soundName, Vector2 soundPos, Vector2 playerPos, float baseVolume = 1, float pitch = 0) // запустить звук у которого есть позиция
         {
-            var sound = new Sound(Sounds[soundName].CreateInstance(), soundPos, false) { baseVolume = baseVolume };
+            var sound = new Sound(Sounds[soundName].CreateInstance(), soundPos, false) { baseVolume = baseVolume, basePich = pitch };
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Volume = sound.baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume;
-
+            sound.SoundEffect.Pitch = pitch;
             sound.SoundEffect.Play();
             PlayingSounds.Add(sound);
 
@@ -108,6 +108,7 @@ namespace DangerousD.GameCore
         public Vector2 Position { get; set; } // позиция для эффекта
         public bool isAmbient { get; }
         public float baseVolume { get; set; } = 1;
+        public float basePich { get; set; } = 0;
         public Sound(SoundEffectInstance soundEffect, Vector2 position, bool isAmbient) // конструктор для эффектов по типу криков зомби
         {
             this.isAmbient = isAmbient; 
@@ -119,8 +120,7 @@ namespace DangerousD.GameCore
             if (isAmbient)
                 SoundEffect.Volume = baseVolume * AppManager.Instance.SettingsManager.MusicVolume * AppManager.Instance.SettingsManager.MainVolume;
             else
-                SoundEffect.Volume = baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume
-                    ;// * (float)Math.Clamp(1 - GetDistanceVol(playerPos),0,1);
+                SoundEffect.Volume = baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume;// * (float)Math.Clamp(1 - GetDistanceVol(playerPos),0,1);
 
         }
 

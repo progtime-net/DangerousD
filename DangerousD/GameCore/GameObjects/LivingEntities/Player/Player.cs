@@ -9,8 +9,6 @@ using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
-using DangerousD.GameCore.Network;
-using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -34,7 +32,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isNetworkPlayer;
         private int shootLength = 160;
         public int score = 0;
-
+        Random random = new Random();
 
 
 
@@ -79,6 +77,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     if (a == "playerReload")
                     {
                         bullets++;
+                        AppManager.Instance.SoundManager.StartSound("reloading", Pos, Pos, pitch: (float)(random.NextDouble()/2-0.25));
                     }
                     if(a == "playerShootBoomUpRight" || a == "playerShootBoomUpLeft")
                     {
@@ -122,84 +121,19 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             if (AppManager.Instance.InputManager.CollisionsCheat)
             {
                 Rectangle attackRect = GetShootRectangle(isRight);
-                DrawDebugRectangle(spriteBatch, attackRect);  
+                DrawDebugRectangle(spriteBatch, attackRect, Color.Orange);  
             }
-        }
+        } 
         public void Death(string monsterName)
         {
             if (AppManager.Instance.InputManager.InvincibilityCheat)
-            {
                 return;
-            }
             isAttacked = true;
-            if (monsterName == "Zombie")
+            AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
+            deathRectangle.Gr.actionOfAnimationEnd += (a) =>
             {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                {
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
-            else if (monsterName == "Spider")
-            {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                {
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
-            else if (monsterName == "FlameSkull")
-            {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFromSilasHand");
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                {
-                    if (a == "DeathFromSilasHand")
-                    {
-                    }
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
-            else if (monsterName == "Werewolf")
-            {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                {
-                    if (a == "DeathFrom" + monsterName)
-                    {
-                    }
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
-            else if (monsterName == "SilasHand")
-            {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                {
-                    if (a == "DeathFrom" + monsterName)
-                    {
-                    }
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
-            else if (monsterName == "SilasBall")
-            {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + monsterName);
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                {
-                    if (a == "DeathFrom" + monsterName)
-                    {
-                    }
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
-            else
-            {
-                AnimationRectangle deathRectangle = new AnimationRectangle(Pos, "DeathFrom" + "Zombie");//если монстра не нашли, чтоб игра все равно закончилась
-                deathRectangle.Gr.actionOfAnimationEnd += (a) =>
-                { 
-                    AppManager.Instance.ChangeGameState(GameState.Death);
-                };
-            }
+                AppManager.Instance.ChangeGameState(GameState.Death);
+            };
             isAlive = false;
         }
         public void Jump()
@@ -263,17 +197,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public override void Update(GameTime gameTime)
         {
             if (AppManager.Instance.InputManager.ScopeState == ScopeState.Up)
-            {
                 isUping = true;
-            }
             else
-            {
                 isUping = false;
-            }
+
             if (isOnGround && FallingThroughPlatform)
-            {
                 FallingThroughPlatform = false;
-            }
+
             GraphicsComponent.SetCameraPosition(Pos);
             if (!isAttacked || AppManager.Instance.InputManager.InvincibilityCheat)
             {
@@ -297,69 +227,38 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            velocity.X = 5 * AppManager.Instance.InputManager.VectorMovementDirection.X;
+            velocity.X = 5.5f * AppManager.Instance.InputManager.VectorMovementDirection.X;
             if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight")
             {
                 if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
                 {
                     isRight = true;
-                    if (GraphicsComponent.GetCurrentAnimation != "playerMoveRight")//идёт направо
-                    {
-                        GraphicsComponent.StartAnimation("playerMoveRight");
-                    }
+                    StartCicycleAnimation("playerMoveRight"); 
                 }
                 else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
                 {
                     isRight = false;
-                    if (GraphicsComponent.GetCurrentAnimation != "playerMoveLeft")
-                    {
-                        GraphicsComponent.StartAnimation("playerMoveLeft");
-                    }
+                    StartCicycleAnimation("playerMoveLeft"); 
                 }
                 else if (AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
                 {
                     if (isRight)
                     {
                         if (isUping)
-                        {
-                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpRight")
-                            {
-                                GraphicsComponent.StartAnimation("playerShootUpRight");
-                            }
-                        }
+                            StartCicycleAnimation("playerShootUpRight");
                         else if (bullets < 5)
-                        {
-                            if (GraphicsComponent.GetCurrentAnimation != "playerReload")
-                            {
-                                GraphicsComponent.StartAnimation("playerReload");
-                                AppManager.Instance.SoundManager.StartSound("reloading", Pos,Pos);
-                            }
-                        }
+                            StartCicycleAnimation("playerReload");
                         else
-                        {
                             GraphicsComponent.StartAnimation("playerRightStay");
-                        }
                     }
                     else if (!isRight)
                     {
                         if (isUping)
-                        {
-                            if (GraphicsComponent.GetCurrentAnimation != "playerShootUpLeft")
-                            {
-                                GraphicsComponent.StartAnimation("playerShootUpLeft");
-                            }
-                        }
+                            StartCicycleAnimation("playerShootUpLeft");
                         else if (bullets < 5)
-                        {
-                            if (GraphicsComponent.GetCurrentAnimation != "playerReload")
-                            {
-                                GraphicsComponent.StartAnimation("playerReload");
-                            }
-                        }
+                            StartCicycleAnimation("playerReload");
                         else
-                        {
                             GraphicsComponent.StartAnimation("playerStayLeft");
-                        }
                     }
                 }
             }
@@ -372,93 +271,4 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         
     }
-    public class Bullet : LivingEntity
-        {
-            public Bullet(Vector2 position) : base(position)
-            {
-                Height = 5;
-                Width = 5;
-            }
-            int time = 0;   
-            protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft" }, "playerMoveLeft");
-            Vector2 direction;
-            public Vector2 maindirection;
-            public void ShootUpRight()
-            {
-                direction = new Vector2(1, -1);
-                acceleration = Vector2.Zero;
-                velocity = new Vector2(10, 10) * direction;
-                maindirection = velocity;
-                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
-                {
-                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
-                    AppManager.Instance.NetworkTasks.Add(task);
-                    AppManager.Instance.GameManager.Remove(this);
-                }
-            }
-            public void ShootRight()
-            {
-                direction = new Vector2(1, 0);
-                acceleration = Vector2.Zero;
-                velocity = new Vector2(10, 10) * direction;
-                maindirection = velocity;
-                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
-                {
-                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
-                    AppManager.Instance.NetworkTasks.Add(task);
-                    AppManager.Instance.GameManager.Remove(this);
-                }
-            }
-            public void ShootLeft()
-            {
-                direction = new Vector2(-1, 0);
-                acceleration = Vector2.Zero;
-                velocity = new Vector2(10, 10) * direction;
-                maindirection = velocity;
-                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
-                {
-                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
-                    AppManager.Instance.NetworkTasks.Add(task);
-                    AppManager.Instance.GameManager.Remove(this);
-                }
-            }
-            public void ShootUpLeft()
-            {
-                direction = new Vector2(-1, -1);
-                acceleration = Vector2.Zero;
-                velocity = new Vector2(10, 10) * direction;
-                maindirection = velocity;
-                if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Client)
-                {
-                    NetworkTask task = new NetworkTask(typeof(Bullet), Pos, id, velocity);
-                    AppManager.Instance.NetworkTasks.Add(task);
-                    AppManager.Instance.GameManager.Remove(this);
-                }
-            }
-            public override void OnCollision(GameObject gameObject)
-            {
-                if (gameObject is not Player)
-                {
-                    if (gameObject is CoreEnemy)
-                    {
-                        CoreEnemy enemy = (CoreEnemy)gameObject;
-                        enemy.TakeDamage();
-                        AppManager.Instance.GameManager.Remove(this);
-                       
-                    }
-
-                    if (gameObject is StopTile)
-                    {
-                        AppManager.Instance.GameManager.Remove(this);
-                        
-                    }
-                    base.OnCollision(gameObject);
-                }
-            }
-            public override void Update(GameTime gameTime)
-            {
-                base.Update(gameTime);
-                
-            }
-        }
 }

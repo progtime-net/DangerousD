@@ -17,7 +17,7 @@ namespace DangerousD.GameCore.Graphics
     public class GraphicsComponent
     {
         public event Action<string> actionOfAnimationEnd;
-        private List<AnimationContainer> animations;
+        public List<AnimationContainer> animations;
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
