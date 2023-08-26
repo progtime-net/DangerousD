@@ -110,12 +110,12 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
     return float4(color, 0.21);
 }
 
-float4 MainPS4(VertexShaderOutput input) : COLOR
+float4 Dark(VertexShaderOutput input) : COLOR
 {
-    float blurDistanceX = 0.005; //1 / 1366.0;
+    float blurDistanceX = 0.05; //1 / 1366.0;
     float blurDistanceY = blurDistanceX; //1 / 768.0;
     float3 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb;
-    int k = 30;
+    int k = 0;
     for (int i = -k; i < k + 1; i++)
     {
         for (int j = -k; j < k + 1; j++)
@@ -123,11 +123,34 @@ float4 MainPS4(VertexShaderOutput input) : COLOR
             color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + i * blurDistanceX, input.TextureCoordinates.y + j * blurDistanceY));
         }
     }
-    color = color / ((2 * k + 1) * (2 * k + 1) + 0);
-    color -= 1*tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.xy));
-    int pw = 2;
-    color = pow(color, float3(pw, pw, pw)); 
-    return float4(color, 1);
+    //color = color / ((2 * k + 1) * (2 * k + 1) + 2);
+    //color -= 1 * tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.xy));
+    int pw = 10;
+    color = pow(color, float3(pw /2, pw / 2, pw / 2));
+    return float4(color, tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).a);
+}
+float4 MainPS_HighLightPlayer(VertexShaderOutput input) : COLOR
+{
+    float blurDistanceX = 0.05; //1 / 1366.0;
+    float blurDistanceY = blurDistanceX; //1 / 768.0;
+    float4 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy);
+    color.r = 1;
+    color.g = 1;
+    if (color.a == 0)
+        return float4(0, 0, 0, 0);
+    return color;
+}
+float4 Red(VertexShaderOutput input) : COLOR
+{
+    float blurDistanceX = 0.05; //1 / 1366.0;
+    float blurDistanceY = blurDistanceX; //1 / 768.0;
+    float3 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy);
+    color.r *= 2; 
+    if (tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).a == 0)
+        return float4(0, 0, 0, 0);
+    int pw = 10;
+    color = pow(color, float3(pw / 2, pw / 2, pw / 2));
+    return float4(color, tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).a);
 }
 
 technique Blur
@@ -155,6 +178,20 @@ technique Dark
 {
     pass P0
     {
-        PixelShader = compile PS_SHADERMODEL MainPS4();
+        PixelShader = compile PS_SHADERMODEL Dark();
+    }
+};                               
+technique Yellow
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL MainPS_HighLightPlayer();
+    }
+};                         
+technique Red
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL Red();
     }
 };

@@ -202,22 +202,39 @@ namespace DangerousD.GameCore
         {
             DrawScreenByParts(0,1);
         }
+        Random random = new Random();
         public void DrawTheScreenWithShootEffects()
         {
+            DrawScreenByParts(0, 1);
+            return;
             #region test 
 
             if (gameState == GameState.Game)
             {
                 if (GameManager.GetPlayer1.isShooting)
                 {
-                    spriteEffect.CurrentTechnique = spriteEffect.Techniques["Dark"];
-                    DrawScreenByParts(0, 1, spriteEffect);
+                    if (random.NextDouble()>0.0)
+                    {
+                        spriteEffect.CurrentTechnique = spriteEffect.Techniques["Dark"];
+                        DrawScreenByParts(0, 1, spriteEffect);
+                        if (GameManager.GetPlayer1.isShooting)
+                        {
+                            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
+                            AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+                            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+                            GameManager.GetPlayer1.Draw(_spriteBatch);
+                            _spriteBatch.End();
+                        }
+                    }
+                    else
+                        DrawScreenByParts(0, 1);
                 }
                 else
                     DrawScreenByParts(0, 1);
             }
             else
                 DrawScreenByParts(0, 1);
+
             #endregion 
         }
         public void DrawTheScreenWithEffects()
