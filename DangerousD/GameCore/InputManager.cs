@@ -142,7 +142,7 @@ namespace DangerousD.GameCore
                         InvincibilityCheat = !InvincibilityCheat;
                     if (keyBoardState.IsKeyDown(Keys.C) && lastKeyboardState.IsKeyUp(Keys.C))
                         CollisionsCheat = !CollisionsCheat;
-                    if (keyBoardState.IsKeyDown(Keys.A) && lastKeyboardState.IsKeyUp(Keys.A))
+                    if (keyBoardState.IsKeyDown(Keys.N) && lastKeyboardState.IsKeyUp(Keys.N))
                         InfiniteAmmoCheat = !InfiniteAmmoCheat;
                 }
                 #endregion // Cheats
