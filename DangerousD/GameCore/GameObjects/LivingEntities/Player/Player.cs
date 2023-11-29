@@ -36,7 +36,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
 
 
-        public int Bullets { get { return bullets; } }
+        public int Bullets { get { return bullets; } set { bullets = value; }  }
 
         /// <summary>
         /// Don't delete this constructor. Used in MapManager!!!!

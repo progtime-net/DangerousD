@@ -39,23 +39,26 @@ namespace DangerousD.GameCore.GameObjects.Entities
         public override void OnCollision(GameObject gameObject)
         {
             base.OnCollision(gameObject);
-            
-            if (gameObject is Player)
+            if (this is not TeleportingDoor)
             {
-                Player player = (Player)gameObject;
-                if (this is not TeleportingDoor && player.isUping && !isUppingPrev)
+                if (gameObject is Player)
                 {
-                    AppManager.Instance.GameManager.Remove(this);
-                    //тут спавн лута
-                    for (int i = 0; i < random.Next(0, 15); i++)
+                    Player player = (Player)gameObject;
+                    if (player.isUping)
                     {
-                        var d = new Diamond(Vector2.Zero);
-                        d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
+                        AppManager.Instance.GameManager.Remove(this);
+                        //тут спавн лута
+                        for (int i = 0; i < random.Next(0,15); i++)
+                        {
+                            var d = new Diamond(Vector2.Zero);
+                            d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
+                        }
+                        var a = new Ammo(Vector2.Zero);
+                        a.SetPosition(Pos + new Vector2(random.Next(-30,30), Height - a.Height));
                     }
                 }
-
-                isUppingPrev = player.isUping;
             }
+            
         }
     }
 }
