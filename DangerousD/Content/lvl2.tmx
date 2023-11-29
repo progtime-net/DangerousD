@@ -589,7 +589,7 @@
   <object id="39" type="Entities.Door" gid="873" x="608" y="16" width="32" height="48"/>
   <object id="63" type="Entities.TeleportingDoor" gid="874" x="704" y="-208" width="32" height="48">
    <properties>
-    <property name="level" value="lvl1"/>
+    <property name="level" value="lvl2"/>
    </properties>
   </object>
  </objectgroup>

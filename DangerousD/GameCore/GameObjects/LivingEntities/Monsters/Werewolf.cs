@@ -20,7 +20,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public Werewolf(Vector2 position) : base(position)
         {
             name = "Werewolf";
-            monster_speed = 3;
+            monster_speed = 16;
             Width = 39;
             Height = 48;
             delay = 10;
@@ -59,33 +59,44 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         public override void Move(GameTime gameTime)
         {
             isJump = false;
-            
+             
+
             if (isGoRight)
             {
-                if (GraphicsComponent.GetCurrentAnimation != "WolfMoveRight")
-                {
-                    GraphicsComponent.StartAnimation("WolfMoveRight");
-                }
+                StartCicycleAnimation("WolfMoveRight"); 
                 velocity.X = monster_speed;
+
+                if (GraphicsComponent.LastUpdateCallFrame != GraphicsComponent.CurrentFrame)
+                {
+                    velocity.X = monster_speed;
+                }
+                else
+                {
+                    velocity.X = 0;
+                }
             }
             else
             {
-                if (GraphicsComponent.GetCurrentAnimation != "WolfMoveLeft")
+                StartCicycleAnimation("WolfMoveLeft");
+                if (GraphicsComponent.LastUpdateCallFrame != GraphicsComponent.CurrentFrame)
                 {
-                    GraphicsComponent.StartAnimation("WolfMoveLeft");
+                    velocity.X = -monster_speed;
                 }
-                velocity.X = -monster_speed;
+                else
+                {
+                    velocity.X = 0;
+                }
             }
 
 
             var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
             if (isGoRight)
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 20, Height), typeof(CollisionMapObject));
             }
             else
             {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y, Width + 3, Height), typeof(CollisionMapObject));
+                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 20, (int)Pos.Y, Width + 20, Height), typeof(CollisionMapObject));
 
             }
 
