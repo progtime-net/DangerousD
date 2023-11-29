@@ -53,7 +53,7 @@ namespace DangerousD.GameCore.Managers
                 #region x collision
                 var collidedX = false;
                 var tryingRectX = currentRect;
-                tryingRectX.Offset((int)Math.Ceiling(livingEntities[i].velocity.X * delta), 0);
+                tryingRectX.Offset((int)(livingEntities[i].velocity.X * delta), 0);//removed ceiling on X, it caused problems with sliding
                 foreach (var mapObject in mapObjects.OfType<StopTile>())
                 {
                     if (

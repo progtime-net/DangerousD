@@ -47,6 +47,18 @@ namespace DangerousD.GameCore.Graphics
                 return currentFrame;
             }
         }
+        
+        // Needed to ckeck whether the frame has changed since last update call
+        private int lastUpdateCallFrame;
+        public int LastUpdateCallFrame
+        {
+            get
+            {
+                return lastUpdateCallFrame;
+            }
+        }
+        public int CurrentFrameInterval { get => interval; }
+        public void Force_Set_CurrentFrameInterval(int newFrameInterval) { }
         private int interval;
         private int lastInterval;
         private Rectangle sourceRectangle;
@@ -128,6 +140,7 @@ namespace DangerousD.GameCore.Graphics
 
         public void Update()
         {
+            lastUpdateCallFrame = currentFrame;
             if (interval == 0)
             {
                 currentFrame++;

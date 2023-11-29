@@ -146,12 +146,18 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public void Shoot()
         {
+            AppManager.Instance.DebugHUD.Set("shotanimInterval", GraphicsComponent.CurrentFrameInterval.ToString());
+            AppManager.Instance.DebugHUD.Set("shotanimFrame", GraphicsComponent.CurrentFrame.ToString());
             if (bullets > 0)
             {
                 if (!isAttacked)
                 {
-                    if (!isShooting)
+                    if (!isShooting ||(isShooting && GraphicsComponent.CurrentFrameInterval <10))
                     {
+                        if (isShooting && GraphicsComponent.CurrentFrame == 1&&GraphicsComponent.CurrentFrameInterval < 10)
+                        {
+                            AppManager.Instance.DebugHUD.Set("shotanimInterval", GraphicsComponent.CurrentFrameInterval.ToString());
+                        }
                         AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
                         isShooting = true;
                         if (!AppManager.Instance.InputManager.InfiniteAmmoCheat)
@@ -160,14 +166,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
-                                StartCicycleAnimation("playerShootRight");
+                                GraphicsComponent.StartAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
                                 SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
                             }
                             else
                             {
-                                StartCicycleAnimation("playerShootBoomUpRight");
+                                GraphicsComponent.StartAnimation("playerShootBoomUpRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootUpRight();
                                 SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
@@ -177,14 +183,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
-                                StartCicycleAnimation("playerShootLeft");
+                                GraphicsComponent.StartAnimation("playerShootLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
                                 SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
                             }
                             else
                             {
-                                StartCicycleAnimation("playerShootBoomUpLeft");
+                                GraphicsComponent.StartAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootUpLeft();
                                 SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
@@ -212,8 +218,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     Move(gameTime);
                 }
                 else
-                {
-                    velocity.X = 0;
+                { 
+                   // velocity.X = 0.98f * velocity.X;
                 }
             }
             else
@@ -224,24 +230,53 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             base.Update(gameTime);
         }
 
+        float max_speed = 5f;
+        float lastUpdSpeed = 0;
+        float base_speed = 3f;
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            velocity.X = 5.5f * AppManager.Instance.InputManager.VectorMovementDirection.X;
+            float addSpeed = 0;
+            if (AppManager.Instance.InputManager.VectorMovementDirection.X != 0)
+            {
+                addSpeed = (AppManager.Instance.InputManager.VectorMovementDirection.X) * base_speed;
+                lastUpdSpeed = velocity.X * 1;
+            }
+            else
+            {
+                lastUpdSpeed = velocity.X * 0.8f;
+            }
+            //if (Math.Abs(velocity.X) > max_speed * 0.8 || Math.Abs(velocity.X) < max_speed * 0.1)
+            //    addSpeed *= 2;
+
+            //if (Math.Abs(velocity.X) > max_speed * 0.9 || Math.Abs(velocity.X) < max_speed * 0.05)
+            //    addSpeed *= 5;
+            velocity.X = lastUpdSpeed + addSpeed;
+            velocity.X = Math.Clamp(velocity.X , -max_speed, max_speed);
+            if (Math.Abs(lastUpdSpeed) < 0.001) lastUpdSpeed = 0;
+
+            AppManager.Instance.DebugHUD.Set("input X", AppManager.Instance.InputManager.VectorMovementDirection.X.ToString());
+            AppManager.Instance.DebugHUD.Set("lastUpdSpeed", lastUpdSpeed.ToString());
+
             if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight")
             {
                 if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
                 {
                     isRight = true;
-                    StartCicycleAnimation("playerMoveRight"); 
+                    StartCicycleAnimation("playerMoveRight");
                 }
                 else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
                 {
                     isRight = false;
-                    StartCicycleAnimation("playerMoveLeft"); 
+                    StartCicycleAnimation("playerMoveLeft");
                 }
-                else if (AppManager.Instance.InputManager.VectorMovementDirection.X == 0)//стоит
+                else if (
+                    Math.Abs(AppManager.Instance.InputManager.VectorMovementDirection.X) < max_speed
+                    && AppManager.Instance.InputManager.VectorMovementDirection.X == 0
+                    )//с
+                     //тоит
                 {
+                    //lastUpdSpeed *= 0.7f;
                     if (isRight)
                     {
                         if (isUping)

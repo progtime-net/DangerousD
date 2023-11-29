@@ -25,7 +25,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         {
             Width = 24;
             Height = 40;
-            monster_speed = 2;
+            monster_speed = 10;
             name = "Zombie";
             monster_health = 2;
             leftBorder = (int)position.X - 100;
@@ -104,13 +104,27 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             if (isGoRight)
             {
                 StartCicycleAnimation("ZombieMoveRight");
-                velocity.X = monster_speed;
+                if (GraphicsComponent.LastUpdateCallFrame != GraphicsComponent.CurrentFrame)
+                {
+                    velocity.X = monster_speed;
+                }
+                else
+                {
+                    velocity.X = 0;
+                }
             }
 
             else if (!isGoRight)
             {
                 StartCicycleAnimation("ZombieMoveLeft");
-                velocity.X = -monster_speed;
+                if (GraphicsComponent.LastUpdateCallFrame != GraphicsComponent.CurrentFrame)
+                {
+                    velocity.X = -monster_speed;
+                }
+                else
+                {
+                    velocity.X = 0;
+                }
             }
             var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
             if (isGoRight)

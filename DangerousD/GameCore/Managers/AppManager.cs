@@ -81,7 +81,7 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution; 
-            currentMap = "lvl2"; 
+            currentMap = "lvl1"; 
         }
 
         protected override void Initialize()
@@ -198,6 +198,7 @@ namespace DangerousD.GameCore
             DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
+        #region effects and experiments - SergoDobro
         public void DrawTheScreenWithNoEffects()
         {
             DrawScreenByParts(0,1);
@@ -259,7 +260,7 @@ namespace DangerousD.GameCore
 
             DrawScreenByParts(0.8, 1);
             #endregion 
-        }
+        } 
         public void DrawScreenByParts(double startProc, double endProc, Effect effect = null) //for shader tests
         {
             _spriteBatch.Begin(effect: effect);
@@ -267,7 +268,9 @@ namespace DangerousD.GameCore
                 , (int)(_graphics.PreferredBackBufferWidth * (endProc - startProc)), _graphics.PreferredBackBufferHeight),
                  new Rectangle((int)(renderTarget.Width * startProc), 0, (int)(renderTarget.Width * (endProc - startProc)), renderTarget.Height), Color.White);
             _spriteBatch.End();
-        }
+        } 
+        #endregion
+
 
         public void ChangeGameState(GameState gameState)
         {
