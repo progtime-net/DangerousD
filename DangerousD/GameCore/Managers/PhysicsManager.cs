@@ -94,6 +94,7 @@ namespace DangerousD.GameCore.Managers
                 var collidedY = false;
                 var tryingRectY = currentRect;
                 tryingRectY.Offset(0, (int)Math.Ceiling(livingEntities[i].velocity.Y * delta));
+                
                 if (livingEntities[i] is Player)
                 {
                     AppManager.Instance.DebugHUD.Set("velocity", livingEntities[i].velocity.ToString());
@@ -135,8 +136,8 @@ namespace DangerousD.GameCore.Managers
                     newRect.Y = tryingRectY.Y;
                 }
                 #endregion
-
-                livingEntities[i].SetPosition(new Vector2(newRect.X, newRect.Y));
+                
+                livingEntities[i].SetPosition(newRect.Location.ToVector2());
             }
         }
         private void CheckCollisionsPlayer_Platform(List<Player> players, List<Platform> platforms)
@@ -156,7 +157,8 @@ namespace DangerousD.GameCore.Managers
                 AppManager.Instance.DebugHUD.Set("intersects platform", "false");
                 foreach (var platform in platforms)
                 {
-                    if (tryingRectY.Intersects(platform.Rectangle))
+                    AppManager.Instance.DebugHUD.Set("sus", (player.Rectangle.Bottom < platform.Rectangle.Top).ToString());
+                    if (tryingRectY.Intersects(platform.Rectangle) && player.Rectangle.Bottom < platform.Rectangle.Top + 5)
                     {
                         AppManager.Instance.DebugHUD.Set("intersects platform", "true");
                         collidedY = true;
@@ -171,7 +173,7 @@ namespace DangerousD.GameCore.Managers
                     player.velocity.Y = 0;
                 }
 
-                player.SetPosition(new Vector2(newRect.X, newRect.Y));
+                player.SetPosition(newRect.Location.ToVector2());
             }
 
         }
