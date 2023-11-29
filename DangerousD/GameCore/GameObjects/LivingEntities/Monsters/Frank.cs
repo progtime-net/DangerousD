@@ -34,7 +34,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 
         public override void Death()
         {
-
+            for (int i = 0; i < monster_health; i++) //to debug how much health is left
+            {
+                Particle particle = new Particle(Pos);
+            }
         }
 
         public override void Move(GameTime gameTime)
