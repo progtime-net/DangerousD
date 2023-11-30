@@ -166,6 +166,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
+                                velocity.X -= 1;
+
                                 GraphicsComponent.StartAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
@@ -173,6 +175,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             }
                             else
                             {
+
                                 GraphicsComponent.StartAnimation("playerShootBoomUpRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootUpRight();
@@ -183,6 +186,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         {
                             if (!isUping)
                             {
+                                velocity.X += 1;
+
                                 GraphicsComponent.StartAnimation("playerShootLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
@@ -190,6 +195,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             }
                             else
                             {
+
                                 GraphicsComponent.StartAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootUpLeft();
@@ -260,42 +266,66 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
             if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight")
             {
-                if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
+                if (isOnGround && Math.Abs(velocity.Y)<2)
                 {
-                    isRight = true;
-                    StartCicycleAnimation("playerMoveRight");
-                }
-                else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
-                {
-                    isRight = false;
-                    StartCicycleAnimation("playerMoveLeft");
-                }
-                else if (
-                    Math.Abs(AppManager.Instance.InputManager.VectorMovementDirection.X) < max_speed
-                    && AppManager.Instance.InputManager.VectorMovementDirection.X == 0
-                    )//с
-                     //тоит
-                {
-                    //lastUpdSpeed *= 0.7f;
-                    if (isRight)
+                    if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
                     {
-                        if (isUping)
-                            StartCicycleAnimation("playerShootUpRight");
-                        else if (bullets < 5)
-                            StartCicycleAnimation("playerReload");
-                        else
-                            GraphicsComponent.StartAnimation("playerRightStay");
+                        isRight = true;
+                        StartCicycleAnimation("playerMoveRight");
                     }
-                    else if (!isRight)
+                    else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)//идёт налево
                     {
-                        if (isUping)
-                            StartCicycleAnimation("playerShootUpLeft");
-                        else if (bullets < 5)
-                            StartCicycleAnimation("playerReload");
-                        else
-                            GraphicsComponent.StartAnimation("playerStayLeft");
+                        isRight = false;
+                        StartCicycleAnimation("playerMoveLeft");
+                    }
+                    else if (
+                        Math.Abs(AppManager.Instance.InputManager.VectorMovementDirection.X) < max_speed
+                        && AppManager.Instance.InputManager.VectorMovementDirection.X == 0
+                        )//с
+                         //тоит
+                    {
+                        //lastUpdSpeed *= 0.7f;
+                        if (isRight)
+                        {
+                            if (isUping)
+                                StartCicycleAnimation("playerShootUpRight");
+                            else if (bullets < 5)
+                                StartCicycleAnimation("playerReload");
+                            else
+                                GraphicsComponent.StartAnimation("playerRightStay");
+                        }
+                        else if (!isRight)
+                        {
+                            if (isUping)
+                                StartCicycleAnimation("playerShootUpLeft");
+                            else if (bullets < 5)
+                                StartCicycleAnimation("playerReload");
+                            else
+                                GraphicsComponent.StartAnimation("playerStayLeft");
+                        }
                     }
                 }
+                else
+                {
+                    if (AppManager.Instance.InputManager.VectorMovementDirection.X > 0)
+                    {
+                        isRight = true;
+                        StartCicycleAnimation("playerJumpRight");
+                    }
+                    else if (AppManager.Instance.InputManager.VectorMovementDirection.X < 0)
+                    {
+                        isRight = false;
+                        StartCicycleAnimation("playerJumpLeft");
+                    }
+                    else
+                    {
+                        if (isRight)
+                            StartCicycleAnimation("playerJumpRight");
+                        else
+                            StartCicycleAnimation("playerJumpLeft");
+                    }
+                }
+
             }
         }
         public void MoveDown()

@@ -1,6 +1,6 @@
 {
   "id": "SilasMove",
-  "textureName": "MonstersAnimations",
+  "textureName": "textures\\GameObjects\\MonstersAnimations",
   "startSpriteRectangle": {
     "X": 1,
     "Y": 618,

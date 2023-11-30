@@ -1,1 +1,1 @@
-{"id":"SilasBallMove","textureName":"MonstersAnimations","startSpriteRectangle":{"X":147,"Y":618,"Width":24,"Height":24},"frameSecond":[{"Item1":0,"Item2":8}],"textureFrameInterval":1,"framesCount":2,"isCycle":true,"offset":"0, 0"}
+{"id":"SilasBallMove","textureName":"textures\\GameObjects\\MonstersAnimations","startSpriteRectangle":{"X":147,"Y":618,"Width":24,"Height":24},"frameSecond":[{"Item1":0,"Item2":8}],"textureFrameInterval":1,"framesCount":2,"isCycle":true,"offset":"0, 0"}

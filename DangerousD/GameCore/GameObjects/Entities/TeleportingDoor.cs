@@ -39,6 +39,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
                         player.SetPosition(new Vector2(Target.X, Target.Y - player.Height - 5));
                     }
                 }
+                isUppingPrev= player.isUping;
             }
             base.OnCollision(gameObject);
         }

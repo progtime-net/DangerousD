@@ -1,1 +1,1 @@
-{"id":"FrankMoveRight","textureName":"MonstersAnimations","startSpriteRectangle":{"X":1,"Y":332,"Width":56,"Height":80},"frameSecond":[{"Item1":0,"Item2":18}],"textureFrameInterval":1,"framesCount":4,"isCycle":true}
+{"id":"FrankMoveRight","textureName":"textures\\GameObjects\\MonstersAnimations","startSpriteRectangle":{"X":1,"Y":332,"Width":56,"Height":80},"frameSecond":[{"Item1":0,"Item2":18}],"textureFrameInterval":1,"framesCount":4,"isCycle":true}

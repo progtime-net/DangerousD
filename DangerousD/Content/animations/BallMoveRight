@@ -1,1 +1,1 @@
-{"id":"BallMoveRight","textureName":"MonstersAnimations","startSpriteRectangle":{"X":229,"Y":332,"Width":16,"Height":16},"frameSecond":[{"Item1":0,"Item2":8}],"textureFrameInterval":1,"framesCount":2,"isCycle":true,"offset":"0, 0"}
+{"id":"BallMoveRight","textureName":"textures\\GameObjects\\MonstersAnimations","startSpriteRectangle":{"X":229,"Y":332,"Width":16,"Height":16},"frameSecond":[{"Item1":0,"Item2":8}],"textureFrameInterval":1,"framesCount":2,"isCycle":true,"offset":"0, 0"}

@@ -21,31 +21,6 @@
 /processorParam:TextureFormat=Compressed
 /build:ButtonFont.spritefont
 
-
-#begin deathAnimation.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:deathAnimation.png
-
-#begin Diamond.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Diamond.png
-
 #begin door.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -98,18 +73,6 @@
 /processorParam:TextureFormat=Color
 /build:GetScore.png
 
-#begin MonstersAnimations.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:MonstersAnimations.png
-
 #begin PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -159,6 +122,7 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/Glow.fx
 
+#begin smokeAnimation2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -212,6 +176,42 @@
 /processorParam:Quality=Best
 /build:sounds/z3.mp3
 
+#begin textures/GameObjects/deathAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/deathAnimation.png
+
+#begin textures/GameObjects/Diamond.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/Diamond.png
+
+#begin textures/GameObjects/MonstersAnimations.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/MonstersAnimations.png
+
 #begin textures/ui/background_death.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -224,7 +224,7 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/background_death.jpg
 
-
+#begin textures/ui/background_menu_3.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -236,6 +236,7 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/background_menu_3.jpg
 
+#begin textures/ui/background_menu.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
