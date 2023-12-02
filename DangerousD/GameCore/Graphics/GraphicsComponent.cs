@@ -21,7 +21,10 @@ namespace DangerousD.GameCore.Graphics
         private List<Texture2D> textures;
         private List<string> texturesNames;
         private AnimationContainer currentAnimation;
-        static public int scaling = 4;
+        static public int scaling = 6;
+        static public int Camera_XW=800;
+        static public int Camera_YH = 400;
+        static public Vector2 CameraSize = new Vector2(1800, 960);
         public int parentId;
         public AnimationContainer CurrentAnimation
         {
@@ -255,12 +258,12 @@ namespace DangerousD.GameCore.Graphics
         public static void SetCameraPosition(Vector2 playerPosition)
         {
             CameraPosition = (playerPosition).ToPoint();
-            CameraPosition.X -= 200;
-            CameraPosition.Y -= 120;
+            CameraPosition.X -= Camera_XW/scaling;
+            CameraPosition.Y -= Camera_YH/scaling;
             
-            if (CameraPosition.X > AppManager.Instance.GameManager.CameraBorder.Y - 460)
+            if (CameraPosition.X > AppManager.Instance.GameManager.CameraBorder.Y - CameraSize.X/scaling)
             {
-                CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.Y - 460;
+                CameraPosition.X = (int)((int)AppManager.Instance.GameManager.CameraBorder.Y - CameraSize.X/scaling);
             }
             
             if (CameraPosition.Y < AppManager.Instance.GameManager.CameraBorder.Z)
@@ -271,9 +274,9 @@ namespace DangerousD.GameCore.Graphics
             {
                 CameraPosition.X = (int)AppManager.Instance.GameManager.CameraBorder.X;
             }
-            if (CameraPosition.Y > AppManager.Instance.GameManager.CameraBorder.W - 240)
+            if (CameraPosition.Y > AppManager.Instance.GameManager.CameraBorder.W - CameraSize.Y/scaling)
             {
-                CameraPosition.Y = (int)AppManager.Instance.GameManager.CameraBorder.W - 240;
+                CameraPosition.Y = (int)((int)AppManager.Instance.GameManager.CameraBorder.W - CameraSize.Y/scaling);
             }
             AppManager.Instance.DebugHUD.Set("CameraPosition", $"{CameraPosition.X}, {CameraPosition.Y}");
         }
