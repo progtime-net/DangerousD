@@ -44,24 +44,25 @@ namespace DangerousD.GameCore.GameObjects.Entities
                 if (gameObject is Player)
                 {
                     Player player = (Player)gameObject;
-                    if (player.isUping)
-                    {
-                        AppManager.Instance.GameManager.Remove(this);
-                        //тут спавн лута
-                        for (int i = 0; i < random.Next(0,15); i++)
-                        {
-                            var d = new Diamond(Vector2.Zero);
-                            d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
-                        }
-                        if (random.NextDouble()<0.75)
-                        {
-                            var a = new Ammo(Vector2.Zero);
-                            a.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - a.Height + 4/*to look better*/));
-                        }
-                    }
+                    if (player.isUping && !player.IsRunning)
+                        player.OpenDoor(this);
                 }
             }
-            
+        }
+        public void OpenDoor()
+        {
+            AppManager.Instance.GameManager.Remove(this);
+            //тут спавн лута
+            for (int i = 0; i < random.Next(0, 15); i++)
+            {
+                var d = new Diamond(Vector2.Zero);
+                d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
+            }
+            if (random.NextDouble() < 0.75)
+            {
+                var a = new Ammo(Vector2.Zero);
+                a.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - a.Height + 4/*to look better*/));
+            }
         }
     }
 }

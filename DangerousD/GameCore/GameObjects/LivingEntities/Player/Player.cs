@@ -9,6 +9,7 @@ using DangerousD.GameCore.GameObjects.PlayerDeath;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
+using DangerousD.GameCore.GameObjects.Entities;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -55,7 +56,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         public void Initialize(Vector2 position)
         {
-            Width = 16;
+            Width = 24;
             Height = 32;
 
             if (!isNetworkPlayer)
@@ -79,9 +80,14 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         bullets++;
                         AppManager.Instance.SoundManager.StartSound("reloading", Pos, Pos, pitch: (float)(random.NextDouble()/2-0.25));
                     }
-                    if(a == "playerShootBoomUpRight" || a == "playerShootBoomUpLeft")
+                    if (a == "playerShootBoomUpRight" || a == "playerShootBoomUpLeft")
                     {
                         isShooting = false;
+                    }
+                    if (a == "playerOpenDoor")
+                    {
+                        temp_door.OpenDoor();
+                        temp_door = null;
                     }
                 };
             }
@@ -91,7 +97,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
             "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot", "playerShootUpRight", "playerShootUpLeft", "playerShootBoomUpRight",
-        "playerShootBoomUpLeft"}, "playerReload");
+        "playerShootBoomUpLeft", "playerOpenDoor"}, "playerReload");
 
         public void Attack()
         {
@@ -239,6 +245,15 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         float max_speed = 5f;
         float lastUpdSpeed = 0;
         float base_speed = 3f;
+
+
+        Door temp_door; //the door player currently opens
+        public void OpenDoor(Door door)
+        {
+            temp_door = door;
+            GraphicsComponent.StartAnimation("playerOpenDoor");
+        }
+        public bool IsRunning { get { return (Math.Abs(AppManager.Instance.InputManager.VectorMovementDirection.X) > 0.05) || Math.Abs(velocity.X)>0.7; } } //To check whether player is running
         public void Move(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -247,6 +262,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             {
                 addSpeed = (AppManager.Instance.InputManager.VectorMovementDirection.X) * base_speed;
                 lastUpdSpeed = velocity.X * 1;
+                if (GraphicsComponent.GetCurrentAnimation == "playerOpenDoor") //interupt door opening
+                { 
+                    if (isRight)
+                        GraphicsComponent.StartAnimation("playerRightStay");
+                    else if (!isRight)
+                        GraphicsComponent.StartAnimation("playerStayLeft");
+                }
             }
             else
             {
@@ -264,7 +286,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             AppManager.Instance.DebugHUD.Set("input X", AppManager.Instance.InputManager.VectorMovementDirection.X.ToString());
             AppManager.Instance.DebugHUD.Set("lastUpdSpeed", lastUpdSpeed.ToString());
 
-            if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight")
+            if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight"
+                && GraphicsComponent.GetCurrentAnimation != "playerOpenDoor")
             {
                 if (isOnGround && Math.Abs(velocity.Y)<2)
                 {
@@ -281,8 +304,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     else if (
                         Math.Abs(AppManager.Instance.InputManager.VectorMovementDirection.X) < max_speed
                         && AppManager.Instance.InputManager.VectorMovementDirection.X == 0
-                        )//с
-                         //тоит
+                        )//стоит
                     {
                         //lastUpdSpeed *= 0.7f;
                         if (isRight)
