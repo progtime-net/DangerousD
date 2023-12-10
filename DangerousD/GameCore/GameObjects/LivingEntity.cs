@@ -7,6 +7,8 @@ namespace DangerousD.GameCore.GameObjects;
 public abstract class LivingEntity : Entity
 {
     public bool isOnGround = true;
+   // public bool CollidedYLastUpdateCall = true; //need to check if on platform
+
     public Vector2 velocity;
     public Vector2 acceleration;
     

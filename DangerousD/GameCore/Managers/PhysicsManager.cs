@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DangerousD.GameCore.GameObjects.LivingEntities;
 using DangerousD.GameCore.GameObjects.MapObjects;
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework; 
 
 namespace DangerousD.GameCore.Managers
 {
@@ -21,10 +21,13 @@ namespace DangerousD.GameCore.Managers
             {
                 item.velocity = item.velocity + item.acceleration * delta/2; 
             }
-            
-            CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile or Platform).ToList(), delta / 0.033f); //delta / 0.033 is normal to degengine
-            CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList());
-            
+
+            var mapobjcts = mapObjects.Where(mo => mo is StopTile or Platform).ToList();
+            CheckCollisionsLE_MO(livingEntities, mapobjcts, delta / 0.033f); //delta / 0.033 is normal to degengine
+
+
+            CheckCollisionsPlayers_Platform(players, mapobjcts, delta / 0.033f, livingEntities);
+
             CheckCollisionsE_LE(entities, livingEntities);
             CheckCollisionsLE_LE(livingEntities);
 
@@ -44,138 +47,197 @@ namespace DangerousD.GameCore.Managers
         private void CheckCollisionsLE_MO(List<LivingEntity> livingEntities,
             List<MapObject> mapObjects, float delta)
         {
+
             for (int i = 0; i < livingEntities.Count; i++)
             {
-                var currentRect = livingEntities[i].Rectangle;
-                var newRect = currentRect;
-                bool flagRemovedObject = false;
-                
-                #region x collision
-                var collidedX = false;
-                var tryingRectX = currentRect;
-                tryingRectX.Offset((int)(livingEntities[i].velocity.X * delta), 0);//removed ceiling on X, it caused problems with sliding
-                foreach (var mapObject in mapObjects.OfType<StopTile>())
-                {
-                    if (
-                        Math.Abs(mapObject.Pos.X - livingEntities[i].Pos.X) < 550 
-                        && Math.Abs(mapObject.Pos.Y - livingEntities[i].Pos.Y) < 550
-                        && tryingRectX.Intersects(mapObject.Rectangle)
-                    )
-                    {
-                        collidedX = true;
-                        int prevL = livingEntities.Count;
-                        livingEntities[i].OnCollision(mapObject);
-                        if (livingEntities.Count<prevL)
-                        {
-                            i -= (prevL - livingEntities.Count);
-                            flagRemovedObject = true;
-                        }
-                        
-                        
-                        break;
-                    }
+                if (livingEntities[i] is Player) continue;
+                int l1 = livingEntities.Count;
+                var dMovement = CheckCollisionsSingleLE_MO(livingEntities[i], mapObjects, delta, livingEntities);
+                if (dMovement != null)
+                { 
+                    livingEntities[i].SetPosition(livingEntities[i].Rectangle.Location.ToVector2() + dMovement.Value.ToVector2());
                 }
-
-                if (flagRemovedObject)
+                if (l1< livingEntities.Count)
                 {
-                    continue;
+                    i--;
                 }
-                if (collidedX)
-                {
-                    livingEntities[i].velocity.X = 0;
-                }
-                else
-                {
-                    newRect.X = tryingRectX.X;
-                }
-                #endregion
-                
-                #region y collision
-                var collidedY = false;
-                var tryingRectY = currentRect;
-                tryingRectY.Offset(0, (int)Math.Ceiling(livingEntities[i].velocity.Y * delta));
-                
-                if (livingEntities[i] is Player)
-                {
-                    AppManager.Instance.DebugHUD.Set("velocity", livingEntities[i].velocity.ToString());
-                    AppManager.Instance.DebugHUD.Set("falling", (livingEntities[i] as Player).FallingThroughPlatform.ToString());
-                    AppManager.Instance.DebugHUD.Set("intersects y", "");
-                }
-                foreach (var mapObject in mapObjects)
-                {
-                    if ((livingEntities[i] is Player||livingEntities[i] is Bullet)&& mapObject is Platform)
-                    {
-                        continue;
-                    }
-                    if (tryingRectY.Intersects(mapObject.Rectangle))
-                    {
-                        if (livingEntities[i] is Player) AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
-                        collidedY = true;
-                        int prevL = livingEntities.Count;
-                        livingEntities[i].OnCollision(mapObject);
-                        if (livingEntities.Count<prevL)
-                        {
-                            i -= (prevL - livingEntities.Count);
-                            flagRemovedObject = true;
-                        }
-                        
-                        break;
-                    }
-                }
-                if (flagRemovedObject)
-                {
-                    continue;
-                }
-                livingEntities[i].isOnGround = collidedY && livingEntities[i].velocity.Y > 0;
-                if (collidedY)
-                {
-                    livingEntities[i].velocity.Y = 0;
-                }
-                else
-                {
-                    newRect.Y = tryingRectY.Y;
-                }
-                #endregion
-                
-                livingEntities[i].SetPosition(newRect.Location.ToVector2());
             }
         }
-        private void CheckCollisionsPlayer_Platform(List<Player> players, List<Platform> platforms)
+        private Point? CheckCollisionsSingleLE_MO(LivingEntity livingEntity,
+            List<MapObject> mapObjects, float delta, List<LivingEntity> livingEntities)
+        {
+
+            var currentRect = livingEntity.Rectangle;
+            var newRect = currentRect;
+            bool flagRemovedObject = false;
+
+            #region x collision
+            var collidedX = false;
+            var tryingRectX = currentRect;
+            tryingRectX.Offset((int)(livingEntity.velocity.X * delta), 0);//removed ceiling on X, it caused problems with sliding
+            foreach (var mapObject in mapObjects.OfType<StopTile>())
+            {
+                if (
+                    Math.Abs(mapObject.Pos.X - livingEntity.Pos.X) < 550
+                    && Math.Abs(mapObject.Pos.Y - livingEntity.Pos.Y) < 550
+                    && tryingRectX.Intersects(mapObject.Rectangle)
+                )
+                {
+                    collidedX = true;
+                    int prevL = livingEntities.Count;
+                    livingEntity.OnCollision(mapObject);
+                    if (livingEntities.Count < prevL)
+                    {
+                        flagRemovedObject = true;
+                    }
+
+
+                    break;
+                }
+            }
+
+            if (flagRemovedObject)
+            {
+                return null;
+                //continue;
+            }
+            if (collidedX)
+            {
+                livingEntity.velocity.X = 0;
+            }
+            else
+            {
+                newRect.X = tryingRectX.X;
+            }
+            #endregion
+
+            #region y collision
+            bool firstTimeFlag = false;
+            SECONDTRY:
+            var collidedY = false;
+            var tryingRectY = currentRect;
+            tryingRectY.Offset(0, (int)Math.Ceiling(livingEntity.velocity.Y * delta));
+
+            if (livingEntity is Player)
+            {
+                AppManager.Instance.DebugHUD.Set("position", livingEntity.Pos.ToString());
+                AppManager.Instance.DebugHUD.Set("velocity", livingEntity.velocity.ToString());
+                AppManager.Instance.DebugHUD.Set("falling", (livingEntity as Player).FallingThroughPlatform.ToString());
+                AppManager.Instance.DebugHUD.Set("intersects y", "");
+            }
+            foreach (var mapObject in mapObjects)
+            {
+                if ((livingEntity is Player || livingEntity is Bullet) && mapObject is Platform)
+                {
+                    continue;
+                }
+                if (tryingRectY.Intersects(mapObject.Rectangle))
+                {
+                    if (livingEntity is Player)
+                        AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
+                    collidedY = true;
+                    int prevL = livingEntities.Count;
+                    livingEntity.OnCollision(mapObject);
+                    if (livingEntities.Count < prevL)
+                    {
+                        flagRemovedObject = true;
+                    }
+
+                    break;
+                }
+            }
+            if (flagRemovedObject)
+            {
+                return null;
+                //continue;
+            }
+            livingEntity.isOnGround = collidedY && livingEntity.velocity.Y >= 0;
+            if (collidedY)
+            {
+                livingEntity.velocity.Y = 0.101f;// livingEntities[i].acceleration.Y * delta / 2 * 0.001f; //castile
+                if (!firstTimeFlag)
+                {
+                    firstTimeFlag = true;
+                    goto SECONDTRY;
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                newRect.Y = tryingRectY.Y;
+            }
+            #endregion
+
+            return newRect.Location - currentRect.Location;
+        }
+        private void CheckCollisionsPlayers_Platform(List<Player> players, List<MapObject> mapObjects, float delta, List<LivingEntity> livingEntities
+            )
         {
             foreach (var player in players)
             {
-                if (player.velocity.Y <= 0 || player.FallingThroughPlatform)
+                var dMovement2 = CheckCollisionsSingleLE_MO(players[0], mapObjects, delta, livingEntities);
+                var dMovement = CheckCollisionsPlayer_Platform(player, mapObjects.OfType<Platform>().ToList(), delta);
+                if (dMovement2 != null && dMovement == true)
                 {
-                    continue;
+                    dMovement2= new Point(dMovement2.Value.X, 0);
                 }
-                var currentRect = player.Rectangle;
-                var newRect = currentRect;
-                
-                var collidedY = false;
-                var tryingRectY = currentRect;
-                tryingRectY.Offset(0, (int)Math.Floor(player.velocity.Y)); //tried to fix vertical gaps with boxes
-                AppManager.Instance.DebugHUD.Set("intersects platform", "false");
-                foreach (var platform in platforms)
+                if (dMovement2 != null  )
                 {
-                    AppManager.Instance.DebugHUD.Set("sus", (player.Rectangle.Bottom < platform.Rectangle.Top).ToString());
-                    if (tryingRectY.Intersects(platform.Rectangle) && player.Rectangle.Bottom < platform.Rectangle.Top + 5)
-                    {
-                        AppManager.Instance.DebugHUD.Set("intersects platform", "true");
-                        collidedY = true;
-                        break;
-                    }
-                }
-                if (collidedY)
-                {
-                    // костыль потому что в CheckCollisionsLE_MO он спускается
-                    newRect.Y -= (int)Math.Ceiling(player.velocity.Y);
-                    player.isOnGround = true;
-                    player.velocity.Y = 0;
-                }
-
-                player.SetPosition(newRect.Location.ToVector2());
+                    player.SetPosition(player.Rectangle.Location.ToVector2() + dMovement2.Value.ToVector2());
+                } 
             }
 
+        }
+        private bool CheckCollisionsPlayer_Platform(Player player, List<Platform> platforms, float delta)
+        {
+
+            bool firstTimeFlag = false;
+            if (player.velocity.Y < 0 || player.FallingThroughPlatform)
+            {
+                return false;
+            }
+            SECONDTRY_PPlatform:
+            var currentRect = player.Rectangle;
+            var newRect = currentRect;
+
+            var collidedY = false;
+            var tryingRectY = currentRect;
+            tryingRectY.Offset(0, (int)Math.Ceiling(player.velocity.Y * delta)); //tried to fix vertical gaps with boxes
+            AppManager.Instance.DebugHUD.Set("intersects platform", "false");
+            foreach (var platform in platforms)
+            {
+                AppManager.Instance.DebugHUD.Set("sus", (player.Rectangle.Bottom < platform.Rectangle.Top).ToString());
+                AppManager.Instance.DebugHUD.Set("sus2", ( platform.Rectangle.Top).ToString());
+                if (tryingRectY.Intersects(platform.Rectangle) && (player.Rectangle.Bottom < platform.Rectangle.Top + 8 && player.Rectangle.Bottom > platform.Rectangle.Top - 0))
+                {
+                    AppManager.Instance.DebugHUD.Set("intersects platform", "true");
+                    collidedY = true;
+                    break;
+                }
+            }
+            //player.isOnGround = collidedY && player.velocity.Y >= 0;
+            if (collidedY)
+            {
+                // костыль потому что в CheckCollisionsLE_MO он спускается
+                newRect.Y -= (int)Math.Ceiling(player.velocity.Y * delta);
+                player.isOnGround = true;
+                player.velocity.Y = -0.99f;
+                if (!firstTimeFlag)
+                {
+                    firstTimeFlag = true;
+                    goto SECONDTRY_PPlatform;
+                }
+                return true;
+            }
+            else
+            {
+                //newRect.Y = tryingRectY.Y;
+            }
+            player.SetPosition(newRect.Location.ToVector2());
+            return false;// newRect.Location - player.Rectangle.Location;
         }
         private void CheckCollisionsE_LE(List<Entity> entities, List<LivingEntity> livingEntities)
         {
@@ -240,6 +302,7 @@ namespace DangerousD.GameCore.Managers
                 }
                 livingEntity.SetPosition(new Vector2(newRect.X, newRect.Y));
             }
+
         }
 
 
