@@ -14,11 +14,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
     public class ShotgunUsedAmmo_Particle : LivingEntity
     {
         int delay; 
-        public ShotgunUsedAmmo_Particle(Vector2 position, Vector2 shotDirection) : base(position)
+        public ShotgunUsedAmmo_Particle(Vector2 position, Vector2 shotDirection, Vector2 playerVelocity) : base(position)
         {
             Width = 4;
             Height = 2;
-            velocity = -shotDirection * 4 + new Vector2(0, -3);//oposite direction of the shot+ upwards force
+            Random random = new Random();
+            velocity =  - shotDirection * (3+(float)random.NextDouble()) + new Vector2(0, -1 - random.Next(0,5)) + playerVelocity;//oposite direction of the shot+ upwards force + relativity to player
             acceleration.Y = 20;
             delay = 100;
             isOnGround = false;
@@ -62,7 +63,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
             if (delay <= 0)
             {
-                AppManager.Instance.GameManager.Remove(this); //auto self delete
+                //AppManager.Instance.GameManager.Remove(this); //auto self delete
             }
             base.Update(gameTime);
         }

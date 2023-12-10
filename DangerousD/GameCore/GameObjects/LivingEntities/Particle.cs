@@ -73,7 +73,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             if(delay<=0)
             {
-                AppManager.Instance.GameManager.Remove(this);
+                //AppManager.Instance.GameManager.Remove(this);
             }
             base.Update(gameTime);
         }
