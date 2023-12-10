@@ -168,12 +168,16 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         isShooting = true;
                         if (!AppManager.Instance.InputManager.InfiniteAmmoCheat)
                             bullets--;
+
+                        Vector2 used_bullet_spawn_position = new Vector2(Pos.X + Width / 2, Pos.Y + Height * 1.5f/ 3);//place, where used bullet will be created
+
                         if (isRight)
                         {
                             if (!isUping)
                             {
                                 velocity.X -= 1;
 
+                                new ShotgunUsedAmmo_Particle(used_bullet_spawn_position, new Vector2(1, 0));
                                 GraphicsComponent.StartAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
@@ -181,6 +185,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             }
                             else
                             {
+                                new ShotgunUsedAmmo_Particle(used_bullet_spawn_position, new Vector2(1, -1));
 
                                 GraphicsComponent.StartAnimation("playerShootBoomUpRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
@@ -194,6 +199,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             {
                                 velocity.X += 1;
 
+                                new ShotgunUsedAmmo_Particle(used_bullet_spawn_position, new Vector2(-1, 0));
                                 GraphicsComponent.StartAnimation("playerShootLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
@@ -202,6 +208,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                             else
                             {
 
+                                new ShotgunUsedAmmo_Particle(used_bullet_spawn_position, new Vector2(-1, -1));
                                 GraphicsComponent.StartAnimation("playerShootBoomUpLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootUpLeft();
