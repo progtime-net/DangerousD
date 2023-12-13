@@ -5,18 +5,9 @@ using System.Linq;
 using System.Xml;
 using DangerousD.GameCore.GameObjects.MapObjects;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Xml.Serialization;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
-using System.IO;
-using System.Text;
-using DangerousD.GameCore;
 using DangerousD.GameCore.GameObjects.Entities;
-using DangerousD.GameCore.GameObjects.LivingEntities;
-using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-
 namespace DangerousD.GameCore.Managers;
 
     
@@ -87,8 +78,6 @@ namespace DangerousD.GameCore.Managers;
             return node.Attributes[attributeName] != null ? float.Parse(node.Attributes[attributeName].Value) : 0;
         }
         
-
-
         private void InstantiateTiles(XmlNode layer)
         {
             string tileType = layer.Attributes["class"].Value;
@@ -136,8 +125,8 @@ namespace DangerousD.GameCore.Managers;
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects{finalEntityType}");
                 
                 Vector2 pos =
-                    new Vector2(float.Parse(entity.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
-                        float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
+                    new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX,
+                        float.Parse(entity.Attributes["y"].Value) + offsetY) * _scale;
 
                 Entity inst;
                 if (typeof(Door).IsAssignableFrom(type))
@@ -164,8 +153,8 @@ namespace DangerousD.GameCore.Managers;
                             XmlNode dest = layer.SelectSingleNode($"object[@id = '{target}']");
                         
                             inst = (Entity)Activator.CreateInstance(type,pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
-                                new Vector2(float.Parse(dest.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
-                                    float.Parse(dest.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
+                                new Vector2(float.Parse(dest.Attributes["x"].Value) + offsetX,
+                                    float.Parse(dest.Attributes["y"].Value) + offsetY) * _scale);
                         }
                     } 
                     else
@@ -186,8 +175,8 @@ namespace DangerousD.GameCore.Managers;
 
             XmlNode player = xml.DocumentElement.SelectSingleNode("//objectgroup[@class = 'LivingEntities.Player']").FirstChild;
 
-            return new Vector2(float.Parse(player.Attributes["x"].Value, CultureInfo.InvariantCulture),
-                float.Parse(player.Attributes["y"].Value, CultureInfo.InvariantCulture));
+            return new Vector2(float.Parse(player.Attributes["x"].Value),
+                float.Parse(player.Attributes["y"].Value));
         }
     }
 

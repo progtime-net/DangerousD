@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using DangerousD.GameCore.GUI;
 using Microsoft.Xna.Framework.Input;
@@ -81,11 +82,12 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
-            currentMap = "lvl1";
+            currentMap = "lvl2";
         }
 
         protected override void Initialize()
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             AnimationBuilder.LoadAnimations();
             MenuGUI.Initialize();
             LoginGUI.Initialize();
