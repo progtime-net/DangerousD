@@ -10,70 +10,59 @@ using System.Xml.Serialization;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
 using System.IO;
+using System.Text;
+using DangerousD.GameCore;
 using DangerousD.GameCore.GameObjects.Entities;
 using DangerousD.GameCore.GameObjects.LivingEntities;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
-namespace DangerousD.GameCore.Managers
-{
+namespace DangerousD.GameCore.Managers;
+
+    
     public class MapManager
     {
         private int _scale;
-        private List<TileSet> _tileSets = new List<TileSet>();
+        private List<TileSet> _tileSets = new();
 
         public MapManager(int scale)
         {
             _scale = scale;
         }
-
+        
         private void LoadTileSets(XmlNodeList tileSets)
         {
             foreach (XmlNode tileSet in tileSets)
             {
+                string source = tileSet.Attributes["source"].Value;
+                string filePath = $"../../../Content/{source}";
+
                 XmlDocument tsx = new();
-                tsx.Load($"../../../Content/{tileSet.Attributes["source"].Value}");
+                tsx.Load(filePath);
                 XmlNode root = tsx.DocumentElement;
 
-                Point tileSize = new Point(int.Parse(root.Attributes["tilewidth"].Value),
-                    int.Parse(root.Attributes["tileheight"].Value));
-
+                int firstGid = int.Parse(tileSet.Attributes["firstgid"].Value);
+                int tileWidth = int.Parse(root.Attributes["tilewidth"].Value);
+                int tileHeight = int.Parse(root.Attributes["tileheight"].Value);
+                int tileCount = int.Parse(root.Attributes["tilecount"].Value);
                 int columns = int.Parse(root.Attributes["columns"].Value);
-                _tileSets.Add(new TileSet(root.FirstChild.Attributes["source"].Value,
-                    int.Parse(tileSet.Attributes["firstgid"].Value),
-                    tileSize,
-                    int.Parse(root.Attributes["tilecount"].Value) / columns,
-                    columns));
+
+                string tileSource = root.FirstChild.Attributes["source"].Value;
+
+                _tileSets.Add(new TileSet(tileSource, firstGid, new Point(tileWidth, tileHeight), tileCount / columns, columns));
             }
         }
 
+        
         private TileSet GetTileSet(int gid)
         {
-            if (_tileSets == null)
+            if (_tileSets == null || _tileSets.Count == 0)
             {
                 return null;
             }
-
-            for (var i = 0; i < _tileSets.Count; i++)
-            {
-                if (i < _tileSets.Count - 1)
-                {
-                    int gid1 = _tileSets[i].FirstGid;
-                    int gid2 = _tileSets[i + 1].FirstGid;
-
-                    if (gid >= gid1 && gid < gid2)
-                    {
-                        return _tileSets[i];
-                    }
-                }
-                else
-                {
-                    return _tileSets[i];
-                }
-            }
-        
-            return null;
+            var tileSet = _tileSets.FirstOrDefault(t => gid >= t.FirstGid && (_tileSets.IndexOf(t) == _tileSets.Count - 1 || gid < _tileSets[_tileSets.IndexOf(t) + 1].FirstGid));
+            return tileSet;
         }
-        
         //Level
         public void LoadLevel(string map)
         {
@@ -81,8 +70,6 @@ namespace DangerousD.GameCore.Managers
             xml.Load($"../../../Content/{map}.tmx");
             
             LoadTileSets(xml.DocumentElement.SelectNodes("tileset"));
-            
-            
             
             foreach (XmlNode layer in xml.DocumentElement.SelectNodes("layer"))
             {
@@ -95,11 +82,18 @@ namespace DangerousD.GameCore.Managers
             }
         }
 
+        private float GetAttr(XmlNode node, string attributeName)
+        {
+            return node.Attributes[attributeName] != null ? float.Parse(node.Attributes[attributeName].Value) : 0;
+        }
+        
+
+
         private void InstantiateTiles(XmlNode layer)
         {
             string tileType = layer.Attributes["class"].Value;
-            float offsetX = layer.Attributes["offsetx"] is not null ? float.Parse(layer.Attributes["offsetx"].Value, CultureInfo.InvariantCulture) : 0;
-            float offsetY = layer.Attributes["offsety"] is not null ? float.Parse(layer.Attributes["offsety"].Value, CultureInfo.InvariantCulture) : 0;
+            float offsetX = GetAttr(layer, "offsetx");
+            float offsetY = GetAttr(layer, "offsety");
 
             
             foreach (XmlNode chunk in layer.SelectNodes("data/chunk"))
@@ -129,11 +123,12 @@ namespace DangerousD.GameCore.Managers
             }
         }
 
+        
         private void InstantiateEntities(XmlNode layer)
         {
             string entityType = layer.Attributes["class"] is not null ? "." + layer.Attributes["class"].Value : "";
-            float offsetX = layer.Attributes["offsetx"] is not null ? float.Parse(layer.Attributes["offsetx"].Value) : 0;
-            float offsetY = layer.Attributes["offsety"] is not null ? float.Parse(layer.Attributes["offsety"].Value) : 0;
+            float offsetX = GetAttr(layer, "offsetx");;
+            float offsetY = GetAttr(layer, "offsety");;
             
             foreach (XmlNode entity in layer.ChildNodes)
             {
@@ -145,53 +140,43 @@ namespace DangerousD.GameCore.Managers
                         float.Parse(entity.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale;
 
                 Entity inst;
-                if (type.Equals(typeof(Door)))
+                if (typeof(Door).IsAssignableFrom(type))
                 {
                     int gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
                     TileSet tileSet = GetTileSet(gid);
                     Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
                     
-                    /// TODO: wtf is tileSize   
-                    inst = (Entity)Activator.CreateInstance(type, pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
-                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
-                }
-                else if (type.Equals(typeof(TeleportingDoor)))
-                {
-                    int gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
-                    Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
-                    TileSet tileSet = GetTileSet(gid);
-                    
-                    XmlNode level = entity.SelectSingleNode("properties/property[@name = 'level']");
-                    
-                    if (level is not null)  // Teleport to level
+                    /// TODO: idk what to do with this, maybe fix api
+                    if (type == typeof(TeleportingDoor))
                     {
-                        inst = (Entity)Activator.CreateInstance(type, pos, objectSize,
-                            new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
-                                tileSet.TileSize), () => {AppManager.Instance.ChangeMap(level.Attributes["value"].Value, GetStartCoordinates(level.Attributes["value"].Value));});
-                    }
-                    else  // Teleport to location
-                    {
-                        XmlNode destination = entity.SelectSingleNode("properties/property[@name = 'destination']");
-                        string target = destination is not null ? destination.Attributes["value"].Value : "0";
-                        XmlNode dest = layer.SelectSingleNode($"object[@id = '{target}']");
-                        
-                        if (dest is null)
+                        XmlNode level = entity.SelectSingleNode("properties/property[@name = 'level']");
+                    
+                        if (level is not null)  // Teleport to level
                         {
-                            throw new ArgumentNullException($"Door with id: {entity.Attributes["id"]} has invalid destination set");
+                            inst = (Entity)Activator.CreateInstance(type, pos, objectSize,
+                                new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
+                                    tileSet.TileSize), () => {AppManager.Instance.ChangeMap(level.Attributes["value"].Value, GetStartCoordinates(level.Attributes["value"].Value));});
                         }
+                        else  // Teleport to location
+                        {
+                            XmlNode destination = entity.SelectSingleNode("properties/property[@name = 'destination']");
+                            string target = destination is not null ? destination.Attributes["value"].Value : "0";
+                            XmlNode dest = layer.SelectSingleNode($"object[@id = '{target}']");
                         
-                        inst = (Entity)Activator.CreateInstance(type,pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
-                            new Vector2(float.Parse(dest.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
-                                float.Parse(dest.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
-                    }
-                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+                            inst = (Entity)Activator.CreateInstance(type,pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
+                                new Vector2(float.Parse(dest.Attributes["x"].Value, CultureInfo.InvariantCulture) + offsetX,
+                                    float.Parse(dest.Attributes["y"].Value, CultureInfo.InvariantCulture) + offsetY) * _scale);
+                        }
+                    } 
+                    else
+                        inst = (Entity)Activator.CreateInstance(type, pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
                 }
-                else if (!type.Equals(typeof(Player)) || (type.Equals(typeof(Player)) && AppManager.Instance.GameManager.players.Count == 0))
+                else
                 {
                     inst = (Entity)Activator.CreateInstance(type, pos);
-                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
                 }
-            }   
+                inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+            }
         }
 
         private Vector2 GetStartCoordinates(string map)
@@ -223,4 +208,4 @@ namespace DangerousD.GameCore.Managers
             Columns = columns;
         }
     }
-}
+
