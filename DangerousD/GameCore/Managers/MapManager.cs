@@ -142,7 +142,7 @@ namespace DangerousD.GameCore.Managers;
                     
                         if (level is not null)  // Teleport to level
                         {
-                            inst = (Entity)Activator.CreateInstance(type, pos, objectSize,
+                            inst = new TeleportingDoor(pos, objectSize,
                                 new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
                                     tileSet.TileSize), () => {AppManager.Instance.ChangeMap(level.Attributes["value"].Value, GetStartCoordinates(level.Attributes["value"].Value));});
                         }
@@ -152,13 +152,14 @@ namespace DangerousD.GameCore.Managers;
                             string target = destination is not null ? destination.Attributes["value"].Value : "0";
                             XmlNode dest = layer.SelectSingleNode($"object[@id = '{target}']");
                         
-                            inst = (Entity)Activator.CreateInstance(type,pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
+                            
+                            inst = new TeleportingDoor(pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
                                 new Vector2(float.Parse(dest.Attributes["x"].Value) + offsetX,
                                     float.Parse(dest.Attributes["y"].Value) + offsetY) * _scale);
                         }
                     } 
                     else
-                        inst = (Entity)Activator.CreateInstance(type, pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
+                        inst = new Door(pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
                 }
                 else
                 {
