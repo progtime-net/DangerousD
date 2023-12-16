@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="19" nextobjectid="105">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="20" nextobjectid="111">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="872" source="Door.tsx"/>
  <layer id="1" name="Collidable" class="StopTile" width="30" height="20" offsetx="-352.033" offsety="192.098">
@@ -729,6 +729,11 @@
    <point/>
   </object>
   <object id="97" type="Werewolf" x="536" y="88.6667">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="19" name="NPS">
+  <object id="108" type="Entities.Dmitry" x="-320" y="496">
    <point/>
   </object>
  </objectgroup>

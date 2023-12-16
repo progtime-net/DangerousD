@@ -60,7 +60,14 @@ namespace DangerousD.GameCore
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Volume = sound.baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume;
             sound.SoundEffect.Pitch = pitch;
-            sound.SoundEffect.Play();
+            try
+            {
+                sound.SoundEffect.Play();
+            }
+            catch 
+            {
+
+            }
             PlayingSounds.Add(sound);
 
             if (AppManager.Instance.multiPlayerStatus == MultiPlayerStatus.Host) 
