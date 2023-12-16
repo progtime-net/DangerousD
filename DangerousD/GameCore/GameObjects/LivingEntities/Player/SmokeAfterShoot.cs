@@ -13,8 +13,8 @@ namespace DangerousD.GameCore.GameObjects.PlayerDeath
     {
         public SmokeAfterShoot(Vector2 pos) : base(pos)
         {
-            Height = 6;
-            Width = 6;
+            Height = 14;
+            Width = 14;
             PlaySmoke();
             this.GraphicsComponent.actionOfAnimationEnd += (a) =>
             {

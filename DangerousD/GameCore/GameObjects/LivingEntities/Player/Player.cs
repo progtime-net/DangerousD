@@ -180,7 +180,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 GraphicsComponent.StartAnimation("playerShootRight");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
                                 bullet.ShootRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 24, Pos.Y + 3));
                             }
                             else
                             {
@@ -202,7 +202,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                                 GraphicsComponent.StartAnimation("playerShootLeft");
                                 Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
                                 bullet.ShootLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
+                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y + 3));
                             }
                             else
                             {

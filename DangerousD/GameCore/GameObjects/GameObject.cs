@@ -34,6 +34,10 @@ namespace DangerousD.GameCore
             GraphicsComponent.parentId = id;
         }
 
+        /// <summary>
+        /// Happens on collision with a gameobject
+        /// </summary>
+        /// <param name="gameObject"></param>
         public virtual void OnCollision(GameObject gameObject)
         {
         }

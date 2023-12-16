@@ -9,6 +9,7 @@
 
 
 Texture2D SpriteTexture;
+uniform float time;
 
 sampler2D SpriteTextureSampler = sampler_state
 {
@@ -22,10 +23,11 @@ struct VertexShaderOutput
     float2 TextureCoordinates : TEXCOORD0;
 };
 
-float4 MainPS(VertexShaderOutput input) : COLOR
+float4 Distortion(VertexShaderOutput input) : COLOR
 {
-    float blurDistanceX = 0.01; //1 / 1366.0;
-    float blurDistanceY = blurDistanceX; //1 / 768.0;
+    float blurDistanceX = 0.01 * (sin(time) + sin(2 * time + 1.3) + 0.7 * sin(7 * time + 33.3) + 0.3 * sin(9 * time + 33.3)); //1 / 1366.0;
+    blurDistanceX = pow(blurDistanceX, 1.2);
+    float blurDistanceY = blurDistanceX ; //1 / 768.0;
     float3 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb;
     
     color = 3*tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x, input.TextureCoordinates.y));
@@ -60,6 +62,15 @@ float4 MainPS(VertexShaderOutput input) : COLOR
     //if (color.b < bord)
     //    color.b = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).b;
         //color += 0.5 * tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb;
+    
+    float3 color2 = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).rgb;
+    color = color2 + (color - color2) * pow((sin(time * 0.1) + sin(2 * time * 0.1 + 1.3) + 0.7 * sin(7 * time * 0.1 + 33.3) + 0.3 * sin(9 * time * 0.1 + 33.3)), 2);
+    color = color2 * 0.7 + color * 0.3;
+    
+    color *= 0.98 + 0.02*sin(input.TextureCoordinates.y * 3.14 * 64);
+    
+    color *= 1 * cos((input.TextureCoordinates.x - 0.5) * 3.14);
+    
     
     return float4(color, n * 0.95);
 }
@@ -134,7 +145,7 @@ float4 MainPS_HighLightPlayer(VertexShaderOutput input) : COLOR
     float blurDistanceX = 0.05; //1 / 1366.0;
     float blurDistanceY = blurDistanceX; //1 / 768.0;
     float4 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy);
-    color.r = 1;
+    color.r = time;
     color.g = 1;
     if (color.a == 0)
         return float4(0, 0, 0, 0);
@@ -153,11 +164,11 @@ float4 Red(VertexShaderOutput input) : COLOR
     return float4(color, tex2D(SpriteTextureSampler, input.TextureCoordinates.xy).a);
 }
 
-technique Blur
+technique Distortion
 {
     pass P0
     {
-        PixelShader = compile PS_SHADERMODEL MainPS();
+        PixelShader = compile PS_SHADERMODEL Distortion();
     }                                        
 };                                           
 technique Blur2                              

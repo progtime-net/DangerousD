@@ -114,7 +114,6 @@ namespace DangerousD.GameCore
             SoundManager.StartAmbientSound("DoomTestSong");
             renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
             spriteEffect = Content.Load<Effect>("Shaders//Glow");
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -193,15 +192,18 @@ namespace DangerousD.GameCore
             }
             GraphicsDevice.SetRenderTarget(null);
 
-            DrawTheScreenWithShootEffects(); //DrawScreen
+            //DrawTheScreenWithShootEffects(); //DrawScreen
 
+            spriteEffect.Parameters["time"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
+            DrawTheScreenWithNoEffects();
             DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
         #region effects and experiments - SergoDobro
         public void DrawTheScreenWithNoEffects()
         {
-            DrawScreenByParts(0,1);
+            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Distortion"];
+            DrawScreenByParts(0,1, spriteEffect);
         }
         Random random = new Random();
         public void DrawTheScreenWithShootEffects()
@@ -244,7 +246,7 @@ namespace DangerousD.GameCore
 
             //GraphicsDevice.BlendState = BlendState.Additive;//отвечает за способ нанесения новый текстур (AlphaBlend - обычный случай)
              
-            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur"]; //настройка шейдера (выбор техники), при _spriteBatch.End() будет выполнена обработка шейдером последней настроййки
+            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Distortion"]; //настройка шейдера (выбор техники), при _spriteBatch.End() будет выполнена обработка шейдером последней настроййки
                                                                              //TODO: Понять что за Pass[0].Apply() 
             DrawScreenByParts(0, 0.2, spriteEffect);
 
