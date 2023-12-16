@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="7" nextobjectid="64">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="7" nextobjectid="66">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="872" source="Door.tsx"/>
- <layer id="2" name="Collision" class="StopTile" width="30" height="20">
+ <layer id="2" name="Collision" class="StopTile" width="30" height="20" visible="0">
   <data encoding="csv">
    <chunk x="-16" y="-32" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -241,12 +241,12 @@
    <chunk x="32" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 405,405,405,405,405,405,405,405,405,405,405,405,405,405,405,405,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,156,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,156,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,156,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,169,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,182,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,195,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,169,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,182,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,195,0,0,0,0,0,0,0,0,0,0,
 405,405,405,405,405,405,405,405,405,0,0,405,405,405,405,405,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -276,7 +276,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="1" name="Background" class="Tile" width="30" height="20">
+ <layer id="1" name="Background" class="Tile" width="30" height="20" visible="0">
   <data encoding="csv">
    <chunk x="0" y="-32" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -425,9 +425,9 @@
    <chunk x="32" y="0" width="16" height="16">
 643,644,645,646,641,642,105,106,645,646,641,642,507,644,645,646,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-79,80,580,581,576,580,578,579,580,581,576,577,79,80,580,581,
-92,93,593,594,589,593,591,592,593,594,589,590,92,93,593,594,
-105,106,606,607,602,606,604,605,606,607,602,603,105,106,606,607,
+79,80,580,581,576,0,578,579,580,581,576,577,79,80,580,581,
+92,93,593,594,589,0,591,592,593,594,589,590,92,93,593,594,
+105,106,606,607,602,0,604,605,606,607,602,603,105,106,606,607,
 617,618,619,620,615,0,617,618,619,620,615,616,79,80,619,620,
 630,631,632,633,628,0,630,631,632,633,628,629,92,93,632,633,
 643,644,645,646,641,0,643,507,645,646,641,642,105,106,645,646,
@@ -607,7 +607,7 @@
   <object id="39" type="Entities.Door" gid="873" x="608" y="16" width="32" height="48"/>
   <object id="63" type="Entities.TeleportingDoor" gid="874" x="704" y="-208" width="32" height="48">
    <properties>
-    <property name="level" value="lvl2"/>
+    <property name="level" value="lvl_down"/>
    </properties>
   </object>
  </objectgroup>
@@ -661,6 +661,12 @@
    <point/>
   </object>
   <object id="59" type="LivingEntities.Monsters.Frank" x="549" y="-229">
+   <point/>
+  </object>
+  <object id="64" type="LivingEntities.Monsters.Zombie" x="400" y="112">
+   <point/>
+  </object>
+  <object id="65" type="LivingEntities.Monsters.Zombie" x="656" y="112">
    <point/>
   </object>
  </objectgroup>
