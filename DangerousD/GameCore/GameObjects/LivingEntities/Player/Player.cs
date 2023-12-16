@@ -36,6 +36,9 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         Random random = new Random();
 
 
+        float max_speed = 5f;
+        float lastUpdSpeed = 0;
+        float base_speed = 3f;
 
         public int Bullets { get { return bullets; } set { bullets = value; }  }
 
@@ -253,9 +256,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             base.Update(gameTime);
         }
 
-        float max_speed = 5f;
-        float lastUpdSpeed = 0;
-        float base_speed = 3f;
 
 
         Door temp_door; //the door player currently opens

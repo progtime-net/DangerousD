@@ -112,6 +112,10 @@ namespace DangerousD.GameCore.Managers
                 string[] tiles = chunk.InnerText.Split(',');
                 for (int i = 0; i < tiles.Length; i++)
                 {
+                    if (long.Parse(tiles[i]) > int.MaxValue)
+                    {
+                        continue;
+                    }
                     int gid = int.Parse(tiles[i]);
 
                     if (gid == 0) continue;
