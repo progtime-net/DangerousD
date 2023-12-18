@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="200" height="200" tilewidth="16" tileheight="16" infinite="1" nextlayerid="5" nextobjectid="5">
  <tileset firstgid="1" source="map.tsx"/>
- <layer id="1" name="Слой тайлов 1" class="StopTile" width="200" height="200">
+ <layer id="1" name="Слой тайлов 1" class="MapObjects.StopTile" width="200" height="200">
   <data encoding="csv">
    <chunk x="-16" y="0" width="16" height="16">
 294,294,294,294,294,294,294,294,294,294,294,294,294,294,294,294,
@@ -41,8 +41,8 @@
 </chunk>
   </data>
  </layer>
-<objectgroup id="755" name="Zombies" class="LivingEntities.Player" locked="1">
- <object id="26" x="-50" y="100">
+ <objectgroup id="755" name="Zombies" class="LivingEntities.Player" locked="1">
+  <object id="26" x="-50" y="100">
    <point/>
   </object>
  </objectgroup>
@@ -61,20 +61,19 @@
    <point/>
   </object>
  </objectgroup>
-<objectgroup id="5" name="Zombies" class="LivingEntities.Monsters.Spider">
- <object id="4" x="-50" y="200">
+ <objectgroup id="5" name="Zombies" class="LivingEntities.Monsters.Spider">
+  <object id="4" x="-50" y="200">
    <point/>
   </object>
  </objectgroup>
-<objectgroup id="2" name="Слой объектов 1" class="LivingEntities.Monsters.Slime">
+ <objectgroup id="2" name="Слой объектов 1" class="LivingEntities.Monsters.Slime">
   <object id="5" x="1" y="100">
    <point/>
   </object>
  </objectgroup>
-<objectgroup id="6" name="Слой объектов 1" class="LivingEntities.Monsters.Ghost">
-	<object id="5" x="150" y="200">
-	<point/>
-	</object>
-</objectgroup>
-
+ <objectgroup id="6" name="Слой объектов 1" class="LivingEntities.Monsters.Ghost">
+  <object id="5" x="150" y="200">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="5" nextobjectid="9">
  <tileset firstgid="1" source="map.tsx"/>
- <layer id="2" name="Back" class="Tile" width="30" height="20">
+ <layer id="2" name="Back" class="MapObjects.Tile" width="30" height="20">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -41,7 +41,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="1" name="Collidable" class="StopTile" width="30" height="20">
+ <layer id="1" name="Collidable" class="MapObjects.StopTile" width="30" height="20">
   <data encoding="csv">
    <chunk x="16" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -99,7 +99,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="3" name="Platforms" class="Platform" width="30" height="20">
+ <layer id="3" name="Platforms" class="MapObjects.Platform" width="30" height="20">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

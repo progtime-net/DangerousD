@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="19" nextobjectid="105">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="872" source="Door.tsx"/>
- <layer id="1" name="Collidable" class="StopTile" width="30" height="20" offsetx="-352.033" offsety="192.098">
+ <layer id="1" name="Collidable" class="MapObjects.StopTile" width="30" height="20" offsetx="-352.033" offsety="192.098">
   <data encoding="csv">
    <chunk x="-16" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -330,7 +330,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="6" name="Ladders" class="Platform" width="30" height="20" visible="0" offsetx="-1" offsety="0">
+ <layer id="6" name="Ladders" class="MapObjects.Platform" width="30" height="20" visible="0" offsetx="-1" offsety="0">
   <data encoding="csv">
    <chunk x="-16" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -478,7 +478,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="3" name="Backgrond" class="Tile" width="30" height="20" offsetx="-256.033" offsety="256.098">
+ <layer id="3" name="MapObjects.Backgrond" class="MapObjects.Tile" width="30" height="20" offsetx="-256.033" offsety="256.098">
   <data encoding="csv">
    <chunk x="-16" y="-16" width="16" height="16">
 0,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,

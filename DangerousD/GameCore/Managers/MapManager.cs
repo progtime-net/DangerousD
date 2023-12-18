@@ -106,7 +106,7 @@ namespace DangerousD.GameCore.Managers;
                     
                     
                     Rectangle sourceRect = new(new Point((gid - tileSet.FirstGid) % tileSet.Columns, (gid - tileSet.FirstGid) / tileSet.Columns) * tileSet.TileSize, tileSet.TileSize);
-                    Type type = Type.GetType($"DangerousD.GameCore.GameObjects.MapObjects.{tileType}");
+                    Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{tileType}");
                     Activator.CreateInstance(type, pos, tileSet.TileSize.ToVector2() * _scale, sourceRect);
                 }
             }
