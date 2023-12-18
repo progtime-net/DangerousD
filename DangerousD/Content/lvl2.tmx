@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="7" nextobjectid="64">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="7" nextobjectid="65">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="872" source="Door.tsx"/>
- <layer id="2" name="Collision" class="StopTile" width="30" height="20">
+ <layer id="2" name="Collision" class="MapObjects.StopTile" width="30" height="20">
   <data encoding="csv">
    <chunk x="-16" y="-32" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -276,7 +276,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="1" name="Background" class="Tile" width="30" height="20" visible="0">
+ <layer id="1" name="Background" class="MapObjects.Tile" width="30" height="20">
   <data encoding="csv">
    <chunk x="0" y="-32" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -442,7 +442,7 @@
 </chunk>
   </data>
  </layer>
- <layer id="4" name="Boxes" class="Platform" width="30" height="20">
+ <layer id="4" name="Boxes" class="MapObjects.Platform" width="30" height="20">
   <data encoding="csv">
    <chunk x="0" y="-16" width="16" height="16">
 0,0,0,0,0,0,0,0,365,366,0,0,0,0,0,0,
@@ -611,7 +611,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="5" name="Monsters">
+ <objectgroup id="5" name="Monsters" visible="0">
   <object id="42" type="LivingEntities.Monsters.Spider" x="92.3333" y="177">
    <point/>
   </object>
@@ -661,6 +661,9 @@
    <point/>
   </object>
   <object id="59" type="LivingEntities.Monsters.Frank" x="549" y="-229">
+   <point/>
+  </object>
+  <object id="64" type="LivingEntities.Monsters.Zombie" x="657.333" y="-145.333">
    <point/>
   </object>
  </objectgroup>
