@@ -28,9 +28,9 @@ namespace DangerousD.GameCore.GameObjects.Entities
             if (gameObject is Player)
             {
                 Player player = (Player)gameObject;
-                if (player.isUping && !isUppingPrev)
+                if (player.ScopeState == ScopeState.Up && !isUppingPrev)
                 {
-                    if (action!=null)
+                    if (action is not null)
                     {
                         action();
                     }
@@ -39,7 +39,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
                         player.SetPosition(new Vector2(Target.X, Target.Y - player.Height - 5));
                     }
                 }
-                isUppingPrev= player.isUping;
+                isUppingPrev= player.ScopeState == ScopeState.Up;
             }
             base.OnCollision(gameObject);
         }
