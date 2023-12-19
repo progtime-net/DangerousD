@@ -50,7 +50,8 @@ namespace DangerousD.GameCore
         public SoundManager SoundManager { get; private set; } = new SoundManager();
         public SettingsManager SettingsManager { get; private set; } = new SettingsManager();
 
-        private RenderTarget2D renderTarget;
+        public RenderTarget2D renderTarget;
+        public  RenderTarget2D renderBuffer;
         public Effect spriteEffect;
         public AppManager()
         {
@@ -114,11 +115,19 @@ namespace DangerousD.GameCore
             GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
             SoundManager.LoadSounds();
             SoundManager.StartAmbientSound("DoomTestSong");
-            renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
+            renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y, true, SurfaceFormat.Alpha8, DepthFormat.Depth24Stencil8, 3, RenderTargetUsage.PreserveContents);
+            renderBuffer = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y, true, SurfaceFormat.Alpha8, DepthFormat.Depth24Stencil8, 30, RenderTargetUsage.PreserveContents);
+
+            GraphicsDevice.SetRenderTargets(renderTarget, renderBuffer);
+
             spriteEffect = Content.Load<Effect>("Shaders//Glow");
 
+            _graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(SetToPreserve);
         }
-
+        void SetToPreserve(object sender, PreparingDeviceSettingsEventArgs eventargs) 
+        { 
+            eventargs.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents; 
+        }
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

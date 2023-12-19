@@ -120,11 +120,14 @@ namespace DangerousD.GameCore
         public void Draw(SpriteBatch _spriteBatch)
         {
             AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
+
+            AppManager.Instance.spriteEffect.Parameters["MatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(
+            0, 1920, 1080, 0, 0, 10.0f));
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
-            if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect:AppManager.Instance.spriteEffect);
-            else
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
+
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
 
             foreach (var item in BackgroundObjects)
                 item.Draw(_spriteBatch);
@@ -133,15 +136,15 @@ namespace DangerousD.GameCore
 
             _spriteBatch.End();
 
-            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Red"];
-            if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
-            else
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp); 
+            //AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+
             foreach (var item in entities)
                 item.Draw(_spriteBatch);
             foreach (var item in livingEntities)
-                item.Draw(_spriteBatch);
+                if (item is not Player)
+                    item.Draw(_spriteBatch);
             foreach (var item in otherObjects)
                 item.Draw(_spriteBatch);
 
@@ -150,11 +153,29 @@ namespace DangerousD.GameCore
 
 
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
-            if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
+            if (true)//GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
             {
                 AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
+
+                AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderBuffer);
+
+                AppManager.Instance.GraphicsDevice.Clear(Color.Transparent);
                 _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
                 GetPlayer1.Draw(_spriteBatch);
+                _spriteBatch.End();
+
+
+
+
+                AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderTarget);
+
+
+
+                AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Blur"];
+
+                _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend , SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+                _spriteBatch.Draw(AppManager.Instance.renderBuffer, new Vector2(0,0), Color.White);
+                //GetPlayer1.Draw(_spriteBatch);
                 _spriteBatch.End();
             }
         }

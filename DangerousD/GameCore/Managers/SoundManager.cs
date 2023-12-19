@@ -60,7 +60,7 @@ namespace DangerousD.GameCore
             sound.SoundEffect.IsLooped = false;
             sound.SoundEffect.Volume = sound.baseVolume * AppManager.Instance.SettingsManager.SoundEffectsVolume * AppManager.Instance.SettingsManager.MainVolume;
             sound.SoundEffect.Pitch = pitch;
-            try
+            try // when playing to many sounds at once it breaks
             {
                 sound.SoundEffect.Play();
             }
