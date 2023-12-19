@@ -149,9 +149,13 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public void Shoot()
         {
             AppManager.Instance.DebugHUD.Set("shotanimInterval", GraphicsComponent.CurrentFrameInterval.ToString());
-            AppManager.Instance.DebugHUD.Set("shotanimFrame", GraphicsComponent.CurrentFrame.ToString());
-            if (bullets == 0 || isAttacked || isShooting || (!isShooting && GraphicsComponent.CurrentFrameInterval > 10))
+            AppManager.Instance.DebugHUD.Set("shotanimFrame", GraphicsComponent.CurrentFrame.ToString()); 
+            if (bullets <= 0 || isAttacked || isShooting || (isShooting && GraphicsComponent.CurrentFrameInterval < 10))
                 return;
+                //пофиксил ошибку в отрицании, ибо мешало стрелять
+                //  (!isShooting || (isShooting && GraphicsComponent.CurrentFrameInterval < 10))      ==      !    (isShooting && GraphicsComponent.CurrentFrameInterval < 10)
+
+
             if (isShooting && GraphicsComponent.CurrentFrame == 1 && GraphicsComponent.CurrentFrameInterval < 10)
             {
                 AppManager.Instance.DebugHUD.Set("shotanimInterval",
