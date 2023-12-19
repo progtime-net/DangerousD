@@ -82,7 +82,7 @@ namespace DangerousD.GameCore.Managers;
         
         private void InstantiateTiles(XmlNode layer)
         {
-            string tileType = layer.Attributes["class"].Value;
+            string tileType = layer.Attributes["class"] is not null ? layer.Attributes["class"].Value : "";
             float offsetX = GetAttr(layer, "offsetx");
             float offsetY = GetAttr(layer, "offsety");
 
@@ -109,6 +109,7 @@ namespace DangerousD.GameCore.Managers;
                     
                     Rectangle sourceRect = new(new Point((int)(gid - tileSet.FirstGid) % tileSet.Columns, (int)(gid - tileSet.FirstGid) / tileSet.Columns) * tileSet.TileSize, tileSet.TileSize);
                     Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{tileType}");
+                    if (type is null) { AppManager.Instance.ErrorGUI.Raise($"type \"{tileType}\" does not exist in game(layer id {layer.Attributes["id"].Value})"); return; } 
                     Activator.CreateInstance(type, pos, tileSet.TileSize.ToVector2() * _scale, sourceRect);
                 }
             }
@@ -118,13 +119,14 @@ namespace DangerousD.GameCore.Managers;
         private void InstantiateEntities(XmlNode layer)
         {
             string entityType = layer.Attributes["class"] is not null ? "." + layer.Attributes["class"].Value : "";
-            float offsetX = GetAttr(layer, "offsetx");;
-            float offsetY = GetAttr(layer, "offsety");;
+            float offsetX = GetAttr(layer, "offsetx");
+            float offsetY = GetAttr(layer, "offsety");
             
             foreach (XmlNode entity in layer.ChildNodes)
             {
                 string finalEntityType = entityType + (entity.Attributes["type"] is not null ? "." + entity.Attributes["type"].Value : "");
                 Type type = Type.GetType($"DangerousD.GameCore.GameObjects{finalEntityType}");
+                if (type is null) { AppManager.Instance.ErrorGUI.Raise($"type \"{finalEntityType}\" does not exist in game(entity id {entity.Attributes["id"].Value})"); return; } 
                 
                 Vector2 pos =
                     new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX,
@@ -133,7 +135,13 @@ namespace DangerousD.GameCore.Managers;
                 Entity inst = null;
                 if (typeof(Door).IsAssignableFrom(type))
                 {
-                    long gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
+                    if (entity.Attributes["gid"] is null)
+                    {
+                        AppManager.Instance.ErrorGUI.Raise($"entity has no texture but required(entity id: {entity.Attributes["id"].Value})");
+                        return;
+                    }
+                    long gid = long.Parse(entity.Attributes["gid"].Value);
+                    
                     TileSet tileSet = GetTileSet(gid);
                     Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
                     
@@ -153,8 +161,6 @@ namespace DangerousD.GameCore.Managers;
                             XmlNode destination = entity.SelectSingleNode("properties/property[@name = 'destination']");
                             string target = destination is not null ? destination.Attributes["value"].Value : "0";
                             XmlNode dest = layer.SelectSingleNode($"object[@id = '{target}']");
-                        
-                            
                             inst = new TeleportingDoor(pos, objectSize, new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
                                 new Vector2(float.Parse(dest.Attributes["x"].Value) + offsetX,
                                     float.Parse(dest.Attributes["y"].Value) + offsetY) * _scale);

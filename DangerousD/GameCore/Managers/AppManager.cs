@@ -21,7 +21,8 @@ namespace DangerousD.GameCore
     public enum GameState
     {
         Menu, Options, Lobby, Game, Login, Death, HUD,
-        GameOver
+        GameOver,
+        Error
     }
     public class AppManager : Game
     {
@@ -40,6 +41,7 @@ namespace DangerousD.GameCore
         IDrawableObject LobbyGUI;
         IDrawableObject DeathGUI;
         IDrawableObject HUD;
+        public ErrorGUI ErrorGUI;
         public DebugHUD DebugHUD;
         public List<NetworkTask> NetworkTasks = new List<NetworkTask>();
         public string currentMap;
@@ -80,6 +82,7 @@ namespace DangerousD.GameCore
             DeathGUI = new DeathGUI();
             HUD = new HUD();
             DebugHUD = new DebugHUD();
+            ErrorGUI = new ErrorGUI();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
             currentMap = "lvl1";
@@ -97,6 +100,7 @@ namespace DangerousD.GameCore
             HUD.Initialize();
             LobbyGUI.Initialize();
             DeathGUI.Initialize();
+            ErrorGUI.Initialize();
             base.Initialize();
         }
 
@@ -110,6 +114,7 @@ namespace DangerousD.GameCore
             LobbyGUI.LoadContent();
             DeathGUI.LoadContent();
             HUD.LoadContent();
+            ErrorGUI.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
             SoundManager.LoadSounds();
@@ -122,7 +127,7 @@ namespace DangerousD.GameCore
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                Restart(currentMap);
             if (GameManager.GetPlayer1 != null)
             {
                 DebugHUD?.Set("isShooting:", GameManager.GetPlayer1.isShooting.ToString());
@@ -151,9 +156,9 @@ namespace DangerousD.GameCore
                 case GameState.Game:
                     HUD.Update(gameTime);
                     GameManager.Update(gameTime);
-
                     break;
-                default:
+                case GameState.Error:
+                    ErrorGUI.Update(gameTime);
                     break;
             }
             DebugHUD.Update(gameTime);
@@ -190,7 +195,8 @@ namespace DangerousD.GameCore
                     GameManager.Draw(_spriteBatch);
                     HUD.Draw(_spriteBatch);
                     break;
-                default:
+                case GameState.Error:
+                    ErrorGUI.Draw(_spriteBatch);
                     break;
             }
             GraphicsDevice.SetRenderTarget(null);
@@ -292,6 +298,8 @@ namespace DangerousD.GameCore
                     GameManager.FindBorders();
                     break;
                 case GameState.Death:
+                    break;
+                case GameState.Error:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
