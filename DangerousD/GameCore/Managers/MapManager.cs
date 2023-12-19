@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
 using DangerousD.GameCore.GameObjects.Entities;
+using DangerousD.GameCore.GameObjects.LivingEntities;
+
 namespace DangerousD.GameCore.Managers;
 
     
@@ -128,7 +130,7 @@ namespace DangerousD.GameCore.Managers;
                     new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX,
                         float.Parse(entity.Attributes["y"].Value) + offsetY) * _scale;
 
-                Entity inst;
+                Entity inst = null;
                 if (typeof(Door).IsAssignableFrom(type))
                 {
                     long gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
@@ -161,11 +163,15 @@ namespace DangerousD.GameCore.Managers;
                     else
                         inst = new Door(pos, objectSize, new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
                 }
-                else
+                else if (!type.Equals(typeof(Player)) || (type.Equals(typeof(Player)) && AppManager.Instance.GameManager.players.Count == 0))
                 {
                     inst = (Entity)Activator.CreateInstance(type, pos);
                 }
-                inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+
+                if (inst is not null)
+                {
+                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+                }
             }
         }
 
