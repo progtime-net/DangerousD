@@ -1,0 +1,9 @@
+{
+  "name": "DangerousDCheck",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@mapeditor/tiled-api": "^1.10.1"
+  }
+}

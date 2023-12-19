@@ -24,12 +24,6 @@ namespace DangerousD.GameCore.GameObjects.Entities
         }
 
         protected override GraphicsComponent GraphicsComponent { get; } = new("door");
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-           
-        }
         
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -44,7 +38,7 @@ namespace DangerousD.GameCore.GameObjects.Entities
                 if (gameObject is Player)
                 {
                     Player player = (Player)gameObject;
-                    if (player.isUping && !player.IsRunning)
+                    if (player.ScopeState == ScopeState.Up && !player.IsRunning)
                         player.OpenDoor(this);
                 }
             }

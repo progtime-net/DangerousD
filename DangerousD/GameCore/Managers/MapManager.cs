@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using DangerousD.GameCore.GameObjects;
 using System.Globalization;
 using DangerousD.GameCore.GameObjects.Entities;
+using DangerousD.GameCore.GameObjects.LivingEntities;
+
 namespace DangerousD.GameCore.Managers;
 
     
@@ -45,7 +47,7 @@ namespace DangerousD.GameCore.Managers;
         }
 
         
-        private TileSet GetTileSet(int gid)
+        private TileSet GetTileSet(long gid)
         {
             if (_tileSets == null || _tileSets.Count == 0)
             {
@@ -95,7 +97,7 @@ namespace DangerousD.GameCore.Managers;
                 string[] tiles = chunk.InnerText.Split(',');
                 for (int i = 0; i < tiles.Length; i++)
                 {
-                    int gid = int.Parse(tiles[i]);
+                    long gid = long.Parse(tiles[i]);
 
                     if (gid == 0) continue;
                     
@@ -105,8 +107,8 @@ namespace DangerousD.GameCore.Managers;
                     pos *= _scale;
                     
                     
-                    Rectangle sourceRect = new(new Point((gid - tileSet.FirstGid) % tileSet.Columns, (gid - tileSet.FirstGid) / tileSet.Columns) * tileSet.TileSize, tileSet.TileSize);
-                    Type type = Type.GetType($"DangerousD.GameCore.GameObjects.MapObjects.{tileType}");
+                    Rectangle sourceRect = new(new Point((int)(gid - tileSet.FirstGid) % tileSet.Columns, (int)(gid - tileSet.FirstGid) / tileSet.Columns) * tileSet.TileSize, tileSet.TileSize);
+                    Type type = Type.GetType($"DangerousD.GameCore.GameObjects.{tileType}");
                     Activator.CreateInstance(type, pos, tileSet.TileSize.ToVector2() * _scale, sourceRect);
                 }
             }
@@ -128,10 +130,10 @@ namespace DangerousD.GameCore.Managers;
                     new Vector2(float.Parse(entity.Attributes["x"].Value) + offsetX,
                         float.Parse(entity.Attributes["y"].Value) + offsetY) * _scale;
 
-                Entity inst;
+                Entity inst = null;
                 if (typeof(Door).IsAssignableFrom(type))
                 {
-                    int gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
+                    long gid = entity.Attributes["gid"] is not null ? int.Parse(entity.Attributes["gid"].Value) : 0;
                     TileSet tileSet = GetTileSet(gid);
                     Vector2 objectSize = new(int.Parse(entity.Attributes["width"].Value), int.Parse(entity.Attributes["height"].Value));
                     
@@ -143,7 +145,7 @@ namespace DangerousD.GameCore.Managers;
                         if (level is not null)  // Teleport to level
                         {
                             inst = new TeleportingDoor(pos, objectSize,
-                                new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
+                                new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
                                     tileSet.TileSize), () => {AppManager.Instance.ChangeMap(level.Attributes["value"].Value, GetStartCoordinates(level.Attributes["value"].Value));});
                         }
                         else  // Teleport to location
@@ -153,19 +155,23 @@ namespace DangerousD.GameCore.Managers;
                             XmlNode dest = layer.SelectSingleNode($"object[@id = '{target}']");
                         
                             
-                            inst = new TeleportingDoor(pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
+                            inst = new TeleportingDoor(pos, objectSize, new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize),
                                 new Vector2(float.Parse(dest.Attributes["x"].Value) + offsetX,
                                     float.Parse(dest.Attributes["y"].Value) + offsetY) * _scale);
                         }
                     } 
                     else
-                        inst = new Door(pos, objectSize, new Rectangle(new Point((gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
+                        inst = new Door(pos, objectSize, new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0), tileSet.TileSize));
                 }
-                else
+                else if (!type.Equals(typeof(Player)) || (type.Equals(typeof(Player)) && AppManager.Instance.GameManager.players.Count == 0))
                 {
                     inst = (Entity)Activator.CreateInstance(type, pos);
                 }
-                inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+
+                if (inst is not null)
+                {
+                    inst.SetPosition(new Vector2(inst.Pos.X, inst.Pos.Y - inst.Height));
+                }
             }
         }
 

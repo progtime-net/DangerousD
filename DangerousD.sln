@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimationsFileCreator", "An
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonogameLibrary", "MonogameLibrary\MonogameLibrary.csproj", "{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDValidator", "DDValidator\DDValidator.csproj", "{ED52A9C6-438D-419C-8B21-47F325F5B40F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52ED99EF-9769-4587-8BD8-54D6B98E3E7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED52A9C6-438D-419C-8B21-47F325F5B40F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED52A9C6-438D-419C-8B21-47F325F5B40F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED52A9C6-438D-419C-8B21-47F325F5B40F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED52A9C6-438D-419C-8B21-47F325F5B40F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

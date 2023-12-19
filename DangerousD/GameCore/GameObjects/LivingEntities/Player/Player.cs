@@ -28,8 +28,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public bool isShooting = false;
         public GameObject objectAttack;
         private int bullets;
+        public ScopeState ScopeState = ScopeState.Middle;
         public bool FallingThroughPlatform = false;
-        public bool isUping = false;
         public bool isNetworkPlayer;
         private int shootLength = 160;
         public int score = 0;
@@ -40,12 +40,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         public int Bullets { get { return bullets; } set { bullets = value; }  }
 
         /// <summary>
-        /// Don't delete this constructor. Used in MapManager!!!!
+        /// Do not delete this constructor. Used in MapManager!!!!
         /// </summary>
         /// <param name="position"></param>
         public Player(Vector2 position) : base(position)
         {
-           Initialize(position);
+            Initialize(position);
         }
 
         public Player(Vector2 position, bool isNetworkPlayer) : base(position)
@@ -97,26 +97,21 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
         protected override GraphicsComponent GraphicsComponent { get; } = new(new List<string> { "playerMoveLeft", "playerMoveRight", "DeathFromZombie", "playerRightStay", "playerStayLeft",
             "playerJumpRight" , "playerJumpLeft", "playerShootLeft", "playerShootRight", "playerReload", "smokeAfterShoot", "playerShootUpRight", "playerShootUpLeft", "playerShootBoomUpRight",
-        "playerShootBoomUpLeft", "playerOpenDoor"}, "playerReload");
+            "playerShootBoomUpLeft", "playerOpenDoor"}, "playerReload");
 
-        public void Attack()
-        {
-            if (objectAttack.Rectangle.Intersects(this.Rectangle))
-            {
-                isVisible = false;
-            }
+        // public void Attack()
+        // {
+        //     if (objectAttack.Rectangle.Intersects(this.Rectangle))
+        //     {
+        //         isVisible = false;
+        //     }
+        // }
 
-        }
-        public override void OnCollision(GameObject gameObject)
-        {
-            base.OnCollision(gameObject);
-        }
-        public Rectangle GetShootRectangle(bool isRight)
+        private Rectangle GetShootRectangle(bool isRight)
         {
             if (isRight)
                 return new Rectangle((int)Pos.X, (int)(Pos.Y) + 10, shootLength + Width, Height / 2);
-            else
-                return new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
+            return new Rectangle((int)Pos.X - shootLength, (int)(Pos.Y) + 10, shootLength, Height / 2);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -150,85 +145,80 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             }
             // здесь будет анимация
         }
+
         public void Shoot()
         {
             AppManager.Instance.DebugHUD.Set("shotanimInterval", GraphicsComponent.CurrentFrameInterval.ToString());
             AppManager.Instance.DebugHUD.Set("shotanimFrame", GraphicsComponent.CurrentFrame.ToString());
-            if (bullets > 0)
+            if (bullets == 0 || isAttacked || isShooting || (!isShooting && GraphicsComponent.CurrentFrameInterval > 10))
+                return;
+            if (isShooting && GraphicsComponent.CurrentFrame == 1 && GraphicsComponent.CurrentFrameInterval < 10)
             {
-                if (!isAttacked)
+                AppManager.Instance.DebugHUD.Set("shotanimInterval",
+                    GraphicsComponent.CurrentFrameInterval.ToString());
+            }
+
+            AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
+            isShooting = true;
+            if (!AppManager.Instance.InputManager.InfiniteAmmoCheat)
+                bullets--;
+
+
+            if (isRight)
+            {
+                if (ScopeState != ScopeState.Up)
                 {
-                    if (!isShooting ||(isShooting && GraphicsComponent.CurrentFrameInterval <10))
-                    {
-                        if (isShooting && GraphicsComponent.CurrentFrame == 1&&GraphicsComponent.CurrentFrameInterval < 10)
-                        {
-                            AppManager.Instance.DebugHUD.Set("shotanimInterval", GraphicsComponent.CurrentFrameInterval.ToString());
-                        }
-                        AppManager.Instance.SoundManager.StartSound("shotgun_shot", Pos, Pos);
-                        isShooting = true;
-                        if (!AppManager.Instance.InputManager.InfiniteAmmoCheat)
-                            bullets--;
+                    velocity.X -= 1;
 
+                    CreateBulletParticle(new Vector2(1, 0));
+                    GraphicsComponent.StartAnimation("playerShootRight");
+                    Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
+                    bullet.ShootRight();
+                    SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
+                }
+                else
+                {
+                    CreateBulletParticle(new Vector2(1, -1));
 
-                        if (isRight)
-                        {
-                            if (!isUping)
-                            {
-                                velocity.X -= 1;
-
-                                CreateBulletparticle(new Vector2(1, 0));
-                                GraphicsComponent.StartAnimation("playerShootRight");
-                                Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
-                                bullet.ShootRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 30, Pos.Y + 7));
-                            }
-                            else
-                            {
-                                CreateBulletparticle(new Vector2(1, -1));
-
-                                GraphicsComponent.StartAnimation("playerShootBoomUpRight");
-                                Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
-                                bullet.ShootUpRight();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
-                            }
-                        }
-                        else if(!isRight)
-                        {
-                            if (!isUping)
-                            {
-                                velocity.X += 1;
-
-                                CreateBulletparticle(new Vector2(-1, 0));
-                                GraphicsComponent.StartAnimation("playerShootLeft");
-                                Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
-                                bullet.ShootLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
-                            }
-                            else
-                            {
-
-                                CreateBulletparticle(new Vector2(-1, -1));
-                                GraphicsComponent.StartAnimation("playerShootBoomUpLeft");
-                                Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
-                                bullet.ShootUpLeft();
-                                SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
-                            }
-                        }
-                    }
+                    GraphicsComponent.StartAnimation("playerShootBoomUpRight");
+                    Bullet bullet = new Bullet(new Vector2(Pos.X + 16, Pos.Y));
+                    bullet.ShootUpRight();
+                    SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X + 12, Pos.Y - 8));
                 }
             }
+            else if (!isRight)
+            {
+                if (ScopeState != ScopeState.Up)
+                {
+                    velocity.X += 1;
+
+                    CreateBulletParticle(new Vector2(-1, 0));
+                    GraphicsComponent.StartAnimation("playerShootLeft");
+                    Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
+                    bullet.ShootLeft();
+                    SmokeAfterShoot smokeAfterShoot = new SmokeAfterShoot(new Vector2(Pos.X - 12, Pos.Y + 7));
+                }
+                else
+                {
+
+                    CreateBulletParticle(new Vector2(-1, -1));
+                    GraphicsComponent.StartAnimation("playerShootBoomUpLeft");
+                    Bullet bullet = new Bullet(new Vector2(Pos.X, Pos.Y));
+                    bullet.ShootUpLeft();
+                    new SmokeAfterShoot(new Vector2(Pos.X - 6, Pos.Y - 7));
+                }
+            }
+            
         }
-        public void CreateBulletparticle(Vector2 shotDirection) //for code claeaning
+
+        private void CreateBulletParticle(Vector2 shotDirection) //for code claeaning
         {
-            Vector2 used_bullet_spawn_position = new Vector2(Pos.X + Width / 2, Pos.Y + Height * 1.5f / 3);//place, where used bullet will be created relative to the player
-            new ShotgunUsedAmmo_Particle(used_bullet_spawn_position, shotDirection, velocity);
+            Vector2 spawnPosition = new Vector2(Pos.X + Width / 2, Pos.Y + Height * 1.5f / 3);//place, where used bullet will be created relative to the player
+            new ShotgunUsedAmmo_Particle(spawnPosition, shotDirection, velocity);
         }
         public override void Update(GameTime gameTime)
         {
-            if (AppManager.Instance.InputManager.ScopeState == ScopeState.Up)
-                isUping = true;
-            else
-                isUping = false;
+            ScopeState = AppManager.Instance.InputManager.ScopeState;
 
             if (isOnGround && FallingThroughPlatform)
                 FallingThroughPlatform = false;
@@ -242,7 +232,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                 }
                 else
                 { 
-                   // velocity.X = 0.98f * velocity.X;
+                    // velocity.X = 0.98f * velocity.X;
                 }
             }
             else
@@ -298,7 +288,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
             AppManager.Instance.DebugHUD.Set("lastUpdSpeed", lastUpdSpeed.ToString());
 
             if (GraphicsComponent.GetCurrentAnimation != "playerShootLeft" && GraphicsComponent.GetCurrentAnimation != "playerShootRight"
-                && GraphicsComponent.GetCurrentAnimation != "playerOpenDoor")
+                                                                           && GraphicsComponent.GetCurrentAnimation != "playerOpenDoor")
             {
                 if (isOnGround && Math.Abs(velocity.Y)<2)
                 {
@@ -315,12 +305,12 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                     else if (
                         Math.Abs(AppManager.Instance.InputManager.VectorMovementDirection.X) < max_speed
                         && AppManager.Instance.InputManager.VectorMovementDirection.X == 0
-                        )//стоит
+                    )//стоит
                     {
                         //lastUpdSpeed *= 0.7f;
                         if (isRight)
                         {
-                            if (isUping)
+                            if (ScopeState == ScopeState.Up)
                                 StartCicycleAnimation("playerShootUpRight");
                             else if (bullets < 5)
                                 StartCicycleAnimation("playerReload");
@@ -329,7 +319,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
                         }
                         else if (!isRight)
                         {
-                            if (isUping)
+                            if (ScopeState == ScopeState.Up)
                                 StartCicycleAnimation("playerShootUpLeft");
                             else if (bullets < 5)
                                 StartCicycleAnimation("playerReload");
@@ -361,12 +351,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
 
             }
         }
-        public void MoveDown()
+        private void MoveDown()
         {
             FallingThroughPlatform = true;
             isOnGround = false;
         }
-
-        
     }
 }
