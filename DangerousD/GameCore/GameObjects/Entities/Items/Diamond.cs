@@ -12,12 +12,15 @@ public class Diamond : Entity
     Random random = new Random();
     int scal; //scale of an object
     double del = 0; //time from creation
+    double existTime = 0;
+    double randfactor = 0;
     public Diamond(Vector2 position) : base(position)
     {
         scal = random.Next(3, 12);
         Width = scal;
         Height = scal;
         GraphicsComponent.StartAnimation("Diamond");
+        randfactor = random.NextDouble(); 
     }
     Vector2 targetPosition;
     public override void SetPosition(Vector2 position)
@@ -27,10 +30,11 @@ public class Diamond : Entity
     }
     public override void Update(GameTime gameTime)
     {
+        existTime += gameTime.ElapsedGameTime.TotalSeconds;
         del = Math.Min(1, del + gameTime.ElapsedGameTime.TotalSeconds);//find dt of scale animation
         Width = (int)(scal * easeOutElastic(del / 1)); //apply easeOut
         Height = (int)(scal * easeOutElastic(del / 1)); //apply easeOut
-        _pos = targetPosition + new Vector2(scal / 2, scal) - new Vector2(Width / 2, Height); // set position to draw correctly
+        _pos = targetPosition + new Vector2(scal / 2, scal) - new Vector2(Width / 2, Height) + new Vector2(0, -(float)((randfactor + Height / 4.0) *(0.5 + 0.5*Math.Sin(2*existTime + randfactor*Math.PI*2)))); // set position to draw correctly
         base.Update(gameTime);
     }
     public double easeOutElastic(double x)
