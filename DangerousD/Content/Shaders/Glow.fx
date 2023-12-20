@@ -42,6 +42,7 @@ float4 Distortion(VertexShaderOutput input) : COLOR
             color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + i * blurDistanceX, input.TextureCoordinates.y + j * blurDistanceY));
         }
     }
+    
     //color = tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + blurDistance, input.TextureCoordinates.y + blurDistance));
     //color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x - blurDistance, input.TextureCoordinates.y - blurDistance));
     //color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + blurDistance, input.TextureCoordinates.y - blurDistance));
@@ -67,9 +68,9 @@ float4 Distortion(VertexShaderOutput input) : COLOR
     color = color2 + (color - color2) * pow((sin(time * 0.1) + sin(2 * time * 0.1 + 1.3) + 0.7 * sin(7 * time * 0.1 + 33.3) + 0.3 * sin(9 * time * 0.1 + 33.3)), 2);
     color = color2 * 0.7 + color * 0.3;
     
-    color *= 0.98 + 0.02*sin(input.TextureCoordinates.y * 3.14 * 64);
+    color *= 0.9 + 0.1 * round(sin(input.TextureCoordinates.y * 3.14 * 64 - 4 * time));
     
-    color *= 1 * cos((input.TextureCoordinates.x - 0.5) * 3.14);
+    color *= 1 - pow(1.5 * 2 * abs(input.TextureCoordinates.x - 0.5), 4);
     
     
     return float4(color, n * 0.95);
