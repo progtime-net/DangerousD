@@ -119,47 +119,100 @@ namespace DangerousD.GameCore
 
         public void Draw(SpriteBatch _spriteBatch)
         {
+            #region tiles
             AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
 
             AppManager.Instance.spriteEffect.Parameters["MatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(
             0, 1920, 1080, 0, 0, 10.0f));
+
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
 
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
 
+
+            AppManager.Instance.spriteEffect.Parameters["dominantColor"].SetValue(new Vector3(-0.1f));
             foreach (var item in BackgroundObjects)
                 item.Draw(_spriteBatch);
+
+
+            AppManager.Instance.spriteEffect.Parameters["dominantColor"].SetValue(new Vector3(0.5f));
             foreach (var item in mapObjects)
                 item.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
+            AppManager.Instance.spriteEffect.Parameters["dominantColor"].SetValue(new Vector3(0.5f));
             //AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
 
+            #endregion
+
+
+
+            //DrawGlowBuffer(_spriteBatch);
+
+
+            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
+
+            AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderBuffer);
+            AppManager.Instance.GraphicsDevice.Clear(Color.Transparent);
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
 
             foreach (var item in entities)
                 item.Draw(_spriteBatch);
-            foreach (var item in livingEntities)
-                if (item is not Player)
-                    item.Draw(_spriteBatch);
-            foreach (var item in otherObjects)
-                item.Draw(_spriteBatch);
 
-            //draw yellow player
             _spriteBatch.End();
+            AppManager.Instance.spriteEffect.Parameters["ColorGlowColor"].SetValue(new Vector3(0.2f, 0.2f, 1f));
+            DrawGlowBuffer(_spriteBatch);
 
 
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
+
+            AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderBuffer);
+            AppManager.Instance.GraphicsDevice.Clear(Color.Transparent);
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+
+            foreach (var item in livingEntities)
+                if (item is not Player)
+                    item.Draw(_spriteBatch);
+
+            _spriteBatch.End();
+            AppManager.Instance.spriteEffect.Parameters["ColorGlowColor"].SetValue(new Vector3(0.2f, 1, 0.2f));
+            DrawGlowBuffer(_spriteBatch);
+
+
+            
+
+
+
+            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
+
+            AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderBuffer);
+            AppManager.Instance.GraphicsDevice.Clear(Color.Transparent);
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+
+            foreach (var item in otherObjects)
+                item.Draw(_spriteBatch);
+
+            _spriteBatch.End();
+            AppManager.Instance.spriteEffect.Parameters["ColorGlowColor"].SetValue(new Vector3(1f, 0.2f, 0.2f));
+            DrawGlowBuffer(_spriteBatch);
+
+
+
+
+
+            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
             if (true)//GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
             {
+                AppManager.Instance.spriteEffect.Parameters["ColorGlowColor"].SetValue(new Vector3(1.3f, 1.3f, 0.2f));
                 AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
 
                 AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderBuffer);
-
                 AppManager.Instance.GraphicsDevice.Clear(Color.Transparent);
+
+
                 _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
                 GetPlayer1.Draw(_spriteBatch);
                 _spriteBatch.End();
@@ -167,17 +220,17 @@ namespace DangerousD.GameCore
 
 
 
-                AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderTarget);
-
-
-
-                AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Blur"];
-
-                _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend , SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
-                _spriteBatch.Draw(AppManager.Instance.renderBuffer, new Vector2(0,0), Color.White);
-                //GetPlayer1.Draw(_spriteBatch);
-                _spriteBatch.End();
+                DrawGlowBuffer(_spriteBatch);
             }
+        }
+        public void DrawGlowBuffer(SpriteBatch _spriteBatch)
+        {
+            AppManager.Instance.GraphicsDevice.SetRenderTarget(AppManager.Instance.renderTarget);
+            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Blur"];
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+            _spriteBatch.Draw(AppManager.Instance.renderBuffer, new Vector2(0, 0), Color.White);
+            _spriteBatch.End(); 
         }
 
         public void Update(GameTime gameTime)

@@ -9,7 +9,7 @@
 
 
 Texture2D SpriteTexture;
-
+float3 dominantColor;
 sampler2D SpriteTextureSampler = sampler_state
 {
     Texture = <SpriteTexture>;
@@ -139,7 +139,7 @@ float4 Dark(VertexShaderOutput input) : COLOR
     
     
     float pw = 0.5;
-    color *= float3(pw, pw, pw);
+    color *= float3(pw, pw, pw) + dominantColor;
     
     //float4 color4 = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy);
     color *=  1 - pow(length(input.myPosition.x - float2(0.0, 0.0)), 4);
@@ -179,7 +179,8 @@ float4 LightedObject_PS(VertexShaderOutput input) : COLOR
 }
 
 
-float4 Blur(VertexShaderOutput input) : COLOR
+float3 ColorGlowColor;
+float4 ColorGlow(VertexShaderOutput input) : COLOR
 { 
     
     float4 color = tex2D(SpriteTextureSampler, input.TextureCoordinates.xy);
@@ -188,7 +189,7 @@ float4 Blur(VertexShaderOutput input) : COLOR
     if (color.a == 0)
     {
         
-        float blurDistanceX = 5 / 1366.0;
+        float blurDistanceX = 2 / 1366.0;
         float blurDistanceY = blurDistanceX;
         int k = 10;
         int cel = 1;
@@ -196,7 +197,7 @@ float4 Blur(VertexShaderOutput input) : COLOR
         {
             for (int j = -k; j < k + 1; j++)
             {
-                if (i * i + j * j < 100)
+                if (i * i + j * j < (k + 0.5) * (k + 0.5))
                 {
                     cel ++;
                     color += tex2D(SpriteTextureSampler, float2(input.TextureCoordinates.x + i * blurDistanceX, input.TextureCoordinates.y + j * blurDistanceY));
@@ -206,9 +207,7 @@ float4 Blur(VertexShaderOutput input) : COLOR
         color = color / cel; 
         
         //color = pow(color * 2, 2);
-        color.r = color.a;
-        color.g = color.a;
-        color.b = color.a/5;
+        color = float4(ColorGlowColor * color.a, color.a);
 
     }
     if (color.a == 0)
@@ -302,7 +301,7 @@ technique Blur
 {
     pass P0
     {
-        PixelShader = compile PS_SHADERMODEL Blur();
+        PixelShader = compile PS_SHADERMODEL ColorGlow();
     }
 };                         
 technique Red
