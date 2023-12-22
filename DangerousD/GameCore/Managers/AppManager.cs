@@ -114,7 +114,8 @@ namespace DangerousD.GameCore
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
             SoundManager.LoadSounds();
-            SoundManager.StartAmbientSound("DoomTestSong");
+            //SoundManager.StartAmbientSound("DoomTestSong");SomeZombieMusic KISH
+            SoundManager.StartAmbientSound("SomeZombieMusic");
             renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y, true, SurfaceFormat.Alpha8, DepthFormat.Depth24Stencil8, 3, RenderTargetUsage.PreserveContents);
             renderBuffer = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y, true, SurfaceFormat.Alpha8, DepthFormat.Depth24Stencil8, 30, RenderTargetUsage.PreserveContents);
 
@@ -174,6 +175,7 @@ namespace DangerousD.GameCore
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            AppManager.Instance.spriteEffect.Parameters["totalSeconds"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
             GraphicsDevice.SetRenderTarget(renderTarget);
             switch (gameState)
             {
@@ -204,7 +206,19 @@ namespace DangerousD.GameCore
             }
             GraphicsDevice.SetRenderTarget(null);
 
-            DrawTheScreenWithShootEffects(); //DrawScreen
+
+            //DrawScreen
+
+            AppManager.Instance.spriteEffect.Parameters["MainMatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(
+            0, 1366, 768, 0, 0, 10.0f));
+            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["MainScreen"];
+            _spriteBatch.Begin(effect: spriteEffect);
+            _spriteBatch.Draw(renderTarget, 
+                new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                 new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
+            _spriteBatch.End();
+
+
 
             DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);

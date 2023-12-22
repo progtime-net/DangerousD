@@ -310,4 +310,70 @@ technique Red
     {
         PixelShader = compile PS_SHADERMODEL Red();
     }
+};               
+
+float totalSeconds;
+float4x4 MainMatrixTransform;
+
+float mix(float a, float b, float c)
+{
+    return a + (b - a) * c; 
+}
+
+float4 MainScreen_PS(VertexShaderOutput input) : COLOR
+{
+    
+    float2 a = 2 * 3.1415 * (input.TextureCoordinates.xy - 0.5);
+    float fnc = -(cos(3.1415 * input.TextureCoordinates.xy) - 1) / 2;
+    float delt = input.TextureCoordinates.xy - 0.5;
+    
+    float2 texco = 1 * (input.TextureCoordinates.xy - 0.5);
+    //0.5 + sign(delt) * pow(delt, -3); //input.TextureCoordinates.xy + pow(2 * (fnc - input.TextureCoordinates.xy), 0.5); //input.TextureCoordinates.xy + 1 / input.TextureCoordinates.xy; //texco((a + 1 * pow(sin(a), 3)) / 3.1415) * 0.5 + 0.5;
+    
+    float distortion = 0.3;
+    
+    
+    float2 ndc_pos = texco;
+    float2 testVec = ndc_pos.xy / max(abs(ndc_pos.x), abs(ndc_pos.y));
+    float len = max(1.0, length(testVec));
+    ndc_pos *= mix(1.0, mix(1.0, len, max(abs(ndc_pos.x), abs(ndc_pos.y))), distortion);
+    float2 texCoord = float2(ndc_pos.x, ndc_pos.y) * 1 + 0.5;
+    texco = texCoord;
+    //texco.y = input.TextureCoordinates.y;
+     
+    
+    float u_stripe = 0.5;
+    
+    float4 color = tex2D(SpriteTextureSampler, texco);
+    // stripes
+    float stripTile = texco.x * mix(10.0, 100.0, u_stripe);
+    float stripFac = 1.0 + 0.25 * u_stripe * (step(0.5, stripTile - float(int(stripTile))) - 0.5);
+    
+    
+    float am = 0.04;
+    color = (1 - am) * color + (am) * (sin(3 * totalSeconds));
+    
+    float am2 = 0.2;
+    color *= (1 - am2) + (am2) * round(sin(texCoord.y * 100 - 3 * totalSeconds) * 1);
+    return color;
+}
+
+VertexShaderOutput MainScreen_VS(float4 position : SV_POSITION, float4 color : COLOR0, float2 texCoord : TEXCOORD0)
+{
+    VertexShaderOutput output;
+    output.Position = mul(position, MainMatrixTransform);
+    output.myPosition = mul(position , MainMatrixTransform);
+    output.Color = color; 
+    
+    float2 a = 2 * 3.1415 * (texCoord - 0.5);
+    output.TextureCoordinates = texCoord;
+    return output;
+}
+technique MainScreen
+{
+    pass P0
+    {
+        VertexShader = compile VS_SHADERMODEL MainScreen_VS();
+        PixelShader = compile PS_SHADERMODEL MainScreen_PS();
+    }
 };

@@ -42,6 +42,15 @@ namespace DangerousD.GameCore.GUI
                     spriteBatch.Draw(texture, new Rectangle(wigth / 30 + i * 13, height / 17 + 4, 7, 20), new Color(0.2f, 0.2f, 0, 1f));
                 }
             }
+
+
+            spriteBatch.Draw(texture, new Rectangle(
+                (int)((wigth - 120 - 20) * scaler),
+                (int)((height / 35 - 2) * scaler),
+                (int)((120 + 2) * scaler),
+                (int)((90 + 2) * scaler)), Color.DarkGray);
+
+
             spriteBatch.End();
         }
 
