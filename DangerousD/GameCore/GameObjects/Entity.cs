@@ -8,6 +8,7 @@ namespace DangerousD.GameCore.GameObjects
 {
     public abstract class Entity : GameObject
     {
+        protected bool hasColidedLastUpdateCall = false;
         public Entity(Vector2 position) : base(position) {}
         public virtual void SetPosition(Vector2 position) {  _pos = position; } 
         

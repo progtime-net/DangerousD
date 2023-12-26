@@ -23,7 +23,7 @@ namespace DangerousD.GameCore.Managers
             }
             
             CheckCollisionsLE_MO(livingEntities, mapObjects.Where(mo => mo is StopTile or Platform).ToList(), delta / 0.033f); //delta / 0.033 is normal to degengine
-            CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList());
+            CheckCollisionsPlayer_Platform(players, mapObjects.OfType<Platform>().ToList(), delta / 0.033f);
             
             CheckCollisionsE_LE(entities, livingEntities);
             CheckCollisionsLE_LE(livingEntities);
@@ -93,6 +93,7 @@ namespace DangerousD.GameCore.Managers
                 #region y collision
                 var collidedY = false;
                 var tryingRectY = currentRect;
+                
                 tryingRectY.Offset(0, (int)Math.Ceiling(livingEntities[i].velocity.Y * delta));
                 
                 if (livingEntities[i] is Player)
@@ -118,18 +119,33 @@ namespace DangerousD.GameCore.Managers
                             i -= (prevL - livingEntities.Count);
                             flagRemovedObject = true;
                         }
-                        
-                        break;
+
+                        tryingRectY.Offset(0, -(int)Math.Ceiling(livingEntities[i].velocity.Y * delta));
+                        if (mapObject.Rectangle.Top - tryingRectY.Bottom>0)
+                        {
+                            tryingRectY.Offset(0, mapObject.Rectangle.Top - tryingRectY.Bottom);
+
+                            if (livingEntities[i] is Player)
+                            {
+
+                            }
+                        }
+                        if (tryingRectY.Intersects(mapObject.Rectangle))
+                            break;
                     }
                 }
                 if (flagRemovedObject)
                 {
                     continue;
                 }
-                livingEntities[i].isOnGround = collidedY && livingEntities[i].velocity.Y > 0;
+                livingEntities[i].isOnGround = collidedY;
                 if (collidedY)
                 {
                     livingEntities[i].velocity.Y = 0;
+                    if (livingEntities[i] is Player)
+                    {
+                        newRect.Y = tryingRectY.Y;
+                    }
                 }
                 else
                 {
@@ -140,7 +156,7 @@ namespace DangerousD.GameCore.Managers
                 livingEntities[i].SetPosition(newRect.Location.ToVector2());
             }
         }
-        private void CheckCollisionsPlayer_Platform(List<Player> players, List<Platform> platforms)
+        private void CheckCollisionsPlayer_Platform(List<Player> players, List<Platform> platforms, float delta)
         {
             foreach (var player in players)
             {
@@ -162,13 +178,23 @@ namespace DangerousD.GameCore.Managers
                     {
                         AppManager.Instance.DebugHUD.Set("intersects platform", "true");
                         collidedY = true;
-                        break;
+
+
+
+                        tryingRectY.Offset(0, -(int)Math.Ceiling(player.velocity.Y * delta));
+                        if (platform.Rectangle.Top - tryingRectY.Bottom > 0)
+                        {
+                            tryingRectY.Offset(0, platform.Rectangle.Top - tryingRectY.Bottom); 
+                        }
+                        if (tryingRectY.Intersects(platform.Rectangle))
+                            break;
+
                     }
                 }
                 if (collidedY)
                 {
                     // костыль потому что в CheckCollisionsLE_MO он спускается
-                    newRect.Y -= (int)Math.Ceiling(player.velocity.Y);
+                    newRect.Y = tryingRectY.Y;
                     player.isOnGround = true;
                     player.velocity.Y = 0;
                 }
