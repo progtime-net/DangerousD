@@ -82,7 +82,7 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
-            currentMap = "lvl2";
+            currentMap = "lvl1";
         }
 
         protected override void Initialize()
@@ -165,6 +165,14 @@ namespace DangerousD.GameCore
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+
+
+            //set main shader's parametrs
+            spriteEffect.Parameters["totalSeconds"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
+            //spriteEffect.Parameters["MatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(0, 1920, 1080, 0, 0, 10.0f));
+            spriteEffect.Parameters["MainMatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(0, 1366, 780, 0, 0, 10.0f));
+
+
             GraphicsDevice.SetRenderTarget(renderTarget);
             switch (gameState)
             {
@@ -195,85 +203,17 @@ namespace DangerousD.GameCore
             }
             GraphicsDevice.SetRenderTarget(null);
 
-            DrawTheScreenWithShootEffects(); //DrawScreen
-
-            DebugHUD.Draw(_spriteBatch);
-            base.Draw(gameTime);
-        }
-        #region effects and experiments - SergoDobro
-        public void DrawTheScreenWithNoEffects()
-        {
-            DrawScreenByParts(0,1);
-        }
-        Random random = new Random();
-        public void DrawTheScreenWithShootEffects()
-        {
-            DrawScreenByParts(0, 1);
-            return;
-            #region test 
-
-            if (gameState == GameState.Game)
-            {
-                if (GameManager.GetPlayer1.isShooting)
-                {
-                    if (random.NextDouble()>0.0)
-                    {
-                        spriteEffect.CurrentTechnique = spriteEffect.Techniques["Dark"];
-                        DrawScreenByParts(0, 1, spriteEffect);
-                        if (GameManager.GetPlayer1.isShooting)
-                        {
-                            AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
-                            AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-                            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
-                            GameManager.GetPlayer1.Draw(_spriteBatch);
-                            _spriteBatch.End();
-                        }
-                    }
-                    else
-                        DrawScreenByParts(0, 1);
-                }
-                else
-                    DrawScreenByParts(0, 1);
-            }
-            else
-                DrawScreenByParts(0, 1);
-
-            #endregion 
-        }
-        public void DrawTheScreenWithEffects()
-        {
-            #region test 
-
-            //GraphicsDevice.BlendState = BlendState.Additive;//отвечает за способ нанесения новый текстур (AlphaBlend - обычный случай)
-             
-            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur"]; //настройка шейдера (выбор техники), при _spriteBatch.End() будет выполнена обработка шейдером последней настроййки
-                                                                             //TODO: Понять что за Pass[0].Apply() 
-            DrawScreenByParts(0, 0.2, spriteEffect);
-
-            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur2"];
-            DrawScreenByParts(0.2, 0.4, spriteEffect);
 
 
-            DrawScreenByParts(0.6, 0.8); 
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            spriteEffect.CurrentTechnique = spriteEffect.Techniques["Blur3"];
-            DrawScreenByParts(0.4, 0.7, spriteEffect);
-
-
-            DrawScreenByParts(0.8, 1);
-            #endregion 
-        } 
-        public void DrawScreenByParts(double startProc, double endProc, Effect effect = null) //for shader tests
-        {
-            _spriteBatch.Begin(effect: effect);
-            _spriteBatch.Draw(renderTarget, new Rectangle((int)(_graphics.PreferredBackBufferWidth * startProc), 0
-                , (int)(_graphics.PreferredBackBufferWidth * (endProc - startProc)), _graphics.PreferredBackBufferHeight),
-                 new Rectangle((int)(renderTarget.Width * startProc), 0, (int)(renderTarget.Width * (endProc - startProc)), renderTarget.Height), Color.White);
+            spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["MainScreen"]; //use this shader to draw next part 
+            _spriteBatch.Begin(effect: spriteEffect);
+            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),  Color.White);
             _spriteBatch.End();
+
+
+            //DebugHUD.Draw(_spriteBatch);
+            base.Draw(gameTime);
         } 
-        #endregion
-
-
         public void ChangeGameState(GameState gameState)
         {
             this.gameState = gameState;
