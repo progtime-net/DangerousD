@@ -303,13 +303,14 @@ VertexShaderOutput MainScreen_VS(float4 position : SV_POSITION, float4 color : C
 float4 MainScreen_PS(VertexShaderOutput input) : COLOR
 { 
     //distortion
-    float distortion = 0.6;
-    float2 ndc_pos = input.TextureCoordinates.xy - 0.5;
-    float2 testVec = ndc_pos.xy / max(abs(ndc_pos.x), abs(ndc_pos.y));
-    float len = max(1.0, length(testVec));
-    ndc_pos *= mix(1.0, mix(1.0, len, max(abs(ndc_pos.x), abs(ndc_pos.y))), distortion);
-    float2 texCoordinate_Screened = float2(ndc_pos.x, ndc_pos.y) * 1 + 0.5;  
-     
+    //float distortion = 0.6;
+    //float2 ndc_pos = input.TextureCoordinates.xy - 0.5;
+    //float2 testVec = ndc_pos.xy / max(abs(ndc_pos.x), abs(ndc_pos.y));
+    //float len = max(1.0, length(testVec));
+    //ndc_pos *= mix(1.0, mix(1.0, len, max(abs(ndc_pos.x), abs(ndc_pos.y))), distortion);
+    //float2 texCoordinate_Screened = float2(ndc_pos.x, ndc_pos.y) * 1 + 0.5;  
+    //removed
+    float2 texCoordinate_Screened = input.TextureCoordinates.xy;
     
     //set color by coord
     if (texCoordinate_Screened.x > 1 || texCoordinate_Screened.x < 0 || texCoordinate_Screened.y > 1 || texCoordinate_Screened.y < 0)
@@ -318,18 +319,18 @@ float4 MainScreen_PS(VertexShaderOutput input) : COLOR
     float4 color = tex2D(SpriteTextureSampler, texCoordinate_Screened);
     
     
-    // stripes
-    float u_stripe = 0.5;
-    float stripTile = texCoordinate_Screened.x * mix(10.0, 100.0, u_stripe);
-    float stripFac = 1.0 + 0.25 * u_stripe * (step(0.5, stripTile - float(int(stripTile))) - 0.5);
+    //// stripes
+    //float u_stripe = 0.5;
+    //float stripTile = texCoordinate_Screened.x * mix(10.0, 100.0, u_stripe);
+    //float stripFac = 1.0 + 0.25 * u_stripe * (step(0.5, stripTile - float(int(stripTile))) - 0.5);
     
     
     //brightness
-    float am = 0.04;
+    float am = 0.03;
     color = (1 - am) * color + (am) * (sin(3 * totalSeconds));
     
     //my stripes
-    float am2 = 0.2;
+    float am2 = 0.1;
     color *= (1 - am2) + (am2) * round(sin(texCoordinate_Screened.y * 100 - 3 * totalSeconds) * 1);
     return color;
 }
