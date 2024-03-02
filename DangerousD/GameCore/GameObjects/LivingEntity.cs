@@ -7,6 +7,7 @@ namespace DangerousD.GameCore.GameObjects;
 public abstract class LivingEntity : Entity
 {
     public bool isOnGround = true;
+    public bool canCrawl = false;
     public Vector2 velocity;
     public Vector2 acceleration;
     

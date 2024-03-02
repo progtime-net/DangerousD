@@ -737,7 +737,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="12" name="Doors" class="Entities.Door" visible="0">
+ <objectgroup id="12" name="Doors" class="Entities.Door">
   <object id="70" gid="872" x="672" y="191" width="32" height="48"/>
   <object id="71" gid="872" x="672" y="288" width="32" height="48"/>
   <object id="72" gid="872" x="672" y="480" width="32" height="48"/>
@@ -748,10 +748,10 @@
   <object id="77" gid="872" x="16" y="480" width="32" height="48"/>
   <object id="78" gid="872" x="-112" y="384" width="32" height="48"/>
  </objectgroup>
- <objectgroup id="18" name="Teleporting door" class="Entities.TeleportingDoor" visible="0">
+ <objectgroup id="18" name="Teleporting door" class="Entities.TeleportingDoor">
   <object id="69" gid="873" x="640" y="64" width="32" height="48">
    <properties>
-    <property name="level" value="lvl2"/>
+    <property name="level" value="win"/>
    </properties>
   </object>
  </objectgroup>

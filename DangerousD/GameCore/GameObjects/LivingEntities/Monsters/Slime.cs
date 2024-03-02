@@ -22,6 +22,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         bool isAttaking = false;
         int delay;
         bool isJumping = false;
+        bool canCrawl = true;
         public Slime(Vector2 position) : base(position)
         {
             Width = 48;

@@ -86,7 +86,7 @@ namespace DangerousD.GameCore
                     MovEventDown?.Invoke();
                     Debug.WriteLine("Спуск");
                 }
-                else if (gamePadState.Buttons.A == ButtonState.Pressed && lastGamePadState.Buttons.A == ButtonState.Released)
+                else if (gamePadState.Buttons.A == ButtonState.Pressed)
                 {
                     MovEventJump?.Invoke();
                     Debug.WriteLine("Прыжок");
@@ -177,9 +177,8 @@ namespace DangerousD.GameCore
                     MovEventDown?.Invoke();
                     Debug.WriteLine("Спуск");
                 }
-                else if (keyBoardState.IsKeyDown(Keys.LeftShift) && !isJumpDown)
+                else if (keyBoardState.IsKeyDown(Keys.LeftShift))
                 {
-                    isJumpDown = true;
                     MovEventJump?.Invoke();
                     Debug.WriteLine("Прыжок");
                 }

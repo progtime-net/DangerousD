@@ -102,6 +102,8 @@ namespace DangerousD.GameCore.Managers
                     AppManager.Instance.DebugHUD.Set("falling", (livingEntities[i] as Player).FallingThroughPlatform.ToString());
                     AppManager.Instance.DebugHUD.Set("intersects y", "");
                 }
+
+                var isOnGround = false;
                 foreach (var mapObject in mapObjects)
                 {
                     if ((livingEntities[i] is Player||livingEntities[i] is Bullet)&& mapObject is Platform)
@@ -112,6 +114,13 @@ namespace DangerousD.GameCore.Managers
                     {
                         if (livingEntities[i] is Player) AppManager.Instance.DebugHUD.Set("intersects y", mapObject.GetType().ToString());
                         collidedY = true;
+
+                        isOnGround = livingEntities[i].canCrawl || (tryingRectY.Top < mapObject.Rectangle.Bottom && tryingRectY.Top < mapObject.Rectangle.Top);
+                        Console.WriteLine(tryingRectY.Bottom);
+                        Console.WriteLine(mapObject.Rectangle.Top);
+                        
+                        
+                        
                         int prevL = livingEntities.Count;
                         livingEntities[i].OnCollision(mapObject);
                         if (livingEntities.Count<prevL)
@@ -138,7 +147,11 @@ namespace DangerousD.GameCore.Managers
                 {
                     continue;
                 }
-                livingEntities[i].isOnGround = collidedY;
+                if (livingEntities[i] is Player)
+                {
+                    Console.WriteLine(isOnGround);
+                }
+                livingEntities[i].isOnGround = isOnGround;
                 if (collidedY)
                 {
                     livingEntities[i].velocity.Y = 0;
@@ -193,9 +206,9 @@ namespace DangerousD.GameCore.Managers
                 }
                 if (collidedY)
                 {
+                    player.isOnGround = true;
                     // костыль потому что в CheckCollisionsLE_MO он спускается
                     newRect.Y = tryingRectY.Y;
-                    player.isOnGround = true;
                     player.velocity.Y = 0;
                 }
 
