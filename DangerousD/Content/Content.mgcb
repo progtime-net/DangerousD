@@ -272,6 +272,18 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/background_options.jpg
 
+#begin textures/ui/background_win.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_win.jpg
+
 #begin textures/ui/checkboxs_off-on.png
 /importer:TextureImporter
 /processor:TextureProcessor

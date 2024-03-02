@@ -98,6 +98,7 @@ namespace DangerousD.GameCore
             HUD.Initialize();
             LobbyGUI.Initialize();
             DeathGUI.Initialize();
+            WinGUI.Initialize();
             base.Initialize();
         }
 
@@ -110,6 +111,7 @@ namespace DangerousD.GameCore
             OptionsGUI.LoadContent();
             LobbyGUI.LoadContent();
             DeathGUI.LoadContent();
+            WinGUI.LoadContent();
             HUD.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
