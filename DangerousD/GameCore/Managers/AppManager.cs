@@ -119,10 +119,14 @@ namespace DangerousD.GameCore
 
         }
 
+        #region temporary save data each update
+        public GameTime gameTime;
+        #endregion
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            this.gameTime = gameTime;
             if (GameManager.GetPlayer1 != null)
             {
                 DebugHUD?.Set("isShooting:", GameManager.GetPlayer1.isShooting.ToString());
@@ -228,8 +232,7 @@ namespace DangerousD.GameCore
                 case GameState.Lobby:
                     break;
                 case GameState.Game:
-                    GameManager.mapManager.LoadLevel(currentMap);
-                    GameManager.FindBorders();
+                    GameManager.ChangedStateGame(gameTime);
                     break;
                 case GameState.Death:
                     break;
@@ -377,5 +380,6 @@ namespace DangerousD.GameCore
             currentMap = map;
             ChangeGameState(GameState.Game);
         }
+        
     }
 }

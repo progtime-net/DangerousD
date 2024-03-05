@@ -228,5 +228,14 @@ namespace DangerousD.GameCore
                     CameraBorder.W = item.Pos.Y;
             }
         }
+
+        private double timeGameStarted;
+        public double GetTimeOfPlaythrough { get { return timeGameStarted  - AppManager.Instance.gameTime.TotalGameTime.TotalSeconds; } }
+        public void ChangedStateGame(GameTime gameTime)
+        {
+            timeGameStarted = gameTime.TotalGameTime.TotalSeconds;
+            mapManager.LoadLevel(AppManager.Instance.currentMap);
+            FindBorders();
+        }
     }
 }
