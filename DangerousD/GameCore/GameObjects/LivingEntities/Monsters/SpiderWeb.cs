@@ -12,6 +12,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class SpiderWeb : CoreEnemy
     {
+        bool canCrawl = true;
         public SpiderWeb(Vector2 position) : base(position)
         {
             name = "Web";

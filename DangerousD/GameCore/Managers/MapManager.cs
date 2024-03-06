@@ -144,9 +144,22 @@ namespace DangerousD.GameCore.Managers;
                     
                         if (level is not null)  // Teleport to level
                         {
-                            inst = new TeleportingDoor(pos, objectSize,
-                                new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
-                                    tileSet.TileSize), () => {AppManager.Instance.ChangeMap(level.Attributes["value"].Value, GetStartCoordinates(level.Attributes["value"].Value));});
+                            if (level.Attributes["value"].Value == "win")
+                            {
+                                inst = new TeleportingDoor(pos, objectSize,
+                                    new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
+                                        tileSet.TileSize), () => { AppManager.Instance.Win(); });
+                            }
+                            else
+                            {
+                                inst = new TeleportingDoor(pos, objectSize,
+                                    new Rectangle(new Point((int)(gid - tileSet.FirstGid) * tileSet.TileSize.X, 0),
+                                        tileSet.TileSize), () =>
+                                    {
+                                        AppManager.Instance.ChangeMap(level.Attributes["value"].Value,
+                                            GetStartCoordinates(level.Attributes["value"].Value));
+                                    });
+                            }
                         }
                         else  // Teleport to location
                         {

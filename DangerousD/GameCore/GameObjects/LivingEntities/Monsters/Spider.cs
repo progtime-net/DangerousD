@@ -28,6 +28,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
         int spiderSectionLength = 16; //длина сегмента паутины
         int movingWidth = 28;
         int movingHeight = 6;
+        bool canCrawl = true;
         public Spider(Vector2 position) : base(position)
         {
             player = AppManager.Instance.GameManager.players[0];

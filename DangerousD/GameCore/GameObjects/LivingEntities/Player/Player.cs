@@ -222,6 +222,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         public override void Update(GameTime gameTime)
         {
+            AppManager.Instance.DebugHUD.Set("player on ground: ", isOnGround.ToString());
             ScopeState = AppManager.Instance.InputManager.ScopeState;
 
             if (isOnGround && FallingThroughPlatform)

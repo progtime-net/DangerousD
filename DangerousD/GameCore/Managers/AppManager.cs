@@ -20,8 +20,7 @@ namespace DangerousD.GameCore
     public enum MultiPlayerStatus { SinglePlayer, Host, Client }
     public enum GameState
     {
-        Menu, Options, Lobby, Game, Login, Death, HUD,
-        GameOver
+        Menu, Options, Lobby, Game, Login, Death, HUD, Win
     }
     public class AppManager : Game
     {
@@ -39,6 +38,7 @@ namespace DangerousD.GameCore
         IDrawableObject LoginGUI;
         IDrawableObject LobbyGUI;
         IDrawableObject DeathGUI;
+        IDrawableObject WinGUI;
         IDrawableObject HUD;
         public DebugHUD DebugHUD;
         public List<NetworkTask> NetworkTasks = new List<NetworkTask>();
@@ -78,6 +78,7 @@ namespace DangerousD.GameCore
             OptionsGUI = new OptionsGUI();
             LobbyGUI = new LobbyGUI();
             DeathGUI = new DeathGUI();
+            WinGUI = new WinGUI();
             HUD = new HUD();
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
@@ -97,6 +98,7 @@ namespace DangerousD.GameCore
             HUD.Initialize();
             LobbyGUI.Initialize();
             DeathGUI.Initialize();
+            WinGUI.Initialize();
             base.Initialize();
         }
 
@@ -109,6 +111,7 @@ namespace DangerousD.GameCore
             OptionsGUI.LoadContent();
             LobbyGUI.LoadContent();
             DeathGUI.LoadContent();
+            WinGUI.LoadContent();
             HUD.LoadContent();
             GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
             GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
@@ -151,6 +154,9 @@ namespace DangerousD.GameCore
                     break;
                 case GameState.Death:
                     DeathGUI.Update(gameTime);
+                    break;
+                case GameState.Win:
+                    WinGUI.Update(gameTime);
                     break;
                 case GameState.Game:
                     HUD.Update(gameTime);
@@ -195,6 +201,9 @@ namespace DangerousD.GameCore
                 case GameState.Death:
                     DeathGUI.Draw(_spriteBatch);
                     break;
+                case GameState.Win:
+                    WinGUI.Draw(_spriteBatch);
+                    break;
                 case GameState.HUD:
                     HUD.Draw(_spriteBatch);
                     break;
@@ -215,7 +224,7 @@ namespace DangerousD.GameCore
             _spriteBatch.End();
 
 
-            //DebugHUD.Draw(_spriteBatch);
+            DebugHUD.Draw(_spriteBatch);
             base.Draw(gameTime);
         } 
         public void ChangeGameState(GameState gameState)
@@ -235,6 +244,8 @@ namespace DangerousD.GameCore
                     GameManager.ChangedStateGame(gameTime);
                     break;
                 case GameState.Death:
+                    break;
+                case GameState.Win:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -371,6 +382,7 @@ namespace DangerousD.GameCore
         {
             List<Player> players = GameManager.players;
             GameManager = new();
+            
             foreach (var player in players)
             {
                 player.SetPosition(new Vector2(startPos.X, startPos.Y - player.Height));
@@ -379,6 +391,11 @@ namespace DangerousD.GameCore
             
             currentMap = map;
             ChangeGameState(GameState.Game);
+        }
+        
+        public void Win()
+        {
+            ChangeGameState(GameState.Win);
         }
         
     }
