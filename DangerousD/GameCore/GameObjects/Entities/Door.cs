@@ -47,12 +47,12 @@ namespace DangerousD.GameCore.GameObjects.Entities
         {
             AppManager.Instance.GameManager.Remove(this);
             //тут спавн лута
-            for (int i = 0; i < random.Next(0, 15); i++)
+            for (int i = 0; i < random.Next(0, 1 + Extention.GetCoordinateDefinedRandomNumber((int)(_pos.X + _pos.Y)))%14; i++)
             {
-                var d = new Diamond(Vector2.Zero);
+                var d = new Diamond(Vector2.Zero, Extention.GetCoordinateDefinedRandomNumber((int)(_pos.X + _pos.Y)));
                 d.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - d.Height));
             }
-            if (random.NextDouble() < 0.75)
+            if (Extention.GetCoordinateDefinedRandomNumber((int)(_pos.X + _pos.Y), 100) %100<75)
             {
                 var a = new Ammo(Vector2.Zero);
                 a.SetPosition(Pos + new Vector2(random.Next(-30, 30), Height - a.Height + 4/*to look better*/));

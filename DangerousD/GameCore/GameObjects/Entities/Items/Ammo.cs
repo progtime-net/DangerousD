@@ -50,7 +50,7 @@ namespace DangerousD.GameCore.GameObjects.Entities.Items
             if (gameObject is Player)
             {
                 AppManager.Instance.GameManager.Remove(this);
-                //new ScoreText(Pos, ScoreText.scores[random.Next(0, ScoreText.scores.Length)]);
+                new ScoreText(Pos, "AMMO");
                 (gameObject as Player).Bullets = 5;
 
                 AppManager.Instance.SoundManager.StartSound("reloading", Pos, Pos);

@@ -46,6 +46,8 @@ namespace DangerousD.GameCore.GUI
             spriteBatch.End();
 
             spriteBatch.Begin();
+
+            #region Timer
             float gameTimeSeconds = (float)AppManager.Instance.gameTime.TotalGameTime.TotalSeconds;
             TimeSpan ts = TimeSpan.FromSeconds(AppManager.Instance.GameManager.GetTimeOfPlaythrough); ;
             string timestr = $"{ts.ToString("hh\\:mm\\:ss\\.fff")}";
@@ -56,6 +58,7 @@ namespace DangerousD.GameCore.GUI
             Vector2 StringStandartSize = spriteFont.MeasureString(timestr);
             float temp_scaler =  timerAmplitudeScaler * 0.05f * (float)Math.Sin(timerTimeScaler * gameTimeSeconds * 3);
             Vector2 timerPosition = new Vector2((wigth / 2) * scaler, height / 30 + 6);
+
 
             spriteBatch.DrawString(spriteFont, timestr,
                 timerPosition - timerSizeScaler * (timerSizeScaler * 1.46f + temp_scaler) * StringStandartSize / 4, new Color(0
@@ -75,6 +78,34 @@ namespace DangerousD.GameCore.GUI
                 + 0.3f * (float)Math.Sin(timerTimeScaler * gameTimeSeconds),
                 0.1f+0.3f * (float)Math.Sin(timerTimeScaler * gameTimeSeconds)), 0, Vector2.Zero,
                 timerSizeScaler * 1.4f + temp_scaler, SpriteEffects.None, 0);
+            #endregion
+
+            #region Score
+
+            string scoreStr = AppManager.Instance.GameManager.GetPlayer1.score.ToString();
+            StringStandartSize = spriteFont.MeasureString(scoreStr);
+
+            Vector2 scorePosition = new Vector2((0.95f*wigth) * scaler, height / 30 + 6);
+
+            float scoreSizeScaler = 2.5f;
+            float scoreTimeScaler = 0.3f;
+
+
+            spriteBatch.DrawString(spriteFont, scoreStr,
+                scorePosition - scoreSizeScaler * new Vector2(StringStandartSize.X, StringStandartSize.Y / 2) + new Vector2(10, 0), new Color(0.3f
+                + 0.3f * (float)Math.Sin(scoreTimeScaler * gameTimeSeconds), 0.3f
+                + 0.3f * (float)Math.Sin(scoreTimeScaler * gameTimeSeconds),
+                0.1f + 0.3f * (float)Math.Sin(scoreTimeScaler * gameTimeSeconds)), 0, Vector2.Zero,
+                scoreSizeScaler, SpriteEffects.None, 0);
+
+            spriteBatch.DrawString(spriteFont, scoreStr,
+                scorePosition - scoreSizeScaler * new Vector2(StringStandartSize.X, StringStandartSize.Y / 2), new Color(1.1f
+                + 0.3f * (float)Math.Sin(scoreTimeScaler * gameTimeSeconds), 1.1f
+                + 0.3f * (float)Math.Sin(scoreTimeScaler * gameTimeSeconds),
+                0.1f + 0.3f * (float)Math.Sin(scoreTimeScaler * gameTimeSeconds)), 0, Vector2.Zero,
+                scoreSizeScaler, SpriteEffects.None, 0);
+
+            #endregion
             spriteBatch.End();
         }
 

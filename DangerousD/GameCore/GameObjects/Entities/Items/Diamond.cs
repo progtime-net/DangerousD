@@ -14,9 +14,11 @@ public class Diamond : Entity
     double del = 0; //time from creation
     double existTime = 0;
     double randfactor = 0;
-    public Diamond(Vector2 position) : base(position)
+    int scoreStored = 0;
+    public Diamond(Vector2 position, int worth) : base(position)
     {
-        scal = random.Next(3, 12);
+        scoreStored = (worth % 9) * 100;
+        scal = scoreStored/100 + 3;
         Width = scal;
         Height = scal;
         GraphicsComponent.StartAnimation("Diamond");
@@ -52,7 +54,8 @@ public class Diamond : Entity
         if (gameObject is Player)
         {
             AppManager.Instance.GameManager.Remove(this);
-            new ScoreText(Pos, ScoreText.scores[random.Next(0, ScoreText.scores.Length)]);
+            new ScoreText(Pos, scoreStored.ToString());// ScoreText.scores[random.Next(0, ScoreText.scores.Length)]);//set ammount of money for player
+            AppManager.Instance.GameManager.GetPlayer1.score += scoreStored;
             AppManager.Instance.SoundManager.StartSound("collected_coins", Pos, Pos);
         }
         base.OnCollision(gameObject);
