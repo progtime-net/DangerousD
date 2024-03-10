@@ -12,6 +12,8 @@ using System.Linq;
 using DangerousD.GameCore.GUI;
 using DangerousD.GameCore.Network;
 using DangerousD.GameCore.GameObjects.Entities;
+using System.IO; 
+using Newtonsoft.Json;
 
 namespace DangerousD.GameCore
 {
@@ -30,18 +32,19 @@ namespace DangerousD.GameCore
         public List<Player> players = new();
         public List<GameObject> otherObjects = new();
         public Vector4 CameraBorder = Vector4.Zero;
-        
+
         public Player GetPlayer1 { get; private set; }
         private int _lastUpdate = 0;
         private int _currTime = 0;
-        
+
         public GameManager(List<Player> players, Player player1)
         {
             this.players = players;
             GetPlayer1 = player1;
+            everyRunDataTotal.LoadEveryRunDataFromMemory();
         }
-        
-        public GameManager() {}
+
+        public GameManager() { }
 
         internal void Register(GameObject gameObject)
         {
@@ -122,7 +125,7 @@ namespace DangerousD.GameCore
             AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
             if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect:AppManager.Instance.spriteEffect);
+                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
             else
                 _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
 
@@ -137,7 +140,7 @@ namespace DangerousD.GameCore
             if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
                 _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
             else
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp); 
+                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
             foreach (var item in entities)
                 item.Draw(_spriteBatch);
             foreach (var item in livingEntities)
@@ -189,7 +192,7 @@ namespace DangerousD.GameCore
                 item.Update(gameTime);
 
             foreach (var item in mapObjects)
-                item.Update(gameTime); 
+                item.Update(gameTime);
 
             for (int i = 0; i < entities.Count; i++)
                 entities[i].Update(gameTime);
@@ -229,13 +232,125 @@ namespace DangerousD.GameCore
             }
         }
 
+        #region Timer
         private double timeGameStarted;
-        public double GetTimeOfPlaythrough { get { return timeGameStarted  - AppManager.Instance.gameTime.TotalGameTime.TotalSeconds; } }
+        private EveryRunDataTotal everyRunDataTotal = new EveryRunDataTotal();
+        public double GetTimeOfPlaythrough { get { return AppManager.Instance.gameTime.TotalGameTime.TotalSeconds - timeGameStarted; } }
+        public EveryRunDataTotal EveryRunDataTotal { get { return everyRunDataTotal; } }
         public void ChangedStateGame(GameTime gameTime)
         {
             timeGameStarted = gameTime.TotalGameTime.TotalSeconds;
             mapManager.LoadLevel(AppManager.Instance.currentMap);
             FindBorders();
         }
+
+        public void LoadEveryRunData(EveryRunDataTotal everyRunDataTotal) //for loading from old games and between levels
+        {
+            EveryRunDataTotal.LoadEveryRunData(everyRunDataTotal);
+        }
+        #endregion
     }
+    [Serializable]
+    public class EveryRunDataTotal //All stats are here
+    {
+        [JsonProperty("TimeData")]
+        public EveryRunDataElement time = new EveryRunDataElement() { BetterBigModifier = false };
+        [JsonProperty("ScoreData")]
+        public EveryRunDataElement score = new EveryRunDataElement();
+        public EveryRunDataElement Time { get { return time; } }
+        public EveryRunDataElement Score { get { return score; } }  
+        public void FixateLevelParametrs(string level, bool hasDied = false)
+        {
+            time.FixateLevelParametr(level, AppManager.Instance.GameManager.GetTimeOfPlaythrough, setBest: !hasDied);
+            Score.FixateLevelParametr(level, AppManager.Instance.GameManager.GetPlayer1.score, setBest: !hasDied);
+
+            
+            Serialize("LevelPlaythroughsData.txt", this);
+        }
+        public void LoadEveryRunData(EveryRunDataTotal everyRunDataTotal) //for loading from old games and between levels
+        {
+            
+            
+            this.time = everyRunDataTotal.Time;
+            this.score = everyRunDataTotal.Score;
+        }
+        public void LoadEveryRunDataFromMemory()
+        {
+            if (!File.Exists("LevelPlaythroughsData.txt")) return;
+            try
+            {
+                EveryRunDataTotal everyRunDataTotalFromSave = (EveryRunDataTotal)Deserialize("LevelPlaythroughsData.txt");
+                LoadEveryRunData(everyRunDataTotalFromSave);
+            }
+            catch 
+            {
+            }
+        }
+
+
+
+        public void Serialize(string nameFile, EveryRunDataTotal obj)
+        {
+            using (var stream = new StreamWriter(nameFile))
+            {
+                string str = JsonConvert.SerializeObject(this);  
+                stream.WriteLine(str);
+            }
+        }
+
+        public object Deserialize(string nameFile)
+        {
+            using (var stream = new StreamReader(nameFile))
+            { 
+                return JsonConvert.DeserializeObject(stream.ReadToEnd(), typeof(EveryRunDataTotal));
+            }
+        }
+    }
+    [Serializable]
+    public class EveryRunDataElement
+    {
+
+        [JsonProperty("LevelsAndParametrs")]
+        public Dictionary<string, double> LevelsAndTheirParametr = new Dictionary<string, double>(); //each run they are rewritten
+        [JsonProperty("LevelsAndBestParametrs")]
+        public Dictionary<string, double> LevelsAndTheirBestParametr = new Dictionary<string, double>(); //TODO: add loading and saving 
+        [JsonProperty("betterBigModifier")]
+        int betterBigModifier = 1;
+        public bool BetterBigModifier { set { betterBigModifier = value ? 1 : -1; } }
+        public void FixateLevelParametr(string level, double parametr, bool setBest = true)
+        {
+            if (setBest) FixateBestLevelParametr(level, parametr);
+
+            if (!LevelsAndTheirParametr.ContainsKey(level))
+                LevelsAndTheirParametr.Add(level, parametr);
+            else
+                LevelsAndTheirParametr[level] = parametr;
+
+        }
+        public void FixateBestLevelParametr(string level, double parametr)
+        {
+            if (LevelsAndTheirBestParametr.ContainsKey(level))
+            {
+                if (betterBigModifier * LevelsAndTheirBestParametr[level] < betterBigModifier * parametr)
+                    LevelsAndTheirBestParametr[level] = parametr;
+            }
+            else
+                LevelsAndTheirBestParametr.Add(level, parametr);
+        }
+        public double GetLevelParametr(string level)
+        {
+            if (LevelsAndTheirParametr.ContainsKey(level))
+                return LevelsAndTheirParametr[level];
+            return 0;
+        }
+        public double GetBestLevelParametr(string level)
+        {
+            if (LevelsAndTheirBestParametr.ContainsKey(level))
+                return LevelsAndTheirBestParametr[level];
+            return 0;// GetLevelParametr(level);
+        }
+
+    }
+
+
 }

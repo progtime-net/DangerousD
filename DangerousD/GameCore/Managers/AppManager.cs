@@ -84,6 +84,7 @@ namespace DangerousD.GameCore
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
             currentMap = "lvl1";
+            GameManager.EveryRunDataTotal.LoadEveryRunDataFromMemory();
         }
 
         protected override void Initialize()
@@ -244,8 +245,10 @@ namespace DangerousD.GameCore
                     GameManager.ChangedStateGame(gameTime);
                     break;
                 case GameState.Death:
+                    GameManager.EveryRunDataTotal.FixateLevelParametrs(currentMap, hasDied: true);
                     break;
                 case GameState.Win:
+                    GameManager.EveryRunDataTotal.FixateLevelParametrs(currentMap);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -372,7 +375,12 @@ namespace DangerousD.GameCore
         }
         public void Restart(string map)
         {
+            var everyDataRun = GameManager?.EveryRunDataTotal;
             GameManager = new();
+            if (everyDataRun != null)
+                GameManager.LoadEveryRunData(everyDataRun);
+            else
+                GameManager.EveryRunDataTotal.LoadEveryRunDataFromMemory();
             ChangeGameState(GameState.Menu);
             currentMap = map;
         }
@@ -381,8 +389,10 @@ namespace DangerousD.GameCore
         public void ChangeMap(string map, Vector2 startPos)
         {
             List<Player> players = GameManager.players;
+            var everyDataRun = GameManager.EveryRunDataTotal;
             GameManager = new();
-            
+            GameManager.LoadEveryRunData(everyDataRun);
+
             foreach (var player in players)
             {
                 player.SetPosition(new Vector2(startPos.X, startPos.Y - player.Height));
