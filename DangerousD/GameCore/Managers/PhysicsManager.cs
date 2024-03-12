@@ -116,9 +116,7 @@ namespace DangerousD.GameCore.Managers
                         collidedY = true;
 
                         isOnGround = livingEntities[i].canCrawl || (tryingRectY.Top < mapObject.Rectangle.Bottom && tryingRectY.Top < mapObject.Rectangle.Top);
-                        Console.WriteLine(tryingRectY.Bottom);
-                        Console.WriteLine(mapObject.Rectangle.Top);
-                        
+
                         
                         
                         int prevL = livingEntities.Count;
@@ -147,10 +145,7 @@ namespace DangerousD.GameCore.Managers
                 {
                     continue;
                 }
-                if (livingEntities[i] is Player)
-                {
-                    Console.WriteLine(isOnGround);
-                }
+
                 livingEntities[i].isOnGround = isOnGround;
                 if (collidedY)
                 {
@@ -173,10 +168,7 @@ namespace DangerousD.GameCore.Managers
         {
             foreach (var player in players)
             {
-                if (player.velocity.Y <= 0 || player.FallingThroughPlatform)
-                {
-                    continue;
-                }
+                
                 var currentRect = player.Rectangle;
                 var newRect = currentRect;
                 
@@ -184,12 +176,33 @@ namespace DangerousD.GameCore.Managers
                 var tryingRectY = currentRect;
                 tryingRectY.Offset(0, (int)Math.Floor(player.velocity.Y)); //tried to fix vertical gaps with boxes
                 AppManager.Instance.DebugHUD.Set("intersects platform", "false");
+                var skip = false;
                 foreach (var platform in platforms)
                 {
                     AppManager.Instance.DebugHUD.Set("sus", (player.Rectangle.Bottom < platform.Rectangle.Top).ToString());
                     if (tryingRectY.Intersects(platform.Rectangle) && player.Rectangle.Bottom < platform.Rectangle.Top + 5)
                     {
+                        player.IntersectsPlatform = true;
+                        Console.WriteLine(player.isOnGround);
+                        
+
+                        AppManager.Instance.DebugHUD.Set("player pl", player.PlatformIntersects.ToString());
+                        AppManager.Instance.DebugHUD.Set("intersects pl", platform.Rectangle.Top.ToString());
+                        AppManager.Instance.DebugHUD.Set("ftpl", player.FallingThroughPlatform.ToString());
+
+
+
+
                         AppManager.Instance.DebugHUD.Set("intersects platform", "true");
+                        if (player.PlatformIntersects == platform.Rectangle.Top && player.FallingThroughPlatform)
+                        {
+                            Console.WriteLine("CONT");
+                            skip = true;
+                            break;
+                        }
+                        player.PlatformIntersects = platform.Rectangle.Top;
+
+
                         collidedY = true;
 
 
@@ -204,6 +217,10 @@ namespace DangerousD.GameCore.Managers
 
                     }
                 }
+                if (skip)
+                {
+                    continue; 
+                }
                 if (collidedY)
                 {
                     player.isOnGround = true;
@@ -211,10 +228,16 @@ namespace DangerousD.GameCore.Managers
                     newRect.Y = tryingRectY.Y;
                     player.velocity.Y = 0;
                 }
+                else
+                {
+
+                    player.IntersectsPlatform = false;
+                }
 
                 player.SetPosition(newRect.Location.ToVector2());
             }
 
+            
         }
         private void CheckCollisionsE_LE(List<Entity> entities, List<LivingEntity> livingEntities)
         {

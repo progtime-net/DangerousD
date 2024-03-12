@@ -171,7 +171,7 @@ namespace DangerousD.GameCore
                 #endregion
 
                 #region Обработка прыжка и спуска. Вызываются события MovEvent.
-                if (keyBoardState.IsKeyDown(Keys.LeftShift) && !isJumpDown && keyBoardState.IsKeyDown(Keys.Down))
+                if (keyBoardState.IsKeyDown(Keys.LeftShift) && keyBoardState.IsKeyDown(Keys.Down))
                 {
                     isJumpDown = true;
                     MovEventDown?.Invoke();

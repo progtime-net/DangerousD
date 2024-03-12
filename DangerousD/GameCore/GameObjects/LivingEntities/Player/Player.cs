@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using DangerousD.GameCore.GameObjects.LivingEntities.Monsters;
 using DangerousD.GameCore.GameObjects.Entities;
+using DangerousD.GameCore.GameObjects.MapObjects;
 
 namespace DangerousD.GameCore.GameObjects.LivingEntities
 {
@@ -30,6 +31,8 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         private int bullets;
         public ScopeState ScopeState = ScopeState.Middle;
         public bool FallingThroughPlatform = false;
+        public int PlatformIntersects = 0;
+        public bool IntersectsPlatform = false;
         public bool isNetworkPlayer;
         private int shootLength = 160;
         public int score = 0;
@@ -358,6 +361,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities
         }
         private void MoveDown()
         {
+            if (!IntersectsPlatform) return;
             FallingThroughPlatform = true;
             isOnGround = false;
         }
