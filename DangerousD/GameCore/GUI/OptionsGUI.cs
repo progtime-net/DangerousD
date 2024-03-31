@@ -89,7 +89,7 @@ namespace DangerousD.GameCore.GUI
             Elements.Add(button_left_right_mode);
 
 
-            Label label_IsFullScreen = new Label(Manager)
+            /*Label label_IsFullScreen = new Label(Manager)
             { fontName = "buttonFont", scale = 1f, text = "Full Screen", fontColor = Color.White, rectangle = new Rectangle(leftlabelBorder, 250 + (ii++ * gap), 50, 50), mainColor = Color.Transparent, textAligment = MonogameLibrary.UI.Enums.TextAligment.Left };
             Elements.Add(label_IsFullScreen);
 
@@ -98,7 +98,7 @@ namespace DangerousD.GameCore.GUI
             {
                 AppManager.Instance.SettingsManager.SetIsFullScreen(newCheckState);
             };
-            Elements.Add(button_FullScreen);
+            Elements.Add(button_FullScreen);*/
 
 
             Button bTExit = new Button(Manager)
