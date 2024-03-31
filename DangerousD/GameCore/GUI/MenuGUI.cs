@@ -38,6 +38,8 @@ internal class MenuGUI : AbstractGui
         menuBackground.LoadTexture(AppManager.Instance.Content);
         backgrRect = menuBackground.rectangle;
 
+        
+        // TODO: make it flexible
         for (int i = 0; i < colors.Length; i++)
         {
             Elements.Add(new Label(Manager) { rectangle = new Rectangle((width - 50) / 2 - 60, 220, 50, 50), text = "Dangerous", mainColor = Color.Transparent, scale = 1.35f - 0.05f * i * i / 10, fontName = "Font2", fontColor = colors[i] });
@@ -63,15 +65,15 @@ internal class MenuGUI : AbstractGui
 
         };
 
-        var butMulti = new ButtonText(Manager) { rectangle = new Rectangle((width - (int)(300 * 2.4)) / 2, 470, (int)(300 * 2.4), (int)(50 * 2.4)), text = "Multiplayer", scale = 1.2f, fontName = "ButtonFont" };
-
-        Elements.Add(butMulti);
-        butMulti.LeftButtonPressed += () =>
-        {
-            AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
-            AppManager.Instance.ChangeGameState(GameState.Login);
-        };
-        var butOption = new ButtonText(Manager) { rectangle = new Rectangle((width - (int)(160 * 2.4)) / 2, 590, (int)(160 * 2.4), (int)(50 * 2.4)), text = "Option", scale = 1.2f, fontName = "ButtonFont" };
+        // var butMulti = new ButtonText(Manager) { rectangle = new Rectangle((width - (int)(300 * 2.4)) / 2, 470, (int)(300 * 2.4), (int)(50 * 2.4)), text = "Multiplayer", scale = 1.2f, fontName = "ButtonFont", };
+        //
+        // Elements.Add(butMulti);
+        // butMulti.LeftButtonPressed += () =>
+        // {
+        //     AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
+        //     AppManager.Instance.ChangeGameState(GameState.Login);
+        // };
+        var butOption = new ButtonText(Manager) { rectangle = new Rectangle((width - (int)(160 * 2.4)) / 2, 470, (int)(160 * 2.4), (int)(50 * 2.4)), text = "Option", scale = 1.2f, fontName = "ButtonFont" };
         Elements.Add(butOption);
         butOption.LeftButtonPressed += () =>
         {
@@ -79,7 +81,7 @@ internal class MenuGUI : AbstractGui
             AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
             AppManager.Instance.ChangeGameState(GameState.Options);
         };
-        var butExit = new ButtonText(Manager) { rectangle = new Rectangle((width - (int)(110 * 2.4)) / 2, 710, (int)(110 * 2.4), (int)(50 * 2.4)), text = "Exit", scale = 1.2f, fontName = "ButtonFont" };
+        var butExit = new ButtonText(Manager) { rectangle = new Rectangle((width - (int)(110 * 2.4)) / 2, 590, (int)(110 * 2.4), (int)(50 * 2.4)), text = "Exit", scale = 1.2f, fontName = "ButtonFont" };
         Elements.Add(butExit);
         butExit.LeftButtonPressed += () =>
         {

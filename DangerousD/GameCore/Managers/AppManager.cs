@@ -25,6 +25,7 @@ namespace DangerousD.GameCore
     }
     public class AppManager : Game
     {
+        public const string startLevel = "lvl1";
         public static AppManager Instance { get; private set; }
         public string IpAddress { get; private set; } = "0.0.0.0";
         private GraphicsDeviceManager _graphics;
@@ -84,7 +85,7 @@ namespace DangerousD.GameCore
             DebugHUD = new DebugHUD();
             UIManager.resolution = resolution;
             UIManager.resolutionInGame = inGameResolution;
-            currentMap = "lvl1";
+            currentMap = startLevel;
             GameManager.EveryRunDataTotal.LoadEveryRunDataFromMemory();
         }
 
@@ -130,7 +131,7 @@ namespace DangerousD.GameCore
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                Restart(startLevel);
             this.gameTime = gameTime;
             if (GameManager.GetPlayer1 != null)
             {

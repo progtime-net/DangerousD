@@ -31,7 +31,7 @@ internal class WinGUI : AbstractGui
         butMenu.LeftButtonPressed += () =>
         {
             AppManager.Instance.SoundManager.StartSound("reloading", Vector2.Zero, Vector2.Zero);
-            AppManager.Instance.Restart("lvl1");
+            AppManager.Instance.Restart(AppManager.startLevel);
         };
         foreach (var item in Elements)
         {

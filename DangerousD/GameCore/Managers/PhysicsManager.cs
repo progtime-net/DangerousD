@@ -183,8 +183,6 @@ namespace DangerousD.GameCore.Managers
                     if (tryingRectY.Intersects(platform.Rectangle) && player.Rectangle.Bottom < platform.Rectangle.Top + 5)
                     {
                         player.IntersectsPlatform = true;
-                        Console.WriteLine(player.isOnGround);
-                        
 
                         AppManager.Instance.DebugHUD.Set("player pl", player.PlatformIntersects.ToString());
                         AppManager.Instance.DebugHUD.Set("intersects pl", platform.Rectangle.Top.ToString());
@@ -196,7 +194,6 @@ namespace DangerousD.GameCore.Managers
                         AppManager.Instance.DebugHUD.Set("intersects platform", "true");
                         if (player.PlatformIntersects == platform.Rectangle.Top && player.FallingThroughPlatform)
                         {
-                            Console.WriteLine("CONT");
                             skip = true;
                             break;
                         }
