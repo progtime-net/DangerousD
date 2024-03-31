@@ -15,12 +15,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
 {
     public class Zombie : CoreEnemy
     {
-
-        float leftBorder;
-        float rightBorder;
         bool isAttaking = false;
-        bool isTarget = false;
-        PhysicsManager physicsManager;
         public Zombie(Vector2 position) : base(position)
         {
             Width = 24;
@@ -28,9 +23,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             monster_speed = 10;
             name = "Zombie";
             monster_health = 2;
-            leftBorder = (int)position.X - 100;
-            rightBorder = (int)position.X + 100;
-            physicsManager = new PhysicsManager();
             Random random = new Random();
             monster_health = 2;
             if(random.Next(0, 2) == 0)
@@ -42,7 +34,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 isGoRight = false;
             }
 
-            this.GraphicsComponent.actionOfAnimationEnd += (a) =>
+            GraphicsComponent.actionOfAnimationEnd += (a) =>
             {
                 if (a == "ZombieRightAttack" || a == "ZombieLeftAttack")
                 {
@@ -59,7 +51,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                 Target();
                 Move(gameTime);
             }
-            //fixBorder();
             base.Update(gameTime);
         }
 
@@ -70,7 +61,7 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             AppManager.Instance.GameManager.GetPlayer1.Death(name);
         }
         public void PlayAttackAnimation()
-        {
+        {   
             velocity.X = 0;
             if (isGoRight)
             {
@@ -96,7 +87,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
             }
             
             AppManager.Instance.GameManager.Remove(this);
-            
         }
 
         public override void Move(GameTime gameTime)
@@ -113,7 +103,6 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     velocity.X = 0;
                 }
             }
-
             else if (!isGoRight)
             {
                 StartCicycleAnimation("ZombieMoveLeft");
@@ -126,39 +115,10 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     velocity.X = 0;
                 }
             }
-            var getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, 1, 1), typeof(CollisionMapObject));
-            if (isGoRight)
-            {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X, (int)Pos.Y, Width + 4, Height), typeof(CollisionMapObject));
-            }
-            else
-            {
-                getCols = AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 3, (int)Pos.Y , Width + 3, Height), typeof(CollisionMapObject));
-
-            }
-
-
-            foreach (var item in getCols)
-            {
-                if (item is StopTile)
-                {
-                    isGoRight = !isGoRight;
-                    break;
-                }
-            }
-            if (Pos.X >= rightBorder)
-            {
-                isGoRight = false;
-            }
-
-            else if(Pos.X <= leftBorder)
-            {
-                isGoRight = true;
-            }
-
         }
         public override void OnCollision(GameObject gameObject)
-        {
+        { 
+            // TODO: remove network logic, let zombies kill more players
             if (gameObject.id == AppManager.Instance.GameManager.GetPlayer1.id && AppManager.Instance.GameManager.GetPlayer1.IsAlive)
             {
                 if (AppManager.Instance.multiPlayerStatus != MultiPlayerStatus.Client)
@@ -174,48 +134,35 @@ namespace DangerousD.GameCore.GameObjects.LivingEntities.Monsters
                     AppManager.Instance.NetworkTasks.Add(task.KillPlayer(gameObject.id, name));
                 }
             }
+            else if (gameObject is StopTile)
+            {
+                if (Rectangle.Left >= gameObject.Rectangle.Right)
+                {
+                    isGoRight = true;
+                }
+                else if (Rectangle.Right <= gameObject.Rectangle.Left)
+                {
+                    isGoRight = false;
+                }
+            }
+            
             base.OnCollision(gameObject);
         }
 
         public override void Target()
         {
             if (AppManager.Instance.GameManager.physicsManager.CheckRectangle(new Rectangle((int)Pos.X - 150, (int)Pos.Y, Width + 300, Height), typeof(Player)).Count > 0)
-            {
-                if(isGoRight && this._pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
+            { 
+                if(isGoRight && _pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
-                    isTarget = true;
-                    leftBorder = Pos.X - 100;
-                    rightBorder = Pos.X + AppManager.Instance.GameManager.players[0].Pos.X;
+                    isGoRight = false;
                 }
-
-                else if(!isGoRight && this._pos.X >= AppManager.Instance.GameManager.players[0].Pos.X)
+                else if(!isGoRight && _pos.X <= AppManager.Instance.GameManager.players[0].Pos.X)
                 {
-                    isTarget = true;
-                    rightBorder = Pos.X + 100;
-                    leftBorder = AppManager.Instance.GameManager.players[0].Pos.X; 
+                    isGoRight = true;
                 }
             }
         }
-        public void fixBorder()
-        {
-            if(leftBorder <= 0)
-            {
-                leftBorder = 0;
-            }
-            if(rightBorder >= 800)
-            {
-                rightBorder = 760;
-            }
-        }
-        public void SwitchToRight()
-        {
-            isGoRight = true;
-        }
-
-        public void SwitchToLeft()
-        {
-            isGoRight = false;
-        } 
         public override void TakeDamage()
         {
             if (monster_health == 3)
