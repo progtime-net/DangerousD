@@ -28,7 +28,7 @@ namespace DangerousD.GameCore.Managers;
             foreach (XmlNode tileSet in tileSets)
             {
                 string source = tileSet.Attributes["source"].Value;
-                string filePath = $"../../../Content/{source}";
+                string filePath = $"Content/{source}";
 
                 XmlDocument tsx = new();
                 tsx.Load(filePath);
@@ -60,7 +60,7 @@ namespace DangerousD.GameCore.Managers;
         public void LoadLevel(string map)
         {
             XmlDocument xml = new();
-            xml.Load($"../../../Content/{map}.tmx");
+            xml.Load($"Content/{map}.tmx");
             
             LoadTileSets(xml.DocumentElement.SelectNodes("tileset"));
             
@@ -191,7 +191,7 @@ namespace DangerousD.GameCore.Managers;
         private Vector2 GetStartCoordinates(string map)
         {
             XmlDocument xml = new();
-            xml.Load($"../../../Content/{map}.tmx");
+            xml.Load($"Content/{map}.tmx");
 
             XmlNode player = xml.DocumentElement.SelectSingleNode("//objectgroup[@class = 'LivingEntities.Player']").FirstChild;
 

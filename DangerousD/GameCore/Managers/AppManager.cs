@@ -227,7 +227,11 @@ namespace DangerousD.GameCore
             _spriteBatch.End();
 
 
-            DebugHUD.Draw(_spriteBatch);
+
+            if (InputManager._cheatsEnabled)
+            {
+                DebugHUD.Draw(_spriteBatch);
+            }
             base.Draw(gameTime);
         } 
         public void ChangeGameState(GameState gameState)

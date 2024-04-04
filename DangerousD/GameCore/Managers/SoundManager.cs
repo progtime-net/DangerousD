@@ -21,7 +21,7 @@ namespace DangerousD.GameCore
 
         public void LoadSounds() // метод для загрузки звуков из папки
         {
-            var k = Directory.GetFiles("../../..//Content//sounds").Where(x => x.EndsWith("mp3"));
+            var k = Directory.GetFiles("Content//sounds").Where(x => x.EndsWith("mp3"));
 
             if (k.Count() > 0)
             {

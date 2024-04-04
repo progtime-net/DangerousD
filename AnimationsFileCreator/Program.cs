@@ -63,7 +63,7 @@ namespace AnimationsFileCreator
             container.TextureFrameInterval = 1;
             container.Id = id;
             string json = JsonConvert.SerializeObject(container);
-            StreamWriter writer = new StreamWriter("../../../../DangerousD/Content/animations/"+id);
+            StreamWriter writer = new StreamWriter("Content/animations/"+id);
             writer.WriteLine(json);
             writer.Close();
         }

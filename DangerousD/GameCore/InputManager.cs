@@ -23,7 +23,7 @@ namespace DangerousD.GameCore
         ScopeState scopeState;        // Положение оружия. Up, Middle, Down.
         ControlsState controlsState;
         private bool _overrideControls = false;
-        private bool _cheatsEnabled = false;
+        public bool _cheatsEnabled = false;
         public bool InvincibilityCheat { get; private set; } = false;
         public bool CollisionsCheat { get; private set; } = false;
         public bool InfiniteAmmoCheat { get; private set; } = false;

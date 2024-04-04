@@ -728,9 +728,6 @@
   <object id="82" type="FlameSkull" x="68.6667" y="279.333">
    <point/>
   </object>
-  <object id="97" type="Werewolf" x="536" y="88.6667">
-   <point/>
-  </object>
  </objectgroup>
  <objectgroup id="10" name="Player" class="LivingEntities.Player">
   <object id="47" x="-469.5" y="455.833">
