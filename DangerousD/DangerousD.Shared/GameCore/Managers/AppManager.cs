@@ -1,0 +1,424 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Text;
+using DangerousD.GameCore.GUI;
+using Microsoft.Xna.Framework.Input;
+using DangerousD.GameCore.Graphics;
+using DangerousD.GameCore.Network;
+using MonogameLibrary.UI.Base;
+using DangerousD.GameCore.Managers;
+using DangerousD.GameCore.GameObjects.LivingEntities;
+using DangerousD.GameCore.GameObjects;
+using System.Threading.Tasks;
+using MonoGame.Framework.Utilities;
+
+
+namespace DangerousD.GameCore
+{
+    public enum MultiPlayerStatus { SinglePlayer, Host, Client }
+    public enum GameState
+    {
+        Menu, Options, Lobby, Game, Login, Death, HUD, Win
+    }
+    public class AppManager : Game
+    {
+        public const string startLevel = "lvl1";
+        public static AppManager Instance { get; private set; }
+        public string IpAddress { get; private set; } = "0.0.0.0";
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        public GameState gameState { get; private set; }
+        public MultiPlayerStatus multiPlayerStatus { get; private set; } = MultiPlayerStatus.SinglePlayer;
+        public Point resolution;
+        public Point inGameResolution = new Point(1920, 1080);
+        public Point inGameHUDHelperResolution = new Point(1920, 1080);
+        IDrawableObject MenuGUI;
+        IDrawableObject OptionsGUI;
+        IDrawableObject LoginGUI;
+        IDrawableObject LobbyGUI;
+        IDrawableObject DeathGUI;
+        IDrawableObject WinGUI;
+        IDrawableObject HUD;
+        public DebugHUD DebugHUD;
+        public List<NetworkTask> NetworkTasks = new List<NetworkTask>();
+        public string currentMap;
+        public GameManager GameManager { get; private set; } = new();
+        public AnimationBuilder AnimationBuilder { get; private set; } = new AnimationBuilder();
+        public NetworkManager NetworkManager { get; private set; } = new NetworkManager();
+        public InputManager InputManager { get; private set; } = new InputManager();
+        public SoundManager SoundManager { get; private set; } = new SoundManager();
+        public SettingsManager SettingsManager { get; private set; } = new SettingsManager();
+
+        private RenderTarget2D renderTarget;
+        public Effect spriteEffect;
+        public AppManager()
+        {
+            Content.RootDirectory = "Content";
+            Instance = this;
+            _graphics = new GraphicsDeviceManager(this);
+            IsMouseVisible = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 30);
+            _graphics.GraphicsProfile = GraphicsProfile.Reach;
+
+            SettingsManager = new SettingsManager();
+            SettingsManager.LoadSettings();
+
+            NetworkManager.GetReceivingMessages += NetworkSync;
+
+            resolution = SettingsManager.Resolution;
+            SetIsFullScreen(!SettingsManager.IsFullScreen);
+            SetIsFullScreen(SettingsManager.IsFullScreen);
+            _graphics.PreferredBackBufferWidth = resolution.X;
+            _graphics.PreferredBackBufferHeight = resolution.Y;
+            _graphics.IsFullScreen = false;
+            gameState = GameState.Menu;
+            MenuGUI = new MenuGUI();
+            LoginGUI = new LoginGUI();
+            OptionsGUI = new OptionsGUI();
+            LobbyGUI = new LobbyGUI();
+            DeathGUI = new DeathGUI();
+            WinGUI = new WinGUI();
+            HUD = new HUD();
+            DebugHUD = new DebugHUD();
+            UIManager.resolution = resolution;
+            UIManager.resolutionInGame = inGameResolution;
+            currentMap = startLevel;
+            GameManager.EveryRunDataTotal.LoadEveryRunDataFromMemory();
+        }
+
+        protected override void Initialize()
+        {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            AnimationBuilder.LoadAnimations();
+            MenuGUI.Initialize();
+            LoginGUI.Initialize();
+
+            DebugHUD.Initialize();
+            OptionsGUI.Initialize();
+            HUD.Initialize();
+            LobbyGUI.Initialize();
+            DeathGUI.Initialize();
+            WinGUI.Initialize();
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            DebugHUD.LoadContent();
+            MenuGUI.LoadContent();
+            LoginGUI.LoadContent();
+            OptionsGUI.LoadContent();
+            LobbyGUI.LoadContent();
+            DeathGUI.LoadContent();
+            WinGUI.LoadContent();
+            HUD.LoadContent();
+            GameObject.debugTexture = new Texture2D(GraphicsDevice, 1, 1);
+            GameObject.debugTexture.SetData<Color>(new Color[] { Color.White });
+            SoundManager.LoadSounds();
+            SoundManager.StartAmbientSound("DoomTestSong");
+            renderTarget = new RenderTarget2D(GraphicsDevice, inGameResolution.X, inGameResolution.Y);
+            spriteEffect = Content.Load<Effect>("Shaders//Glow");
+
+        }
+
+        #region temporary save data each update
+        public GameTime gameTime;
+        #endregion
+        protected override void Update(GameTime gameTime)
+        {
+            #if (!BLAZORGL)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                Restart(startLevel);
+            #endif
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Restart(startLevel);
+            this.gameTime = gameTime;
+            if (GameManager.GetPlayer1 != null)
+            {
+                DebugHUD?.Set("isShooting:", GameManager.GetPlayer1.isShooting.ToString());
+                DebugHUD.Set("id: ", GameManager.GetPlayer1.id.ToString());
+            }
+            InputManager.Update();
+            SoundManager.Update();
+
+            switch (gameState)
+            {
+                case GameState.Menu:
+                    MenuGUI.Update(gameTime);
+                    break;
+                case GameState.Options:
+                    OptionsGUI.Update(gameTime);
+                    break;
+                case GameState.Login:
+                    LoginGUI.Update(gameTime);
+                    break;
+                case GameState.Lobby:
+                    LobbyGUI.Update(gameTime);
+                    break;
+                case GameState.Death:
+                    DeathGUI.Update(gameTime);
+                    break;
+                case GameState.Win:
+                    WinGUI.Update(gameTime);
+                    break;
+                case GameState.Game:
+                    HUD.Update(gameTime);
+                    GameManager.Update(gameTime);
+
+                    break;
+                default:
+                    break;
+            }
+            DebugHUD.Update(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
+
+            //set main shader's parametrs
+            spriteEffect.Parameters["totalSeconds"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
+            //spriteEffect.Parameters["MatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(0, 1920, 1080, 0, 0, 10.0f));
+            spriteEffect.Parameters["MainMatrixTransform"].SetValue(Matrix.CreateOrthographicOffCenter(0, 1366, 780, 0, 0, 10.0f));
+
+
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            switch (gameState)
+            {
+                case GameState.Menu:
+                    MenuGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Options:
+                    OptionsGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Login:
+                    LoginGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Lobby:
+                    LobbyGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Death:
+                    DeathGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.Win:
+                    WinGUI.Draw(_spriteBatch);
+                    break;
+                case GameState.HUD:
+                    HUD.Draw(_spriteBatch);
+                    break;
+                case GameState.Game:
+                    GameManager.Draw(_spriteBatch);
+                    HUD.Draw(_spriteBatch);
+                    break;
+                default:
+                    break;
+            }
+            GraphicsDevice.SetRenderTarget(null);
+
+
+
+            spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["MainScreen"]; //use this shader to draw next part 
+            _spriteBatch.Begin(/*effect: spriteEffect*/);
+            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),  Color.White);
+            _spriteBatch.End();
+
+
+
+            if (InputManager._cheatsEnabled)
+            {
+                DebugHUD.Draw(_spriteBatch);
+            }
+            base.Draw(gameTime);
+        } 
+        public void ChangeGameState(GameState gameState)
+        {
+            this.gameState = gameState;
+            switch (this.gameState)
+            {
+                case GameState.Menu:
+                    break;
+                case GameState.Options:
+                    break;
+                case GameState.Login:
+                    break;
+                case GameState.Lobby:
+                    break;
+                case GameState.Game:
+                    GameManager.ChangedStateGame(gameTime);
+                    break;
+                case GameState.Death:
+                    GameManager.EveryRunDataTotal.FixateLevelParametrs(currentMap, hasDied: true);
+                    break;
+                case GameState.Win:
+                    GameManager.EveryRunDataTotal.FixateLevelParametrs(currentMap);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void NetworkSync(List<NetworkTask> networkTasks)
+        {
+            DebugHUD.Log("networksync");
+            foreach (NetworkTask networkTask in networkTasks)
+            {
+                switch (networkTask.operation)
+                {
+                    case NetworkTaskOperationEnum.DeleteObject:
+                        GameObject gameObject = GameManager.GetAllGameObjects.Find(x => x.id == networkTask.objId);
+                        if (gameObject != null)
+                        {
+                            GameManager.Remove(gameObject);
+                        }
+                        break;
+                    case NetworkTaskOperationEnum.SendSound:
+                        SoundManager.StartSound(networkTask.name, networkTask.position, GameManager.GetPlayer1.Pos);
+                        break;
+                    case NetworkTaskOperationEnum.CreateEntity:
+                        if (networkTask.type == typeof(Bullet))
+                        {
+                            Bullet bullet = new Bullet(networkTask.position);
+                            bullet.id = networkTask.objId;
+                            bullet.velocity = networkTask.velocity;
+                            bullet.acceleration = Vector2.Zero;
+                            bullet.maindirection = bullet.velocity;
+                        }
+                        else if (networkTask.type == typeof(Particle))
+                        {
+                            Particle particle = new Particle(networkTask.position);
+                            particle.id = networkTask.objId;
+                            particle.velocity = networkTask.velocity;
+                        }
+                        break;
+                    case NetworkTaskOperationEnum.SendPosition:
+                        if (networkTask.objId != GameManager.GetPlayer1.id)
+                        {
+                            LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
+                            if (entity != null)
+                                entity.SetPosition(networkTask.position);
+                            if (multiPlayerStatus == MultiPlayerStatus.Host)
+                            {
+                                NetworkTasks.Add(networkTask);
+                            }
+                        }
+                        break;
+                    case NetworkTaskOperationEnum.ChangeState:
+                        if (networkTask.objId != GameManager.GetPlayer1.id)
+                        {
+                            List<GraphicsComponent> gcs = new List<GraphicsComponent>();
+                            foreach (var player in GameManager.players)
+                            {
+                                gcs.Add(player.GetGraphicsComponent());
+                            }
+                            LivingEntity entity = GameManager.livingEntities.Find(x => x.id == networkTask.objId);
+                            if (entity != null)
+                            {
+                                GraphicsComponent gc = entity.GetGraphicsComponent();
+                                if (gc.GetCurrentAnimation != networkTask.name) gc.StartAnimation(networkTask.name);
+                            }
+                        }
+                        break;
+                    case NetworkTaskOperationEnum.ConnectToHost:
+                        Player connectedPlayer = new Player(Vector2.Zero, true);
+                        NetworkTasks.Add(new NetworkTask(connectedPlayer.id));
+                        NetworkTask task = new NetworkTask();
+                        foreach (Player player in GameManager.players)
+                        {
+                            if (player.id != connectedPlayer.id)
+                            {
+                                NetworkTasks.Add(task.AddConnectedPlayer(player.id, player.Pos));
+                            }
+                        }
+                        break;
+                    case NetworkTaskOperationEnum.GetClientPlayerId:
+                        if (!GameManager.GetPlayer1.isIdFromHost)
+                        {
+                            GameManager.GetPlayer1.id = networkTask.objId;
+                            GraphicsComponent gcsd = GameManager.GetPlayer1.GetGraphicsComponent();
+                            gcsd.parentId = networkTask.objId;
+                            GameManager.GetPlayer1.isIdFromHost = true;
+                        }
+                        break;
+                    case NetworkTaskOperationEnum.AddConnectedPlayer:
+                        Player remoteConnectedPlayer = new Player(networkTask.position, true);
+                        remoteConnectedPlayer.id = networkTask.objId;
+                        remoteConnectedPlayer.GetGraphicsComponent().parentId = networkTask.objId;
+                        break;
+                    case NetworkTaskOperationEnum.KillPlayer:
+                        Player player1 = GameManager.players.Find(x => x.id == networkTask.objId);
+                        player1.Death(networkTask.name);
+                        NetworkTask task1 = new NetworkTask();
+                        NetworkTasks.Add(task1.DeleteObject(player1.id));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        public void SetMultiplayerState(MultiPlayerStatus multiPlayerStatus)
+        {
+            this.multiPlayerStatus = multiPlayerStatus;
+        }
+        public void SetIsFullScreen(bool fullscrin)
+        {
+            if (fullscrin)
+            {
+                _graphics.PreferredBackBufferWidth = 1920;
+                _graphics.PreferredBackBufferHeight = 1080;
+            }
+            else
+            {
+                _graphics.PreferredBackBufferWidth = SettingsManager.Resolution.X;
+                _graphics.PreferredBackBufferHeight = SettingsManager.Resolution.Y;
+            }
+            UIManager.resolution = new Point(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _graphics.IsFullScreen = fullscrin;
+            _graphics.ApplyChanges();
+        }
+        public void Restart(string map)
+        {
+            var everyDataRun = GameManager?.EveryRunDataTotal;
+            GameManager = new();
+            if (everyDataRun != null)
+                GameManager.LoadEveryRunData(everyDataRun);
+            else
+                GameManager.EveryRunDataTotal.LoadEveryRunDataFromMemory();
+            ChangeGameState(GameState.Menu);
+            currentMap = map;
+        }
+
+        
+        public void ChangeMap(string map, Vector2 startPos)
+        {
+            List<Player> players = GameManager.players;
+            var everyDataRun = GameManager.EveryRunDataTotal;
+            GameManager = new();
+            GameManager.LoadEveryRunData(everyDataRun);
+
+            foreach (var player in players)
+            {
+                player.SetPosition(new Vector2(startPos.X, startPos.Y - player.Height));
+                GameManager.Register(player);
+            }
+            
+            currentMap = map;
+            ChangeGameState(GameState.Game);
+        }
+        
+        public void Win()
+        {
+            ChangeGameState(GameState.Win);
+        }
+        
+    }
+}

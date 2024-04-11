@@ -1,0 +1,20 @@
+{
+  "framesCount": 4,
+  "frameSecond": [
+    {
+      "Item1": 0,
+      "Item2": 15
+    }
+  ],
+  "id": "Diamond",
+  "isCycle": true,
+  "offset":{"X":0,"Y":0},
+  "startSpriteRectangle": {
+    "X": 0,
+    "Y": 0,
+    "Width": 128,
+    "Height": 128
+  },
+  "textureFrameInterval": 1,
+  "textureName": "textures\\GameObjects\\Diamond"
+}

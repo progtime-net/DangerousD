@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7b5a6eba-9a35-4772-a98f-a509cf75d077</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DangerousD</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)GameCore\.DS_Store" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Extention.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\Door.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\Items\Ammo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\Items\Coin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\Items\Diamond.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\Items\ScoreText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\SilasBall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\TeleportingDoor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entities\Trigger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\GameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\IDrawableObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\CoreEnemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\FlameSkull.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Frank.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\FrankBalls.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Ghost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Hunchman.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\HunchmanDagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\SilasHands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\SilasMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Slime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Spider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\SpiderWeb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Werewolf.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Monsters\Zombie.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Particle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Player\AnimationRectangle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Player\Bullet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Player\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\Player\SmokeAfterShoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntities\ShotgunUsedAmmo_Particle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\LivingEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\MapObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\MapObjects\CollisionMapObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\MapObjects\Platform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\MapObjects\StopTile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GameObjects\MapObjects\Tile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Graphics\AnimationBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Graphics\AnimationContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Graphics\GraphicsComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\AbstractGui.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\DeathGUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\DebugHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\HUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\LobbyGUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\LoginGUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\MenuGUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\OptionsGUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\GUI\WinGUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Managers\AppManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Managers\GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Managers\MapManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Managers\PhysicsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Managers\SettingsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Managers\SoundManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Network\NetworkManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Network\NetworkTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Network\NetworkTaskOperationEnum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameCore\Network\StateObject.cs" />
+  </ItemGroup>
+</Project>

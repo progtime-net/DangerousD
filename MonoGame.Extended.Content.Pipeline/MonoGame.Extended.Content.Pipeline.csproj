@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsTool>True</IsTool>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="bin\net8.0\*.dll" Pack="True" PackagePath="tools\" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Authors>craftworkgames</Authors>
+    <Description>Content Pipeline importers and processors to make MonoGame more awesome.</Description>
+    <PackageTags>monogame content importer processor reader tiled texturepacker bmfont animations</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
+      <PackageReference Include="nkast.Xna.Framework" Version="3.11.9002">
+          <PrivateAssets>All</PrivateAssets>
+      </PackageReference>
+    <PackageReference Include="nkast.Xna.Framework.Content.Pipeline" Version="3.11.9002">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+
+      <PackageReference Include="nkast.Xna.Framework.Content.Pipeline.Graphics" Version="3.11.9002">
+          <PrivateAssets>All</PrivateAssets>
+      </PackageReference>
+    <PackageReference Include="MonoGame.Framework.DesktopGL.9000" Version="3.11.9002">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame.Extended\MonoGame.Extended.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,1070 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\MonoGame.Extended.Content.Pipeline\bin\Release\net8.0\publish\MonoGame.Extended.Content.Pipeline.dll
+/reference:MonoGame.Extended.Content.Pipeline.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin animation1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:animation1.png
+
+#begin ButtonFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Smoothing=Normal
+/build:ButtonFont.spritefont
+
+#begin door.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:door.png
+
+#begin Font_12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Smoothing=Normal
+/build:Font_12.spritefont
+
+#begin Font_25.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Smoothing=Normal
+/build:Font_25.spritefont
+
+#begin Font_30.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Smoothing=Normal
+/build:Font_30.spritefont
+
+#begin Font2.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Smoothing=Normal
+/build:Font2.spritefont
+
+#begin GetScore.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GetScore.png
+
+#begin PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PC_Computer_Dangerous_Dave_In_The_Haunted_Mansion_Death_Sequences.png
+
+#begin Pickups.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pickups.png
+
+#begin PixelFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Smoothing=Normal
+/build:PixelFont.spritefont
+
+#begin playerAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:playerAnimation.png
+
+#begin smokeAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:smokeAnimation.png
+
+#begin smokeAnimation2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:smokeAnimation2.png
+
+#begin tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiles.png
+
+#begin wall.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:wall.jpg
+
+#begin shaders/Glow.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/Glow.fx
+
+#begin sounds/collected_coins.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/collected_coins.mp3
+
+#begin sounds/DoomTestSong.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/DoomTestSong.mp3
+
+#begin sounds/reloading.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/reloading.mp3
+
+#begin sounds/shotgun_shot.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/shotgun_shot.mp3
+
+#begin sounds/StartGame.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/StartGame.mp3
+
+#begin sounds/z1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/z1.mp3
+
+#begin sounds/z3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/z3.mp3
+
+#begin textures/GameObjects/deathAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/deathAnimation.png
+
+#begin textures/GameObjects/Diamond.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/Diamond.png
+
+#begin textures/GameObjects/MonstersAnimations.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/MonstersAnimations.png
+
+#begin textures/GameObjects/UsedAmmo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GameObjects/UsedAmmo.png
+
+#begin textures/ui/background_death.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_death.jpg
+
+#begin textures/ui/background_menu.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_menu.jpg
+
+#begin textures/ui/background_menu_2.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_menu_2.jpg
+
+#begin textures/ui/background_menu_3.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_menu_3.jpg
+
+#begin textures/ui/background_options.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_options.jpg
+
+#begin textures/ui/background_win.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/background_win.jpg
+
+#begin textures/ui/checkboxs_off-on.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/checkboxs_off-on.png
+
+#begin textures/ui/checkboxs_off.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/checkboxs_off.png
+
+#begin textures/ui/checkboxs_on.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/checkboxs_on.png
+
+#begin textures/ui/slider.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/slider.png
+
+#begin textures/ui/slider_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/slider_background.png
+
+#begin textures/ui/textbox_background1-1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/textbox_background1-1.png
+
+#begin textures/ui/textbox_background2,5-1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/textbox_background2,5-1.png
+
+#begin textures/ui/textbox_background2-1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/textbox_background2-1.png
+
+#begin textures/ui/textbox_background6-1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/textbox_background6-1.png
+
+#begin textures/animation1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/animation1.png
+
+#begin textures/door.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/door.png
+
+#begin textures/GetScore.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/GetScore.png
+
+#begin textures/Pickups.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/Pickups.png
+
+#begin textures/smokeAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/smokeAnimation.png
+
+#begin textures/smokeAnimation2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/smokeAnimation2.png
+
+#begin textures/tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/tiles.png
+
+#begin textures/wall.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255, 0, 255, 255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/wall.jpg
+
+#begin animations/Ammo.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/Ammo.json
+
+#begin animations/BallMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/BallMoveRight.json
+
+#begin animations/death1.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/death1.json
+
+#begin animations/deathbear.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/deathbear.json
+
+#begin animations/DeathFromGhost.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromGhost.json
+
+#begin animations/DeathFromHunchman.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromHunchman.json
+
+#begin animations/DeathFromSilasHand.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromSilasHand.json
+
+#begin animations/DeathFromSilasMaster.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromSilasMaster.json
+
+#begin animations/DeathFromSlime.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromSlime.json
+
+#begin animations/DeathFromSpider.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromSpider.json
+
+#begin animations/DeathFromWerewolf.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromWerewolf.json
+
+#begin animations/DeathFromZombie.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/DeathFromZombie.json
+
+#begin animations/Diamond.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/Diamond.json
+
+#begin animations/FlameSkullMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/FlameSkullMoveLeft.json
+
+#begin animations/FlameSkullMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/FlameSkullMoveRight.json
+
+#begin animations/FrankMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/FrankMoveLeft.json
+
+#begin animations/FrankMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/FrankMoveRight.json
+
+#begin animations/GhostAttack.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GhostAttack.json
+
+#begin animations/GhostMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GhostMoveLeft.json
+
+#begin animations/GhostMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GhostMoveRight.json
+
+#begin animations/GhostSpawn.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GhostSpawn.json
+
+#begin animations/GibsMoveLeftBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GibsMoveLeftBottom.json
+
+#begin animations/GibsMoveLeftTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GibsMoveLeftTop.json
+
+#begin animations/GibsMoveRightBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GibsMoveRightBottom.json
+
+#begin animations/GibsMoveRightTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GibsMoveRightTop.json
+
+#begin animations/GibsNotMove.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/GibsNotMove.json
+
+#begin animations/HunchmanAttackLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/HunchmanAttackLeft.json
+
+#begin animations/HunchmanAttackRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/HunchmanAttackRight.json
+
+#begin animations/HunchmanDaggerLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/HunchmanDaggerLeft.json
+
+#begin animations/HunchmanDaggerRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/HunchmanDaggerRight.json
+
+#begin animations/HunchmanMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/HunchmanMoveLeft.json
+
+#begin animations/HunchmanMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/HunchmanMoveRight.json
+
+#begin animations/index.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.ListReader, DangerousD
+/build:animations/index.json
+
+#begin animations/playerJumpLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerJumpLeft.json
+
+#begin animations/playerJumpRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerJumpRight.json
+
+#begin animations/playerMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerMoveLeft.json
+
+#begin animations/playerMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerMoveRight.json
+
+#begin animations/playerOpenDoor.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerOpenDoor.json
+
+#begin animations/playerReload.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerReload.json
+
+#begin animations/playerRightStay.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerRightStay.json
+
+#begin animations/playerShootBoomUpLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerShootBoomUpLeft.json
+
+#begin animations/playerShootBoomUpRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerShootBoomUpRight.json
+
+#begin animations/playerShootLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerShootLeft.json
+
+#begin animations/playerShootRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerShootRight.json
+
+#begin animations/playerShootUpLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerShootUpLeft.json
+
+#begin animations/playerShootUpRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerShootUpRight.json
+
+#begin animations/playerStayLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/playerStayLeft.json
+
+#begin animations/score100.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/score100.json
+
+#begin animations/score600.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/score600.json
+
+#begin animations/SilasAttack.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SilasAttack.json
+
+#begin animations/SilasBallMove.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SilasBallMove.json
+
+#begin animations/SilasHandMove.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SilasHandMove.json
+
+#begin animations/SilasMove.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SilasMove.json
+
+#begin animations/SlimeJumpLeftBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeJumpLeftBottom.json
+
+#begin animations/SlimeJumpLeftTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeJumpLeftTop.json
+
+#begin animations/SlimeJumpRightBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeJumpRightBottom.json
+
+#begin animations/SlimeJumpRightTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeJumpRightTop.json
+
+#begin animations/SlimeMoveLeftBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeMoveLeftBottom.json
+
+#begin animations/SlimeMoveLeftTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeMoveLeftTop.json
+
+#begin animations/SlimeMoveRightBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeMoveRightBottom.json
+
+#begin animations/SlimeMoveRightTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeMoveRightTop.json
+
+#begin animations/SlimeReadyJumpLeftBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeReadyJumpLeftBottom.json
+
+#begin animations/SlimeReadyJumpLeftTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeReadyJumpLeftTop.json
+
+#begin animations/SlimeReadyJumpRightBottom.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeReadyJumpRightBottom.json
+
+#begin animations/SlimeReadyJumpRightTop.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SlimeReadyJumpRightTop.json
+
+#begin animations/smokeAfterShoot.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/smokeAfterShoot.json
+
+#begin animations/SpiderMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SpiderMoveLeft.json
+
+#begin animations/SpiderMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SpiderMoveRight.json
+
+#begin animations/SpiderOnWeb.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SpiderOnWeb.json
+
+#begin animations/SpiderWeb.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/SpiderWeb.json
+
+#begin animations/UsedAmmo.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/UsedAmmo.json
+
+#begin animations/WolfJumpLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/WolfJumpLeft.json
+
+#begin animations/WolfJumpRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/WolfJumpRight.json
+
+#begin animations/WolfMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/WolfMoveLeft.json
+
+#begin animations/WolfMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/WolfMoveRight.json
+
+#begin animations/ZombieLeftAttack.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/ZombieLeftAttack.json
+
+#begin animations/ZombieMoveLeft.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/ZombieMoveLeft.json
+
+#begin animations/ZombieMoveRight.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/ZombieMoveRight.json
+
+#begin animations/ZombieRightAttack.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.Graphics.AnimationContainerReader, DangerousD
+/build:animations/ZombieRightAttack.json
+
+#begin sounds/index.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=DangerousD.GameCore.ListReader, DangerousD
+/build:sounds/index.json
+
+#begin levels/tilesets/Door.tsx
+/copy:levels/tilesets/Door.tsx
+
+#begin levels/tilesets/map.tsx
+/copy:levels/tilesets/map.tsx
+
+#begin levels/boss.tmx
+/copy:levels/boss.tmx
+
+#begin levels/debug.tmx
+/copy:levels/debug.tmx
+
+#begin levels/LastLvl.tmx
+/copy:levels/LastLvl.tmx
+
+#begin levels/lvl1.tmx
+/copy:levels/lvl1.tmx
+
+#begin levels/lvl2.tmx
+/copy:levels/lvl2.tmx
+
+#begin levels/lvl3.tmx
+/copy:levels/lvl3.tmx
+
+#begin levels/lvl4.tmx
+/copy:levels/lvl4.tmx
+
+#begin levels/lvl_down.tmx
+/copy:levels/lvl_down.tmx
+
+#begin levels/map.tmx
+/copy:levels/map.tmx
+

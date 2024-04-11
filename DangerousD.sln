@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DangerousD", "DangerousD", "{96FBAD01-B565-444B-9840-56C9F1E805AC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DangerousD.Shared", "DangerousD\DangerousD.Shared\DangerousD.Shared.shproj", "{7B5A6EBA-9A35-4772-A98F-A509CF75D077}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DangerousD.Android", "DangerousD\DangerousD.Android\DangerousD.Android.csproj", "{46836066-6E95-4273-9E05-6EBF93DE631B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DangerousD.WindowsDX", "DangerousD\DangerousD.WindowsDX\DangerousD.WindowsDX.csproj", "{B33CA7E1-E507-4628-9C1E-C4054FECBAB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DangerousD.DesktopGL", "DangerousD\DangerousD.DesktopGL\DangerousD.DesktopGL.csproj", "{E1B709F8-E1BA-4AE4-A574-7B926F52B5CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DangerousD.BlazorGL", "DangerousD\DangerousD.BlazorGL\DangerousD.BlazorGL.csproj", "{997DAAB0-8646-4871-9AC4-F07413C9F73D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonogameLibrary", "..\repos\DangerousD\MonogameLibrary\MonogameLibrary.csproj", "{55E4B55F-3557-405E-BB35-31DE55D2EB6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended", "MonoGame.Extended\MonoGame.Extended.csproj", "{48B1DACB-ECFE-49E9-B7A5-F6A36EB800A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended.Content.Pipeline", "MonoGame.Extended.Content.Pipeline\MonoGame.Extended.Content.Pipeline.csproj", "{7D9488CC-C12D-409B-B8D7-DD7BBDA011B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimationsFileCreator", "AnimationsFileCreator\AnimationsFileCreator.csproj", "{EF2D3C60-49ED-4756-A6F1-CAA9759BF4B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimatorCreatorGraphical", "AnimatorCreatorGraphical\AnimatorCreatorGraphical.csproj", "{B06AC1A0-70E8-452A-B8FB-1E684885F958}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46836066-6E95-4273-9E05-6EBF93DE631B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46836066-6E95-4273-9E05-6EBF93DE631B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46836066-6E95-4273-9E05-6EBF93DE631B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46836066-6E95-4273-9E05-6EBF93DE631B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B33CA7E1-E507-4628-9C1E-C4054FECBAB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B33CA7E1-E507-4628-9C1E-C4054FECBAB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B33CA7E1-E507-4628-9C1E-C4054FECBAB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B33CA7E1-E507-4628-9C1E-C4054FECBAB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1B709F8-E1BA-4AE4-A574-7B926F52B5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1B709F8-E1BA-4AE4-A574-7B926F52B5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1B709F8-E1BA-4AE4-A574-7B926F52B5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B709F8-E1BA-4AE4-A574-7B926F52B5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997DAAB0-8646-4871-9AC4-F07413C9F73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997DAAB0-8646-4871-9AC4-F07413C9F73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997DAAB0-8646-4871-9AC4-F07413C9F73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997DAAB0-8646-4871-9AC4-F07413C9F73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E4B55F-3557-405E-BB35-31DE55D2EB6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E4B55F-3557-405E-BB35-31DE55D2EB6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E4B55F-3557-405E-BB35-31DE55D2EB6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E4B55F-3557-405E-BB35-31DE55D2EB6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48B1DACB-ECFE-49E9-B7A5-F6A36EB800A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B1DACB-ECFE-49E9-B7A5-F6A36EB800A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B1DACB-ECFE-49E9-B7A5-F6A36EB800A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B1DACB-ECFE-49E9-B7A5-F6A36EB800A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D9488CC-C12D-409B-B8D7-DD7BBDA011B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D9488CC-C12D-409B-B8D7-DD7BBDA011B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D9488CC-C12D-409B-B8D7-DD7BBDA011B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D9488CC-C12D-409B-B8D7-DD7BBDA011B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF2D3C60-49ED-4756-A6F1-CAA9759BF4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF2D3C60-49ED-4756-A6F1-CAA9759BF4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF2D3C60-49ED-4756-A6F1-CAA9759BF4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF2D3C60-49ED-4756-A6F1-CAA9759BF4B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B06AC1A0-70E8-452A-B8FB-1E684885F958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B06AC1A0-70E8-452A-B8FB-1E684885F958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B06AC1A0-70E8-452A-B8FB-1E684885F958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B06AC1A0-70E8-452A-B8FB-1E684885F958}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B5A6EBA-9A35-4772-A98F-A509CF75D077} = {96FBAD01-B565-444B-9840-56C9F1E805AC}
+		{46836066-6E95-4273-9E05-6EBF93DE631B} = {96FBAD01-B565-444B-9840-56C9F1E805AC}
+		{B33CA7E1-E507-4628-9C1E-C4054FECBAB6} = {96FBAD01-B565-444B-9840-56C9F1E805AC}
+		{E1B709F8-E1BA-4AE4-A574-7B926F52B5CF} = {96FBAD01-B565-444B-9840-56C9F1E805AC}
+		{997DAAB0-8646-4871-9AC4-F07413C9F73D} = {96FBAD01-B565-444B-9840-56C9F1E805AC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64FEBB4C-BF60-436B-BD49-87C2D9E2996D}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DangerousD\DangerousD.Shared\DangerousD.Shared.projitems*{46836066-6e95-4273-9e05-6ebf93de631b}*SharedItemsImports = 5
+		DangerousD\DangerousD.Shared\DangerousD.Shared.projitems*{7b5a6eba-9a35-4772-a98f-a509cf75d077}*SharedItemsImports = 13
+		DangerousD\DangerousD.Shared\DangerousD.Shared.projitems*{997daab0-8646-4871-9ac4-f07413c9f73d}*SharedItemsImports = 5
+		DangerousD\DangerousD.Shared\DangerousD.Shared.projitems*{b33ca7e1-e507-4628-9c1e-c4054fecbab6}*SharedItemsImports = 5
+		DangerousD\DangerousD.Shared\DangerousD.Shared.projitems*{e1b709f8-e1ba-4ae4-a574-7b926f52b5cf}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

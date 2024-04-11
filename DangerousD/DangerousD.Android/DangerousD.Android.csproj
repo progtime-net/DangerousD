@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TargetFramework>net8.0-android</TargetFramework>
+    <ProjectGuid>46836066-6e95-4273-9e05-6ebf93de631b</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <IsTrimmable>True</IsTrimmable>
+	<TrimMode>partial</TrimMode>
+    <RootNamespace>DangerousD</RootNamespace>
+    <AssemblyName>DangerousD</AssemblyName>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
+    <KniPlatform>Android</KniPlatform>
+    <ApplicationId>com.companyname.DangerousD</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <AndroidStoreUncompressedFileExtensions>.m4a</AndroidStoreUncompressedFileExtensions>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="nkast.Xna.Framework" Version="3.11.9002" />
+    <PackageReference Include="nkast.Xna.Framework.Content" Version="3.11.9002" />
+    <PackageReference Include="nkast.Xna.Framework.Graphics" Version="3.11.9002" />
+    <PackageReference Include="nkast.Xna.Framework.Audio" Version="3.11.9002" />
+    <PackageReference Include="nkast.Xna.Framework.Media" Version="3.11.9002" />
+    <PackageReference Include="MonoGame.Framework.Android.9000" Version="3.11.9002" />
+    <PackageReference Include="nkast.Xna.Framework.Content.Pipeline.Builder" Version="3.11.9002" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DangerousDActivity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AndroidManifest.xml" />
+    <None Include="Assets\AboutAssets.txt" />
+    <None Include="Resources\AboutResources.txt" />
+    <AndroidResource Include="Resources\Drawable\Icon.png" />
+    <AndroidResource Include="Resources\Drawable\Splash.png" />
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+    <AndroidResource Include="Resources\Values\Styles.xml" />
+    <Folder Include="Resources\Layout\" />
+  </ItemGroup>
+  <ItemGroup>
+    <KniContentReference Include="..\DangerousDContent\DangerousDContent.mgcb">   
+      <Link>Content\DangerousDContent.mgcb</Link>
+    </KniContentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\repos\DangerousD\MonogameLibrary\MonogameLibrary.csproj" />
+    <ProjectReference Include="..\..\MonoGame.Extended.Content.Pipeline\MonoGame.Extended.Content.Pipeline.csproj" />
+    <ProjectReference Include="..\..\MonoGame.Extended\MonoGame.Extended.csproj" />
+  </ItemGroup>
+  <Import Project="..\DangerousD.Shared\DangerousD.Shared.projitems" Label="Shared" />
+
+</Project>
