@@ -10,6 +10,7 @@
     <AssemblyName>DangerousD</AssemblyName>
     <DefineConstants>$(DefineConstants);BLAZORGL</DefineConstants>
 	<KniPlatform>BlazorGL</KniPlatform>
+    <RunAOTCompilation>true</RunAOTCompilation>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -42,6 +43,7 @@
     <PackageReference Include="nkast.Xna.Framework.Audio" Version="3.11.9002" />
     <PackageReference Include="nkast.Xna.Framework.Media" Version="3.11.9002" />
     <PackageReference Include="nkast.Xna.Framework.Blazor" Version="3.11.9003" />
+    <PackageReference Include="nkast.Xna.Framework.Content.Pipeline" Version="3.11.9002" />
     <PackageReference Include="nkast.Xna.Framework.Content.Pipeline.Builder" Version="3.11.9002" />
   </ItemGroup>
 
