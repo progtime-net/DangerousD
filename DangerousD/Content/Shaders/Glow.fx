@@ -311,6 +311,7 @@ float4 MainScreen_PS(VertexShaderOutput input) : COLOR
     //float2 texCoordinate_Screened = float2(ndc_pos.x, ndc_pos.y) * 1 + 0.5;  
     //removed
     float2 texCoordinate_Screened = input.TextureCoordinates.xy;
+    //texCoordinate_Screened = input.TextureCoordinates + float2(sin(input.TextureCoordinates.y * 30 + totalSeconds) / 100, sin(input.TextureCoordinates.x * 20 + 2 * totalSeconds) / 100);
     
     //set color by coord
     if (texCoordinate_Screened.x > 1 || texCoordinate_Screened.x < 0 || texCoordinate_Screened.y > 1 || texCoordinate_Screened.y < 0)
@@ -332,6 +333,8 @@ float4 MainScreen_PS(VertexShaderOutput input) : COLOR
     //my stripes
     float am2 = 0.1;
     color *= (1 - am2) + (am2) * round(sin(texCoordinate_Screened.y * 100 - 3 * totalSeconds) * 1);
+    
+    
     return color;
 }
 

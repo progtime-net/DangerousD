@@ -122,16 +122,24 @@ namespace DangerousD.GameCore
             AppManager.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Dark"];
             if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect:AppManager.Instance.spriteEffect);
+                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp/*, effect:AppManager.Instance.spriteEffect*/);
             else
                 _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
 
-            foreach (var item in BackgroundObjects)
-                item.Draw(_spriteBatch);
-            foreach (var item in mapObjects)
-                item.Draw(_spriteBatch);
+            try
+            {
 
-            _spriteBatch.End();
+                foreach (var item in BackgroundObjects)
+                    item.Draw(_spriteBatch);
+                foreach (var item in mapObjects)
+                    item.Draw(_spriteBatch);
+                _spriteBatch.End();
+
+            }
+            catch 
+            {
+
+            }
 
             AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Red"];
             if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
@@ -153,7 +161,7 @@ namespace DangerousD.GameCore
             if (GetPlayer1.isShooting && Math.Abs(GetPlayer1.velocity.X) > 2)
             {
                 AppManager.Instance.spriteEffect.CurrentTechnique = AppManager.Instance.spriteEffect.Techniques["Yellow"];
-                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, effect: AppManager.Instance.spriteEffect);
+                _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp/*, effect: AppManager.Instance.spriteEffect*/);
                 GetPlayer1.Draw(_spriteBatch);
                 _spriteBatch.End();
             }
